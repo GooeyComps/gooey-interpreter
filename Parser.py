@@ -29,7 +29,8 @@ class Stack(object):
 # Input: String.
 # Output: List of strings, empty if a syntax error has occurred.
 def tokenList(program):
-		tokenList = re.findall(r'[[\(]|[\)]|\'(?:[\s*\(*\)*\,*\.*\?*(\\\')*\w*\s*]*)\'|[^\'\s\(\)]+]*', program)
+		#tokenList = re.findall(r'[[\(]|[\)]|\'(?:[\s*\(*\)*\,*\.*\?*(\\\')*\w*\s*]*)\'|[^\'\s\(\)]+]*', program)
+		#tokenList = re.findall(r'[[a-zA-Z][a-zA-Z0-9]*[\w*|^a-zA-Z0-9\w]+]*', program) #FIX THE \W to be symbols!!
 		for i in range(len(tokenList)):
 			tokenList[i] = re.sub(r'(?:\\\')', '\'',  tokenList[i])
 		return tokenList
