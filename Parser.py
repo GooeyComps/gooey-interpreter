@@ -29,9 +29,24 @@ class Stack(object):
 # Input: String.
 # Output: List of strings, empty if a syntax error has occurred.
 def tokenList(program):
+		'''
 		tokenList = re.findall(r'[[\(]|[\)]|\'(?:[\s*\(*\)*\,*\.*\?*(\\\')*\w*\s*]*)\'|[^\'\s\(\)]+]*', program)
 		for i in range(len(tokenList)):
 			tokenList[i] = re.sub(r'(?:\\\')', '\'',  tokenList[i])
+		return tokenList
+		'''
+		words = re.findall(r'(?ms)\W*(\w+)', program)
+		tokenList = []
+		for item in words:
+			if item == 'set':
+				token = {'item':item, 'type':'set'}
+				tokenList.append(token)
+			if item == 'make':
+				token = {'item':item, 'type':'make'}
+				tokenList.append(token)
+			else:
+				token = {'item':item, 'type':'undef'}
+				tokenList.append(token)
 		return tokenList
 
 # Puts everything in the tokenList into a Stack
