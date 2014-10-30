@@ -4,7 +4,7 @@ import re
 import sys
 import copy
 
-# Class to create a stack and pull everything given in an 
+# Class to create a stack and pull everything given in an
 # expression into a stack
 class Stack(object):
 
@@ -40,19 +40,16 @@ def createStack(stack, tokenList):
 		stack.push(entry)
 	return stack
 
+def printStack(stack):
+	s = Stack()
+	while not stack.isEmpty():
+		s.push(stack.pop())
+	while not s.isEmpty():
+		print "the current stack item is: " , s.pop()
+
+
 def main():
 
-	#Create a list of tokens to put in a stack and print them
-#	p = "( + 1 2 )"
-#	tokens = tokenList(p)
-#	for entry in tokens:
-#		print "tokenList entry: " , entry
-
-#	#Create a stack of all items in the tokenList and print them
-#	stack = Stack()
-#	parser = createStack(stack, tokens)
-#	while not stack.isEmpty():
-#		print "stack item: " , stack.pop()
 
 
 # For testing what is in the stack in a live environment
@@ -64,8 +61,10 @@ def main():
 			tokens = tokenList(program)
 			stack = Stack()
 			parser = createStack(stack, tokens)
-			while not stack.isEmpty():
-				print "the current stack item is: " , stack.pop()
+			printStack(stack)
+			# print 5
+			# while not stack.isEmpty():
+			# 	print "the current stack item is: " , stack.pop()
 		except EOFError:
 			print
 			sys.exit()
