@@ -1,4 +1,5 @@
-from stack import *
+#from stack import *
+from token import *
 import re
 import sys
 import copy
@@ -14,8 +15,23 @@ def tokenize(program):
 	    #2) zero or more of: any number of whitespace characters OR one letter followed by zero or more alpha-numeric characters
 	    #3) A single period or a comma
 		tokenList = re.findall(r'[[a-zA-Z][a-zA-Z0-9\_]*[[\w*|^a-zA-Z0-9\w]+|[\w*|[[a-zA-Z][a-zA-Z0-9\_]*]*|[\.\,]]*', program) #can we set these clauses to variables?
-
+        
 		return tokenList
 
 
-
+def makeTokens(tokenList):
+    newTokenList = []
+    for i in range(len(tokenList)):
+        t = Token()
+        t.setToken(tokenList[i])
+        #set the type using a helper function
+        newTokenList.append(t)
+    return newTokenList
+    
+def printTokens(tokenList):
+    for i in range(len(tokenList)):
+        tokenList[i].printTokenInfo()
+    
+    
+        
+        

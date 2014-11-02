@@ -11,21 +11,5 @@ while tokens:
             
     else:
         add token to stack
-        
-    
-    
-
 
 '''
-depth = 0
-
-def parse(tokens):
-    while not s.isEmpty():
-        token = stack.pop():
-        if token == '.':
-            print "found ."
-        else:
-            
-
-    
-def addToParseTree(tree,depth,tokens)

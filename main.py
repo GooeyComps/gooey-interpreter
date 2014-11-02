@@ -1,5 +1,6 @@
 from tokenizer import *
 from parser import *
+from token import *
 
 def main():
 
@@ -10,11 +11,12 @@ def main():
 		try:
 			program = raw_input(":> ")
 			tokens = tokenize(program)
-			stack = Stack()
-			tokenStack = createStack(stack, tokens)
-			printStack(tokenStack)
+			printTokens(makeTokens(tokens))
+			#stack = Stack()
+			#tokenStack = createStack(stack, tokens)
+			#printStack(tokenStack)
 			
-			parse(tokenStack)
+			#parse(tokenStack)
 			
 		except EOFError:
 			print
