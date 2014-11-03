@@ -28,47 +28,40 @@ def tokenize(program):
     # #
     pattern = r'''
 
-        [a-zA-Z][a-zA-Z0-9\_]*          #a lowercase letter followed by alphanumeric characters
-
-                                    #zero or more of: any # of whitespace characters OR one letter followed by zero or more alpha-numeric characters
-
-
-        |
-        \d+\.{0,1}\d+
-        |
-        \d+
-        |
-        \.
-
-        |                               #OR
-        \,
-        |
-        \"[a-zA-Z]+\"
+        [a-zA-Z][a-zA-Z0-9\_]*          #A token that begins with a letter and
+                                        #is then followed by any number of
+                                        #alphanumeric characters or an underscore
 
         |
+        \d+\.{0,1}\d+                   #A floating point number
+        |
+        \d+                             #An integer
+        |
+        \.                              #A single period
 
-        \(\d{1,3}\,\s*\d{1,3}\,\s*\d{1,3}\)
+        |
+        \,                              #A single comma
+        |
+        \"[a-zA-Z]+\"                   #A string in double quotes
+
+        |
+        \'[a-zA-Z]+\'                   #A string in single quotes
+
         |
 
-        \([A-Fa-f0-9]{6}\)
+        \(\d{1,3}\,\s*\d{1,3}\,\s*\d{1,3}\) #an RGB triple
+        |
+
+        \([A-Fa-f0-9]{6}\)              #A HEX color grouping
 
 
     '''
 
 
-
-
-
-
-    #patternre = re.compile(pattern, re.VERBOSE)
     tokenList = re.findall(pattern, program,re.VERBOSE)
 
 
-   # tokenList = re.findall(pattern, program)
-   #     #can we set these clauses to variables?
 
-        #Not sure if I need the hex clause
-#	return tokenList
     return tokenList
 
 
@@ -78,18 +71,22 @@ def makeTokens(tokenList):
         t = Token()
         t.setToken(tokenList[i])
         #set the type using a helper function
+        setTokenType(t)
+
         newTokenList.append(t)
     return newTokenList
 
 
-def setTokenTypes(tokenList):
+def setTokenType(token):
+#    print 'hi'
+#    print re.match(r'[A-Z][a-zA-Z]*', token.getToken())
+    pass
     #types
     #actions
     #keywords
     #string
     #number
     #color field
-    pass
 
 def printTokens(tokenList):
     for i in range(len(tokenList)):
