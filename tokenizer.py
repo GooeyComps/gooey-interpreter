@@ -27,12 +27,18 @@ def tokenize(program):
 #    ''', re.VERBOSE)
     pattern = r'''
         [
-        [a-zA-Z][a-zA-Z0-9\_]*      #a lowercase letter followed by alphanumeric characters
-        [\w*|^a-zA-Z0-9\w]+         #followed by one or more of: any # of whitespace characters OR
-                                    #a non-alphanumeric character followed by a whitespace character
-        |                           #OR
-        [\w*|[[a-zA-Z][a-zA-Z0-9\_]*]*
-        ]
+        [a-zA-Z][a-zA-Z0-9\_]*          #a lowercase letter followed by alphanumeric characters
+        [\w*|^a-zA-Z0-9\w]+             #followed by one or more of: any # of whitespace characters OR
+                                        #a non-alphanumeric character followed by a whitespace character
+        |                               #OR
+
+        [\w*|[[a-zA-Z][a-zA-Z0-9\_]*]*]  #zero or more of: any # of whitespace characters OR one letter followed by zero or more alpha-numeric characters
+
+        |                               #OR
+
+        [\.\,]
+        ]*
+]
 
     '''
     #patternre = re.compile(pattern, re.VERBOSE)
