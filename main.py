@@ -11,12 +11,12 @@ def main():
 		try:
 			program = raw_input(":> ")
 			tokens = tokenize(program)
-			printTokens(makeTokens(tokens))
+			#printTokens(makeTokens(tokens))
 			#stack = Stack()
 			#tokenStack = createStack(stack, tokens)
 			#printStack(tokenStack)
 			
-			#parse(tokenStack)
+			parse(tokens)
 			
 		except EOFError:
 			print
