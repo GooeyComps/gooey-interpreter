@@ -12,9 +12,9 @@ def main():
 			program = raw_input(":> ")
 			tokens = tokenize(program)
 			#printTokens(makeTokens(tokens))
-			#stack = Stack()
-			#tokenStack = createStack(stack, tokens)
-			#printStack(tokenStack)
+			stack = Stack()
+			tokenStack = createStack(stack, tokens)
+			printStack(tokenStack)
 			
 			parse(tokens)
 			
