@@ -1,29 +1,18 @@
-from tokenizer import *
-from parser import *
-from token import *
-
-def main():
-
-# For testing what is in the stack in a live environment
-	#environment = {"set":"set", "fun":"fun", "+":"+", "*":"*"}
-	print "Welcome to Gooey. Press Control-D to exit."
-	while True:
-		try:
-			program = raw_input(":> ")
-			tokens = tokenize(program)
-			#printTokens(makeTokens(tokens))
-			stack = Stack()
-			tokenStack = createStack(stack, tokens)
-			printStack(tokenStack)
-			
-			parse(tokens)
-			
-		except EOFError:
-			print
-			sys.exit()
-
-
-
-# If the user ran (rather than imported) this file, then run main.
 if __name__ == "__main__":
-	main()
+
+	from make import *
+	from interpreter import *
+	
+	class Program(List):
+		grammar = maybe_some(Make)
+		
+	print("Input a valid 'make' statement")
+	gooey = input(":> ")
+	
+	#gooey = "make Window w with size 500, color green. make Button b with window w, color blue, size 20, text hello, action foo."
+	
+	#build the abstract syntax tree using pypeg2 and our make.py file
+	syntaxTree = parse(gooey, Program)
+	
+	#feed the syntax tree to interpreter.py to which outputs the actual gui and/or python code
+	interpret(syntaxTree)

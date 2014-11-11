@@ -6,8 +6,8 @@ import copy
 
 # Input: String.
 # Output: List of strings, empty if a syntax error has occurred.
-def tokenize(program):
 
+def tokenize(program):
 		#tokenList = re.findall(r'[[\(]|[\)]|\'(?:[\s*\(*\)*\,*\.*\?*(\\\')*\s*\s*]*)\'|[^\'\s\(\)]+]*', program)
 	    #tokenList = re.findall(r'[[a-zA-Z][a-zA-Z0-9]*[\w*|^a-zA-Z0-9\w]+]*', program) #FIX THE \W to be symbols!!
 	    #regexp expects the first character to be a letter, followed by any series of alphanumeric characters, which is then followed by
@@ -40,19 +40,22 @@ def tokenize(program):
         \.                              #A single period
 
         |
+        [\=\+\-\/\*]
+        
+        |
         \,                              #A single comma
         |
-        \"[a-zA-Z]+\"                   #A string in double quotes
+        \"[a-zA-Z\s]+\"                   #A string in double quotes
 
         |
-        \'[a-zA-Z]+\'                   #A string in single quotes
+        \'[a-zA-Z\s]+\'                   #A string in single quotes
 
         |
 
         \(\d{1,3}\,\s*\d{1,3}\,\s*\d{1,3}\) #an RGB triple
         |
 
-        \([A-Fa-f0-9]{6}\)              #A HEX color grouping
+        \#[A-Fa-f0-9]{6}             #A HEX color grouping
 
 
     '''
@@ -80,8 +83,42 @@ def makeTokens(tokenList):
 def setTokenType(token):
 #    print 'hi'
 #    print re.match(r'[A-Z][a-zA-Z]*', token.getToken())
-    pass
-    #types
+    
+    if re.match(r'[a-zA-Z][a-zA-Z0-9\_]*',token.getToken()):
+        if re.match(r'[A-Z][a-zA-Z0-9\_]*',token.getToken()):
+            token.setType("type")
+        elif re.match:
+            token.setType("var")
+    elif re.match(r'\d+\.{0,1}\d+',token.getToken()):
+        token.setType("numeral")
+        print("#A floating point number")
+    elif re.match(r'\d+', token.getToken()):
+        token.setType("numeral")
+        print("#An integer")
+    elif re.match(r'\.',token.getToken()):
+        token.setType("period")
+        print("#A single period")
+    elif re.match(r'[\=\+\-\/\*]', token.getToken()):
+        token.setType("symbol")
+        print("symbol")
+    elif re.match(r'\,', token.getToken()):
+        token.setType("comma")
+        print("#A single comma")
+    elif re.match(r'\"[a-zA-Z\s]+\"', token.getToken()):
+        token.setType("string")
+        print("#A string in double quotes")
+    elif re.match(r'\'[a-zA-Z\s]+\'',token.getToken()):
+        token.setType("string")
+        print("#A string in single quotes")
+    elif re.match(r'\(\d{1,3}\,\s*\d{1,3}\,\s*\d{1,3}\)',token.getToken()):
+        token.setType("rgbcolor")
+        print("#an RGB triple")
+    elif re.match(r'\#[A-Fa-f0-9]{6}', token.getToken()):
+        token.setType("hex")
+        print("#A HEX color grouping")
+    else:
+        print("Keine Ahnung Mofo")
+    
     #actions
     #keywords
     #string

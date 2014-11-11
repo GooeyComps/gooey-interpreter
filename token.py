@@ -17,6 +17,6 @@ class Token(object):
 	    self.type = data
 	    
 	def printTokenInfo(self):
-	    print self.token
-	    print self.type
+	    print (self.token)
+	    print (self.type)
 	    
