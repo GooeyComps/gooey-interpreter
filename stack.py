@@ -28,4 +28,4 @@ def printStack(stack):
 	while not stack.isEmpty():
 		s.push(stack.pop())
 	while not s.isEmpty():
-		print "the current stack item is: " , s.pop()
+		print ("the current stack item is: " , s.pop())

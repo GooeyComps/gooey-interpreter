@@ -19,4 +19,4 @@ class Node():
         self.data = item
     
     def printNode(self):
-        print self.data
+        print (self.data)

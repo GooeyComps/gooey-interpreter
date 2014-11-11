@@ -91,33 +91,33 @@ def setTokenType(token):
             token.setType("var")
     elif re.match(r'\d+\.{0,1}\d+',token.getToken()):
         token.setType("numeral")
-        print "#A floating point number"
+        print("#A floating point number")
     elif re.match(r'\d+', token.getToken()):
         token.setType("numeral")
-        print "#An integer"
+        print("#An integer")
     elif re.match(r'\.',token.getToken()):
         token.setType("period")
-        print "#A single period"
+        print("#A single period")
     elif re.match(r'[\=\+\-\/\*]', token.getToken()):
         token.setType("symbol")
-        print "symbol"
+        print("symbol")
     elif re.match(r'\,', token.getToken()):
         token.setType("comma")
-        print "#A single comma"
+        print("#A single comma")
     elif re.match(r'\"[a-zA-Z\s]+\"', token.getToken()):
         token.setType("string")
-        print "#A string in double quotes"
+        print("#A string in double quotes")
     elif re.match(r'\'[a-zA-Z\s]+\'',token.getToken()):
         token.setType("string")
-        print "#A string in single quotes"
+        print("#A string in single quotes")
     elif re.match(r'\(\d{1,3}\,\s*\d{1,3}\,\s*\d{1,3}\)',token.getToken()):
         token.setType("rgbcolor")
-        print "#an RGB triple"
+        print("#an RGB triple")
     elif re.match(r'\#[A-Fa-f0-9]{6}', token.getToken()):
         token.setType("hex")
-        print "#A HEX color grouping"
+        print("#A HEX color grouping")
     else:
-        print "Keine Ahnung Mofo"
+        print("Keine Ahnung Mofo")
     
     #actions
     #keywords
