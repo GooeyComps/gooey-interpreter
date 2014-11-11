@@ -1,5 +1,5 @@
 from pypeg2 import *
-
+'''
 # [make] Button b with color red, size large.
 class Command(Keyword):
 	grammar = Enum(K("make"))
@@ -32,7 +32,9 @@ class Attributes(List):
 # [make Button b with color red, size large]
 class Make(List):
 	grammar = attr("command", Command), blank, attr("objType", ObjType), blank, attr("varname", Var), attr("attributes",Attributes), "."
+'''
 
-	
+def make():
+    name()
 	
 	
