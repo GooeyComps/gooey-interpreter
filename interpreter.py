@@ -7,17 +7,19 @@ def interpret(tree):
     top = Tk()
     #default window settings
     top.geometry("200x200+100+50")
-
     for expr in tree:
         if hasattr(expr, "type"):
+            print("TYPE")
             if (expr.type == "Window"):
+                print("WIN")
                 for item in expr.attributes:
                     if hasattr(item, 'color'):
+                        print("COLOR")
                         top.configure(bg=item.color.value)
                     elif hasattr(item,'size'):
                         size = item.size.value+"x"+item.size.value
                         top.geometry(size)
-                        
+
             elif (expr.type == "Button"):
                 b = Button(top)
                 for item in expr.attributes:
@@ -40,6 +42,7 @@ def interpret(tree):
                 elif hasattr(item,'size'):
                     size = item.size.value+"x"+item.size.value
                     top.geometry(size)
-	
+    print("I DID IT")
     #top.mainloop()
+    #print("looping forever")
     return top
