@@ -1,9 +1,12 @@
 from tkinter import *
-
-import _thread as thread # should use the threading module instead!
+import sys
+from make import *
+from settype import *
+from interpreter import *
+import _thread as thread #should use the threading module instead!
 import queue
 
-import os
+#import os
 
 class ThreadSafeConsole(Text):
     def __init__(self, master, **options):
@@ -32,13 +35,14 @@ class ThreadSafeConsole(Text):
 def pipeToWidget(input, widget):
     widget.clear()
     while 1:
-        line = input.readline()
-        if not line:
-            break
+        # line = input.readline()
+        # if not line:
+        #     break
         widget.write(line)
 
 def funcThread(widget):
-    input = os.popen('dir', 'r')
+    #input = os.popen('dir', 'r')
+    input = sys.stdin.readline()
     pipeToWidget(input, widget)
 
 # uber-main

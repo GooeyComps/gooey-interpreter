@@ -3,8 +3,8 @@ from tkinter import *
 from logicFile import *
 
 
-def interpret(tree):
-    top = Tk()
+def interpret(tree, top):
+
     #default window settings
     top.geometry("200x200+100+50")
     for expr in tree:

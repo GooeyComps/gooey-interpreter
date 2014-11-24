@@ -9,22 +9,25 @@ from tkinter import *
 class Program(List):
     grammar = maybe_some([Make,GooeySet])
 class GUIThread(threading.Thread):
-    def __init__(self, q):
+    def __init__(self, q, root):
         super(GUIThread, self).__init__()
         self.q = q
         self.start()
+        self.root = root
         #top = Tk()
         #top.geometry("200x200+100+50")
         #top.mainloop()
     #def run(self,q):
 
     def run(self):
-        i = self.q.get()
-        parsed = parse(i,Program)
-        tree = interpret(parsed)
+        print("Hello, friends")
+        while True:
+            i = self.q.get()
+            parsed = parse(i,Program)
+            tree = interpret(parsed,self.root)
 
         #tree.mainloop()
-        #top = Tk()
+
         #top.mainloop()
         #print("run thread")
 
@@ -46,16 +49,17 @@ class IOThread(threading.Thread):
 
 def main():
     q = queue.Queue()
+    top = Tk()
     io = IOThread(q)
-    #gui = GUIThread(q)
+
+
+    gui = GUIThread(q,top)
+    top.mainloop()
     #print("starting gui thread")
     #gui.start()
     #print("Starting io thread")
     #io.start()
-    while True:
-        i = q.get()
-        parsed = parse(i,Program)
-        tree = interpret(parsed)
+
 
 
 
