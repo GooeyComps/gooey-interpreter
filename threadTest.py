@@ -49,12 +49,13 @@ class IOThread(threading.Thread):
 
 def main():
     q = queue.Queue()
-    top = Tk()
+    root = Tk()
+    root.withdraw()
     io = IOThread(q)
 
 
-    gui = GUIThread(q,top)
-    top.mainloop()
+    gui = GUIThread(q,root)
+    root.mainloop()
     #print("starting gui thread")
     #gui.start()
     #print("Starting io thread")

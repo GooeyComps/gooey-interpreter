@@ -3,25 +3,26 @@ from tkinter import *
 from logicFile import *
 
 
-def interpret(tree, top):
+def interpret(tree, root):
 
     #default window settings
-    top.geometry("200x200+100+50")
+    root.geometry("200x200+100+50")
     for expr in tree:
         if hasattr(expr, "type"):
             print("TYPE")
             if (expr.type == "Window"):
-                print("WIN")
+                #print("WIN")
+                #Leah added this during finals fall term
+                top = Toplevel()
                 for item in expr.attributes:
                     if hasattr(item, 'color'):
-                        print("COLOR")
                         top.configure(bg=item.color.value)
                     elif hasattr(item,'size'):
                         size = item.size.value+"x"+item.size.value
                         top.geometry(size)
 
             elif (expr.type == "Button"):
-                b = Button(top)
+                b = Button(root)
                 for item in expr.attributes:
                     if hasattr(item, 'color'):
                         b.configure(bg=item.color.value)
@@ -45,4 +46,4 @@ def interpret(tree, top):
     print("I DID IT")
     #top.mainloop()
     #print("looping forever")
-    return top
+    return root
