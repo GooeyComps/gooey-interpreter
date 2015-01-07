@@ -62,7 +62,11 @@ def main():
 
 
     gui = GUIThread(q,root)
+    print(str(root.winfo_children()))
     root.mainloop()
+    #How to get the info about the root while mainloop is running?
+
+
 
     #Right now it seems like we have 3 threads that aren't totally operating
     #with each other the way we want

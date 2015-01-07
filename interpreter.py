@@ -14,18 +14,19 @@ def interpret(tree, root):
     root.geometry("200x200+100+50")
     for expr in tree:
         if hasattr(expr, "type"):
-            print("TYPE")
             if (expr.type == "Window"):
                 #print("WIN")
                 #Leah added this during finals fall term
-                top = Toplevel()
+                #top = Toplevel()
+                top = Toplevel(master=root)
+                top.title(expr.varname.thing)
+                #print(top.title())
                 for item in expr.attributes:
                     if hasattr(item, 'color'):
                         top.configure(bg=item.color.value)
                     elif hasattr(item,'size'):
                         size = item.size.value+"x"+item.size.value
                         top.geometry(size)
-
             elif (expr.type == "Button"):
                 b = Button(root)
                 for item in expr.attributes:
@@ -51,4 +52,8 @@ def interpret(tree, root):
     print("I DID IT")
     #top.mainloop()
     #print("looping forever")
+    exec("%s = top" % expr.varname.thing)
+    #exec("print(%s.title())" % expr.varname.thing)
+   # print(str(root.winfo_children()))
+    #exec("print(str(%s))" % expr.varname.thing)
     return root
