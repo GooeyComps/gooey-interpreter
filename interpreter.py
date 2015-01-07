@@ -2,7 +2,12 @@ from pypeg2 import *
 from tkinter import *
 from logicFile import *
 
+'''
+Right now interpreter is set up to take in the tree and the root, which
+is how threadtest.py
 
+In our old main.py, it doesn't send a root into interpreter, so you'll get an error
+'''
 def interpret(tree, root):
 
     #default window settings

@@ -6,8 +6,13 @@ from settype import *
 from interpreter import *
 from tkinter import *
 
+'''
+This is our thread experimentation from finals period fall term
+'''
 class Program(List):
     grammar = maybe_some([Make,GooeySet])
+
+
 class GUIThread(threading.Thread):
     def __init__(self, q, root):
         super(GUIThread, self).__init__()
@@ -40,7 +45,9 @@ class IOThread(threading.Thread):
     def run(self):
         #print("HI HI HI")
         while True:
-            #print("in da while")
+            #This adds actions to the queue
+
+
             #below: used to have input("input: ") but we can't have that right now
             gooey =  sys.stdin.readline() #this causes Tcl_WaitForEvent: Notifier not initialized
             print(gooey)
@@ -56,6 +63,12 @@ def main():
 
     gui = GUIThread(q,root)
     root.mainloop()
+
+    #Right now it seems like we have 3 threads that aren't totally operating
+    #with each other the way we want
+
+
+    
     #print("starting gui thread")
     #gui.start()
     #print("Starting io thread")
