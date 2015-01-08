@@ -6,7 +6,7 @@ from interpreter import *
 import _thread as thread #should use the threading module instead!
 import queue
 
-#import os
+import os
 
 class ThreadSafeConsole(Text):
     def __init__(self, master, **options):
@@ -33,25 +33,22 @@ class ThreadSafeConsole(Text):
 
 # this function pipes input to an widget
 def pipeToWidget(input, widget):
-    widget.clear()
-    while 1:
-        # line = input.readline()
-        # if not line:
-        #     break
-        widget.write(line)
+	widget.clear()
+	widget.write(input)
 
 def funcThread(widget):
-    #input = os.popen('dir', 'r')
-    input = sys.stdin.readline()
-    pipeToWidget(input, widget)
+	while True:
+		n = input("input: ")
+		if n == "break":
+			break
+			sys.exit(0)
+		else:
+			pipeToWidget(input, widget)
 
 # uber-main
 root = Tk()
 widget = ThreadSafeConsole(root)
 widget.pack(side=TOP, expand=YES, fill=BOTH)
-thread.start_new(funcThread, (widget,))
-thread.start_new(funcThread, (widget,))
-thread.start_new(funcThread, (widget,))
 thread.start_new(funcThread, (widget,))
 thread.start_new(funcThread, (widget,))
 root.mainloop()
