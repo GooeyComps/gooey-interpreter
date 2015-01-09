@@ -1,10 +1,11 @@
 import tkinter as tk
-from make import *
 from interpreter import *
-from settype import *
+from tkinter import *
+from grammar import *
 from tkinter import Menu
 import tkinter.scrolledtext as tkst
 from tkinter.scrolledtext import *
+from pypeg2 import *
 
 '''
 This file creates a text editor that echoes the file content into a separate tkinter window using that 
@@ -12,54 +13,29 @@ window's "pack" method. So we are able to get new content into the window via pa
 entire window. 
 
 This is done with a "Run" option in the original text editor window
-
-So now we need to process that input with interpreter and pass the AST into the GUIWindow Class via an update function 
-that can parse the tree and add any new elements or modify old ones
-
 '''
-class Interpreter():
-	def __init__(self, target):
-		self.window = target
-	
-	def interpret(self, ast, window):
-		for expr in ast:
-			if hasattr(expr, "type"):
-				if (expr.type == "Window"):
-					for item in expr.attributes:
-						if hasattr(item, 'color'):
-							self.window.configure(bg=item.color.value)
-						elif hasattr(item,'size'):
-							size = item.size.value+"x"+item.size.value
-							self.window.geometry(size)
-				else:
-					print("unsupported Make type")
-			else:
-				print("else")
-				for item in expr.attributes:
-					if hasattr(item, 'color'):
-						self.window.configure(bg=item.color.value)
-					elif hasattr(item,'size'):
-						size = item.size.value+"x"+item.size.value
-						self.window.geometry(size)
-	
-
-
 
 class GUIWindow():
 	def __init__(self, window):
 		self.window = window
-	
+		self.bindings = dict()
+		#self.is_open = False
+		
 	def open(self):
-		self.window.mainloop()
+		self.is_open = True
+		#self.window.mainloop()
 		
 	def stop(self):
+		self.is_open = False
 		self.window.destroy()
 		
-	def modify(self, text):
-		ast = parse(text, Program)
+	def modify(self, ast):	
+		#create new instance of interpeter class, passing a reference the live preview window
 		i = Interpreter(self.window)
-		i.interpret(ast, self.window)
+		
+		self.bindings = i.interpret(ast, self.bindings)
 		del i
+
 
 class TextPad():
 	def __init__(self):
@@ -81,36 +57,63 @@ class TextPad():
 		self.textPad = tkst.ScrolledText(self.root, width=60, height=30)
 		self.textPad.pack()
 		
-		self.previewOpen = False
 		
 	def run(self):
 		self.root.mainloop()
 		
 	def update_preview(self):
+		if hasattr(self,"preview"):
+			if self.preview.is_open:
+				try:
+					self.retrieve_input()
+					ast = parse(self.text, Program)
+					
+					self.preview.modify(ast)
+					
+				except SyntaxError as e:
+					
+					popup = Toplevel()
+					popup.title("Error")
+					popup.geometry("%dx%d%+d%+d" % (200, 200, 200, 200))
+					error = "Syntax Error:", e
+					msg = Message(popup, text=error)
+					msg.pack()
+
+					button = Button(popup, text="Ok", command=popup.destroy)
+					button.pack()
+					#self.stop_preview()
 		
-		if self.previewOpen:
-			text = self.retrieve_input()
-			self.preview.modify(self.text)
-			
+			else:
+				self.open_preview()
 		else:
 			self.open_preview()
 		
 	def open_preview(self):
-		if not self.previewOpen:
-			self.previewOpen = True
+		if hasattr(self,"preview"):
+			if not self.preview.is_open:
+				#live preview window
+				self.previewTkObj = tk.Tk(className="Live Preview")
+				self.previewTkObj.protocol("WM_DELETE_WINDOW", self.on_close)
+				self.preview = GUIWindow(self.previewTkObj)
+				self.preview.open()
+				self.update_preview()
+		else:
 			#live preview window
 			self.previewTkObj = tk.Tk(className="Live Preview")
+			self.previewTkObj.protocol("WM_DELETE_WINDOW", self.on_close)
 			self.preview = GUIWindow(self.previewTkObj)
-			#self.preview.open()
+			self.preview.open()
 			self.update_preview()
-			
-			
-		else:
-			print("already open")
 		
 	def stop_preview(self):
+		if self.preview.is_open:
+			self.preview.stop()
+		else:
+			print("preview window not open")
+		
+	def on_close(self):
+		print("on close")
 		self.preview.stop()
-		self.previewOpen = False
 		
 	def retrieve_input(self):
 		self.text = self.textPad.get('1.0', tk.END)
