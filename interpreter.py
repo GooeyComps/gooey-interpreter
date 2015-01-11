@@ -52,8 +52,8 @@ def interpret(tree, root):
     print("I DID IT")
     #top.mainloop()
     #print("looping forever")
-    exec("%s = top" % expr.varname.thing)
+    exec("%s = top" % expr.varname.thing) 
     #exec("print(%s.title())" % expr.varname.thing)
-   # print(str(root.winfo_children()))
+    print(str(root.winfo_children()))
     #exec("print(str(%s))" % expr.varname.thing)
     return root
