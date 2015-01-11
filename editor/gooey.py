@@ -17,7 +17,7 @@ This is done with a "Run" option in the original text editor window
 
 class GUIWindow():
     def __init__(self, window):
-        self.window = window
+        #self.window = window
         self.bindings = dict()
         self.is_open = False
         
@@ -72,7 +72,7 @@ class TextPad():
 
     def update_preview(self):
         self.retrieve_input()
-        #previewTkObj = tk.Tk(className="Live Preview")
+        previewTkObj = tk.Tk(className="Live Preview")
         self.preview = GUIWindow(previewTkObj)
         ast = parse(self.text, Program)
         
@@ -135,5 +135,9 @@ class TextPad():
     def retrieve_input(self):
         self.text = self.textPad.get('1.0', tk.END)
 		
-textpad = TextPad()
-textpad.run()
+
+        
+if __name__ == "__main__":
+    
+    textpad = TextPad()
+    textpad.run()

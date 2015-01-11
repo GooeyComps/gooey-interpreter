@@ -63,7 +63,7 @@ def main():
 
     gui = GUIThread(q,root)
     print(str(root.winfo_children()))
-    root.mainloop()
+    #root.mainloop()
     #How to get the info about the root while mainloop is running?
 
 
