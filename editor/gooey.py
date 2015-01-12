@@ -8,40 +8,40 @@ from tkinter.scrolledtext import *
 from pypeg2 import *
 
 '''
-This file creates a text editor that echoes the file content into a separate tkinter window using that 
-window's "pack" method. So we are able to get new content into the window via packing without reloading the 
-entire window. 
+This file creates a text editor that echoes the file content into a separate tkinter window using that
+window's "pack" method. So we are able to get new content into the window via packing without reloading the
+entire window.
 
 This is done with a "Run" option in the original text editor window
 '''
 
 class GUIWindow():
     def __init__(self, window):
-        #self.window = window
+        self.window = window
         self.bindings = dict()
         self.is_open = False
-        
+
     def openWindow(self):
         self.is_open = True
         #self.window.mainloop()
-        
+
     def stop(self):
         self.is_open = False
-        self.window.destroy()
-		
-    def modify(self, ast):	
+        #self.window.destroy()
+
+    def modify(self, ast):
         #if (self.is_open):
             #self.stop()
-        self.window.destroy()
-        previewTkObj = tk.Tk(className="Live Preview")
-        self.window = previewTkObj
+        #self.window.destroy()
+        #previewTkObj = tk.Tk(className="Live Preview")
+        #self.window = previewTkObj
         #self.openWindow()
         #self.window.withdraw()
         #self.update_preview()
-        
+
         #create new instance of interpeter class, passing a reference the live preview window
         i = Interpreter(self.window)
-        
+
         self.bindings = i.interpret(ast, self.bindings)
         del i
 
@@ -49,7 +49,7 @@ class GUIWindow():
 class TextPad():
     def __init__(self):
         #text editor window
-        self.root = tk.Tk(className="Gooey Editor")
+        self.root = Tk(className="Gooey Editor")
 
         #refers to the content of the text editor window
         self.text = ""
@@ -72,11 +72,13 @@ class TextPad():
 
     def update_preview(self):
         self.retrieve_input()
-        previewTkObj = tk.Tk(className="Live Preview")
-        self.preview = GUIWindow(previewTkObj)
+        #previewTkObj = tk.Tk(className="Live Preview")
+        #self.preview = GUIWindow(previewTkObj)
         ast = parse(self.text, Program)
-        
+
         self.preview.modify(ast)
+        #After it takes in a command and does something it deletes all of the text from the textbox
+        self.textPad.delete('1.0',END)
         '''
         if hasattr(self,"preview"):
             if self.preview.is_open:
@@ -134,10 +136,10 @@ class TextPad():
 
     def retrieve_input(self):
         self.text = self.textPad.get('1.0', tk.END)
-		
 
-        
+
+
 if __name__ == "__main__":
-    
+
     textpad = TextPad()
     textpad.run()
