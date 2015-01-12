@@ -21,6 +21,7 @@ class Interpreter():
     def gooeyset(self, ast, bindings):
         print(ast)
     def interpret(self, ast, bindings):
+        print("Interpreting")
         for expr in ast:
             if(expr.__class__.__name__ == "Make"):
                 if hasattr(expr, "type"):
@@ -58,33 +59,37 @@ class Interpreter():
                                 bindings[expr.varname.thing] = b
                     else:
                         self.error("no varname")
-                elif(expr.__class__.__name__ == "GooeySet"):
-                    if hasattr(expr, "type"):
-                        if hasattr(expr, "varname"):
-                            if expr.varname.thing in bindings:
-                                obj = bindings[expr.varname.thing]
-                                if obj.type == "Window":
-                                    if hasattr(expr, "attributes"):
-                                        for item in expr.attributes:
-                                            if hasattr(item, 'color'):
-                                                self.window.configure(bg=item.color.value)
-                                            elif hasattr(item,'size'):
-                                                size = item.size.value+"x"+item.size.value
-                                                self.window.geometry(size)
-                                elif(expr.type == "Button"):
-                                    for item in expr.attributes:
-                                        if hasattr(item, 'color'):
-                                            obj.configure(bg=item.color.value)
-                                        if hasattr(item, 'text'):
-                                            obj.configure(text=item.text.value)
-                                        elif hasattr(item,'size'):
-                                            obj.configure(width=item.size.value)
-                                            obj.configure(height=item.size.value)
-                                        elif hasattr(item, 'action'):
-                                            print(item)
-                                            #b.configure(command=item)
-                                    #b.pack()
-                            else:
-                                self.error("undefined varname")
+            elif(expr.__class__.__name__ == "GooeySet"):
+                print("in set")
+               # if hasattr(expr, "type"):
+                if hasattr(expr, "varname"):
+                    print("Has varname")
+                    if expr.varname.thing in bindings:
+                        obj = bindings[expr.varname.thing]
+                        print("Hey! I found it!")
+                        print(obj)
+                        if obj.type == "Window":
+                            if hasattr(expr, "attributes"):
+                                for item in expr.attributes:
+                                    if hasattr(item, 'color'):
+                                        self.window.configure(bg=item.color.value)
+                                    elif hasattr(item,'size'):
+                                        size = item.size.value+"x"+item.size.value
+                                        self.window.geometry(size)
+                        elif(expr.type == "Button"):
+                            for item in expr.attributes:
+                                if hasattr(item, 'color'):
+                                    obj.configure(bg=item.color.value)
+                                if hasattr(item, 'text'):
+                                    obj.configure(text=item.text.value)
+                                elif hasattr(item,'size'):
+                                    obj.configure(width=item.size.value)
+                                    obj.configure(height=item.size.value)
+                                elif hasattr(item, 'action'):
+                                    print(item)
+                                    #b.configure(command=item)
+                            #b.pack()
+                    else:
+                        self.error("undefined varname")
                                 
         return bindings

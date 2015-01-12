@@ -1,9 +1,6 @@
-import tkinter as tk
 from interpreter import *
 from tkinter import *
 from grammar import *
-from tkinter import Menu
-import tkinter.scrolledtext as tkst
 from tkinter.scrolledtext import *
 from pypeg2 import *
 
@@ -16,15 +13,18 @@ This is done with a "Run" option in the original text editor window
 '''
 
 class GUIWindow():
-    def __init__(self, window):
-        self.window = window
+   # def __init__(self, window):
+    #Changed this so that it doesn't take in a window - it just initializes the live preview when it begins
+    def __init__(self):
+        #self.window = window
+        self.window = Tk(className="Live Preview")
         self.bindings = dict()
         self.is_open = False
 
     def openWindow(self):
         self.is_open = True
         #self.window.mainloop()
-
+        self.window.deiconify()
     def stop(self):
         self.is_open = False
         #self.window.destroy()
@@ -63,9 +63,13 @@ class TextPad():
         fm.add_command(label="Stop",command=self.stop_preview)
 
         #add textPad to root and open window
-        self.textPad = tkst.ScrolledText(self.root, width=60, height=30)
+        self.textPad = ScrolledText(self.root, width=60, height=30)
         self.textPad.pack()
 
+        #This is where the GUIWindow class is first called - since GUIWindow
+        #makes a live preview window when it is initialized, we hide it until we need it
+        self.preview = GUIWindow()
+        self.preview.window.withdraw()
 
     def run(self):
         self.root.mainloop()
@@ -74,8 +78,8 @@ class TextPad():
         self.retrieve_input()
         #previewTkObj = tk.Tk(className="Live Preview")
         #self.preview = GUIWindow(previewTkObj)
+        #self.preview = GUIWindow()
         ast = parse(self.text, Program)
-
         self.preview.modify(ast)
         #After it takes in a command and does something it deletes all of the text from the textbox
         self.textPad.delete('1.0',END)
@@ -110,18 +114,21 @@ class TextPad():
     def open_preview(self):
         if hasattr(self,"preview"):
             if not self.preview.is_open:
-                #live preview window
-                self.previewTkObj = tk.Tk(className="Live Preview")
-                self.previewTkObj.protocol("WM_DELETE_WINDOW", self.on_close)
-                self.preview = GUIWindow(self.previewTkObj)
-                self.preview.open()
+            
+            #live preview window
+                #self.previewTkObj = tk.Tk(className="Live Preview")
+                #self.previewTkObj.protocol("WM_DELETE_WINDOW", self.on_close)
+                #self.preview = GUIWindow(self.previewTkObj)
+                #self.preview = GUIWindow()
+                self.preview.openWindow()
                 self.update_preview()
         else:
             #live preview window
-            self.previewTkObj = tk.Tk(className="Live Preview")
-            self.previewTkObj.protocol("WM_DELETE_WINDOW", self.on_close)
-            self.preview = GUIWindow(self.previewTkObj)
-            self.preview.open()
+            #self.previewTkObj = tk.Tk(className="Live Preview")
+            #self.previewTkObj.protocol("WM_DELETE_WINDOW", self.on_close)
+            #self.preview = GUIWindow(self.previewTkObj)
+            #self.preview = GUIWindow()
+            self.preview.openWindow()
             self.update_preview()
 
     def stop_preview(self):
@@ -135,7 +142,7 @@ class TextPad():
         self.preview.stop()
 
     def retrieve_input(self):
-        self.text = self.textPad.get('1.0', tk.END)
+        self.text = self.textPad.get('1.0', END)
 
 
 
