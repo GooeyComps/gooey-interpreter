@@ -1,0 +1,23 @@
+COMPS
+
+http://stackoverflow.com/questions/15817554/obscure-repeatable-crashes-in-multi-threaded-python-console-application-using-t
+The issue is that tk crashes if you read from Python's raw_input in a different thread from the tk thread!
+
+
+
+MUSINGS:
+
+The call to Tk() must be done in the main loop. We can instantiate other threads after this, but this HAS to be in main to make this work. One worry I have is that we’re becoming too Tk dependent. 
+
+To make our interpreter do what we want, I’m going to have to change some things in interpreter. For example, when we make a Window, we need to add a window widget to the Tk() object (I think), instead of just modifying the Tk() object itself. Right now, because we only call Tk() once, making a new window just modifies the current Tk() object, which isn’t our desired behavior. 
+
+Update: Now it does the window thing but set doesn’t work. 
+
+How are we keeping track of our variables? This is currently a problem. Should they be passed in and out of the interpreter? Should they be checked somewhere else? I don’t really know. 
+
+
+
+1/6
+Explore taking in files and if it works differently than 
+
+Add everyone to github
