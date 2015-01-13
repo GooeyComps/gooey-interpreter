@@ -62,17 +62,18 @@ class Interpreter():
                                             self.window.geometry(size)
                             elif (expr.type == "Button"):
                                 b = Button(self.window)
-                                for item in expr.attributes:
-                                    if hasattr(item, 'color'):
-                                        b.configure(bg=item.color.value)
-                                    if hasattr(item, 'text'):
-                                        b.configure(text=item.text.value)
-                                    elif hasattr(item,'size'):
-                                        b.configure(width=item.size.value)
-                                        b.configure(height=item.size.value)
-                                    elif hasattr(item, 'action'):
-                                        print(item)
-                                        #b.configure(command=item)
+                                if hasattr(expr, "attributes"):
+                                    for item in expr.attributes:
+                                        if hasattr(item, 'color'):
+                                            b.configure(bg=item.color.value)
+                                        if hasattr(item, 'text'):
+                                            b.configure(text=item.text.value)
+                                        elif hasattr(item,'size'):
+                                            b.configure(width=item.size.value)
+                                            b.configure(height=item.size.value)
+                                        elif hasattr(item, 'action'):
+                                            print(item)
+                                            #b.configure(command=item)
                                 b.pack()
                                 #bindings[expr.varname.thing] = b
                                 binding = makeBinding("Button", expr.varname.thing, b)
