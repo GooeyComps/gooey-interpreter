@@ -13,6 +13,66 @@ def addBinding(b,bindings):
     bindings[b['varname']] = b
     return bindings
 
+#Make a window
+#w
+def makeWindow(w,expr):
+    w.deiconify() #Show the window
+    if hasattr(expr, "attributes"):
+        for item in expr.attributes:
+            if hasattr(item, 'color'):
+                w.configure(bg=item.color.value)
+            elif hasattr(item,'size'):
+                size = item.size.value+"x"+item.size.value
+                w.geometry(size)
+    return w
+
+#Set a window
+def setWindow(w,expr):
+    if hasattr(expr, "attributes"):
+        for item in expr.attributes:
+            if hasattr(item, 'color'):
+                #self.window.configure(bg=item.color.value)
+                w.configure(bg=item.color.value)
+            elif hasattr(item,'size'):
+                size = item.size.value+"x"+item.size.value
+                #self.window.geometry(size)
+                w.geometry(size)
+    return w
+
+#Make a Button
+#Takes in the window the button should be made in and the expression
+def makeButton(w,expr):
+    #b = Button(self.window)
+    b = Button(w)
+    if hasattr(expr, "attributes"):
+        for item in expr.attributes:
+            if hasattr(item, 'color'):
+                b.configure(bg=item.color.value)
+            if hasattr(item, 'text'):
+                b.configure(text=item.text.value)
+            elif hasattr(item,'size'):
+                b.configure(width=item.size.value)
+                b.configure(height=item.size.value)
+            elif hasattr(item, 'action'):
+                print(item)
+                #b.configure(command=item)
+    b.pack()
+    return b
+
+#Set a Button
+def setButton(b,expr):
+    for item in expr.attributes:
+        if hasattr(item, 'color'):
+            b.configure(bg=item.color.value)
+        if hasattr(item, 'text'):
+            b.configure(text=item.text.value)
+        elif hasattr(item,'size'):
+            b.configure(width=item.size.value)
+            b.configure(height=item.size.value)
+        elif hasattr(item, 'action'):
+            print(item)
+    return b
+
 class Interpreter():
     def __init__(self, target):
         self.window = target
@@ -33,9 +93,6 @@ class Interpreter():
     def gooeyset(self, ast, bindings):
         print(ast)
 
-
-
-
     def interpret(self, ast, bindings):
         print("Interpreting")
         for expr in ast:
@@ -47,77 +104,30 @@ class Interpreter():
                             self.error(message)
                             break
                         else:
-                            #bindings[expr.varname.thing] = expr
                             if (expr.type == "Window"):
-                                self.window.deiconify()
-                                binding = makeBinding("Window", expr.varname.thing, self.window)
-                                bindings = addBinding(binding,bindings)
-                                #bindings[expr.varname.thing] = self.window
-                                if hasattr(expr, "attributes"):
-                                    for item in expr.attributes:
-                                        if hasattr(item, 'color'):
-                                            self.window.configure(bg=item.color.value)
-                                        elif hasattr(item,'size'):
-                                            size = item.size.value+"x"+item.size.value
-                                            self.window.geometry(size)
+                                w = makeWindow(self.window,expr)
+                                binding = makeBinding("Window", expr.varname.thing, w)
+                                bindings = addBinding(binding, bindings)
+
                             elif (expr.type == "Button"):
-                                b = Button(self.window)
-                                if hasattr(expr, "attributes"):
-                                    for item in expr.attributes:
-                                        if hasattr(item, 'color'):
-                                            b.configure(bg=item.color.value)
-                                        if hasattr(item, 'text'):
-                                            b.configure(text=item.text.value)
-                                        elif hasattr(item,'size'):
-                                            b.configure(width=item.size.value)
-                                            b.configure(height=item.size.value)
-                                        elif hasattr(item, 'action'):
-                                            print(item)
-                                            #b.configure(command=item)
-                                b.pack()
-                                #bindings[expr.varname.thing] = b
+                                b = makeButton(self.window,expr)
                                 binding = makeBinding("Button", expr.varname.thing, b)
                                 bindings = addBinding(binding,bindings)
 
                     else:
                         self.error("no varname")
             elif(expr.__class__.__name__ == "GooeySet"):
-                print("in set")
-               # if hasattr(expr, "type"):
                 if hasattr(expr, "varname"):
-                    print("Has varname")
                     if expr.varname.thing in bindings:
                         obj = bindings[expr.varname.thing]
-                        print("Hey! I found it!")
-                        print(obj)
-                        #if obj.type == "Window":
                         #####Should we just be modifying the self.window or should we be searching through the bindings??
                         if obj['type'] == "Window":
                             win = obj['object']
-                            if hasattr(expr, "attributes"):
-                                for item in expr.attributes:
-                                    if hasattr(item, 'color'):
-                                        #self.window.configure(bg=item.color.value)
-                                        win.configure(bg=item.color.value)
-                                    elif hasattr(item,'size'):
-                                        size = item.size.value+"x"+item.size.value
-                                        #self.window.geometry(size)
-                                        win.geometry(size)
+                            w = setWindow(win,expr)
                         #elif(expr.type == "Button"):
                         elif obj['type'] == "Button":
                             button = obj['object']
-                            for item in expr.attributes:
-                                if hasattr(item, 'color'):
-                                    button.configure(bg=item.color.value)
-                                if hasattr(item, 'text'):
-                                    button.configure(text=item.text.value)
-                                elif hasattr(item,'size'):
-                                    button.configure(width=item.size.value)
-                                    button.configure(height=item.size.value)
-                                elif hasattr(item, 'action'):
-                                    print(item)
-                                    #b.configure(command=item)
-                            #b.pack()
+                            b = setButton(button,expr)
                     else:
                         self.error("undefined varname")
 
