@@ -1,13 +1,19 @@
 class Actions:
 
     # Print something actions
-    def write_something(printTest):
+    def write(printTest):
         print(printTest)
 
     # Close window actions
 
     # Change color of window actions
 
-    # Potentially in interpreter, when looking at Buttons if statement, search for
-    # an action and if there is one search for it by keyword and once you find the
-    # keyword call the correct method from here
+    # Make textbox
+
+    # Clear textbox
+
+    # Submit button
+
+    # Main method which goes through all other methods?  Maybe?
+    # def callToAction(type):
+    # Nevermind, won't work, still need to make action part of statement

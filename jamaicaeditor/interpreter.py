@@ -43,28 +43,33 @@ def setWindow(w,expr):
 #Make a Button
 #Takes in the window the button should be made in and the expression
 def makeButton(w,expr):
-    print("making a button")
-    print("W IS: ")
-    print(w)
-    print("EXPR IS: ")
-    print(expr)
     #b = Button(self.window)
     b = Button(w)
-    print("THIS IS B: ", b)
     if hasattr(expr, "attributes"):
-        print("button has attributes")
         for item in expr.attributes:
             if hasattr(item, 'color'):
+                print("THis is the color: ", item.color.value)
                 b.configure(bg=item.color.value)
+                print(b.cget('bg'))
             if hasattr(item, 'text'):
                 b.configure(text=item.text.value)
             elif hasattr(item,'size'):
                 b.configure(width=item.size.value)
                 b.configure(height=item.size.value)
+
+            # These are the action statements
             elif hasattr(item, 'action'):
-                print("the action is: ")
-                print(item.action.value)
-                b.configure(command=lambda: actionbuttons.Actions.write_something(item.action.value))
+                #Cast action to string, otherwise you cannot find right action
+                #This is temporary until I can call the action as a direct line in the command
+                action = str(item.action.value)
+                if action == 'write':
+                    b.configure(command=lambda: actionbuttons.Actions.write(item.action.text))
+                elif action == 'close':
+                    w.quit
+                #    print("quit")
+                else:
+                    print("You have entered a command that is not defined")
+
     b.pack()
     return b
 
