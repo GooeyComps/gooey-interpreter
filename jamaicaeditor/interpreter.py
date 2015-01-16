@@ -62,11 +62,16 @@ def makeButton(w,expr):
                 #Cast action to string, otherwise you cannot find right action
                 #This is temporary until I can call the action as a direct line in the command
                 action = str(item.action.value)
+                print("AKLSJDHFKLAJHFH")
+                print(item.action.value)
                 if action == 'write':
                     b.configure(command=lambda: actionbuttons.Actions.write(item.action.text))
                 elif action == 'close':
-                    w.quit
-                #    print("quit")
+                    b.configure(command=lambda: actionbuttons.Actions.close(w))
+                elif action == 'colorChange':
+                    b.configure(command=lambda: actionbuttons.Actions.windowColorChange(w, item.action.color))
+                    print("interpreter")
+
                 else:
                     print("You have entered a command that is not defined")
 

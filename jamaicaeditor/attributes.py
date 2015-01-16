@@ -40,7 +40,7 @@ class TextAttribute:
 
 #Button action (name of a function)
 class ActionAttribute:
-	grammar = "action", blank, attr("value", word), attr("text", actionPrint)
+	grammar = "action", blank, attr("value", word), optional(attr("text", actionPrint)), optional(attr("color", [ColorRGBValue, ColorHEXValue, ColorKeywordValue]))
 
 #Wrap as Attribute object and put into AttributeList
 class Attribute:

@@ -1,3 +1,5 @@
+from tkinter import *
+
 class Actions:
 
     # Print something actions
@@ -5,12 +7,13 @@ class Actions:
         print(printTest)
 
     # Close window actions
+    def close(window):
+        window.quit()
 
     # Change color of window actions
-
-    # Make textbox
-
-    # Clear textbox
+    def windowColorChange(window, c):
+        window.configure(bg= c)
+        print("here")
 
     # Submit button
 
