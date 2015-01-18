@@ -152,8 +152,8 @@ class TextPad():
 
 
 if __name__ == "__main__":
+    #Reads in command line arguments
     parser = argparse.ArgumentParser()
-#    parser.add_argument('filename',type=argparse.FileType('r'))
     parser.add_argument('filename', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
     args = parser.parse_args()
     #If the filename argument is something, open the file
