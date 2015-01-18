@@ -1,3 +1,2 @@
-import actions.py
-
-make Button b with color red, action foo.
+make Window w.
+set w color blue.

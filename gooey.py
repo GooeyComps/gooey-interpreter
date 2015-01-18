@@ -4,6 +4,9 @@ from tkinter import *
 from grammar import *
 from tkinter.scrolledtext import *
 from pypeg2 import *
+import argparse
+
+
 
 '''
 This file creates a text editor that echoes the file content into a separate tkinter window using that
@@ -149,6 +152,26 @@ class TextPad():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+#    parser.add_argument('filename',type=argparse.FileType('r'))
+    parser.add_argument('filename', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
+    args = parser.parse_args()
+    #If the filename argument is something, open the file
+    if args.filename.name!='<stdin>':
+        bindings = dict()
+        preview = GUIWindow()
+        preview.window.withdraw()
 
-    textpad = TextPad()
-    textpad.run()
+        for line in args.filename:
+            ast = parse(line, Program)
+            i = Interpreter(preview.window)
+
+            bindings = i.interpret(ast, bindings)
+            #del i
+        preview.window.mainloop()
+
+    #print(file.readlines())
+    #print(args.file.readlines())
+    else:
+        textpad = TextPad()
+        textpad.run()
