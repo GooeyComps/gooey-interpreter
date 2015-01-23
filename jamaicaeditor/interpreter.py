@@ -27,6 +27,19 @@ def makeWindow(w,expr):
                 w.geometry(size)
     return w
 
+#Make the binding associated with this function
+#The object will be the parameters passed in and the function action (in a tuple)
+def makeFunction(w, expr):
+    pass
+
+#this should maybe take in parameters
+#expects "run" then a user defined function name
+#replaces , separating gooey instructions and adds period at end
+#Makes a temporary binding relating to parameters and then gets rid of that parameter
+def runFunction():
+    pass
+
+
 #Set a window
 def setWindow(w,expr):
     if hasattr(expr, "attributes"):
@@ -157,6 +170,21 @@ class Interpreter():
                         self.error("no varname")
             elif(expr.__class__.__name__ == "GooeySet"):
                 if hasattr(expr, "varname"):
+                    if expr.varname.thing in bindings:
+                        obj = bindings[expr.varname.thing]
+                        #####Should we just be modifying the self.window or should we be searching through the bindings??
+                        if obj['type'] == "Window":
+                            win = obj['object']
+                            w = setWindow(win,expr)
+                        #elif(expr.type == "Button"):
+                        elif obj['type'] == "Button":
+                            button = obj['object']
+                            b = setButton(button,self.window,expr)
+                    else:
+                        self.error("undefined varname")
+
+            elif(expr.__class__.__name__ == "Function"):
+                if hasattr(expr, "funcname"):
                     if expr.varname.thing in bindings:
                         obj = bindings[expr.varname.thing]
                         #####Should we just be modifying the self.window or should we be searching through the bindings??
