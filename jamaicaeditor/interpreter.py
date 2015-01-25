@@ -57,7 +57,8 @@ def setWindow(w,expr):
 #Takes in the window the button should be made in and the expression
 def makeButton(w,expr):
     #b = Button(self.window)
-    b = Button(w)
+    b = Button(w, bd=-2)
+    #b.configure(bd=-2)
     if hasattr(expr, "attributes"):
         for item in expr.attributes:
             if hasattr(item, 'color'):
@@ -185,8 +186,8 @@ class Interpreter():
 
             elif(expr.__class__.__name__ == "Function"):
                 if hasattr(expr, "funcname"):
-                    if expr.varname.thing in bindings:
-                        obj = bindings[expr.varname.thing]
+                    if expr.funcname.thing in bindings:
+                        obj = bindings[expr.funcname.thing]
                         #####Should we just be modifying the self.window or should we be searching through the bindings??
                         if obj['type'] == "Window":
                             win = obj['object']
