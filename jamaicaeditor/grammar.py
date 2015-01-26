@@ -21,8 +21,8 @@ class Parameter:
 class Parameters(Namespace):
 	grammar = optional(csl(Parameter))
 
-class FunctionType(Keyword):
-	grammar = Enum(K("Button"))
+# class FunctionType(Keyword):
+# 	grammar = Enum(K("Button"))
 
 #class Program(List):
 	# grammar = maybe_some([Make,GooeySet,Function])

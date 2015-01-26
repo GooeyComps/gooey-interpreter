@@ -184,19 +184,21 @@ class Interpreter():
                     else:
                         self.error("undefined varname")
 
+            #This is for making a function
             elif(expr.__class__.__name__ == "Function"):
-                print("Making a function")
+
                 if hasattr(expr, "funcname"):
-                    print("funcname", expr.funcname.thing)
-                    print(type(str(expr.funcname.thing)))
+                    #Checks bindings to see if function name is already there
                     if expr.funcname.thing in bindings:
-                        obj = bindings[expr.funcname.thing]
+                        self.error("Sorry, this function name is already used.")
+
+                    #If function isn't already defined, add it to bindings
                     else:
-                        #self.error("undefined varname")
-                            #b = makeButton(self.window,expr)
-                            binding = makeBinding("Function", str(expr.funcname.thing), expr.funcaction)
-                            bindings = addBinding(binding,bindings)
-                            print(bindings)
+                        binding = makeBinding("Function", str(expr.funcname.thing), expr.funcaction)
+                        bindings = addBinding(binding,bindings)
+                        print(bindings)
+                else:
+                    self.error("Sorry, you need to give your function a name")
 
 
         return bindings
