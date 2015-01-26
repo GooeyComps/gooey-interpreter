@@ -185,18 +185,18 @@ class Interpreter():
                         self.error("undefined varname")
 
             elif(expr.__class__.__name__ == "Function"):
+                print("Making a function")
                 if hasattr(expr, "funcname"):
+                    print("funcname", expr.funcname.thing)
+                    print(type(str(expr.funcname.thing)))
                     if expr.funcname.thing in bindings:
                         obj = bindings[expr.funcname.thing]
-                        #####Should we just be modifying the self.window or should we be searching through the bindings??
-                        if obj['type'] == "Window":
-                            win = obj['object']
-                            w = setWindow(win,expr)
-                        #elif(expr.type == "Button"):
-                        elif obj['type'] == "Button":
-                            button = obj['object']
-                            b = setButton(button,self.window,expr)
                     else:
-                        self.error("undefined varname")
+                        #self.error("undefined varname")
+                            #b = makeButton(self.window,expr)
+                            binding = makeBinding("Function", str(expr.funcname.thing), expr.funcaction)
+                            bindings = addBinding(binding,bindings)
+                            print(bindings)
+
 
         return bindings
