@@ -5,8 +5,9 @@ import actionbuttons
 #Later we should maybe do error checking to make sure type and object match?
 #Or this might get caught earlier
 #Maybe this shouldn't have varname in the dict? Unclear
-def makeBinding(t,v,o):
-    binding = {'type': t, 'varname': v, 'object': o}
+#p is an optional argument params
+def makeBinding(t,v,o,p=[]):
+    binding = {'type': t, 'varname': v, 'object': o, 'params': p}
     return binding
 
 #Takes a binding in the form shown in "makeBinding" and adds to bindings
@@ -194,11 +195,36 @@ class Interpreter():
 
                     #If function isn't already defined, add it to bindings
                     else:
-                        binding = makeBinding("Function", str(expr.funcname.thing), expr.funcaction)
+                        if hasattr(expr, "params"):
+                            print(type(expr.params))
+                            print("len:", len(expr.params))
+                            print(str(expr.params))
+                            
+                            binding = makeBinding("Function", str(expr.funcname.thing), expr.funcaction, expr.params)
+                        else:
+                            binding = makeBinding("Function", str(expr.funcname.thing), expr.funcaction)
                         bindings = addBinding(binding,bindings)
                         print(bindings)
                 else:
                     self.error("Sorry, you need to give your function a name")
+                    
+            elif(expr.__class__.__name__ == "runFunction"):
+                #Find function with that name
+                if expr.funcname.thing in bindings:
+                    #Look at params in the bindings
+                    if hasattr(expr, "params"):
+                        #Make set of local bindings
+                        #Bind objects passed into parameter with parameter in function
+                        #Run function on thing
+                        #rejoice 
+                        print("I HAVE PARAMS")
+                else:
+                    self.error("This function isn't defined.")
+                
+                #Look at parameters in bindings
+                #If there are parameters, make local bindings for them and run function on those
+                #Get rid of local bindings after
+
 
 
         return bindings
