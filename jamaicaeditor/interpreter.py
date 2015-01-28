@@ -1,13 +1,14 @@
 from tkinter import *
 from pypeg2 import *
 import actionbuttons
+from grammar import *
 #Takes in the type t, varname v, and actual object o, returns binding
 #Later we should maybe do error checking to make sure type and object match?
 #Or this might get caught earlier
 #Maybe this shouldn't have varname in the dict? Unclear
 #p is an optional argument params
 def makeBinding(t,v,o,p=[]):
-    binding = {'type': t, 'varname': v, 'object': o, 'params': p}
+    binding = {'type': t, 'varname': str(v), 'object': o, 'params': p}
     return binding
 
 #Takes a binding in the form shown in "makeBinding" and adds to bindings
@@ -134,12 +135,12 @@ def getValues(expr):
         else:
             return None
 
-        
+
 #make Menu y with values file "Open" save.
 def makeMenu(w,expr):
     #m = Menu(w)
     #w.config(menu=m)
-    
+
     #get the menu from root. i dont think you can dynamically add a menu to root object,
     #so a blank menu is added in the init function of GUIWindow() in gooey.py
     print(w.winfo_children())
@@ -155,12 +156,12 @@ def makeMenu(w,expr):
         else:
             print("invalid attribute")
     return 0
-            
+
 def makeMenuItem(w,expr):
     for item in expr.attributes:
         if hasattr(item, 'values'):
             valueList = item.values.value
-            
+
         elif hasattr(item, 'text'):
             print(item.text.value)
         else:
@@ -206,13 +207,13 @@ class Interpreter():
                                 b = makeButton(self.window,expr)
                                 binding = makeBinding("Button", expr.varname.thing, b)
                                 bindings = addBinding(binding,bindings)
-                                
+
                             elif (expr.type == "Menu"):
                                 m = makeMenu(self.window,expr)
                                 values = getValues(expr)
                                 #binding = makeBinding("Button", expr.varname.thing, m, values)
                                 #bindings = addBinding(binding,bindings)
-                                
+
                             elif (expr.type == "MenuItem"):
                                 mi = makeMenuItem(self.window,expr)
                                 #search bindings for Menu objects, find which one of them has this menuItem as one of its values
@@ -250,7 +251,7 @@ class Interpreter():
                             print(type(expr.params))
                             print("len:", len(expr.params))
                             print(str(expr.params))
-                            
+
                             binding = makeBinding("Function", str(expr.funcname.thing), expr.funcaction, expr.params)
                         else:
                             binding = makeBinding("Function", str(expr.funcname.thing), expr.funcaction)
@@ -258,20 +259,57 @@ class Interpreter():
                         print(bindings)
                 else:
                     self.error("Sorry, you need to give your function a name")
-                    
+
             elif(expr.__class__.__name__ == "runFunction"):
                 #Find function with that name
                 if expr.funcname.thing in bindings:
                     #Look at params in the bindings
                     if hasattr(expr, "params"):
                         #Make set of local bindings
+                        localBindings = dict()
                         #Bind objects passed into parameter with parameter in function
+
+                        #Take param being passed in (params), bind to expected param in function
+                        #add this to local binding
+                        bound = bindings[expr.funcname.thing]['params'][0]
+                        print("bound", bound)
+                        #print("currParam?", expr.params)
+                        #currParam = bindings[bound[0]]
+                        currParam = bindings[expr.params[0]] #Assuming only one parameter in
+
+                        b = makeBinding(currParam['type'], bound, currParam['object']) #Here we're setting the type of the local to the thing that we're passing in. This is shitty
+                        localBindings = addBinding(b, localBindings)
+                        #function we're running
+                        fun = bindings[expr.funcname.thing]['object'] #We need to make this proper gooey code
+                        funStr = ''
+                        for i in fun:
+                            funStr = funStr + " " + i
+                        funStr = funStr[1:] + "."
+                        #Parse funStr
+                        localAst = parse(funStr,Program)
+
+
                         #Run function on thing
-                        #rejoice 
-                        print("I HAVE PARAMS")
+                        #rejoice
+                        print("I HAVE LOCAL BINDINGS", localBindings)
+
+                        #parse the function code
+                        #pass the parsed code as the ast
+
+                        newBindings = self.interpret(localAst,localBindings)
+                        print(newBindings)
+                        newB = newBindings[bound]
+                        print("bindings before",bindings)
+                        newB['varname'] = currParam['varname']
+                        bindings[currParam['varname']] = newB
+                        print("bindings after",bindings)
+
+
+                        #need to bind the returned object to the thing that it modified
+
                 else:
                     self.error("This function isn't defined.")
-                
+
                 #Look at parameters in bindings
                 #If there are parameters, make local bindings for them and run function on those
                 #Get rid of local bindings after
