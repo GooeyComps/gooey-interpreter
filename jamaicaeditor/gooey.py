@@ -19,6 +19,8 @@ class GUIWindow():
     def __init__(self):
         #self.window = window
         self.window = Tk(className="Live Preview")
+        m = Menu(self.window)
+        self.window.config(menu=m)
         #What if each binding is a dictionary element that contains type and varname?
         self.bindings = dict()
         self.is_open = False

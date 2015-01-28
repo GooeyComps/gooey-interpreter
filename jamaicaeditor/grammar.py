@@ -2,13 +2,13 @@ from pypeg2 import *
 from attributes import *
 
 class MakeType(Keyword):
-	grammar = Enum(K("Button"), K("Window"))
+	grammar = Enum(K("Button"), K("Window"), K("Menu"), K("MenuItem"))
 
 class Make(List):
 	grammar = "make", blank, attr("type", MakeType), blank, attr("varname", name()), optional("with", attr("attributes",AttributeList)), "."
 
 class SetType(Keyword):
-	grammar = Enum(K("Button"), K("Window"))
+	grammar = Enum(K("Button"), K("Window"), K("Menu"), K("MenuItem"))
 
 class GooeySet(List):
 	grammar = "set", blank, attr("varname", name()), attr("attributes",AttributeList), "."

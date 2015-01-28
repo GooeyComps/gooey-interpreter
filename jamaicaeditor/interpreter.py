@@ -127,6 +127,45 @@ def setButton(b,w,expr):
             b.configure(command=lambda: actionbuttons.callAction(w,item,action))
     return b
 
+def getValues(expr):
+    for item in expr.attributes:
+        if hasattr(item, 'values'):
+            return item.values.value
+        else:
+            return None
+
+        
+#make Menu y with values file "Open" save.
+def makeMenu(w,expr):
+    #m = Menu(w)
+    #w.config(menu=m)
+    
+    #get the menu from root. i dont think you can dynamically add a menu to root object,
+    #so a blank menu is added in the init function of GUIWindow() in gooey.py
+    print(w.winfo_children())
+    for item in expr.attributes:
+        if hasattr(item, 'values'):
+            values = item.values.value
+            for v in values:
+                if v[0] == '"':
+                    a = 0
+                    #m.add_command(label=v, command=runFunction)
+        elif hasattr(item, 'text'):
+            print(item.text.value)
+        else:
+            print("invalid attribute")
+    return 0
+            
+def makeMenuItem(w,expr):
+    for item in expr.attributes:
+        if hasattr(item, 'values'):
+            valueList = item.values.value
+            
+        elif hasattr(item, 'text'):
+            print(item.text.value)
+        else:
+            print("invalid attribute")
+
 class Interpreter():
     def __init__(self, target):
         self.window = target
@@ -167,6 +206,18 @@ class Interpreter():
                                 b = makeButton(self.window,expr)
                                 binding = makeBinding("Button", expr.varname.thing, b)
                                 bindings = addBinding(binding,bindings)
+                                
+                            elif (expr.type == "Menu"):
+                                m = makeMenu(self.window,expr)
+                                values = getValues(expr)
+                                #binding = makeBinding("Button", expr.varname.thing, m, values)
+                                #bindings = addBinding(binding,bindings)
+                                
+                            elif (expr.type == "MenuItem"):
+                                mi = makeMenuItem(self.window,expr)
+                                #search bindings for Menu objects, find which one of them has this menuItem as one of its values
+                                #binding = makeBinding("Button", expr.varname.thing, b)
+                                #bindings = addBinding(binding,bindings)
 
                     else:
                         self.error("no varname")
