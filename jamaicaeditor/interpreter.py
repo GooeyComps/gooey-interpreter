@@ -27,6 +27,8 @@ def makeWindow(w,expr):
             elif hasattr(item,'size'):
                 size = item.size.value+"x"+item.size.value
                 w.geometry(size)
+                
+
     return w
 
 #Make the binding associated with this function
@@ -143,19 +145,27 @@ def makeMenu(w,expr):
 
     #get the menu from root. i dont think you can dynamically add a menu to root object,
     #so a blank menu is added in the init function of GUIWindow() in gooey.py
-    print(w.winfo_children())
+    m = None
+    children = w.winfo_children()
+    for c in children:
+        if type(c).__name__ == "Menu":
+            m = c
+            
     for item in expr.attributes:
         if hasattr(item, 'values'):
             values = item.values.value
             for v in values:
                 if v[0] == '"':
-                    a = 0
-                    #m.add_command(label=v, command=runFunction)
+                    vi = Menu(m)
+                    m.add_cascade(label=v[1:-1],menu=vi)
+                else:
+                    
         elif hasattr(item, 'text'):
             print(item.text.value)
         else:
             print("invalid attribute")
-    return 0
+    w.config(menu=m)
+    return m
 
 def makeMenuItem(w,expr):
     for item in expr.attributes:
@@ -209,7 +219,7 @@ class Interpreter():
                                 bindings = addBinding(binding,bindings)
 
                             elif (expr.type == "Menu"):
-                                m = makeMenu(self.window,expr)
+                                m = makeMenu(self.window,expr,bindings)
                                 values = getValues(expr)
                                 #binding = makeBinding("Button", expr.varname.thing, m, values)
                                 #bindings = addBinding(binding,bindings)
