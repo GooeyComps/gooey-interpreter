@@ -262,7 +262,8 @@ class Interpreter():
 
             elif(expr.__class__.__name__ == "runFunction"):
                 #Find function with that name
-                if expr.funcname.thing in bindings:
+                function = expr.funcname.thing
+                if function in bindings:
                     #Look at params in the bindings
                     if hasattr(expr, "params"):
                         #Make set of local bindings
@@ -271,41 +272,28 @@ class Interpreter():
 
                         #Take param being passed in (params), bind to expected param in function
                         #add this to local binding
-                        bound = bindings[expr.funcname.thing]['params'][0]
-                        print("bound", bound)
-                        #print("currParam?", expr.params)
-                        #currParam = bindings[bound[0]]
-                        currParam = bindings[expr.params[0]] #Assuming only one parameter in
+                        functionParam = bindings[function]['params'][0]
+                        #functionInput = bindings[functionParam[0]]
+                        functionInput = bindings[expr.params[0]] #Assuming only one parameter in
 
-                        b = makeBinding(currParam['type'], bound, currParam['object']) #Here we're setting the type of the local to the thing that we're passing in. This is shitty
+                        b = makeBinding(functionInput['type'], functionParam, functionInput['object']) #Here we're setting the type of the local to the thing that we're passing in. This is shitty
                         localBindings = addBinding(b, localBindings)
                         #function we're running
-                        fun = bindings[expr.funcname.thing]['object'] #We need to make this proper gooey code
+                        functionCode = bindings[function]['object'] #We need to make this proper gooey code
                         funStr = ''
-                        for i in fun:
+                        for i in functionCode:
                             funStr = funStr + " " + i
                         funStr = funStr[1:] + "."
-                        #Parse funStr
+                        #parse the function code and pass the parsed code as the ast
                         localAst = parse(funStr,Program)
 
-
-                        #Run function on thing
-                        #rejoice
-                        print("I HAVE LOCAL BINDINGS", localBindings)
-
-                        #parse the function code
-                        #pass the parsed code as the ast
-
+                        #This should only have one thing in it based on how we are running our functions now
                         newBindings = self.interpret(localAst,localBindings)
-                        print(newBindings)
-                        newB = newBindings[bound]
-                        print("bindings before",bindings)
-                        newB['varname'] = currParam['varname']
-                        bindings[currParam['varname']] = newB
-                        print("bindings after",bindings)
-
+                        newB = newBindings[functionParam]
+                        newB['varname'] = functionInput['varname']
 
                         #need to bind the returned object to the thing that it modified
+                        bindings[functionInput['varname']] = newB
 
                 else:
                     self.error("This function isn't defined.")
