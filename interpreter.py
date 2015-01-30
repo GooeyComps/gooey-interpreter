@@ -3,6 +3,11 @@ from pypeg2 import *
 import actionbuttons
 from statements import *
 
+#Binding object has four instance variables
+#bType - the type of object with regards to "Gooey" ex) Window, Button
+#varname - how we identify the object (a string)
+#bObject - the actual tkinter object
+#params - an optional argument use to take in the parameters of a user defined function
 class Binding:
     bType = None
     varname = None
@@ -14,6 +19,7 @@ class Binding:
         self.varname = varname
         self.bObject = bObject
         self.params = params
+        print self.params
     
 
 class Interpreter():
