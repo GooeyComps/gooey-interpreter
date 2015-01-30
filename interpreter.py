@@ -146,26 +146,10 @@ class Interpreter():
                         #need to bind the returned object to the thing that it modified
                         bindings[functionInput.varname] = newB
                         
-                        #function we're running
-#                    functionCode = bindings[function].bObject #We need to make this proper gooey code
-#                    funStr = ''
-#                    for i in functionCode:
-#                        funStr = funStr + " " + i
-#                    funStr = funStr[1:] + "."
-#                    #parse the function code and pass the parsed code as the ast
-#                    localAst = parse(funStr,Program)
-#                    newBindings = self.interpret(localAst,localBindings)
+
                     else:
                         newBindings = self.runFunction(bindings,function,localBindings)
-#                    if len(expr.params)>0:
-#
-#                        #This should only have one thing in it based on how we are running our functions now
-#                        
-#                        newB = newBindings[functionParam]
-#                        newB.varname = functionInput.varname
-#
-#                        #need to bind the returned object to the thing that it modified
-#                        bindings[functionInput.varname] = newB
+
 
                 else:
                     self.error("This function isn't defined.")
