@@ -80,12 +80,12 @@ class Interpreter():
                     if expr.varname.thing in bindings:
                         obj = bindings[expr.varname.thing]
                         #####Should we just be modifying the self.window or should we be searching through the bindings??
-                        if obj['type'] == "Window":
-                            win = obj['object']
+                        if obj.bType == "Window":
+                            win = obj.bObject
                             w = self.setWindow(win,expr)
                         #elif(expr.type == "Button"):
-                        elif obj['type'] == "Button":
-                            button = obj['object']
+                        elif obj.bTypw == "Button":
+                            button = obj.bObject
                             b = self.setButton(button,self.window,expr)
                     else:
                         self.error("undefined varname")
@@ -173,14 +173,32 @@ class Interpreter():
     #               WINDOWS
     #Make a window
     def makeWindow(self,w,expr):
+        print("making window")
         w.deiconify() #Show the window
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'color'):
                     w.configure(bg=item.color.value)
                 elif hasattr(item,'size'):
-                    size = item.size.value+"x"+item.size.value
-                    w.geometry(size)
+                    if item.size.value[0] == "[":
+                        nums = re.findall(r'\d+',item.size.value)
+                        rows = int(nums[0])
+                        columns = int(nums[1])
+                        #fill cells with empty space somehow, so the user gets a sense of it actually being a grid
+                        for i in range(0,columns):
+                            for j in range(0,rows):
+                                text = Text(w)
+                                text.insert(INSERT, "  ")
+                                text.grid(row = j, column = i)
+                        
+                    elif item.size.value[0].isdigit():
+                        size = item.size.value+"x"+item.size.value
+                        w.geometry(size)
+                    else:
+                        if item.size.value.lower() == "large":
+                            w.geometry('500x500')
+                        elif item.size.value.lower() == "small":
+                            w.geomerty('200x200')
         return w
 
     #Set a window
@@ -191,9 +209,24 @@ class Interpreter():
                     #self.window.configure(bg=item.color.value)
                     w.configure(bg=item.color.value)
                 elif hasattr(item,'size'):
-                    size = item.size.value+"x"+item.size.value
-                    #self.window.geometry(size)
-                    w.geometry(size)
+                    if item.size.value[0] == "[":
+                        nums = re.findall(r'\d+',item.size.value)
+                        rows = int(nums[0])
+                        columns = int(nums[1])
+                        for i in range(0,columns):
+                            for j in range(0,rows):
+                                text = Text(w)
+                                text.insert(INSERT, "  ")
+                                text.grid(row = j, column = i)
+                                
+                    elif item.size.value[0].isdigit():
+                        size = item.size.value+"x"+item.size.value
+                        w.geometry(size)
+                    else:
+                        if item.size.value.lower() == "large":
+                            w.geometry('500x500')
+                        elif item.size.value.lower() == "small":
+                            w.geomerty('200x200')
         return w
 
     

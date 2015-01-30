@@ -4,3 +4,4 @@
  * defaults
  * 'set'
  * error handling
+ * grid system: specify rows and columns when creating window

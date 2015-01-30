@@ -16,19 +16,33 @@ class ColorRGBValue(str):
 
 class ColorHEXValue(str):
 	grammar = hexRegex
-
+    
+#Positions
+class PositionGridValue(str):
+	grammar = "(", intRegex, ",", intRegex, ")"
+    
+class PositionKeywordValue(Keyword):
+	grammar = Enum(K("bottom"),K("top"), K("middle"), K("left"), K("right"))
+    
+class PositionAttribute:
+    grammar = "position", blank, maybe_some(blank), attr("value", [PositionGridValue,PositionKeywordValue])
+    
+    
 class ColorAttribute:
 	grammar = "color", blank, attr("value", [ColorRGBValue, ColorHEXValue, ColorKeywordValue])
 
 #Sizes
 class SizeKeywordValue(Keyword):
 	grammar = Enum(K("small"),K("large"))
+    
+class SizeGridValue(str):
+	grammar = "(", intRegex, ",", intRegex, ")"
 
 class SizeIntValue(str):
 	grammar = intRegex
 
 class SizeAttribute:
-	grammar = "size", blank, attr("value", [SizeKeywordValue, SizeIntValue])
+	grammar = "size", blank, attr("value", [SizeKeywordValue, SizeIntValue, SizeGridValue])
 
 #Parent window for a Button
 class WindowAttribute:
@@ -48,7 +62,7 @@ class ActionAttribute:
 
 #Wrap as Attribute object and put into AttributeList
 class Attribute:
-	grammar = [attr("color", ColorAttribute), attr("size", SizeAttribute), attr("window",WindowAttribute), attr("text",TextAttribute), attr("action",ActionAttribute), attr("values",MenuValuesAttribute)]
+	grammar = [attr("color", ColorAttribute), attr("size", SizeAttribute), attr("window",WindowAttribute), attr("text",TextAttribute), attr("action",ActionAttribute), attr("values",MenuValuesAttribute), attr("position",PositionAttribute)]
 
 class AttributeList(List):
 	grammar = csl(Attribute)
