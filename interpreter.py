@@ -13,14 +13,14 @@ class Binding:
     varname = None
     bObject = None
     params = None
-    
+
     def __init__(self,bType,varname,bObject,params):
         self.bType = bType
         self.varname = varname
         self.bObject = bObject
         self.params = params
 
-    
+
 
 class Interpreter():
     def __init__(self, target):
@@ -74,10 +74,10 @@ class Interpreter():
 
                     else:
                         self.error("no varname")
-            
-            
-            
-            
+
+
+
+
             #               SET
             elif(expr.__class__.__name__ == "GooeySet"):
                 if hasattr(expr, "varname"):
@@ -94,11 +94,11 @@ class Interpreter():
                     else:
                         self.error("undefined varname")
 
-                        
-                        
-                        
-                        
-                        
+
+
+
+
+
             #               FUNCTIONS
             elif(expr.__class__.__name__ == "FunctionDefinition"):
                 if hasattr(expr, "funcname"):
@@ -128,7 +128,7 @@ class Interpreter():
                     if len(expr.params)>0:
                         print("I GOT PARAMS")
                         #Make set of local bindings
-                        
+
                         #Bind objects passed into parameter with parameter in function
 
                         #Take param being passed in (params), bind to expected param in function
@@ -145,7 +145,7 @@ class Interpreter():
 
                         #need to bind the returned object to the thing that it modified
                         bindings[functionInput.varname] = newB
-                        
+
 
                     else:
                         newBindings = self.runFunction(bindings,function,localBindings)
@@ -159,15 +159,15 @@ class Interpreter():
                 #Get rid of local bindings after
 
         return bindings
-    
-    
-    
-    
-    
 
 
-    
-    
+
+
+
+
+
+
+
     #               WINDOWS
     #Make a window
     def makeWindow(self,w,expr):
@@ -188,7 +188,7 @@ class Interpreter():
                                 text = Text(w)
                                 text.insert(INSERT, "  ")
                                 text.grid(row = j, column = i)
-                        
+
                     elif item.size.value[0].isdigit():
                         size = item.size.value+"x"+item.size.value
                         w.geometry(size)
@@ -216,7 +216,7 @@ class Interpreter():
                                 text = Text(w)
                                 text.insert(INSERT, "  ")
                                 text.grid(row = j, column = i)
-                                
+
                     elif item.size.value[0].isdigit():
                         size = item.size.value+"x"+item.size.value
                         w.geometry(size)
@@ -227,12 +227,12 @@ class Interpreter():
                             w.geomerty('200x200')
         return w
 
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     #               BUTTONS
     #Make a Button
     #Takes in the window the button should be made in and the expression
@@ -247,6 +247,7 @@ class Interpreter():
                     b.configure(bg=item.color.value)
                     print(b.cget('bg'))
                 if hasattr(item, 'text'):
+                    #b.configure(text=item.test.textValue)
                     b.configure(text=item.text.value)
                 elif hasattr(item,'size'):
                     b.configure(width=item.size.value)
@@ -309,11 +310,11 @@ class Interpreter():
 
 
 
-    
-    
 
-    
-        
+
+
+
+
     #               MENUS
     def makeMenu(self,w,expr,bindings):
         rootMenu = None
@@ -327,7 +328,7 @@ class Interpreter():
                 for v in values:
                     if v[0] == '"':
                         vi = Menu(rootMenu)
-                        rootMenu.add_cascade(label=v[1:-1],menu=vi)                    
+                        rootMenu.add_cascade(label=v[1:-1],menu=vi)
             elif hasattr(item, 'text'):
                 print(item.text.value)
             else:
@@ -361,7 +362,7 @@ class Interpreter():
                             for v in item.values.value:
                                 if v[0] == '"':
                                     subMenu.add_command(label=v[1:-1],command=self.runFunction)
-                    menuItem = subMenu            
+                    menuItem = subMenu
                     w.config(menu=bindings[key].bObject)
 
             elif bindings[key].bType == "MenuItem":
@@ -384,11 +385,11 @@ class Interpreter():
 
         return menuItem
 
-    
-    
-    
-    
-    
+
+
+
+
+
     #               HELPER METHODS
     def makeBinding(self,t,v,o,p=[]):
         binding = Binding(t,v,o,p)
@@ -398,7 +399,7 @@ class Interpreter():
     def addBinding(self,b,bindings):
         bindings[b.varname] = b
         return bindings
-    
+
     #Make the binding associated with this function
     #The object will be the parameters passed in and the function action (in a tuple)
     def makeFunction(self,w, expr):
@@ -418,7 +419,7 @@ class Interpreter():
         localAst = parse(funStr,Program)
         newBindings = self.interpret(localAst,localBindings)
         return newBindings
-    
+
     #get list of values, ie: make MenuItem with values [red green blue].
     def getValues(self,expr):
         for item in expr.attributes:
