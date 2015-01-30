@@ -96,8 +96,7 @@ class Interpreter():
                         
                         
             #               FUNCTIONS
-            elif(expr.__class__.__name__ == "Function"):
-
+            elif(expr.__class__.__name__ == "FunctionDefinition"):
                 if hasattr(expr, "funcname"):
                     #Checks bindings to see if function name is already there
                     if expr.funcname.thing in bindings:
@@ -106,19 +105,15 @@ class Interpreter():
                     #If function isn't already defined, add it to bindings
                     else:
                         if hasattr(expr, "params"):
-                            print(type(expr.params))
-                            print("len:", len(expr.params))
-                            print(str(expr.params))
 
                             binding = self.makeBinding("Function", str(expr.funcname.thing), expr.funcaction, expr.params)
                         else:
                             binding = self.makeBinding("Function", str(expr.funcname.thing), expr.funcaction)
                         bindings = self.addBinding(binding,bindings)
-                        print(bindings)
                 else:
                     self.error("Sorry, you need to give your function a name")
 
-            elif(expr.__class__.__name__ == "runFunction"):
+            elif(expr.__class__.__name__ == "FunctionCall"):
                 #Find function with that name
                 function = expr.funcname.thing
                 if function in bindings:
@@ -130,14 +125,14 @@ class Interpreter():
 
                         #Take param being passed in (params), bind to expected param in function
                         #add this to local binding
-                        functionParam = bindings[function]['params'][0]
+                        functionParam = bindings[function].params[0]
                         #functionInput = bindings[functionParam[0]]
                         functionInput = bindings[expr.params[0]] #Assuming only one parameter in
 
-                        b = self.makeBinding(functionInput['type'], functionParam, functionInput['object']) #Here we're setting the type of the local to the thing that we're passing in. This is shitty
+                        b = self.makeBinding(functionInput.bType, functionParam, functionInput.bObject) #Here we're setting the type of the local to the thing that we're passing in. This is shitty
                         localBindings = self.addBinding(b, localBindings)
                         #function we're running
-                        functionCode = bindings[function]['object'] #We need to make this proper gooey code
+                        functionCode = bindings[function].bObject #We need to make this proper gooey code
                         funStr = ''
                         for i in functionCode:
                             funStr = funStr + " " + i
@@ -148,10 +143,10 @@ class Interpreter():
                         #This should only have one thing in it based on how we are running our functions now
                         newBindings = self.interpret(localAst,localBindings)
                         newB = newBindings[functionParam]
-                        newB['varname'] = functionInput['varname']
+                        newB.varname = functionInput.varname
 
                         #need to bind the returned object to the thing that it modified
-                        bindings[functionInput['varname']] = newB
+                        bindings[functionInput.varname] = newB
 
                 else:
                     self.error("This function isn't defined.")
