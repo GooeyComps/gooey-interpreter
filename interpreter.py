@@ -19,7 +19,7 @@ class Binding:
         self.varname = varname
         self.bObject = bObject
         self.params = params
-        print self.params
+
     
 
 class Interpreter():
@@ -120,11 +120,15 @@ class Interpreter():
             elif(expr.__class__.__name__ == "FunctionCall"):
                 #Find function with that name
                 function = expr.funcname.thing
+                print(expr)
                 if function in bindings:
                     #Look at params in the bindings
-                    if hasattr(expr, "params"):
+                    #if hasattr(expr, "params"):
+                    localBindings = dict()
+                    if len(expr.params)>0:
+                        print("I GOT PARAMS")
                         #Make set of local bindings
-                        localBindings = dict()
+                        
                         #Bind objects passed into parameter with parameter in function
 
                         #Take param being passed in (params), bind to expected param in function
@@ -135,22 +139,33 @@ class Interpreter():
 
                         b = self.makeBinding(functionInput.bType, functionParam, functionInput.bObject) #Here we're setting the type of the local to the thing that we're passing in. This is shitty
                         localBindings = self.addBinding(b, localBindings)
-                        #function we're running
-                        functionCode = bindings[function].bObject #We need to make this proper gooey code
-                        funStr = ''
-                        for i in functionCode:
-                            funStr = funStr + " " + i
-                        funStr = funStr[1:] + "."
-                        #parse the function code and pass the parsed code as the ast
-                        localAst = parse(funStr,Program)
-
-                        #This should only have one thing in it based on how we are running our functions now
-                        newBindings = self.interpret(localAst,localBindings)
+                        newBindings = self.runFunction(bindings,function,localBindings)
                         newB = newBindings[functionParam]
                         newB.varname = functionInput.varname
 
                         #need to bind the returned object to the thing that it modified
                         bindings[functionInput.varname] = newB
+                        
+                        #function we're running
+#                    functionCode = bindings[function].bObject #We need to make this proper gooey code
+#                    funStr = ''
+#                    for i in functionCode:
+#                        funStr = funStr + " " + i
+#                    funStr = funStr[1:] + "."
+#                    #parse the function code and pass the parsed code as the ast
+#                    localAst = parse(funStr,Program)
+#                    newBindings = self.interpret(localAst,localBindings)
+                    else:
+                        newBindings = self.runFunction(bindings,function,localBindings)
+#                    if len(expr.params)>0:
+#
+#                        #This should only have one thing in it based on how we are running our functions now
+#                        
+#                        newB = newBindings[functionParam]
+#                        newB.varname = functionInput.varname
+#
+#                        #need to bind the returned object to the thing that it modified
+#                        bindings[functionInput.varname] = newB
 
                 else:
                     self.error("This function isn't defined.")
@@ -409,8 +424,16 @@ class Interpreter():
     #expects "run" then a user defined function name
     #replaces , separating gooey instructions and adds period at end
     #Makes a temporary binding relating to parameters and then gets rid of that parameter
-    def runFunction(self):
-        pass
+    def runFunction(self,bindings,function,localBindings):
+        functionCode = bindings[function].bObject #We need to make this proper gooey code
+        funStr = ''
+        for i in functionCode:
+            funStr = funStr + " " + i
+        funStr = funStr[1:] + "."
+        #parse the function code and pass the parsed code as the ast
+        localAst = parse(funStr,Program)
+        newBindings = self.interpret(localAst,localBindings)
+        return newBindings
     
     #get list of values, ie: make MenuItem with values [red green blue].
     def getValues(self,expr):
