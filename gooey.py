@@ -4,6 +4,7 @@ from tkinter import *
 from statements import *
 from tkinter.scrolledtext import *
 from pypeg2 import *
+import argparse
 
 '''
 Wrapper class for the live preview window
@@ -100,5 +101,27 @@ class TextPad():
 
 
 if __name__ == "__main__":
-    textpad = TextPad()
-    textpad.run()
+    #Create the parser
+    parser = argparse.ArgumentParser()
+    #Parser looks for the optional filename argument
+    parser.add_argument('filename', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
+    args = parser.parse_args()
+    #If the filename argument is something, open the file
+    if args.filename.name!='<stdin>':
+        print("Hi")
+        bindings = dict()
+        preview = GUIWindow()
+        preview.window.withdraw()
+
+        for line in args.filename:
+            ast = parse(line, Program)
+            i = Interpreter(preview.window)
+
+            bindings = i.interpret(ast, bindings)
+            #del i
+        preview.window.mainloop()
+
+    #Otherwise, open our text editor
+    else:
+        textpad = TextPad()
+        textpad.run()

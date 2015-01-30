@@ -34,9 +34,7 @@ class Interpreter():
     def interpret(self, ast, bindings):
         print("Interpreting")
         for expr in ast:
-            
-            
-            
+
             #               MAKE
             if(expr.__class__.__name__ == "Make"):
                 if hasattr(expr, "type"):
