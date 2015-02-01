@@ -44,7 +44,11 @@ class Interpreter():
             #               MAKE
             if(expr.__class__.__name__ == "Make"):
                 if hasattr(expr, "type"):
+                    print("THIS IS THE TYPE")
+                    print(expr.type)
                     if hasattr(expr, "varname"):
+                        print("THIS IS THE VARNAME")
+                        print(expr.varname)
                         if expr.varname.thing in bindings:
                             message = expr.varname.thing, "already defined."
                             self.error(message)
@@ -70,6 +74,11 @@ class Interpreter():
                                 mi = self.makeMenuItem(self.window,expr,bindings)
                                 values = self.getValues(expr)
                                 binding = self.makeBinding("MenuItem", expr.varname.thing, mi, values)
+                                bindings = self.addBinding(binding,bindings)
+
+                            elif (expr.type == "TextBox"):
+                                t = self.makeTextBox(self.window, expr)
+                                binding = self.makeBinding("TextBox", expr.varname.thing, t)
                                 bindings = self.addBinding(binding,bindings)
 
                     else:
@@ -229,7 +238,17 @@ class Interpreter():
 
 
 
-
+    #               TEXT BOX
+    def makeTextBox(self,w,expr):
+        t = Text(w, height=2, width=30)
+        if hasattr(expr, "attributes"):
+            for item in expr.attributes:
+                if hasattr(item, 'text'):
+                    t.insert(END, item.text.value)
+                    t.pack()
+                else:
+                    print("you done goofed")
+        return t
 
 
 
