@@ -45,31 +45,32 @@ class Interpreter():
             if(expr.__class__.__name__ == "Make"):
                 if hasattr(expr, "type"):
                     if hasattr(expr, "varname"):
-                        if expr.varname.thing in bindings:
-                            message = expr.varname.thing, "already defined."
+                        #if expr.varname in bindings:
+                        if expr.varname in bindings:
+                            message = expr.varname, "already defined."
                             self.error(message)
                             break
                         else:
                             if (expr.type == "Window"):
                                 w = self.makeWindow(self.window,expr)
-                                binding = self.makeBinding("Window", expr.varname.thing, w)
+                                binding = self.makeBinding("Window", expr.varname, w)
                                 bindings = self.addBinding(binding, bindings)
 
                             elif (expr.type == "Button"):
                                 b = self.makeButton(self.window,expr)
-                                binding = self.makeBinding("Button", expr.varname.thing, b)
+                                binding = self.makeBinding("Button", expr.varname, b)
                                 bindings = self.addBinding(binding,bindings)
 
                             elif (expr.type == "Menu"):
                                 m = self.makeMenu(self.window,expr,bindings)
                                 values = self.getValues(expr)
-                                binding = self.makeBinding("Menu", expr.varname.thing, m, values)
+                                binding = self.makeBinding("Menu", expr.varname, m, values)
                                 bindings = self.addBinding(binding,bindings)
 
                             elif (expr.type == "MenuItem"):
                                 mi = self.makeMenuItem(self.window,expr,bindings)
                                 values = self.getValues(expr)
-                                binding = self.makeBinding("MenuItem", expr.varname.thing, mi, values)
+                                binding = self.makeBinding("MenuItem", expr.varname, mi, values)
                                 bindings = self.addBinding(binding,bindings)
 
                     else:
@@ -81,8 +82,8 @@ class Interpreter():
             #               SET
             elif(expr.__class__.__name__ == "GooeySet"):
                 if hasattr(expr, "varname"):
-                    if expr.varname.thing in bindings:
-                        obj = bindings[expr.varname.thing]
+                    if expr.varname in bindings:
+                        obj = bindings[expr.varname]
                         #####Should we just be modifying the self.window or should we be searching through the bindings??
                         if obj.bType == "Window":
                             win = obj.bObject
@@ -347,7 +348,7 @@ class Interpreter():
         #check if menu item has already been defined as a child of some other menu or menuitem
         for key in bindings:
             if bindings[key].bType == "Menu":
-                if expr.varname.thing in bindings[key].params:
+                if expr.varname in bindings[key].params:
                     #binding found, add to submenu to rootMenu
                     subMenu = Menu(bindings[key].bObject, tearoff=0)
                     #get the text attribute
@@ -366,7 +367,7 @@ class Interpreter():
                     w.config(menu=bindings[key].bObject)
 
             elif bindings[key].bType == "MenuItem":
-                if expr.varname.thing in bindings[key].params:
+                if expr.varname in bindings[key].params:
                     #binding found, add to submenu to rootMenu
                     subMenu = Menu(bindings[key].bObject)
                     #get the text attribute
