@@ -6,7 +6,7 @@ intRegex = re.compile('\d+')
 hexRegex = re.compile('\#[A-Fa-f0-9]{6}')
 actionPrint = re.compile('"(.*?)"')
 valueRegex = re.compile('\"(.+?)\"|\w+')
-textRegex = re.compile('[^"](.*?)[^"]')
+textRegex = re.compile('[^"\n](.[^"]*)')
 #Colors
 class ColorKeywordValue(Keyword):
 	grammar = Enum(K("red"),K("blue"),K("green"))
