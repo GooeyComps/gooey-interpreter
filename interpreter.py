@@ -77,7 +77,7 @@ class Interpreter():
 
                             elif (expr.type == "TextBox"):
                                 t = self.makeTextBox(self.window, expr)
-                                binding = self.makeBinding("TextBox", expr.varname.thing, t)
+                                binding = self.makeBinding("TextBox", expr.varname, t)
                                 bindings = self.addBinding(binding,bindings)
 
                     else:
@@ -109,32 +109,34 @@ class Interpreter():
 
             #               FUNCTIONS
             elif(expr.__class__.__name__ == "FunctionDefinition"):
+                print("Expr", expr)
                 if hasattr(expr, "funcname"):
                     #Checks bindings to see if function name is already there
-                    if expr.funcname.thing in bindings:
+                    print("Expr", expr.funcaction)
+                    if expr.funcname in bindings:
                         self.error("Sorry, this function name is already used.")
 
                     #If function isn't already defined, add it to bindings
                     else:
+                        print("This is funcaction", expr.funcaction)
                         if hasattr(expr, "params"):
 
-                            binding = self.makeBinding("Function", str(expr.funcname.thing), expr.funcaction, expr.params)
+                            binding = self.makeBinding("Function", str(expr.funcname), expr.funcaction, expr.params)
                         else:
-                            binding = self.makeBinding("Function", str(expr.funcname.thing), expr.funcaction)
+                            binding = self.makeBinding("Function", str(expr.funcname), expr.funcaction)
                         bindings = self.addBinding(binding,bindings)
                 else:
                     self.error("Sorry, you need to give your function a name")
 
             elif(expr.__class__.__name__ == "FunctionCall"):
                 #Find function with that name
-                function = expr.funcname.thing
+                function = expr.funcname
                 print(expr)
                 if function in bindings:
                     #Look at params in the bindings
                     #if hasattr(expr, "params"):
                     localBindings = dict()
                     if len(expr.params)>0:
-                        print("I GOT PARAMS")
                         #Make set of local bindings
 
                         #Bind objects passed into parameter with parameter in function
