@@ -5,7 +5,7 @@ rgbRegex = re.compile('\(\d{1,3}\,\s*\d{1,3}\,\s*\d{1,3}\)')
 intRegex = re.compile('\d+')
 hexRegex = re.compile('\#[A-Fa-f0-9]{6}')
 actionPrint = re.compile('"(.*?)"')
-valueRegex = re.compile('\"(.+?)\"|\w+')
+optionsRegex = re.compile('\"(.+?)\"|\w+')
 textRegex = re.compile('[^"\n](.[^"]*)')
 #Colors
 class ColorKeywordValue(Keyword):
@@ -52,9 +52,9 @@ class WindowAttribute:
 class TextAttribute:
 	grammar = "text", blank, "\"", attr("value", textRegex), "\""
 
-#Menu Values
-class MenuValuesAttribute:
-	grammar = "values", blank, attr("value", maybe_some(valueRegex))
+#Menu Options
+class MenuOptionsAttribute:
+	grammar = "options", blank, attr("options", maybe_some(optionsRegex))
 
 #Button action (name of a function):
 class ActionAttribute:
@@ -62,7 +62,7 @@ class ActionAttribute:
 
 #Wrap as Attribute object and put into AttributeList
 class Attribute:
-	grammar = [attr("color", ColorAttribute), attr("size", SizeAttribute), attr("window",WindowAttribute), attr("text", TextAttribute), attr("action",ActionAttribute), attr("values",MenuValuesAttribute), attr("position",PositionAttribute)]
+	grammar = [attr("color", ColorAttribute), attr("size", SizeAttribute), attr("window",WindowAttribute), attr("text", TextAttribute), attr("action",ActionAttribute), attr("values",MenuOptionsAttribute), attr("position",PositionAttribute)]
 
 class AttributeList(List):
 	grammar = csl(Attribute)

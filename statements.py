@@ -22,7 +22,7 @@ class Line(List):
 	grammar = attr("lineAction", [Make, GooeySet]), ";", blank
 
 class Return(List):
-	grammar = "return", optional(blank, word)
+	grammar = "return", attr("param", optional(blank, word))
 
 class FunctionDefinition(List):
 	# grammar = "function", blank, attr("funcname", VarName), "(", attr("params", \
@@ -37,7 +37,7 @@ class FunctionDefinition(List):
 
 
 class FunctionCall(List):
-    grammar = "run", blank, attr("funcname", VarName), "(", attr("params", csl(maybe_some(word))), ")", "."
+    grammar = "run", blank, attr("funcname", VarName), "(", attr("params", csl(maybe_some(word))), ")"
 
 
 

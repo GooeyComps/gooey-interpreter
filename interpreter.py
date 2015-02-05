@@ -38,8 +38,10 @@ class Interpreter():
         #self.window.destroy()
 
     def interpret(self, ast, bindings):
-        print("Interpreting")
+        print("Interpreting ast", ast)
+        print("type of ast", type(ast))
         for expr in ast:
+            print("This is an expr in the ast", expr)
 
             #               MAKE
             if(expr.__class__.__name__ == "Make"):
@@ -65,14 +67,14 @@ class Interpreter():
 
                             elif (expr.type == "Menu"):
                                 m = self.makeMenu(self.window,expr,bindings)
-                                values = self.getValues(expr)
-                                binding = self.makeBinding("Menu", expr.varname, m, values)
+                                options = self.getOptions(expr)
+                                binding = self.makeBinding("Menu", expr.varname, m, options)
                                 bindings = self.addBinding(binding,bindings)
 
                             elif (expr.type == "MenuItem"):
                                 mi = self.makeMenuItem(self.window,expr,bindings)
-                                values = self.getValues(expr)
-                                binding = self.makeBinding("MenuItem", expr.varname, mi, values)
+                                options = self.getOptions(expr)
+                                binding = self.makeBinding("MenuItem", expr.varname, mi, options)
                                 bindings = self.addBinding(binding,bindings)
 
                             elif (expr.type == "TextBox"):
@@ -113,6 +115,14 @@ class Interpreter():
                 if hasattr(expr, "funcname"):
                     #Checks bindings to see if function name is already there
                     print("Expr", expr.funcaction)
+                    for i in range(len(expr.funcaction)):
+                        print("i",expr.funcaction[i])
+                        b = self.interpret([expr.funcaction[i]], bindings) #this putting i in a list is stupid and Leah fully admits it
+                        # b = self.interpret(expr.funcaction[i], bindings) #this putting i in a list is stupid and Leah fully admits it
+
+                        expr.funcaction[i] = b
+                    print("expr after", expr.funcaction)
+
                     if expr.funcname in bindings:
                         self.error("Sorry, this function name is already used.")
 
@@ -131,10 +141,10 @@ class Interpreter():
             elif(expr.__class__.__name__ == "FunctionCall"):
                 #Find function with that name
                 function = expr.funcname
-                print(expr)
                 if function in bindings:
                     #Look at params in the bindings
                     #if hasattr(expr, "params"):
+                    print(bindings[function])
                     localBindings = dict()
                     if len(expr.params)>0:
                         #Make set of local bindings
@@ -161,8 +171,20 @@ class Interpreter():
                         newBindings = self.runFunction(bindings,function,localBindings)
 
 
+
                 else:
                     self.error("This function isn't defined.")
+
+
+            elif(expr.__class__.__name__ == "Line"):
+                print("It's a line!")
+                print(expr.lineAction)
+                return expr.lineAction
+            elif(expr.__class__.__name__ == "Return"):
+                print("It's a param!")
+                print(expr.param)
+                return expr.param
+
 
                 #Look at parameters in bindings
                 #If there are parameters, make local bindings for them and run function on those
@@ -343,9 +365,9 @@ class Interpreter():
             if type(c).__name__ == "Menu":
                 rootMenu = c
         for item in expr.attributes:
-            if hasattr(item, 'values'):
-                values = item.values.value
-                for v in values:
+            if hasattr(item, 'options'):
+                options = item.options.value
+                for v in options:
                     if v[0] == '"':
                         vi = Menu(rootMenu)
                         rootMenu.add_cascade(label=v[1:-1],menu=vi)
@@ -378,8 +400,8 @@ class Interpreter():
                     bindings[key].bObject.add_cascade(label=subMenuText,menu=subMenu)
 
                     for item in expr.attributes:
-                        if hasattr(item, 'values'):
-                            for v in item.values.value:
+                        if hasattr(item, 'options'):
+                            for v in item.options.value:
                                 if v[0] == '"':
                                     subMenu.add_command(label=v[1:-1],command=self.runFunction)
                     menuItem = subMenu
@@ -397,8 +419,8 @@ class Interpreter():
                     bindings[key].bObject.add_cascade(label=subMenuText,menu=subMenu)
 
                     for item in expr.attributes:
-                        if hasattr(item, 'values'):
-                            for v in item.values.value:
+                        if hasattr(item, 'options'):
+                            for v in item.options.value:
                                 if v[0] == '"':
                                     subMenu.add_command(label=v[1:-1],command=self.runFunction)
                     menuItem = subMenu
@@ -430,20 +452,31 @@ class Interpreter():
     #replaces , separating gooey instructions and adds period at end
     #Makes a temporary binding relating to parameters and then gets rid of that parameter
     def runFunction(self,bindings,function,localBindings):
+        print("\n\n I'm running runFunction!")
         functionCode = bindings[function].bObject #We need to make this proper gooey code
-        funStr = ''
-        for i in functionCode:
-            funStr = funStr + " " + i
-        funStr = funStr[1:] + "."
-        #parse the function code and pass the parsed code as the ast
-        localAst = parse(funStr,Program)
-        newBindings = self.interpret(localAst,localBindings)
-        return newBindings
+        newBindings = localBindings
+        print("New Bindings: ", newBindings)
+        for action in functionCode:
+            print("Here's the action", action)
+            newBindings = self.interpret([action], newBindings)
+            # newBindings = self.interpret(action, newBindings)
 
-    #get list of values, ie: make MenuItem with values [red green blue].
-    def getValues(self,expr):
+            print("New Bindings: ", newBindings)
+        return newBindings
+        # funStr = ''
+        # for i in functionCode:
+        #     funStr = funStr + " " + i
+        # funStr = funStr[1:] + "."
+        # #parse the function code and pass the parsed code as the ast
+        # localAst = parse(funStr,Program)
+        # newBindings = self.interpret(localAst,localBindings)
+        # return newBindings
+
+
+    #get list of options, ie: make MenuItem with options [red green blue].
+    def getOptions(self,expr):
         for item in expr.attributes:
-            if hasattr(item, 'values'):
-                return item.values.value
+            if hasattr(item, 'options'):
+                return item.options.value
             else:
                 return None
