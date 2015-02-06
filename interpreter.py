@@ -2,6 +2,7 @@ from tkinter import *
 from pypeg2 import *
 import actionbuttons
 from statements import *
+import sys
 
 #Binding object has four instance variables
 #bType - the type of object with regards to "Gooey" ex) Window, Button
@@ -36,78 +37,73 @@ class Interpreter():
         button = Button(errorPopup, text="Ok", command=errorPopup.destroy)
         button.pack()
         #self.window.destroy()
+        sys.exit()
 
     def interpret(self, ast, bindings):
         print("Interpreting ast", ast)
         print("type of ast", type(ast))
         for expr in ast:
             print("This is an expr in the ast", expr)
+            
+            
+            
+            #   MAKE
+            if(expr.__class__.__name__ == "MakeWindow"):
+                self.checkVarname(expr,bindings)
+                w = self.makeWindow(self.window,expr)
+                binding = self.makeBinding("Window", expr.varname, w)
+                bindings = self.addBinding(binding, bindings)
+                
+            elif(expr.__class__.__name__ == "MakeButton"):
+                self.checkVarname(expr,bindings)
+                b = self.makeButton(self.window,expr)
+                binding = self.makeBinding("Button", expr.varname, b)
+                bindings = self.addBinding(binding, bindings)
+                
+            elif(expr.__class__.__name__ == "MakeMenu"):
+                self.checkVarname(expr,bindings)
+                m = self.makeMenu(self.window,expr,bindings)
+                options = self.getOptions(expr)
+                binding = self.makeBinding("Menu", expr.varname, m, options)
+                bindings = self.addBinding(binding,bindings)
+                
+            elif(expr.__class__.__name__ == "MakeMenuItem"):
+                self.checkVarname(expr,bindings)
+                mi = self.makeMenuItem(self.window,expr,bindings)
+                options = self.getOptions(expr)
+                binding = self.makeBinding("MenuItem", expr.varname, mi, options)
+                bindings = self.addBinding(binding,bindings)
+        
+            elif(expr.__class__.__name__ == "MakeTextBox"):
+                self.checkVarname(expr,bindings)
+                t = self.makeTextBox(self.window, expr)
+                binding = self.makeBinding("TextBox", expr.varname, t)
+                bindings = self.addBinding(binding,bindings)
+                
+            
+            
+            #   SET
+            elif(expr.__class__.__name__ == "SetWindow"):
+                window = self.getObject(expr,bindings)
+                assert w.bType == 'Window'
+                w = self.setWindow(window,expr)
+                
+            elif(expr.__class__.__name__ == "SetButton"):
+                button = self.getObject(expr,bindings)
+                assert w.bType == 'Button'
+                b = self.setButton(button,expr)
+                
+            elif(expr.__class__.__name__ == "SetMenu"):
+                pass
+                
+            elif(expr.__class__.__name__ == "SetMenuItem"):
+                pass
+        
+            elif(expr.__class__.__name__ == "SetTextBox"):
+                pass
+                
 
-            #               MAKE
-            if(expr.__class__.__name__ == "Make"):
-                if hasattr(expr, "type"):
-                    print("THIS IS THE TYPE")
-                    print(expr.type)
-                    if hasattr(expr, "varname"):
-                        #if expr.varname in bindings:
-                        if expr.varname in bindings:
-                            message = expr.varname, "already defined."
-                            self.error(message)
-                            break
-                        else:
-                            if (expr.type == "Window"):
-                                w = self.makeWindow(self.window,expr)
-                                binding = self.makeBinding("Window", expr.varname, w)
-                                bindings = self.addBinding(binding, bindings)
-
-                            elif (expr.type == "Button"):
-                                b = self.makeButton(self.window,expr)
-                                binding = self.makeBinding("Button", expr.varname, b)
-                                bindings = self.addBinding(binding,bindings)
-
-                            elif (expr.type == "Menu"):
-                                m = self.makeMenu(self.window,expr,bindings)
-                                options = self.getOptions(expr)
-                                binding = self.makeBinding("Menu", expr.varname, m, options)
-                                bindings = self.addBinding(binding,bindings)
-
-                            elif (expr.type == "MenuItem"):
-                                mi = self.makeMenuItem(self.window,expr,bindings)
-                                options = self.getOptions(expr)
-                                binding = self.makeBinding("MenuItem", expr.varname, mi, options)
-                                bindings = self.addBinding(binding,bindings)
-
-                            elif (expr.type == "TextBox"):
-                                t = self.makeTextBox(self.window, expr)
-                                binding = self.makeBinding("TextBox", expr.varname, t)
-                                bindings = self.addBinding(binding,bindings)
-
-                    else:
-                        self.error("no varname")
-
-
-
-
-            #               SET
-            elif(expr.__class__.__name__ == "GooeySet"):
-                if hasattr(expr, "varname"):
-                    if expr.varname in bindings:
-                        obj = bindings[expr.varname]
-                        #####Should we just be modifying the self.window or should we be searching through the bindings??
-                        if obj.bType == "Window":
-                            win = obj.bObject
-                            w = self.setWindow(win,expr)
-                        #elif(expr.type == "Button"):
-                        elif obj.bTypw == "Button":
-                            button = obj.bObject
-                            b = self.setButton(button,self.window,expr)
-                    else:
-                        self.error("undefined varname")
-
-
-
-
-
+                
 
             #               FUNCTIONS
             elif(expr.__class__.__name__ == "FunctionDefinition"):
@@ -364,17 +360,6 @@ class Interpreter():
         for c in children:
             if type(c).__name__ == "Menu":
                 rootMenu = c
-        for item in expr.attributes:
-            if hasattr(item, 'options'):
-                options = item.options.value
-                for v in options:
-                    if v[0] == '"':
-                        vi = Menu(rootMenu)
-                        rootMenu.add_cascade(label=v[1:-1],menu=vi)
-            elif hasattr(item, 'text'):
-                print(item.text.value)
-            else:
-                print("invalid attribute")
         w.config(menu=rootMenu)
         return rootMenu
 
@@ -406,24 +391,6 @@ class Interpreter():
                                     subMenu.add_command(label=v[1:-1],command=self.runFunction)
                     menuItem = subMenu
                     w.config(menu=bindings[key].bObject)
-
-            elif bindings[key].bType == "MenuItem":
-                if expr.varname in bindings[key].params:
-                    #binding found, add to submenu to rootMenu
-                    subMenu = Menu(bindings[key].bObject)
-                    #get the text attribute
-                    subMenuText = "Undefined"
-                    for item in expr.attributes:
-                        if hasattr(item,'text'):
-                            subMenuText = item.text.value
-                    bindings[key].bObject.add_cascade(label=subMenuText,menu=subMenu)
-
-                    for item in expr.attributes:
-                        if hasattr(item, 'options'):
-                            for v in item.options.value:
-                                if v[0] == '"':
-                                    subMenu.add_command(label=v[1:-1],command=self.runFunction)
-                    menuItem = subMenu
 
         return menuItem
 
@@ -477,6 +444,24 @@ class Interpreter():
     def getOptions(self,expr):
         for item in expr.attributes:
             if hasattr(item, 'options'):
+                print item.options.value
                 return item.options.value
             else:
                 return None
+            
+    def checkVarname(self,exp,bindings):
+        if hasattr(exp, "varname"):
+            #if expr.varname in bindings:
+            if exp.varname in bindings:
+                message = exp.varname, "already defined."
+                self.error(message)
+                
+    def getObject(self,exp,bindings):
+        if exp.varname in bindings:
+            return bindings[exp.varname].bObject
+        else:
+            message = exp.varname, "undefined."
+            self.error(message)
+            
+        
+                
