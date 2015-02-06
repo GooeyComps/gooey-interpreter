@@ -3,7 +3,7 @@ from attributes import *
 #Starts with a lowercase letter, can only be one word long,
 #only contain letters, numbers, or underscore
 
-#varnameRegex = re.compile('[a-z][A-Za-z\d\_]*')
+varnameRegex = re.compile('[a-z][A-Za-z\d\_]*')
 '''
 class VarName(str):
 	grammar = varnameRegex
@@ -19,7 +19,7 @@ class GooeySet(List):
 	#grammar = "set", blank, attr("varname", VarName), attr("attributes",AttributeList), "."
 
  	grammar = "set", blank, attr("varname", VarName), attr("attributes",AttributeList)
-'''
+
 class Line(List):
 	grammar = attr("lineAction", [Make, GooeySet]), ";", blank
 
@@ -34,13 +34,13 @@ class FunctionDefinition(List):
 	# csl(maybe_some(word))), ")", blank, "does", blank, attr("funcaction", csl(maybe_some(word))), "."
 	# grammar = "function", blank, attr("funcname", VarName), "(", attr("params", \
 	# csl(maybe_some(word))), ")", blank, "does", blank, attr("funcaction", [Make, GooeySet])
-	grammar = "function", blank, attr("funcname", VarName), "(", attr("params", \
+	grammar = "function", blank, attr("funcname", varnameRegex), "(", attr("params", \
 	csl(maybe_some(word))), ")", blank, "does", blank, attr("funcaction", csl(maybe_some(Line), blank, Return))
 
 
 class FunctionCall(List):
     grammar = "run", blank, attr("funcname", VarName), "(", attr("params", csl(maybe_some(word))), ")"
-
+'''
 
 class MakeWindow(List):
     grammar = ['make','Make'], blank, attr('type', 'Window'), blank, attr('varname', word), optional( 'with', attr('attributes',WindowAttributeList)), '.'

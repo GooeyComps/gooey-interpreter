@@ -444,7 +444,7 @@ class Interpreter():
     def getOptions(self,expr):
         for item in expr.attributes:
             if hasattr(item, 'options'):
-                print item.options.value
+                print(item.options.value)
                 return item.options.value
             else:
                 return None
