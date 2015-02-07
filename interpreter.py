@@ -96,7 +96,11 @@ class Interpreter():
                         #####Should we just be modifying the self.window or should we be searching through the bindings??
                         if obj.bType == "Window":
                             win = obj.bObject
+                            wColorBefore = win.cget('bg')
                             w = self.setWindow(win,expr)
+                            wColorAfter = w.cget('bg')
+                            if wColorBefore != wColorAfter:
+                                bindings = self.fixButtonPadding(wColorAfter,bindings)
                         #elif(expr.type == "Button"):
                         elif obj.bTypw == "Button":
                             button = obj.bObject
@@ -207,6 +211,7 @@ class Interpreter():
         w.deiconify() #Show the window
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
+                #Here is where we need to check our attributes matrix
                 if hasattr(item, 'color'):
                     w.configure(bg=item.color.value)
                 elif hasattr(item,'size'):
@@ -234,6 +239,7 @@ class Interpreter():
     #Set a window
     def setWindow(self,w,expr):
         if hasattr(expr, "attributes"):
+            #here is where we need to check our attributes matrix
             for item in expr.attributes:
                 if hasattr(item, 'color'):
                     #self.window.configure(bg=item.color.value)
@@ -280,8 +286,12 @@ class Interpreter():
     #Takes in the window the button should be made in and the expression
     def makeButton(self,w,expr):
         #b = Button(self.window)
-        b = Button(w, bd=-2)
+        #This is the current background color of the window
+        #We need this to correct for padding issues ont he mac
+        hB = w.cget('bg')
+        b = Button(w, bd=-2, highlightbackground = hB)
         #b.configure(bd=-2)
+
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'color'):
@@ -349,6 +359,12 @@ class Interpreter():
                 #item = a[1]
                 b.configure(command=lambda: actionbuttons.callAction(w,item,action))
         return b
+
+    def fixButtonPadding(self,color,bindings):
+        for i in bindings.keys():
+            if bindings[i].bType == "Button":
+                bindings[i].bObject.configure(highlightbackground = color)
+        return bindings
 
 
 
