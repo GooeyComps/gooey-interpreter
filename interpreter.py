@@ -234,6 +234,11 @@ class Interpreter():
                             w.geometry('500x500')
                         elif item.size.value.lower() == "small":
                             w.geomerty('200x200')
+        else: #set the defaults according to our matrix
+            pass
+
+        #somewhere in here we need to look and error check that there are only
+        #attributes that are supposed to be here
         return w
 
     #Set a window

@@ -1,0 +1,4 @@
+#2/7/15
+When you make a new object, you first need to initialize all of its attributes to defaults
+#then, if the user input attributes, you can override the defaults
+#when setting, you need to check to see if the attributes are legal
