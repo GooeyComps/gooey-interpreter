@@ -31,11 +31,8 @@ matrix = [[DefaultValueA, DefaultValueB],
           [DefaultValueE, DefaultValueF]]
 
 getDefault(typeName, attrName):
-    typeNameStr = 'TypeName.'+typeName
-    attrNameStr = 'AttrName.'+attrName
-    typeIndex = eval(typeNameStr).value
-    attrIndex = eval(attrNameStr).value
-    return matrix[typeIndex][attrIndex]
+    . . .
+
 '''
 
 # Usage:
@@ -61,16 +58,30 @@ for line in range(len(infile_split)):
 progStr = """
 from enum import Enum
 
-# Takes string names of a type and an attribute.
+# Takes string names or int indices of a type and an attribute.
 # Returns None if that type does not have that attribute.
 # Else returns the default value for that attribute.
-getValueFromMatrix(typeName, attrName):
-    #Retrieve indices from type and attribute enums to access the correct entry in the matrix
-    typeNameStr = 'TypeName.'+typeName
-    attrNameStr = 'AttrName.'+attrName
-    typeIndex = eval(typeNameStr).value
-    attrIndex = eval(attrNameStr).value
-    return matrix[typeIndex][attrIndex]
+def getDefault(typeName, attrName):
+    # Determine index of type
+    if type(typeName) == int:
+        typeIndex = typeName
+    elif type(typeName) == str:
+        typeNameStr = 'TypeName.'+typeName
+        typeIndex = eval(typeNameStr).value
+    else:
+        print("Oops, typeName arg is of the wrong type.")
+
+    #Determine index of attribute
+    if type(attrName) == int:
+        attrIndex = attrName
+    elif type(attrName) == str:
+        attrNameStr = 'AttrName.'+attrName
+        attrIndex = eval(attrNameStr).value
+    else:
+        print("Oops, attrName arg is of the wrong type.")
+
+    #Retrieve and return default value for given type and attribute
+    return matrix[attrIndex][typeIndex]
 
 """
 
@@ -81,8 +92,8 @@ class TypeName(Enum):
 
 typeList = []
 typeNum = 0
-for typeName in infile_split[0][1:-1]:
-    progStr += "    " + typeName + " = " + str(typeNum) + "\n"
+for typeName in infile_split[0][1:]:
+    progStr += "    " + typeName.strip() + " = " + str(typeNum) + "\n"
     typeNum += 1
 
 
@@ -95,7 +106,8 @@ attrList = []
 attrNum = 0
 for attrLine in infile_split[1:]:
     attrName = attrLine[0]
-    progStr += "    " + attrName + " = " + str(attrNum) + "\n"
+    progStr += "    " + attrName.strip() + " = " + str(attrNum) + "\n"
+    attrNum += 1
 
 # Construct final matrix of Types/Values/Defaults
 
@@ -104,8 +116,8 @@ outlist = []
 attrNum, typeNum = 0, 0
 for row in infile_split[1:]:
     line = []
-    for col in row[1:-1]:
-        if type(col) == "str":
+    for col in row[1:]:
+        if type(col) == str:
             col = col.strip()
         if not col:
             col = None
@@ -118,12 +130,19 @@ progStr += "["
 for line in outlist:
     progStr += "["
     for item in line:
+        progStr += "'"
         progStr += str(item)
-        progStr += ", "
+        progStr += "', "
     progStr = progStr[:-2]
-    progStr += "]\n"
-progStr = progStr[:-1]
+    progStr += "],\n"
+progStr = progStr[:-2]
 progStr += "]"
+
+progStr += """
+
+NUM_ATTRIBUTES = len(matrix)
+NUM_TYPES = len(matrix[0])
+"""
 
 # Write the completed program string to the output file
 outfile = open(outfile_name, "w")
