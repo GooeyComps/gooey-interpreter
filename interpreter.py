@@ -83,7 +83,10 @@ class Interpreter():
                                 bindings = self.addBinding(binding,bindings)
 
                     else:
-                        self.error("no varname")
+                        self.error("Error: No variable name.")
+                
+                else:
+                    self.error("Error: ")
 
 
 
@@ -192,7 +195,10 @@ class Interpreter():
 
                 #Look at parameters in bindings
                 #If there are parameters, make local bindings for them and run function on those
-                #Get rid of local bindings after
+                #Get rid of local bindings after    
+            else:
+                #Invalid first word
+                self.error("Invalid command. Please start your command with Make, Set, or other valid start commands.")
 
         return bindings
 
