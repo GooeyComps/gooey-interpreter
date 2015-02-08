@@ -81,12 +81,15 @@ class Interpreter():
                                 t = self.makeTextBox(self.window, expr)
                                 binding = self.makeBinding("TextBox", expr.varname, t)
                                 bindings = self.addBinding(binding,bindings)
+                                
+                            else:
+                                self.error("Error: Object not recognized. Make sure to capitalize ")
 
                     else:
                         self.error("Error: No variable name.")
                 
                 else:
-                    self.error("Error: ")
+                    self.error("Error: No type recognized.")
 
 
 
