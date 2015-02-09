@@ -9,4 +9,3 @@ make Button tr with position topright, text "topright".
 make Button bl with position bottomleft, text "bottomleft".
 make Button br with position bottomright, text "bottomright".
 make Button g with position (2,5), text "2x5".
-make TextBox tb with position (1,6), text "1 6".

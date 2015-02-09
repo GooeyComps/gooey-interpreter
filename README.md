@@ -5,7 +5,7 @@
 make Menu m with options file edit view.
 ```
 ```
-make Menu file with text "File", options "Save":saveAction.
+make MenuItem file with text "File", options "Save":saveAction.
 ```
 
 ##Positioning
