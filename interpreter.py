@@ -2,6 +2,7 @@ from tkinter import *
 from pypeg2 import *
 import actionbuttons
 from statements import *
+import matrix
 
 #Binding object has four instance variables
 #bType - the type of object with regards to "Gooey" ex) Window, Button
@@ -208,6 +209,7 @@ class Interpreter():
     #Make a window
     def makeWindow(self,w,expr):
         print("making window")
+        #print(matrix.getDefault("Window","color"))
         w.deiconify() #Show the window
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
@@ -501,3 +503,9 @@ class Interpreter():
                 return item.options.value
             else:
                 return None
+
+    #Consult the matrix and find the default values for an object
+    def getAllDefaults(self, typeName):
+        for i in range(0,14):
+            defaultAttr = matrix.getDefault(typeName, i)
+            #Need to figure out how to return these

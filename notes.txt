@@ -2,3 +2,13 @@
 When you make a new object, you first need to initialize all of its attributes to defaults
 #then, if the user input attributes, you can override the defaults
 #when setting, you need to check to see if the attributes are legal
+
+
+#2/9/15
+
+
+We should probably add error checking to getDefault to check for typos - right now it's just a print statement
+
+CHANGES I'VE MADE:
+in Matrix - the attributes needed to be enumerated
+          - the return statement in getDefault was backwards in terms of indices so i switched htem
