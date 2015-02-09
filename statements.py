@@ -19,9 +19,12 @@ class MakeMenuItem(List):
 
 class MakeTextBox(List):
     grammar = ['make','Make'], blank, attr('type', 'TextBox'), blank, attr('varname', word), optional( 'with', attr('attributes',TextBoxAttributeList)), '.'
+    
+class MakeImage(List):
+    grammar = ['make','Make'], blank, attr('type', 'Image'), blank, attr('varname', word), optional( 'with', attr('attributes',ImageAttributeList)), '.'
 
 class GooeyMake(List):
-	grammar = [MakeWindow, MakeButton, MakeMenu, MakeMenuItem, MakeTextBox]
+	grammar = [MakeWindow, MakeButton, MakeMenu, MakeMenuItem, MakeTextBox, MakeImage]
 	
 	
 class SetWindow(List):
@@ -43,7 +46,7 @@ class GooeySet(List):
 	grammar = [SetWindow, SetButton, SetMenu, SetMenuItem, SetTextBox]
 	
 class Line(List):
-	grammar = attr("lineAction", [MakeWindow, MakeButton, MakeMenu, MakeMenuItem, MakeTextBox, SetWindow, SetButton, SetMenu, SetMenuItem, SetTextBox]), ";", blank
+	grammar = attr("lineAction", [MakeWindow, MakeButton, MakeMenu, MakeMenuItem, MakeTextBox, MakeImage, SetWindow, SetButton, SetMenu, SetMenuItem, SetTextBox]), ";", blank
 	
 class Return(List):
 	grammar = "return", attr("param", optional(blank, word))
@@ -56,7 +59,7 @@ class FunctionCall(List):
     grammar = "run", blank, attr("funcname", varnameRegex), "(", attr("params", csl(maybe_some(word))), ")"
 	
 class Program(List):
-	grammar = maybe_some([MakeWindow, MakeButton, MakeMenu, MakeMenuItem, MakeTextBox, SetWindow, SetButton, SetMenu, SetMenuItem, SetTextBox])
+	grammar = maybe_some([MakeWindow, MakeButton, MakeMenu, MakeMenuItem, MakeTextBox, MakeImage, SetWindow, SetButton, SetMenu, SetMenuItem, SetTextBox])
     
     
 

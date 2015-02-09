@@ -7,6 +7,7 @@ hexRegex = re.compile('\#[A-Fa-f0-9]{6}')
 actionPrint = re.compile('"(.*?)"')
 optionsRegex = re.compile('\"(.+?)\"|\w+')
 textRegex = re.compile('[^"\n](.[^"]*)')
+fileRegex = re.compile('.*\.\w+')
 
 class SizeGridValue(str):
 	grammar = "(", attr("columns", intRegex), ",", attr("rows", intRegex), ")"
@@ -18,15 +19,16 @@ class SizeKeywordValue(Keyword):
 	grammar = Enum(K("small"),K("large"))
     
 class PositionGridValue(str):
-	grammar = "(", attr("x", intRegex), ",", attr("y", intRegex), ")"
-    
-class Text(str):
-	grammar = "\"", word, "\""
-    
-
+	grammar = "(", attr("r", intRegex), ",", attr("c", intRegex), ")"
     
 class PositionKeywordValue(Keyword):
-	grammar = Enum(K("bottom"),K("top"), K("middle"), K("left"), K("right"))
+	grammar = Enum(K("center"), K("top"), K("bottom"), K("left"), K("right"), K("topcenter"), K("bottomcenter"), K("topleft"), K("topright"), K("bottomleft"), K("bottomright"))
+    
+class QuotedText(str):
+	grammar = "\"", some(word), "\""
+    
+class SourceFileText(str):
+	grammar = "\"", fileRegex, "\""
 
 
 #   WINDOW
@@ -53,8 +55,11 @@ class ButtonPositionAttribute(List):
 class ButtonSizeAttribute(List):
     grammar = 'size', blank, attr('value', [intRegex, SizeGridValue])
     
+class ButtonTextAttribute(List):
+    grammar = 'text', blank, attr('value', QuotedText)
+    
 class ButtonAttribute(List):
-    grammar = [attr('color', ButtonColorAttribute), attr('size', ButtonSizeAttribute), attr('position', ButtonPositionAttribute)]
+    grammar = [attr('color', ButtonColorAttribute), attr('size', ButtonSizeAttribute), attr('position', ButtonPositionAttribute), attr('text', ButtonTextAttribute)]
     
 class ButtonAttributeList(List):
     grammar = csl(ButtonAttribute)
@@ -79,7 +84,7 @@ class MenuItemOptionsAttribute(List):
     grammar = 'options', blank, attr('value', maybe_some([word, MenuItemTerminal]))
     
 class MenuItemTextAttribute(List):
-    grammar = 'text', blank, attr('value', Text)
+    grammar = 'text', blank, attr('value', QuotedText)
     
 class MenuItemAttribute(List):
     grammar = [attr('options', MenuItemOptionsAttribute), attr('text', MenuItemTextAttribute)]
@@ -90,11 +95,28 @@ class MenuItemAttributeList(List):
 	
 #   TEXTBOX
 class TextBoxTextAttribute(List):
-    grammar = 'text', blank, attr('value', Text)
+    grammar = 'text', blank, attr('value', QuotedText)
+    
+class TextBoxPositionAttribute(List):
+    grammar = 'position', blank, attr('value', [PositionKeywordValue, PositionGridValue])
     
 class TextBoxAttribute(List):
-    grammar = [attr('options', TextBoxTextAttribute)]
+    grammar = [attr('text', TextBoxTextAttribute), attr('position', TextBoxPositionAttribute)]
     
 class TextBoxAttributeList(List):
     grammar = csl(TextBoxAttribute)
+    
+    
+#   IMAGE
+class ImageSourceAttribute(List):
+    grammar = 'source', blank, attr('value', SourceFileText)
+    
+class ImagePositionAttribute(List):
+    grammar = 'position', blank, attr('value', [PositionKeywordValue, PositionGridValue])
+    
+class ImageAttribute(List):
+    grammar = [attr('source', ImageSourceAttribute), attr('position', ImagePositionAttribute)]
+    
+class ImageAttributeList(List):
+    grammar = csl(ImageAttribute)
 
