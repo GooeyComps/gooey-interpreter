@@ -31,6 +31,11 @@ def findAction(item):
     a = "%s" % action
     return a
 
+def findMenuAction(item):
+    action = str(item.action)
+    a = "%s" % action
+    return a
+
 def callAction(window,item,action):
 
     # print(locals())
