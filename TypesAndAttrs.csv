@@ -1,0 +1,16 @@
+Available Attributes and their Defaults,Window,Button,Checkboxes,RadioButtons,DropDown,Text,FormattedText,TextBox,Menu,MenuItem,Search,Image
+title,"""Untitled Window""","""Untitled Button""","""Untitled Checkboxes""","""Untitled Radio Buttons""","""Untitled Drop Down""",*,*,"""Untitled Text Box""",,"""Untitled Menu Item""",?,?
+options,,,"*""Option 1"" ""Option 2"" ""Option 3""","*""Option 1"" ""Option 2"" ""Option 3""","*""Option 1"" ""Option 2"" ""Option 3""",,,,"""Menu Item 1"" ""Menu Item 2"" ""Menu Item 3""","""Option 1"" ""Option 2"" ""Option 3""",,
+defaultText,,,,,,,,"""Type here""",,,"""Search""",
+position,,T,T,T,T,T,,T,?,,T,T
+size,T,T,?,?,?,?,,T,?,,?,T
+color,white,*,,,,white,,,,,,
+action,T,T,,,,,,,T,,?,
+window,,T,T,T,T,T,,T,T,,T,T
+hidden,False,False,False,False,False,False,,False,False,False,False,False
+font,?,,,,,,Times New Roman,,,,,
+fontSize,?,,,,,,12,,,,,
+textColor,?,,,,,,black,,,,,
+style,?,,,,,,*,,,,,
+source,,,,,,,,,,,,T
+caption,,,,,,,,,,,,"""A Beautiful Image"""

@@ -4,12 +4,12 @@ from attributes import *
 #only contain letters, numbers, or underscore
 
 varnameRegex = re.compile('[a-z][A-Za-z\d\_]*')
-'''
+
 class VarName(str):
 	grammar = varnameRegex
 
 class MakeType(Keyword):
-	grammar = Enum(K("Button"), K("Window"), K("Menu"), K("MenuItem"), K("TextBox"))
+	grammar = Enum(K("Button"), K("Window"), K("Menu"), K("MenuItem"), K("TextBox"), K("Image"))
 
 class Make(List):
 	#grammar = "make", blank, attr("type", MakeType), blank, attr("varname", VarName), optional("with", attr("attributes",AttributeList)), "."
@@ -40,26 +40,8 @@ class FunctionDefinition(List):
 
 class FunctionCall(List):
     grammar = "run", blank, attr("funcname", VarName), "(", attr("params", csl(maybe_some(word))), ")"
-'''
-
-class MakeWindow(List):
-    grammar = ['make','Make'], blank, attr('type', 'Window'), blank, attr('varname', word), optional( 'with', attr('attributes',WindowAttributeList)), '.'
-    
-class MakeButton(List):
-    grammar = ['make','Make'], blank, attr('type', 'Button'), blank, attr('varname', word), optional( 'with', attr('attributes',ButtonAttributeList)), '.'
-
-class MakeMenu(List):
-    grammar = ['make','Make'], blank, attr('type', 'Menu'), blank, attr('varname', word), optional( 'with', attr('attributes',MenuAttributeList)), '.'
-
-class MakeMenuItem(List):
-    grammar = ['make','Make'], blank, attr('type', 'MenuItem'), blank, attr('varname', word), optional( 'with', attr('attributes',MenuItemAttributeList)), '.'
-
-class MakeTextBox(List):
-    grammar = ['make','Make'], blank, attr('type', 'TextBox'), blank, attr('varname', word), optional( 'with', attr('attributes',TextBoxAttributeList)), '.'
 
 
-class Program(List):
-	grammar = maybe_some([MakeWindow, MakeButton, MakeMenu, MakeMenuItem])
-    
-    
 
+	grammar = maybe_some([Make, GooeySet, FunctionDefinition, FunctionCall], ".")
+	#grammar = maybe_some([FunctionDefinition,FunctionCall,InstructionLine])
