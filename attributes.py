@@ -175,17 +175,17 @@ class WindowAttribute:
 #Text
 class TextAttribute:
 	grammar = "text", blank, "\"", attr("value", textRegex), "\""
-  
+
 #TextColor
-class ColorAttribute:
+class TextColorAttribute:
 	grammar = "textColor", blank, attr("value", [ColorRGBValue, ColorHEXValue, ColorKeywordValue])
-    
- 
+
+
 #Title
 class TitleAttribute:
 	grammar = "title", blank, "\"", attr("value", textRegex), "\""
-    
-    
+
+
 #Font
 class FontAttribute:
     grammar = "font", blank, "\"", attr("value", textRegex), "\""
@@ -208,4 +208,3 @@ class Attribute:
 
 class AttributeList(List):
 	grammar = csl(Attribute)
- 

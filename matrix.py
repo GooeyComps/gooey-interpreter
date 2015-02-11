@@ -64,7 +64,7 @@ class TypeName(Enum):
 class AttrName(Enum):
     title = 0
     options = 1
-    defaultText = 2
+    text = 2
     position = 3
     size = 4
     color = 5

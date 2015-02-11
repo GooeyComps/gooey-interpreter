@@ -229,8 +229,8 @@ class Interpreter():
 
 
     #               WINDOWS
-    
-    
+
+
     def makeDefaultWindow(self,w,defaults):
         #Configure the window with defaults
         w.deiconify()
@@ -240,7 +240,7 @@ class Interpreter():
         w.title(defaults['title'])
         w.configure(bg=defaults['color'])
         return w
-        
+
     def makeWindow(self,w,expr):
         '''Makes a window given user attributes.
         It should set anything that the user has not specified to the defaults.'''
@@ -249,11 +249,10 @@ class Interpreter():
         '''
         this item = expr business is part of experimentation
         '''
-        item = expr
+        #Construct the default window
+        defaults = self.getAllDefaults("Window")
+        w = self.makeDefaultWindow(w,defaults)
         if hasattr(expr, "attributes"):
-            defaults = self.getAllDefaults("Window")
-            #Construct the default window
-            w = self.makeDefaultWindow(w,defaults)
 
             windowAttributeList = expr.attributes
             #Go through the attributes sent in in the language
@@ -269,7 +268,7 @@ class Interpreter():
                         #fill cells with empty space somehow, so the user gets a sense of it actually being a grid
                         for i in range(0,columns):
                             for j in range(0,rows):
-                                l = Frame(w, height=100, width=100, bg="red")
+                                l = Frame(w, height=100, width=100)
                                 l.grid(row = j, column = i)
 
                     elif item.size.value[0].isdigit():
@@ -288,15 +287,12 @@ class Interpreter():
                     pass
                 elif hasattr(item, 'textColor'):
                     pass
-        else: #set the defaults according to our matrix
-            pass
-
         #somewhere in here we need to look and error check that there are only
         #attributes that are supposed to be here
         return w
-    
-    
-    
+
+
+
 
     def setWindow(self,w,expr):
         '''Sets window attributes to those specified by the user.'''
@@ -327,7 +323,7 @@ class Interpreter():
                             w.geomerty('200x200')
                 elif hasattr(item, 'title'):
                     w.title(item.title.value)
-               elif hasattr(item, 'font'):
+                elif hasattr(item, 'font'):
                     pass
                 elif hasattr(item, 'fontSize'):
                     pass
@@ -360,17 +356,26 @@ class Interpreter():
 
 
     #               BUTTONS
-    def makeButton(self,w,expr):
-        '''Makes a button by taking in the window the button should be made in
-        and the expression given by the user.'''
+
+    def makeDefaultButton(self, w, defaults):
         #This is the current background color of the window
         #We need this to correct for padding issues on the mac
         hB = w.cget('bg')
-        b = Button(w, bd=-2, highlightbackground = hB)
+        b = Button(w, highlightbackground = hB)
+        #Need to add in position, size, color?
+        b.configure(text=defaults['text'])
+        return b
 
+
+    def makeButton(self,w,expr):
+        '''Makes a button by taking in the window the button should be made in
+        and the expression given by the user.'''
+        defaults = self.getAllDefaults('Button')
+        b = self.makeDefaultButton(w,defaults)
+        r, c = 0, 0
         if hasattr(expr, "attributes"):
-            r, c = 0, 0
-            for item in expr.attributes[0]:
+            buttonAttributeList = expr.attributes
+            for item in buttonAttributeList:
                 if hasattr(item, 'color'):
                     b.configure(bg=item.color.value)
                 if hasattr(item, 'text'):
@@ -413,7 +418,8 @@ class Interpreter():
 
     def setButton(self,b,w,expr):
         '''Sets button based on user attributes.'''
-        for item in expr.attributes[0]:
+        buttonAttributeList = expr.attributes
+        for item in buttonAttributeList:
             if hasattr(item, 'color'):
                 b.configure(bg=item.color.value)
             if hasattr(item, 'text'):
