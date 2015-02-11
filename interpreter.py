@@ -229,56 +229,80 @@ class Interpreter():
 
 
     #               WINDOWS
+    
+    
+    def makeDefaultWindow(self,w,defaults):
+        #Configure the window with defaults
+        w.deiconify()
+        ####NEED TO ADD FONT AND FONTSIZE####
+        ####NEED TO DO textcolor as fg = defaults[textcolor]####
+        ####NEED TO ADD WINDOW SIZE####
+        w.title(defaults['title'])
+        w.configure(bg=defaults['color'])
+        return w
+        
     def makeWindow(self,w,expr):
-        print("MAKING A WINDOW, YOU BEAUTIFUL RAY OF SUNSHINE")
         '''Makes a window given user attributes.
         It should set anything that the user has not specified to the defaults.'''
         #Show the window
-        w.deiconify()
+        #w.deiconify()
         '''
         this item = expr business is part of experimentation
         '''
         item = expr
         if hasattr(expr, "attributes"):
-            print(" HAVE ATTRIBUTES")
-            # windowAttributeList = expr.attributes[0]
-            # for item in windowAttributeList:
-            #Here is where we need to check our attributes matrix
-            if hasattr(item, 'color'):
-                print("I HAVE A COLOR")
-                w.configure(bg=item.color.value)
-            elif hasattr(item,'size'):
-                if hasattr(item.size.value, "columns"):
-                    rows = int(item.size.value.rows)
-                    columns = int(item.size.value.columns)
-                    Interpreter.gRows = rows
-                    Interpreter.gColumns = columns
-                    #fill cells with empty space somehow, so the user gets a sense of it actually being a grid
-                    for i in range(0,columns):
-                        for j in range(0,rows):
-                            l = Frame(w, height=100, width=100, bg="red")
-                            l.grid(row = j, column = i)
+            defaults = self.getAllDefaults("Window")
+            #Construct the default window
+            w = self.makeDefaultWindow(w,defaults)
 
-                elif item.size.value[0].isdigit():
-                    size = item.size.value+"x"+item.size.value
-                    w.geometry(size)
-                else:
-                    if item.size.value.lower() == "large":
-                        w.geometry('500x500')
-                    elif item.size.value.lower() == "small":
-                        w.geomerty('200x200')
+            windowAttributeList = expr.attributes
+            #Go through the attributes sent in in the language
+            for item in windowAttributeList:
+                if hasattr(item, 'color'):
+                    w.configure(bg=item.color.value)
+                elif hasattr(item,'size'):
+                    if hasattr(item.size.value, "columns"):
+                        rows = int(item.size.value.rows)
+                        columns = int(item.size.value.columns)
+                        Interpreter.gRows = rows
+                        Interpreter.gColumns = columns
+                        #fill cells with empty space somehow, so the user gets a sense of it actually being a grid
+                        for i in range(0,columns):
+                            for j in range(0,rows):
+                                l = Frame(w, height=100, width=100, bg="red")
+                                l.grid(row = j, column = i)
+
+                    elif item.size.value[0].isdigit():
+                        size = item.size.value+"x"+item.size.value
+                        w.geometry(size)
+                    else:
+                        if item.size.value.lower() == "large":
+                            w.geometry('500x500')
+                        elif item.size.value.lower() == "small":
+                            w.geomerty('200x200')
+                elif hasattr(item, 'title'):
+                    w.title(item.title.value)
+                elif hasattr(item, 'font'):
+                    pass
+                elif hasattr(item, 'fontSize'):
+                    pass
+                elif hasattr(item, 'textColor'):
+                    pass
         else: #set the defaults according to our matrix
             pass
 
         #somewhere in here we need to look and error check that there are only
         #attributes that are supposed to be here
         return w
+    
+    
+    
 
     def setWindow(self,w,expr):
         '''Sets window attributes to those specified by the user.'''
         if hasattr(expr, "attributes"):
             #here is where we need to check our attributes matrix
-            for item in expr.attributes[0]:
+            for item in expr.attributes:
                 if hasattr(item, 'color'):
                     #self.window.configure(bg=item.color.value)
                     w.configure(bg=item.color.value)
@@ -301,6 +325,14 @@ class Interpreter():
                             w.geometry('500x500')
                         elif item.size.value.lower() == "small":
                             w.geomerty('200x200')
+                elif hasattr(item, 'title'):
+                    w.title(item.title.value)
+               elif hasattr(item, 'font'):
+                    pass
+                elif hasattr(item, 'fontSize'):
+                    pass
+                elif hasattr(item, 'textColor'):
+                    pass
         return w
 
 
@@ -557,9 +589,12 @@ class Interpreter():
 
     #Consult the matrix and find the default values for an object
     def getAllDefaults(self, typeName):
+        defaults = {}
         for i in range(0,14):
             defaultAttr = matrix.getDefault(typeName, i)
+            defaults[matrix.AttrName(i).name] = defaultAttr
             #Need to figure out how to return these
+        return defaults
 
     def checkVarname(self,exp,bindings):
         if hasattr(exp, "varname"):

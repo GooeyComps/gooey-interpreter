@@ -175,6 +175,24 @@ class WindowAttribute:
 #Text
 class TextAttribute:
 	grammar = "text", blank, "\"", attr("value", textRegex), "\""
+  
+#TextColor
+class ColorAttribute:
+	grammar = "textColor", blank, attr("value", [ColorRGBValue, ColorHEXValue, ColorKeywordValue])
+    
+ 
+#Title
+class TitleAttribute:
+	grammar = "title", blank, "\"", attr("value", textRegex), "\""
+    
+    
+#Font
+class FontAttribute:
+    grammar = "font", blank, "\"", attr("value", textRegex), "\""
+
+#Fontsize
+class FontSizeAttribute:
+    grammar = "fontSize", blank, attr("value", intRegex)
 
 #Menu Options
 class MenuOptionsAttribute:
@@ -186,7 +204,7 @@ class ActionAttribute:
 
 #Wrap as Attribute object and put into AttributeList
 class Attribute:
-	grammar = [attr("color", ColorAttribute), attr("size", SizeAttribute), attr("window",WindowAttribute), attr("text", TextAttribute), attr("action",ActionAttribute), attr("options",MenuOptionsAttribute), attr("position",PositionAttribute)]
+	grammar = [attr("title", TitleAttribute), attr("color", ColorAttribute), attr("size", SizeAttribute), attr("window",WindowAttribute), attr("text", TextAttribute), attr("action",ActionAttribute), attr("options",MenuOptionsAttribute), attr("position",PositionAttribute), attr("font", FontAttribute), attr("fontSize", FontSizeAttribute), attr("textColor", TextColorAttribute)]
 
 class AttributeList(List):
 	grammar = csl(Attribute)

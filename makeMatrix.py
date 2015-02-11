@@ -39,8 +39,8 @@ getDefault(typeName, attrName):
 # python makeMatrix.py "InputFilename.csv" "OutputFilename.py"
 
 if (len(sys.argv)) < 3:
-    infile_name = raw_input("Input Filename: ")
-    outfile_name = raw_input("Output Filename: ")
+    infile_name = input("Input Filename: ")
+    outfile_name = input("Output Filename: ")
 else:
     infile_name = sys.argv[1]
     outfile_name = sys.argv[2]

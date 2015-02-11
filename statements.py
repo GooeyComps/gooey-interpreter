@@ -13,7 +13,7 @@ class MakeType(Keyword):
 
 class Make(List):
 	#grammar = "make", blank, attr("type", MakeType), blank, attr("varname", VarName), optional("with", attr("attributes",AttributeList)), "."
-	grammar = "make", blank, attr("type", MakeType), blank, attr("varname", VarName), optional("with", attr("attributes",AttributeList))
+	grammar = "make", blank, attr("type", MakeType), blank, attr("varname", VarName), optional(blank, "with", blank, attr("attributes",AttributeList))
 
 class GooeySet(List):
 	#grammar = "set", blank, attr("varname", VarName), attr("attributes",AttributeList), "."
