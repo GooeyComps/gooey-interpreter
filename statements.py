@@ -34,14 +34,14 @@ class FunctionDefinition(List):
 	# csl(maybe_some(word))), ")", blank, "does", blank, attr("funcaction", csl(maybe_some(word))), "."
 	# grammar = "function", blank, attr("funcname", VarName), "(", attr("params", \
 	# csl(maybe_some(word))), ")", blank, "does", blank, attr("funcaction", [Make, GooeySet])
-	grammar = "function", blank, attr("funcname", varnameRegex), "(", attr("params", \
-	csl(maybe_some(word))), ")", blank, "does", blank, attr("funcaction", csl(maybe_some(Line), blank, Return))
+	grammar = "function", blank, attr("funcname", varnameRegex), "(", optional(attr("params", \
+	word)), ")", blank, "does", blank, attr("funcaction", csl(maybe_some(Line), blank, Return))
 
 
 class FunctionCall(List):
     grammar = "run", blank, attr("funcname", VarName), "(", attr("params", csl(maybe_some(word))), ")"
 
 
-
+class Program(List):
 	grammar = maybe_some([Make, GooeySet, FunctionDefinition, FunctionCall], ".")
 	#grammar = maybe_some([FunctionDefinition,FunctionCall,InstructionLine])

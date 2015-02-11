@@ -230,36 +230,43 @@ class Interpreter():
 
     #               WINDOWS
     def makeWindow(self,w,expr):
+        print("MAKING A WINDOW, YOU BEAUTIFUL RAY OF SUNSHINE")
         '''Makes a window given user attributes.
         It should set anything that the user has not specified to the defaults.'''
         #Show the window
         w.deiconify()
+        '''
+        this item = expr business is part of experimentation
+        '''
+        item = expr
         if hasattr(expr, "attributes"):
-            windowAttributeList = expr.attributes[0]
-            for item in windowAttributeList:
-                #Here is where we need to check our attributes matrix
-                if hasattr(item, 'color'):
-                    w.configure(bg=item.color.value)
-                elif hasattr(item,'size'):
-                    if hasattr(item.size.value, "columns"):
-                        rows = int(item.size.value.rows)
-                        columns = int(item.size.value.columns)
-                        Interpreter.gRows = rows
-                        Interpreter.gColumns = columns
-                        #fill cells with empty space somehow, so the user gets a sense of it actually being a grid
-                        for i in range(0,columns):
-                            for j in range(0,rows):
-                                l = Frame(w, height=100, width=100, bg="red")
-                                l.grid(row = j, column = i)
+            print(" HAVE ATTRIBUTES")
+            # windowAttributeList = expr.attributes[0]
+            # for item in windowAttributeList:
+            #Here is where we need to check our attributes matrix
+            if hasattr(item, 'color'):
+                print("I HAVE A COLOR")
+                w.configure(bg=item.color.value)
+            elif hasattr(item,'size'):
+                if hasattr(item.size.value, "columns"):
+                    rows = int(item.size.value.rows)
+                    columns = int(item.size.value.columns)
+                    Interpreter.gRows = rows
+                    Interpreter.gColumns = columns
+                    #fill cells with empty space somehow, so the user gets a sense of it actually being a grid
+                    for i in range(0,columns):
+                        for j in range(0,rows):
+                            l = Frame(w, height=100, width=100, bg="red")
+                            l.grid(row = j, column = i)
 
-                    elif item.size.value[0].isdigit():
-                        size = item.size.value+"x"+item.size.value
-                        w.geometry(size)
-                    else:
-                        if item.size.value.lower() == "large":
-                            w.geometry('500x500')
-                        elif item.size.value.lower() == "small":
-                            w.geomerty('200x200')
+                elif item.size.value[0].isdigit():
+                    size = item.size.value+"x"+item.size.value
+                    w.geometry(size)
+                else:
+                    if item.size.value.lower() == "large":
+                        w.geometry('500x500')
+                    elif item.size.value.lower() == "small":
+                        w.geomerty('200x200')
         else: #set the defaults according to our matrix
             pass
 
@@ -517,16 +524,16 @@ class Interpreter():
     #Makes a temporary binding relating to parameters and then gets rid of that parameter
     def runFunction(self,bindings,function,localBindings):
         #Run function should create local bindings maybe?????????????????
-        print("\n\n I'm running runFunction!")
+        #print("\n\n I'm running runFunction!")
         functionCode = bindings[function].bObject #We need to make this proper gooey code
         newBindings = localBindings
-        print("New Bindings: ", newBindings)
+        #print("New Bindings: ", newBindings)
         for action in functionCode:
-            print("Here's the action", action)
+            #print("Here's the action", action)
             newBindings = self.interpret([action], newBindings)
             # newBindings = self.interpret(action, newBindings)
 
-            print("New Bindings: ", newBindings)
+            #print("New Bindings: ", newBindings)
         return newBindings
         # funStr = ''
         # for i in functionCode:
