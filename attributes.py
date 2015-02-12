@@ -124,9 +124,56 @@ class ImageAttribute(List):
 class ImageAttributeList(List):
     grammar = csl(ImageAttribute)
 
+#   TEXT (LABELS)
+class TextTextAttribute(List):
+    grammar = 'text', blank, attr('value', QuotedText)
 
+class TextPositionAttribute(List):
+    grammar = 'position', blank, attr('value', [PositionKeywordValue, PositionGridValue])
+
+class TextColorAttribute(List):
+    grammar = 'color', blank, attr('value', [rgbRegex, hexRegex, ColorKeywordValue])
+
+class TextLabelAttribute(List):
+    grammar = [attr('text', TextTextAttribute), attr('position', TextPositionAttribute), attr('color', TextColorAttribute)]
+
+class TextLabelAttributeList(List):
+    grammar = csl(TextLabelAttribute)
+
+#   CHECKBOXES
+class CheckboxesOptionsAttribute(List):
+    grammar = 'options', blank, attr('options', some(optional("*"), QuotedText))
+
+class CheckboxesTitleAttribute(List):
+    grammar = 'title', blank, attr('title', QuotedText)
+
+class CheckboxesPositionAttribute(List):
+    grammar = 'position', blank, attr('value', [PositionKeywordValue, PositionGridValue])
+
+class CheckboxesAttribute(List):
+    grammar = [attr('options', CheckboxesOptionsAttribute), attr('position', CheckboxesPositionAttribute), attr('title', CheckboxesTitleAttribute)]
+
+class CheckboxesAttributeList(List):  
+    grammar = csl(CheckboxesAttribute)
+
+#  RADIOBUTTONS
+class RadioButtonsOptionsAttribute(List):
+    grammar = 'options', blank, attr('options', some(optional("*"), QuotedText))
+
+class RadioButtonsTitleAttribute(List):
+    grammar = 'title', blank, attr('title', QuotedText)
+
+class RadioButtonsPositionAttribute(List):
+    grammar = 'position', blank, attr('value', [PositionKeywordValue, PositionGridValue])
+
+class RadioButtonsAttribute(List):
+    grammar = [attr('title', RadioButtonsTitleAttribute), attr('options', RadioButtonsOptionsAttribute), attr('position', RadioButtonsPositionAttribute)]
+
+class RadioButtonsAttributeList(List):  
+    grammar = csl(RadioButtonsAttribute)
+    
 class AttributeList(List):
-    grammar = [WindowAttributeList, ButtonAttributeList, MenuAttributeList, MenuItemAttributeList, TextBoxAttributeList, ImageAttributeList]
+    grammar = [WindowAttributeList, ButtonAttributeList, MenuAttributeList, MenuItemAttributeList, TextBoxAttributeList, TextLabelAttributeList, ImageAttributeList, CheckboxesAttributeList, RadioButtonsAttributeList]
 
 '''
 #Various regex to catch different value types
@@ -206,5 +253,5 @@ class ActionAttribute:
 class Attribute:
 	grammar = [attr("title", TitleAttribute), attr("color", ColorAttribute), attr("size", SizeAttribute), attr("window",WindowAttribute), attr("text", TextAttribute), attr("action",ActionAttribute), attr("options",MenuOptionsAttribute), attr("position",PositionAttribute), attr("font", FontAttribute), attr("fontSize", FontSizeAttribute), attr("textColor", TextColorAttribute)]
 
-class AttributeList(List):
-	grammar = csl(Attribute)
+# class AttributeList(List):
+# 	grammar = csl(Attribute)
