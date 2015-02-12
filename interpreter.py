@@ -294,8 +294,9 @@ class Interpreter():
 
 		return bindings
 
-
-
+    #               CHECKBOXES
+    def makeDefaultCheckboxes(self,w,defaults):
+        pass
 
 	def makeCheckboxes(self,w,expr,i,num, r, c):
 		r = r + num + 1
@@ -303,14 +304,19 @@ class Interpreter():
 		op = Checkbutton(w, text=i, variable=str(num), anchor=W)
 		op.grid(row=r, column=c, sticky=N+S+E+W)
 		return op
-
+    #               RADIOBUTTONS
+    def makeDefaultRadioButtons(self,w,defaults):
+        pass
+    
 	def makeRadioButtons(self,w,expr,i,num, r, c):
 		r = r + num + 1
 		i = self.extractTextValue(i)
 		gg = Radiobutton(w, text=i, variable=self.var, value=num, anchor=W)
 		gg.grid(row=r, column=c, sticky=N+S+E+W)
 		return gg
-
+    #               TEXT
+    def makeDefaultText(self,w,defaults):
+        pass
 	def makeText(self,w,expr):
 		tl = Label(w, text="Text")
 		r, c = 0, 0
@@ -700,7 +706,7 @@ class Interpreter():
 	#Consult the matrix and find the default values for an object
 	def getAllDefaults(self, typeName):
 		defaults = {}
-		for i in range(0,14):
+		for i in range(0,matrix.NUM_ATTRIBUTES):
 			defaultAttr = matrix.getDefault(typeName, i)
 			defaults[matrix.AttrName(i).name] = defaultAttr
 			#Need to figure out how to return these
