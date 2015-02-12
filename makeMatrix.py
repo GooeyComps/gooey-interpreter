@@ -39,8 +39,8 @@ getDefault(typeName, attrName):
 # python makeMatrix.py "InputFilename.csv" "OutputFilename.py"
 
 if (len(sys.argv)) < 3:
-    infile_name = input("Input Filename: ")
-    outfile_name = input("Output Filename: ")
+    infile_name = raw_input("Input Filename: ")
+    outfile_name = raw_input("Output Filename: ")
 else:
     infile_name = sys.argv[1]
     outfile_name = sys.argv[2]
@@ -116,7 +116,7 @@ outlist = []
 attrNum, typeNum = 0, 0
 for row in infile_split[1:]:
     line = []
-    for col in row[1:]:
+    for col in row[1:-1]:
         if type(col) == str:
             col = col.strip()
         if not col:
@@ -130,9 +130,10 @@ progStr += "["
 for line in outlist:
     progStr += "["
     for item in line:
-        progStr += "'"
+#        progStr += "'"
         progStr += str(item)
-        progStr += "', "
+#        progStr += "'"
+        progStr += ", "
     progStr = progStr[:-2]
     progStr += "],\n"
 progStr = progStr[:-2]
