@@ -55,16 +55,29 @@
 <h2>Language Basics<a class="headerlink" href="#language-basics" title="Permalink to this headline">¶</a></h2>
 <p>The Gooey GUI language was designed to be easy! Our goal was to make coding look less like code, and more like an English sentence. There are a few basic rules to follow, and then you’ll be on your way.</p>
 <p>Normally, each line starts with either <strong>make</strong> or <strong>set</strong>.</p>
-<p>Each line of Gooey <strong>ends with a period</strong>.</p>
-<p>You can use the <em>make</em> command to create and add new elements to your GUI.</p>
+<p>As Gooey attempts to simulate english, each line of Gooey <strong>ends with a period</strong>.</p>
 </div>
 <div class="section" id="make-commands">
 <h2>Make Commands<a class="headerlink" href="#make-commands" title="Permalink to this headline">¶</a></h2>
+<p>You can use the <em>make</em> command to create and add new elements to your GUI.</p>
 <p><em>make</em> commands always have the same basic syntax. Typing:</p>
 <div class="highlight-python"><div class="highlight"><pre>make Object name.
 </pre></div>
 </div>
 <p>will create a new object of the given type with its default values.</p>
+<p>Alternatively, the syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre>make OBJECT NAME with
+ATTRIBUTE value.
+</pre></div>
+</div>
+<p>will create the object with most of the defaults, with one attribute modification that you specify.</p>
+<p>You can add as many attributes as you want in the <em>make</em> command, by <strong>separating the attributes with commas</strong>. The syntax this time might look like:</p>
+<div class="highlight-python"><div class="highlight"><pre>make OBJECT NAME with
+ATTRIBUTE VALUE,
+ATTRIBUTE VALUE,
+ATTRIBUTE VALUE.
+</pre></div>
+</div>
 <p>The command <em>make</em> is always followed by the type of <strong>object</strong> you want to make. Types of objects always start with capital letters and might include:</p>
 <ul class="simple">
 <li>Window</li>
@@ -75,9 +88,21 @@
 </ul>
 <p>And so on.</p>
 </div>
+<div class="section" id="set-commands">
+<h2>Set Commands<a class="headerlink" href="#set-commands" title="Permalink to this headline">¶</a></h2>
+<p>If you choose to use the live Gooey editor, you might want to modify your objects after making them. <em>set</em> commands allow you to change any attributes for objects you have already created.</p>
+<p>The <em>set</em> command syntax is:</p>
+<div class="highlight-python"><div class="highlight"><pre>set NAME ATTRIBUTE VALUE.
+</pre></div>
+</div>
+<p>You can also set multiple attributes of a single objects by using commas:</p>
+<div class="highlight-python"><div class="highlight"><pre>set NAME ATTRIBUTE VALUE, ATTRIBUTE VALUE, ATTRIBUTE VALUE.
+</pre></div>
+</div>
+</div>
 <div class="section" id="variable-names">
 <h2>Variable Names<a class="headerlink" href="#variable-names" title="Permalink to this headline">¶</a></h2>
-<p>After the object comes the <strong>name</strong>. Your object has to start with a lowercase letter, be only one word long, and contain only letters, numbers, or underscore _.
+<p>After the object comes the <strong>variable name</strong>. Your object has to start with a lowercase letter, be only one word long, and contain only letters, numbers, or underscore _.
 Valid variable names include:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">myvariable</span></code></li>
@@ -105,30 +130,9 @@ Valid variable names include:</p>
 </ul>
 <p>Some objects may have additional unique attributes.</p>
 <p>There are a lot of attributes where commonly desired <strong>values</strong> are preset for you, like the <em>size</em> attribute has default values of <em>small</em>, <em>medium</em>, and <em>large</em>. However, for your custom needs, you can also set your own size numerically. So, <code class="docutils literal"><span class="pre">size</span> <span class="pre">large</span></code> and <code class="docutils literal"><span class="pre">size</span> <span class="pre">455</span></code> are both legal ways to define the size.</p>
-<p>You can also modify the default attributes as you make an object.  The syntax:</p>
-<div class="highlight-python"><div class="highlight"><pre>make OBJECT NAME with
-ATTRIBUTE value.
-</pre></div>
 </div>
-<p>will create the object with most of the defaults, with one attribute modification that you specify.</p>
-<p>You can add as many attributes as you want in the <em>make</em> command, by separating the attributes with commas. The syntax this time might look like:</p>
-<div class="highlight-python"><div class="highlight"><pre>make OBJECT NAME with
-ATTRIBUTE VALUE,
-ATTRIBUTE VALUE,
-ATTRIBUTE VALUE.
-</pre></div>
-</div>
-<p>The <em>set</em> command syntax is:</p>
-<div class="highlight-python"><div class="highlight"><pre>set NAME ATTRIBUTE VALUE.
-</pre></div>
-</div>
-<p>You can also set multiple attributes of a single objects by using commas:</p>
-<div class="highlight-python"><div class="highlight"><pre>set NAME ATTRIBUTE VALUE, ATTRIBUTE VALUE, ATTRIBUTE VALUE.
-
-Syntax Example
-==============
-</pre></div>
-</div>
+<div class="section" id="syntax-example">
+<h2>Syntax Example<a class="headerlink" href="#syntax-example" title="Permalink to this headline">¶</a></h2>
 <p><strong>In summary</strong>, to create a button, say:</p>
 <div class="highlight-python"><div class="highlight"><pre>make Button mybutton.
 </pre></div>
@@ -142,10 +146,9 @@ text “Yes”.
 <div class="highlight-python"><div class="highlight"><pre>make Button mybutton with
 text “Yes”,
 size large.
-
-Now you’re ready to start making your own Gooey GUI!
 </pre></div>
 </div>
+<p>Now you’re ready to start making your own Gooey GUI!</p>
 </div>
 </div>
 
@@ -160,8 +163,10 @@ Now you’re ready to start making your own Gooey GUI!
 <li><a class="reference internal" href="#">Getting Started</a><ul>
 <li><a class="reference internal" href="#language-basics">Language Basics</a></li>
 <li><a class="reference internal" href="#make-commands">Make Commands</a></li>
+<li><a class="reference internal" href="#set-commands">Set Commands</a></li>
 <li><a class="reference internal" href="#variable-names">Variable Names</a></li>
 <li><a class="reference internal" href="#attributes-and-values">Attributes and Values</a></li>
+<li><a class="reference internal" href="#syntax-example">Syntax Example</a></li>
 </ul>
 </li>
 </ul>
