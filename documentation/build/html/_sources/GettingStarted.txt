@@ -105,28 +105,3 @@ And to create a big button with the words “Yes”, you would type::
  size large. 
  
  Now you’re ready to start making your own Gooey GUI!
- 
-Using Gooey
-===========
-
-To start using Gooey, go to the terminal and navigate to the project folder. Type in the terminal::
-
- python3 gooey.py
-
-Your Gooey editor will appear.
-
-.. image:: images/gooeyeditor.png
-
-You can now enter the Gooey language into the editor. 
-
-To start, make an empty window. Type in the editor::
-
- make Window w. 
- 
-When you’re ready to run your GUI, go to the *File* menu and select *Run*. 
- 
-.. image:: images/run.png
- 
- 
-
-
