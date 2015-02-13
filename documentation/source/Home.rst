@@ -1,6 +1,6 @@
-====
-Home
-====
+=====
+About
+=====
 
 Hello and welcome to Gooey Docs!
 
