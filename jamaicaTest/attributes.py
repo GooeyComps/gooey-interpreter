@@ -54,7 +54,8 @@ class ActionAttribute(List):
     grammar = 'action', blank, attr("value", word)
 
 class TitleAttribute(List):
-    grammar = 'title', blank, attr('title', QuotedText)
+    #grammar = 'title', blank, attr('value', QuotedText)
+	grammar = "title", blank, "\"", attr("value", textRegex), "\""
 
 #Font
 class FontAttribute:
