@@ -2,12 +2,6 @@
 Getting Started
 ===============
 
-
-What is Gooey?
-==============
-
-Gooey is a tool for quick and easy creation of Graphical User Interfaces (GUIs). A GUI is the layout of an application - the buttons, the menus, the style, and so on. GUIs are notoriously troublesome to make, even for experienced programmers. The language was designed for people who have very little experience coding, and so is designed to look more like an English sentence than long blocks of code. 
-
 Language Basics
 ===============
 
@@ -19,6 +13,8 @@ Each line of Gooey **ends with a period**.
 
 You can use the *make* command to create and add new elements to your GUI. 
 
+Make Commands
+=============
 
 *make* commands always have the same basic syntax. Typing::
  
@@ -40,6 +36,9 @@ The command *make* is always followed by the type of **object** you want to make
 
 And so on.
 
+Variable Names
+==============
+
 After the object comes the **name**. Your object has to start with a lowercase letter, be only one word long, and contain only letters, numbers, or underscore _. 
 Valid variable names include:
 
@@ -55,6 +54,20 @@ These variable names are NOT valid:
 - ``MyVariable``
 - ``mINE!``
 - ``\(^-^)/``
+
+Attributes and Values
+=====================
+
+**Attributes** are a variety of customizable components of your object.  Common attributes include:
+
+- size
+- color
+- text
+- position
+
+Some objects may have additional unique attributes.
+
+There are a lot of attributes where commonly desired **values** are preset for you, like the *size* attribute has default values of *small*, *medium*, and *large*. However, for your custom needs, you can also set your own size numerically. So, ``size large`` and ``size 455`` are both legal ways to define the size. 
 
 You can also modify the default attributes as you make an object.  The syntax::
 
@@ -78,27 +91,19 @@ You can also set multiple attributes of a single objects by using commas::
 
  set NAME ATTRIBUTE VALUE, ATTRIBUTE VALUE, ATTRIBUTE VALUE.
  
-**Attributes** are a variety of customizable components of your object.  Common attributes include:
+ Syntax Example
+ ==============
 
-- size
-- color
-- text
-- position
-
-Some objects may have additional unique attributes.
-
-There are a lot of attributes where commonly desired **values** are preset for you, like the *size* attribute has default values of *small*, *medium*, and *large*. However, for your custom needs, you can also set your own size numerically. So, ``size large`` and ``size 455`` are both legal ways to define the size. 
-
-**In summary**, to create a button you would say::
+**In summary**, to create a button, say::
 
  make Button mybutton.
     
-To create a button with the words “Yes” on it, you would type::
+To create a button with the words “Yes” on it, type::
 
  make Button mybutton with 
  text “Yes”.
  
-And to create a big button with the words “Yes”, you would type::
+And to create a big button with the words “Yes”, type::
 
  make Button mybutton with 
  text “Yes”, 

@@ -48,31 +48,86 @@
   <div class="section" id="objects">
 <h1>Objects<a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h1>
 <p>Objects are the builing blocks of your GUI. Each object has a differnet set of uses, attributes, and functions.</p>
-<div class="toctree-wrapper compound">
-<ul class="simple">
-</ul>
-</div>
 <div class="section" id="button">
 <h2>Button<a class="headerlink" href="#button" title="Permalink to this headline">¶</a></h2>
-<p>A button is</p>
+<p>A button is a clickable object.</p>
+<p>Example syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Button b.
+make Button b with text &quot;Hello&quot;.
+make Button b with text &quot;Hello&quot;, position (3,5).
+set b action close.
+</pre></div>
+</div>
 </div>
 <div class="section" id="window">
 <h2>Window<a class="headerlink" href="#window" title="Permalink to this headline">¶</a></h2>
+<p>A window is the frame on which you create your GUI. The window is <strong>always the first object you make</strong>.</p>
+<p>Example syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Window w with size (10,10), color green.
+set w title &quot;My favorite GUI&quot;.
+</pre></div>
+</div>
 </div>
 <div class="section" id="checkboxes">
 <h2>Checkboxes<a class="headerlink" href="#checkboxes" title="Permalink to this headline">¶</a></h2>
+<p>Checkboxes are square boxes the user can click on to select any number of options. If you create a Checkbox object without the <em>options</em> attribute, it will have three default checkboxes labeled &#8220;Option 1&#8221;, &#8220;Option 2&#8221;, and &#8220;Option 3&#8221;. Placing an asterisk before any of the attributes will mark that option to be selected by default.</p>
+<p>Example syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Checkbox c with options &quot;hello&quot; &quot;yellow&quot; &quot;fellow&quot;.
+set c position (2,2).
+</pre></div>
 </div>
-<div class="section" id="radio-buttons">
-<h2>Radio Buttons<a class="headerlink" href="#radio-buttons" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="dropdown-menus">
-<h2>Dropdown Menus<a class="headerlink" href="#dropdown-menus" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="radiobuttons">
+<h2>RadioButtons<a class="headerlink" href="#radiobuttons" title="Permalink to this headline">¶</a></h2>
+<p>Radio Button are circular buttons a user can click to select <strong>one</strong> option out of many. If you create a RadioButton object without the <em>options</em> attribute, it will have three default buttons labeled &#8220;Option 1&#8221;, &#8220;Option 2&#8221;, and &#8220;Option 3&#8221;. Placing an asterisk before one of the attributes will make that option to be selected by default.</p>
+<p>Example syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre>make RadioButton r with options &quot;hello&quot; &quot;mello&quot; &quot;jello&quot;.
+set r title &quot;Choose one:&quot;.
+</pre></div>
+</div>
+</div>
+<div class="section" id="dropdown">
+<h2>Dropdown<a class="headerlink" href="#dropdown" title="Permalink to this headline">¶</a></h2>
+<p>Dropdown Menus allow the user to choose one option from pop-down list. If you create a Dropdown object without the <em>options</em> attribute, it will have three default options in the list labeled &#8220;Option 1&#8221;, &#8220;Option 2&#8221;, and &#8220;Option 3&#8221;.</p>
+<p>Example syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Dropdown with options &quot;hello&quot; &quot;cello&quot; &quot;othello&quot;.
+set d position bottomleft.
+</pre></div>
+</div>
 </div>
 <div class="section" id="text">
 <h2>Text<a class="headerlink" href="#text" title="Permalink to this headline">¶</a></h2>
+<p>Text is a simple text region the user <em>cannot</em> interact with.</p>
+<p>Example syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Text t with text &quot;Welcome to Gooey! Please leave your shoes at the door.&quot;
+set t color blue.
+</pre></div>
 </div>
-<div class="section" id="text-boxes">
-<h2>Text Boxes<a class="headerlink" href="#text-boxes" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="textbox">
+<h2>TextBox<a class="headerlink" href="#textbox" title="Permalink to this headline">¶</a></h2>
+<p>TextBox objects create a space where users can type. When you create a TextBox with a <em>text</em> attribute, the value entered will appear as defualt text within the text box.</p>
+<p>Example syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre>make TextBox tb with text &quot;Write your answer here&quot;.
+set tb size large.
+</pre></div>
+</div>
+</div>
+<div class="section" id="menu">
+<h2>Menu<a class="headerlink" href="#menu" title="Permalink to this headline">¶</a></h2>
+<p>Menus are a list of actions. Menu&#8217;s are created with Menu Items. When creating a Menu, the <em>options</em> attribute points to the MenuItems to be included in the Menu. A Menu <em>must</em> include MenuItems.</p>
+<p>Example syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Menu m with options file edit.
+</pre></div>
+</div>
+</div>
+<div class="section" id="menuitem">
+<h2>MenuItem<a class="headerlink" href="#menuitem" title="Permalink to this headline">¶</a></h2>
+<p>MenuItems are the terminal actions in a Menu. The variable name of the MenuItem must match the name of the correlating option listed in the Menu object. With the <em>options</em> attribute, MenuItems have two parts. First the text the user will select, then a colon, followed by the action.</p>
+<p>Example syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre>make MenuItem file with options &quot;quit&quot;:close.
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -88,10 +143,12 @@
 <li><a class="reference internal" href="#button">Button</a></li>
 <li><a class="reference internal" href="#window">Window</a></li>
 <li><a class="reference internal" href="#checkboxes">Checkboxes</a></li>
-<li><a class="reference internal" href="#radio-buttons">Radio Buttons</a></li>
-<li><a class="reference internal" href="#dropdown-menus">Dropdown Menus</a></li>
+<li><a class="reference internal" href="#radiobuttons">RadioButtons</a></li>
+<li><a class="reference internal" href="#dropdown">Dropdown</a></li>
 <li><a class="reference internal" href="#text">Text</a></li>
-<li><a class="reference internal" href="#text-boxes">Text Boxes</a></li>
+<li><a class="reference internal" href="#textbox">TextBox</a></li>
+<li><a class="reference internal" href="#menu">Menu</a></li>
+<li><a class="reference internal" href="#menuitem">MenuItem</a></li>
 </ul>
 </li>
 </ul>

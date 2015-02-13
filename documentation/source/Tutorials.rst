@@ -4,8 +4,8 @@ Tutorials
 
 These tutorials are here to show examples of basic Gooey GUIs. If you're just starting to learn Gooey, you might want to go through some or all of the tutorials before you make your own GUI.
 
-Basic Window
-============
+Basic Tutorial
+==============
 
 To start using Gooey, go to the terminal and navigate to the project folder. Type in the terminal::
 
@@ -13,7 +13,7 @@ To start using Gooey, go to the terminal and navigate to the project folder. Typ
 
 Your Gooey editor will appear.
 
-.. image:: documentation/source/images/gooeyeditor.png
+.. image:: images/gooeyeditor.png
 
 You can now enter the Gooey language into the editor. 
 
@@ -49,4 +49,8 @@ Now that you have a simple layout, you can modify your existing objects further 
 
 Now, let’s add one more item to our beautiful green window: checkboxes.
 Checkboxes have a title and values. The *title* sits just above the checkboxes. The *value* attribute is followed by a list of strings, or text within quotation marks. These strings list how many checkboxes you want, and what they’ll be labeled. The *default* attribute marks which checkboxes will be automatically checked. 
+
+
+
+Tutorial unfinished beacuse nothing seems to be working quite yet.
 
