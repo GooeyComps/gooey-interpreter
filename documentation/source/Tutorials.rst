@@ -23,11 +23,11 @@ To start, make an empty window. Type in the editor::
  
 When you’re ready to run your GUI, go to the *File* menu and select *Run*. 
  
-.. image:: documentation/source/images/run.png
+.. image:: images/run.png
  
 This is your live preview. Right now it’s a little boring. 
 
-.. image:: documentation/source/images/preview.png
+.. image:: images/preview.png
 
 Make the window bigger or smaller with the set command. Type::
 
@@ -39,13 +39,13 @@ Now you’re ready to add a button. Type::
 
 After you Run, your GUI should look like this
 
-.. image:: documentation/source/images/hello.png
+.. image:: images/hello.png
 
 Now that you have a simple layout, you can modify your existing objects further by using the *set* function. Try::
 
  set w color green.
  
-.. image:: documentation/source/images/green.png
+.. image:: images/green.png
 
 Now, let’s add one more item to our beautiful green window: checkboxes.
 Checkboxes have a title and values. The *title* sits just above the checkboxes. The *value* attribute is followed by a list of strings, or text within quotation marks. These strings list how many checkboxes you want, and what they’ll be labeled. The *default* attribute marks which checkboxes will be automatically checked. 
