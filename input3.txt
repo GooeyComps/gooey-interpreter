@@ -1,3 +1,2 @@
-make Window w.
-make Menu m with values file "open".
-make MenuItem file with values "close", text File.
+make Window w with size (5,5).
+make Image i with source "apple.gif".
