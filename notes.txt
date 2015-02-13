@@ -12,3 +12,7 @@ We should probably add error checking to getDefault to check for typos - right n
 CHANGES I'VE MADE:
 in Matrix - the attributes needed to be enumerated
           - the return statement in getDefault was backwards in terms of indices so i switched htem
+
+
+2/11/15
+Right now we can't make more than one button. Trouble trouble trouble 

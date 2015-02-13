@@ -295,6 +295,8 @@ class Interpreter():
 		return bindings
 
     #               CHECKBOXES
+
+
     def makeDefaultCheckboxes(self,w,defaults):
         pass
 
@@ -304,10 +306,14 @@ class Interpreter():
 		op = Checkbutton(w, text=i, variable=str(num), anchor=W)
 		op.grid(row=r, column=c, sticky=N+S+E+W)
 		return op
+
+
     #               RADIOBUTTONS
+
+
     def makeDefaultRadioButtons(self,w,defaults):
         pass
-    
+
 	def makeRadioButtons(self,w,expr,i,num, r, c):
 		r = r + num + 1
 		i = self.extractTextValue(i)
@@ -342,6 +348,7 @@ class Interpreter():
 
 
 	def makeDefaultWindow(self,w,defaults):
+		'''Makes a window with default attributes'''
 		#Configure the window with defaults
 		w.deiconify()
 		####NEED TO ADD FONT AND FONTSIZE####
@@ -354,18 +361,12 @@ class Interpreter():
 	def makeWindow(self,w,expr):
 		'''Makes a window given user attributes.
 		It should set anything that the user has not specified to the defaults.'''
-		#Show the window
-		#w.deiconify()
-		'''
-		this item = expr business is part of experimentation
-		'''
 		#Construct the default window
 		defaults = self.getAllDefaults("Window")
 		w = self.makeDefaultWindow(w,defaults)
+		#If the user input any attributes, change the default window to reflect that
 		if hasattr(expr, "attributes"):
-
 			windowAttributeList = expr.attributes
-			#Go through the attributes sent in in the language
 			for item in windowAttributeList:
 				if hasattr(item, 'color'):
 					w.configure(bg=item.color.value)
@@ -407,7 +408,6 @@ class Interpreter():
 	def setWindow(self,w,expr):
 		'''Sets window attributes to those specified by the user.'''
 		if hasattr(expr, "attributes"):
-			#here is where we need to check our attributes matrix
 			for item in expr.attributes:
 				if hasattr(item, 'color'):
 					#self.window.configure(bg=item.color.value)
@@ -442,13 +442,14 @@ class Interpreter():
 		return w
 
 
-    
+
 
 	#               TEXT BOX
-	
+
     def makeDefaultTextBox(self,w,defaults):
+		'''Makes a TextBox with default attributes'''
         pass
-    
+
     def makeTextBox(self,w,expr):
 		'''Makes a text box with the user defined attributes.'''
 		t = Text(w, height=2, width=30)
@@ -473,6 +474,7 @@ class Interpreter():
 	#               BUTTONS
 
 	def makeDefaultButton(self, w, defaults):
+		'''Makes a button with default attributes'''
 		#This is the current background color of the window
 		#We need this to correct for padding issues on the mac
 		hB = w.cget('bg')
@@ -594,6 +596,9 @@ class Interpreter():
 		w.config(menu=rootMenu)
 		return rootMenu
 
+	def makeDefaultMenuItem(self,w,defaults):
+		pass
+
 	def makeMenuItem(self,w,expr,bindings):
 		menuItem = None
 		rootMenu = None
@@ -712,8 +717,9 @@ class Interpreter():
 				return None
 
 
-	#Consult the matrix and find the default values for an object
 	def getAllDefaults(self, typeName):
+		'''Given a Gooey type name, like "Window" or "Button", consult our matrix
+		and return the predetermined default attributes for that type'''
 		defaults = {}
 		for i in range(0,matrix.NUM_ATTRIBUTES):
 			defaultAttr = matrix.getDefault(typeName, i)
