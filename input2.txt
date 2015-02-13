@@ -1,0 +1,3 @@
+make Window w.
+function bye() does make Button b.
+run bye().

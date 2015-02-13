@@ -1,0 +1,3 @@
+make Window w.
+make Menu m with values file "open".
+make MenuItem file with values "close", text File.
