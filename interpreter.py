@@ -297,8 +297,9 @@ class Interpreter():
     #               CHECKBOXES
 
 
-    def makeDefaultCheckboxes(self,w,defaults):
-        pass
+	def makeDefaultCheckboxes(self,w,defaults):
+		pass
+
 
 	def makeCheckboxes(self,w,expr,i,num, r, c):
 		r = r + num + 1
@@ -307,12 +308,12 @@ class Interpreter():
 		op.grid(row=r, column=c, sticky=N+S+E+W)
 		return op
 
-
-    #               RADIOBUTTONS
-
-
-    def makeDefaultRadioButtons(self,w,defaults):
-        pass
+#
+#    #               RADIOBUTTONS
+#
+#
+	def makeDefaultRadioButtons(self,w,defaults):
+		pass
 
 	def makeRadioButtons(self,w,expr,i,num, r, c):
 		r = r + num + 1
@@ -320,11 +321,18 @@ class Interpreter():
 		gg = Radiobutton(w, text=i, variable=self.var, value=num, anchor=W)
 		gg.grid(row=r, column=c, sticky=N+S+E+W)
 		return gg
-    #               TEXT
-    def makeDefaultText(self,w,defaults):
-        pass
+	
+	
+#    #               TEXT
+	def makeDefaultText(self,w,defaults):
+		tl = Label(w, text = defaults['text'], bg = defaults['color'])
+		#needs position and size
+		return tl
+		
 	def makeText(self,w,expr):
-		tl = Label(w, text="Text")
+		defaults = self.getAllDefaults("Text")
+		tl = self.makeDefaultText(w,defaults)
+		#tl = Label(w, text="Text")
 		r, c = 0, 0
 		if hasattr(expr, "attributes"):
 			for item in expr.attributes[0]:
@@ -368,6 +376,8 @@ class Interpreter():
 		if hasattr(expr, "attributes"):
 			windowAttributeList = expr.attributes
 			for item in windowAttributeList:
+				print(item)
+				
 				if hasattr(item, 'color'):
 					w.configure(bg=item.color.value)
 				elif hasattr(item,'size'):
@@ -446,13 +456,23 @@ class Interpreter():
 
 	#               TEXT BOX
 
-    def makeDefaultTextBox(self,w,defaults):
+	def makeDefaultTextBox(self,w,defaults):
+		###STILL NEEDS MORE ###
 		'''Makes a TextBox with default attributes'''
-        pass
+		t = Text(w)
+		t.insert(END,defaults['text'])
+		#need
+		#title
+		#Position
+		#size
+		#hidden
+		return t
 
-    def makeTextBox(self,w,expr):
+	def makeTextBox(self,w,expr):
 		'''Makes a text box with the user defined attributes.'''
-		t = Text(w, height=2, width=30)
+		#t = Text(w, height=2, width=30)
+		defaults = self.getAllDefaults("TextBox")
+		t = self.makeDefaultTextBox(w,defaults)
 		r, c = 0, 0
 		if hasattr(expr, "attributes"):
 			for item in expr.attributes[0]:
@@ -584,9 +604,9 @@ class Interpreter():
 
 
 
-	#               MENUS
-    def makeDefaultMenu(self,w,defaults):
-        pass
+#	#               MENUS
+#    def makeDefaultMenu(self,w,defaults):
+#        pass
 	def makeMenu(self,w,expr,bindings):
 		rootMenu = None
 		children = w.winfo_children()
@@ -596,8 +616,8 @@ class Interpreter():
 		w.config(menu=rootMenu)
 		return rootMenu
 
-	def makeDefaultMenuItem(self,w,defaults):
-		pass
+#	def makeDefaultMenuItem(self,w,defaults):
+#		pass
 
 	def makeMenuItem(self,w,expr,bindings):
 		menuItem = None
@@ -637,16 +657,17 @@ class Interpreter():
 		return menuItem
 
 
-	#           IMAGES
-    def makeDefaultImage(self,w,defaults):
-        pass
+	#           IMAGES - not in window right now!
+	def makeDefaultImage(self,w,defaults):
+		pass
 	def makeImage(self, w, expr):
 		'''Makes a images with the user defined attributes.'''
+		defaults = self.getAllDefaults("Image")
+		#(i,l) = self.makeDefaultImage(w,defaults)
 		r, c = 0, 0
 		if hasattr(expr, "attributes"):
-			for item in expr.attributes[0]:
+			for item in expr.attributes:
 				if hasattr(item, 'source'):
-					print(item.source.value)
 					i = PhotoImage(file=item.source.value)
 					l = Label(image=i)
 					l.image = i

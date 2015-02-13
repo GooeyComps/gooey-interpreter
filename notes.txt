@@ -16,3 +16,9 @@ in Matrix - the attributes needed to be enumerated
 
 2/11/15
 Right now we can't make more than one button. Trouble trouble trouble 
+
+
+2/12/15
+When we make the matrix, our keywords need to be in quotes. We have a problem otherwise
+Need to add destruction!
+Attributes is getting super messy 

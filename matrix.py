@@ -40,7 +40,7 @@ class TypeName(Enum):
     MenuItem = 9
     Search = 10
     Image = 11
-    Possible Values = 12
+
 
 class AttrName(Enum):
     title = 0
@@ -59,15 +59,15 @@ class AttrName(Enum):
 matrix = [["""Untitled Window""", """""", """Untitled Checkboxes""", """Untitled Radio Buttons""", """Untitled Drop Down""", None, None, """Untitled Text Box""", None, """Untitled Menu Item""", None, """"""],
 [None, """Untitled Button""", None, None, None, """Text""", """Formatted Text""", """Type here""", None, None, """Search""", """Image Caption"""],
 [None, None, "*""Option 1"" ""Option 2"" ""Option 3""", "*""Option 1"" ""Option 2"" ""Option 3""", "*""Option 1"" ""Option 2"" ""Option 3""", None, None, None, "menuItem1 menuItem2 menuItem3", """Option 1"" ""Option 2"" ""Option 3""", None, None],
-[None, center, center, center, center, center, None, center, menuBar, None, center, center],
-[medium, medium, medium, medium, medium, medium, None, medium, None, None, medium, medium],
-[white, None, None, None, None, white, None, None, None, None, None, None],
+[None, 'center', 'center', 'center', 'center', 'center', None, 'center', 'menuBar', None, 'center', 'center'],
+['medium', 'medium', 'medium', 'medium', 'medium', 'medium', None, 'medium', None, None, 'medium', 'medium'],
+['white', None, None, None, None, 'white', None, None, None, None, None, None],
 ["""""", """""", None, None, None, None, None, None, None, None, None, None],
 [False, False, False, False, False, False, None, False, False, False, False, False],
 ["""Times New Roman""", None, None, None, None, None, """Times New Roman""", None, None, None, None, None],
 [12, None, None, None, None, None, 12, None, None, None, None, None],
-[black, None, None, None, None, None, black, None, None, None, None, None],
-[None, None, None, None, None, None, None, None, None, None, None, defaultIcon]]
+['black', None, None, None, None, None, 'black', None, None, None, None, None],
+[None, None, None, None, None, None, None, None, None, None, None, 'defaultIcon']]
 
 NUM_ATTRIBUTES = len(matrix)
 NUM_TYPES = len(matrix[0])

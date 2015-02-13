@@ -172,8 +172,7 @@ class RadioButtonsAttribute(List):
 class RadioButtonsAttributeList(List):  
     grammar = csl(RadioButtonsAttribute)
     
-class AttributeList(List):
-    grammar = [WindowAttributeList, ButtonAttributeList, MenuAttributeList, MenuItemAttributeList, TextBoxAttributeList, TextLabelAttributeList, ImageAttributeList, CheckboxesAttributeList, RadioButtonsAttributeList]
+
 
 '''
 #Various regex to catch different value types
@@ -251,7 +250,7 @@ class ActionAttribute:
 
 #Wrap as Attribute object and put into AttributeList
 class Attribute:
-	grammar = [attr("title", TitleAttribute), attr("color", ColorAttribute), attr("size", SizeAttribute), attr("window",WindowAttribute), attr("text", TextAttribute), attr("action",ActionAttribute), attr("options",MenuOptionsAttribute), attr("position",PositionAttribute), attr("font", FontAttribute), attr("fontSize", FontSizeAttribute), attr("textColor", TextColorAttribute)]
+	grammar = [attr("title", TitleAttribute), attr("color", ColorAttribute), attr("size", SizeAttribute), attr("window",WindowAttribute), attr("text", TextAttribute), attr("action",ActionAttribute), attr("options",MenuOptionsAttribute), attr("position",PositionAttribute), attr("font", FontAttribute), attr("fontSize", FontSizeAttribute), attr("textColor", TextColorAttribute), attr("source", ImageSourceAttribute)]
 
-# class AttributeList(List):
-# 	grammar = csl(Attribute)
+class AttributeList(List):
+ 	grammar = csl(Attribute)
