@@ -153,7 +153,7 @@ class CheckboxesPositionAttribute(List):
 class CheckboxesAttribute(List):
     grammar = [attr('options', CheckboxesOptionsAttribute), attr('position', CheckboxesPositionAttribute), attr('title', CheckboxesTitleAttribute)]
 
-class CheckboxesAttributeList(List):  
+class CheckboxesAttributeList(List):
     grammar = csl(CheckboxesAttribute)
 
 #  RADIOBUTTONS
@@ -169,9 +169,9 @@ class RadioButtonsPositionAttribute(List):
 class RadioButtonsAttribute(List):
     grammar = [attr('title', RadioButtonsTitleAttribute), attr('options', RadioButtonsOptionsAttribute), attr('position', RadioButtonsPositionAttribute)]
 
-class RadioButtonsAttributeList(List):  
+class RadioButtonsAttributeList(List):
     grammar = csl(RadioButtonsAttribute)
-    
+
 
 
 '''
@@ -250,7 +250,7 @@ class ActionAttribute:
 
 #Wrap as Attribute object and put into AttributeList
 class Attribute:
-	grammar = [attr("title", TitleAttribute), attr("color", ColorAttribute), attr("size", SizeAttribute), attr("window",WindowAttribute), attr("text", TextAttribute), attr("action",ActionAttribute), attr("options",MenuOptionsAttribute), attr("position",PositionAttribute), attr("font", FontAttribute), attr("fontSize", FontSizeAttribute), attr("textColor", TextColorAttribute), attr("source", ImageSourceAttribute)]
+	grammar = [attr("title", TitleAttribute), attr("color", ColorAttribute), attr("size", SizeAttribute), attr("window", WindowAttribute), attr("text", TextAttribute), attr("action",ActionAttribute), attr("options", MenuOptionsAttribute), attr("position", PositionAttribute), attr("font", FontAttribute), attr("fontSize", FontSizeAttribute), attr("textColor", TextColorAttribute), attr("source", ImageSourceAttribute)]
 
 class AttributeList(List):
  	grammar = csl(Attribute)
