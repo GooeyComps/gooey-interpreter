@@ -335,7 +335,7 @@ class Interpreter():
 		#tl = Label(w, text="Text")
 		r, c = 0, 0
 		if hasattr(expr, "attributes"):
-			for item in expr.attributes[0]:
+			for item in expr.attributes:
 				if hasattr(item, 'text'):
 					tl.configure(text=self.extractTextValue(item.text.value))
 				elif hasattr(item, 'position'):

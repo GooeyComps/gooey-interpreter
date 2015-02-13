@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Gooey 1.0 documentation" href="index.html" />
-    <link rel="next" title="Objects" href="Objects.html" />
+    <link rel="next" title="Tutorials" href="Tutorials.html" />
     <link rel="prev" title="Home" href="Home.html" /> 
   </head>
   <body role="document">
@@ -35,7 +35,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="Objects.html" title="Objects"
+          <a href="Tutorials.html" title="Tutorials"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="Home.html" title="Home"
@@ -51,6 +51,110 @@
             
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-gooey">
+<h2>What is Gooey?<a class="headerlink" href="#what-is-gooey" title="Permalink to this headline">¶</a></h2>
+<p>Gooey is a tool for quick and easy creation of Graphical User Interfaces (GUIs). A GUI is the layout of an application - the buttons, the menus, the style, and so on. GUIs are notoriously troublesome to make, even for experienced programmers. The language was designed for people who have very little experience coding, and so is designed to look more like an English sentence than long blocks of code.</p>
+</div>
+<div class="section" id="language-basics">
+<h2>Language Basics<a class="headerlink" href="#language-basics" title="Permalink to this headline">¶</a></h2>
+<p>The Gooey GUI language was designed to be easy! Our goal was to make coding look less like code, and more like an English sentence. There are a few basic rules to follow, and then you’ll be on your way.</p>
+<p>Normally, each line starts with either <strong>make</strong> or <strong>set</strong>.</p>
+<p>Each line of Gooey <strong>ends with a period</strong>.</p>
+<p>You can use the <em>make</em> command to create and add new elements to your GUI.</p>
+<p><em>make</em> commands always have the same basic syntax. Typing:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Object name.
+</pre></div>
+</div>
+<p>will create a new object of the given type with its default values.</p>
+<p>The command <em>make</em> is always followed by the type of <strong>object</strong> you want to make. Types of objects always start with capital letters and might include:</p>
+<ul class="simple">
+<li>Window</li>
+<li>Button</li>
+<li>Menu</li>
+<li>Text</li>
+<li>Checkbox</li>
+</ul>
+<p>And so on.</p>
+<p>After the object comes the <strong>name</strong>. Your object has to start with a lowercase letter, be only one word long, and contain only letters, numbers, or underscore _.
+Valid variable names include:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">myvariable</span></code></li>
+<li><code class="docutils literal"><span class="pre">myVariable2</span></code></li>
+<li><code class="docutils literal"><span class="pre">mINE</span></code></li>
+<li><code class="docutils literal"><span class="pre">not_yours</span></code></li>
+<li><code class="docutils literal"><span class="pre">o_o</span></code></li>
+</ul>
+<p>These variable names are NOT valid:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">my</span> <span class="pre">variable</span></code></li>
+<li><code class="docutils literal"><span class="pre">MyVariable</span></code></li>
+<li><code class="docutils literal"><span class="pre">mINE!</span></code></li>
+<li><code class="docutils literal"><span class="pre">\(^-^)/</span></code></li>
+</ul>
+<p>You can also modify the default attributes as you make an object.  The syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre>make OBJECT NAME with
+ATTRIBUTE value.
+</pre></div>
+</div>
+<p>will create the object with most of the defaults, with one attribute modification that you specify.</p>
+<p>You can add as many attributes as you want in the <em>make</em> command, by separating the attributes with commas. The syntax this time might look like:</p>
+<div class="highlight-python"><div class="highlight"><pre>make OBJECT NAME with
+ATTRIBUTE VALUE,
+ATTRIBUTE VALUE,
+ATTRIBUTE VALUE.
+</pre></div>
+</div>
+<p>The <em>set</em> command syntax is:</p>
+<div class="highlight-python"><div class="highlight"><pre>set NAME ATTRIBUTE VALUE.
+</pre></div>
+</div>
+<p>You can also set multiple attributes of a single objects by using commas:</p>
+<div class="highlight-python"><div class="highlight"><pre>set NAME ATTRIBUTE VALUE, ATTRIBUTE VALUE, ATTRIBUTE VALUE.
+</pre></div>
+</div>
+<p><strong>Attributes</strong> are a variety of customizable components of your object.  Common attributes include:</p>
+<ul class="simple">
+<li>size</li>
+<li>color</li>
+<li>text</li>
+<li>position</li>
+</ul>
+<p>Some objects may have additional unique attributes.</p>
+<p>There are a lot of attributes where commonly desired <strong>values</strong> are preset for you, like the <em>size</em> attribute has default values of <em>small</em>, <em>medium</em>, and <em>large</em>. However, for your custom needs, you can also set your own size numerically. So, <code class="docutils literal"><span class="pre">size</span> <span class="pre">large</span></code> and <code class="docutils literal"><span class="pre">size</span> <span class="pre">455</span></code> are both legal ways to define the size.</p>
+<p><strong>In summary</strong>, to create a button you would say:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Button mybutton.
+</pre></div>
+</div>
+<p>To create a button with the words “Yes” on it, you would type:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Button mybutton with
+text “Yes”.
+</pre></div>
+</div>
+<p>And to create a big button with the words “Yes”, you would type:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Button mybutton with
+text “Yes”,
+size large.
+
+Now you’re ready to start making your own Gooey GUI!
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-gooey">
+<h2>Using Gooey<a class="headerlink" href="#using-gooey" title="Permalink to this headline">¶</a></h2>
+<p>To start using Gooey, go to the terminal and navigate to the project folder. Type in the terminal:</p>
+<div class="highlight-python"><div class="highlight"><pre>python3 gooey.py
+</pre></div>
+</div>
+<p>Your Gooey editor will appear.</p>
+<img alt="_images/gooeyeditor.png" src="_images/gooeyeditor.png" />
+<p>You can now enter the Gooey language into the editor.</p>
+<p>To start, make an empty window. Type in the editor:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Window w.
+</pre></div>
+</div>
+<p>When you’re ready to run your GUI, go to the <em>File</em> menu and select <em>Run</em>.</p>
+<img alt="_images/run.png" src="_images/run.png" />
+</div>
 </div>
 
 
@@ -59,12 +163,22 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Getting Started</a><ul>
+<li><a class="reference internal" href="#what-is-gooey">What is Gooey?</a></li>
+<li><a class="reference internal" href="#language-basics">Language Basics</a></li>
+<li><a class="reference internal" href="#using-gooey">Using Gooey</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="Home.html"
                         title="previous chapter">Home</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="Objects.html"
-                        title="next chapter">Objects</a></p>
+  <p class="topless"><a href="Tutorials.html"
+                        title="next chapter">Tutorials</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -96,7 +210,7 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="Objects.html" title="Objects"
+          <a href="Tutorials.html" title="Tutorials"
              >next</a> |</li>
         <li class="right" >
           <a href="Home.html" title="Home"

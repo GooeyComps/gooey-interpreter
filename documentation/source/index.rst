@@ -15,6 +15,7 @@ Contents:
    Tutorials
    FunctionsAndActions
    MakeAndSet
+   Objects
 
 
 Indices and tables
