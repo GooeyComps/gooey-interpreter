@@ -442,9 +442,14 @@ class Interpreter():
 		return w
 
 
+    
 
 	#               TEXT BOX
-	def makeTextBox(self,w,expr):
+	
+    def makeDefaultTextBox(self,w,defaults):
+        pass
+    
+    def makeTextBox(self,w,expr):
 		'''Makes a text box with the user defined attributes.'''
 		t = Text(w, height=2, width=30)
 		r, c = 0, 0
@@ -578,6 +583,8 @@ class Interpreter():
 
 
 	#               MENUS
+    def makeDefaultMenu(self,w,defaults):
+        pass
 	def makeMenu(self,w,expr,bindings):
 		rootMenu = None
 		children = w.winfo_children()
@@ -626,6 +633,8 @@ class Interpreter():
 
 
 	#           IMAGES
+    def makeDefaultImage(self,w,defaults):
+        pass
 	def makeImage(self, w, expr):
 		'''Makes a images with the user defined attributes.'''
 		r, c = 0, 0
