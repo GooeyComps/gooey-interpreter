@@ -6,6 +6,7 @@ import sys
 import matrix
 import math
 
+import os
 
 #Binding object has four instance variables
 #bType - the type of object with regards to "Gooey" ex) Window, Button
@@ -668,6 +669,19 @@ class Interpreter():
 		if hasattr(expr, "attributes"):
 			for item in expr.attributes:
 				if hasattr(item, 'source'):
+					
+										
+					######## Images only work when you read in from text file, otherwise source path is different
+					
+					#directory = os.getcwd()
+					#print("OS : ", os.getcwd())
+					#directory = str(sys.path[0])
+					#directory = directory.append('/apple.gif')
+					#print("CURRENT WORKING DIR IS: ", directory+'/apple.gif')
+					#print("DIRECTORY IS: ", sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+					#i = PhotoImage(file=open(directory+'/apple.gif'))
+					
+	
 					i = PhotoImage(file=item.source.value)
 					l = Label(image=i)
 					l.image = i
