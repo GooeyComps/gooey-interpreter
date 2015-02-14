@@ -26,10 +26,10 @@ class Binding:
 		self.bObject = bObject
 		self.params = params
 
-	def __repr__(self):
-		'''Prints a pretty version of the bindings'''
-		prettyStr = "Binding " + str(varname) + " of type " + str(bType) + "."
-		return prettyStr
+	#def __repr__(self):
+	#	'''Prints a pretty version of the bindings'''
+	#	prettyStr = "Binding " + str(varname) + " of type " + str(bType) + "."
+	#	return prettyStr
 
 class Interpreter():
 	'''Interpreter class: creates GUI based on the expression given by the user.'''
@@ -184,12 +184,18 @@ class Interpreter():
 
 			#   SET
 			elif(expr.__class__.__name__ == "GooeySet"):
+				print("GOOEY Set")
 				if hasattr(expr, "varname"):
+					print("Has Varname: ", expr.varname)
+					print("BINDINGS: ", bindings)
 					if expr.varname in bindings:
+						print("expr.varname is in bindings")
 						obj = bindings[expr.varname]
 						if obj.bType == "Window":
 							win = self.getObject(expr,bindings)
+							print("Type Before: ", win.bType)
 							assert win.bType == 'Window'
+							print("Type After: ", win.bType)
 							wColorBefore = win.bObject.cget('bg')
 							w = self.setWindow(win.bObject,expr)
 							wColorAfter = w.cget('bg')
@@ -262,15 +268,18 @@ class Interpreter():
 
 						#Take param being passed in (params), bind to expected param in function
 						#add this to local binding
-						functionParam = bindings[function].params[0]
+						print("BINDINGS THING: ", bindings[function].params)
+						functionParam = bindings[function].params
 						#functionInput = bindings[functionParam[0]]
 
 						#Assuming only one parameter
 						functionInput = bindings[expr.params[0]]
 
 						#Sets the type of the local to the thing that we're passing in.
+						print("FunctionParam: ", functionParam)
 						b = self.makeBinding(functionInput.bType, functionParam, functionInput.bObject)
 						localBindings = self.addBinding(b, localBindings)
+						print("local bindings: ", localBindings)
 						newBindings = self.runFunction(bindings,function,localBindings)
 						newB = newBindings[functionParam]
 						newB.varname = functionInput.varname
@@ -279,20 +288,25 @@ class Interpreter():
 						bindings[functionInput.varname] = newB
 					else:
 						newBindings = self.runFunction(bindings,function,localBindings)
+						for key in newBindings.keys():
+							bindings[key] = newBindings[key]
+						print("NEW BINDINGS: ", newBindings)
 				else:
 					self.error("This function isn't defined.")
 
 
 			#Interprets each line of a function.
 			elif(expr.__class__.__name__ == "Line"):
+				print("got into Line")
 				return expr.lineAction
 			elif(expr.__class__.__name__ == "Return"):
+				print("got into Return")
 				return expr.param
 
 			else:
 				#Invalid first word
 				self.error("Error: Invalid command. Please start your command with Make, Set, or other valid start commands.")
-
+		print("THESE ARE THE BINDINGS: ", bindings)
 		return bindings
 
     #               CHECKBOXES
@@ -322,14 +336,14 @@ class Interpreter():
 		gg = Radiobutton(w, text=i, variable=self.var, value=num, anchor=W)
 		gg.grid(row=r, column=c, sticky=N+S+E+W)
 		return gg
-	
-	
+
+
 #    #               TEXT
 	def makeDefaultText(self,w,defaults):
 		tl = Label(w, text = defaults['text'], bg = defaults['color'])
 		#needs position and size
 		return tl
-		
+
 	def makeText(self,w,expr):
 		defaults = self.getAllDefaults("Text")
 		tl = self.makeDefaultText(w,defaults)
@@ -378,7 +392,7 @@ class Interpreter():
 			windowAttributeList = expr.attributes
 			for item in windowAttributeList:
 				print(item)
-				
+
 				if hasattr(item, 'color'):
 					w.configure(bg=item.color.value)
 				elif hasattr(item,'size'):
@@ -398,9 +412,11 @@ class Interpreter():
 						w.geometry(size)
 					else:
 						if item.size.value.lower() == "large":
-							w.geometry('500x500')
+							w.geometry('600x600')
+						elif item.size.value.lower() == "medium":
+							w.geometry('400x400')
 						elif item.size.value.lower() == "small":
-							w.geomerty('200x200')
+							w.geometry('200x200')
 				elif hasattr(item, 'title'):
 					w.title(item.title.value)
 				elif hasattr(item, 'font'):
@@ -418,6 +434,7 @@ class Interpreter():
 
 	def setWindow(self,w,expr):
 		'''Sets window attributes to those specified by the user.'''
+		print("GOT TO SETWINDOW")
 		if hasattr(expr, "attributes"):
 			for item in expr.attributes:
 				if hasattr(item, 'color'):
@@ -439,9 +456,11 @@ class Interpreter():
 						w.geometry(size)
 					else:
 						if item.size.value.lower() == "large":
-							w.geometry('500x500')
+							w.geometry('600x600')
+						elif item.size.value.lower() == "medium":
+							w.geometry('400x400')
 						elif item.size.value.lower() == "small":
-							w.geomerty('200x200')
+							w.geometry('200x200')
 				elif hasattr(item, 'title'):
 					w.title(item.title.value)
 				elif hasattr(item, 'font'):
@@ -669,10 +688,10 @@ class Interpreter():
 		if hasattr(expr, "attributes"):
 			for item in expr.attributes:
 				if hasattr(item, 'source'):
-					
-										
+
+
 					######## Images only work when you read in from text file, otherwise source path is different
-					
+
 					#directory = os.getcwd()
 					#print("OS : ", os.getcwd())
 					#directory = str(sys.path[0])
@@ -680,8 +699,8 @@ class Interpreter():
 					#print("CURRENT WORKING DIR IS: ", directory+'/apple.gif')
 					#print("DIRECTORY IS: ", sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 					#i = PhotoImage(file=open(directory+'/apple.gif'))
-					
-	
+
+
 					i = PhotoImage(file=item.source.value)
 					l = Label(image=i)
 					l.image = i
@@ -722,12 +741,15 @@ class Interpreter():
 	def runFunction(self,bindings,function,localBindings):
 		#Run function should create local bindings maybe?????????????????
 		#print("\n\n I'm running runFunction!")
+		print("got to runFunction")
 		functionCode = bindings[function].bObject #We need to make this proper gooey code
+		print("This is the functionCode: ", functionCode)
 		newBindings = localBindings
 		#print("New Bindings: ", newBindings)
-		for action in functionCode:
-			#print("Here's the action", action)
-			newBindings = self.interpret([action], newBindings)
+		for i in range(len(functionCode)-1):
+		#for action in functionCode:
+			print("Here's the action", functionCode[i])
+			newBindings = self.interpret([functionCode[i]], newBindings)
 			# newBindings = self.interpret(action, newBindings)
 
 			#print("New Bindings: ", newBindings)
