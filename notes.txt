@@ -15,10 +15,16 @@ in Matrix - the attributes needed to be enumerated
 
 
 2/11/15
-Right now we can't make more than one button. Trouble trouble trouble 
+Right now we can't make more than one button. Trouble trouble trouble
 
 
 2/12/15
 When we make the matrix, our keywords need to be in quotes. We have a problem otherwise
 Need to add destruction!
-Attributes is getting super messy 
+Attributes is getting super messy
+
+
+2/14/15
+Small/med/large keywords for windows - maybe make large larger? - need to add medium
+In function call, adding an error check that there isn't already a binding of that name
+When we have user-defined functions that make a thing, should we have them set it equal to something? 

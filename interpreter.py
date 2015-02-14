@@ -279,6 +279,7 @@ class Interpreter():
 						bindings[functionInput.varname] = newB
 					else:
 						newBindings = self.runFunction(bindings,function,localBindings)
+
 				else:
 					self.error("This function isn't defined.")
 
@@ -322,14 +323,14 @@ class Interpreter():
 		gg = Radiobutton(w, text=i, variable=self.var, value=num, anchor=W)
 		gg.grid(row=r, column=c, sticky=N+S+E+W)
 		return gg
-	
-	
+
+
 #    #               TEXT
 	def makeDefaultText(self,w,defaults):
 		tl = Label(w, text = defaults['text'], bg = defaults['color'])
 		#needs position and size
 		return tl
-		
+
 	def makeText(self,w,expr):
 		defaults = self.getAllDefaults("Text")
 		tl = self.makeDefaultText(w,defaults)
@@ -378,7 +379,7 @@ class Interpreter():
 			windowAttributeList = expr.attributes
 			for item in windowAttributeList:
 				print(item)
-				
+
 				if hasattr(item, 'color'):
 					w.configure(bg=item.color.value)
 				elif hasattr(item,'size'):
@@ -441,7 +442,7 @@ class Interpreter():
 						if item.size.value.lower() == "large":
 							w.geometry('500x500')
 						elif item.size.value.lower() == "small":
-							w.geomerty('200x200')
+							w.geometry('200x200')
 				elif hasattr(item, 'title'):
 					w.title(item.title.value)
 				elif hasattr(item, 'font'):
@@ -669,10 +670,10 @@ class Interpreter():
 		if hasattr(expr, "attributes"):
 			for item in expr.attributes:
 				if hasattr(item, 'source'):
-					
-										
+
+
 					######## Images only work when you read in from text file, otherwise source path is different
-					
+
 					#directory = os.getcwd()
 					#print("OS : ", os.getcwd())
 					#directory = str(sys.path[0])
@@ -680,8 +681,8 @@ class Interpreter():
 					#print("CURRENT WORKING DIR IS: ", directory+'/apple.gif')
 					#print("DIRECTORY IS: ", sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 					#i = PhotoImage(file=open(directory+'/apple.gif'))
-					
-	
+
+
 					i = PhotoImage(file=item.source.value)
 					l = Label(image=i)
 					l.image = i
