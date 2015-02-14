@@ -1,0 +1,869 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Test Objects &mdash; Gooey 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Gooey 1.0 documentation" href="index.html" />
+    <link rel="prev" title="Objects" href="Objects.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Objects.html" title="Objects"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Gooey 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="test-objects">
+<h1>Test Objects<a class="headerlink" href="#test-objects" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="window">
+<h2>Window<a class="headerlink" href="#window" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="23%" />
+<col width="41%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>&nbsp;</td>
+<td>A plaintext string | A
+FormattedText object</td>
+<td>&#8220;&#8221;&#8220;Untitled
+Window&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>&nbsp;</td>
+<td>A string description of the size
+(or keyword?); The (x y) dimensions
+separated by a space</td>
+<td>medium</td>
+</tr>
+<tr class="row-even"><td>color</td>
+<td>&nbsp;</td>
+<td>A string description of the color
+(or keyword?); An rgb value
+separated by spaces</td>
+<td>white</td>
+</tr>
+<tr class="row-odd"><td>action</td>
+<td>&nbsp;</td>
+<td>The name of a Python or Gooey
+function to call when the object is
+acted upon</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>&nbsp;</td>
+<td>A boolean indicating whether the
+object is hidden (True | true |
+False | false)</td>
+<td>False</td>
+</tr>
+<tr class="row-odd"><td>font</td>
+<td>&nbsp;</td>
+<td>The string name of a font available
+in Gooey</td>
+<td>&#8220;&#8221;&#8220;Times New
+Roman&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-even"><td>fontSize</td>
+<td>&nbsp;</td>
+<td>A number indicating the font size</td>
+<td>12</td>
+</tr>
+<tr class="row-odd"><td>textColor</td>
+<td>&nbsp;</td>
+<td>A color (A string description or an
+rgb value)</td>
+<td>black</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="button">
+<h2>Button<a class="headerlink" href="#button" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Attributes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="23%" />
+<col width="41%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>&nbsp;</td>
+<td>A plaintext string | A
+FormattedText object</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>text</td>
+<td>&nbsp;</td>
+<td>A plaintext string | A
+FormattedText object</td>
+<td>&#8220;&#8221;&#8220;Untitled
+Button&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-even"><td>position</td>
+<td>&nbsp;</td>
+<td>A string description of the
+position (or is this a keyword?);
+An (x y) coordinate separated by a
+space</td>
+<td>center</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>&nbsp;</td>
+<td>A string description of the size
+(or keyword?); The (x y) dimensions
+separated by a space</td>
+<td>medium</td>
+</tr>
+<tr class="row-even"><td>action</td>
+<td>&nbsp;</td>
+<td>The name of a Python or Gooey
+function to call when the object is
+acted upon</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>hidden</td>
+<td>&nbsp;</td>
+<td>A boolean indicating whether the
+object is hidden (True | true |
+False | false)</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="checkboxes">
+<h2>Checkboxes<a class="headerlink" href="#checkboxes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>Attributes<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="23%" />
+<col width="41%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>&nbsp;</td>
+<td>A plaintext string | A
+FormattedText object</td>
+<td>&#8220;&#8221;&#8220;Untitled
+Checkboxes&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>&nbsp;</td>
+<td>&#8220;A list separated by spaces
+containing (For Checkboxes etc) A
+string preceded by a * if default
+selected; (For Menu) A menuItem
+object; (For MenuItem) A menuItem
+object | a terminal in the format
+&#8220;&#8221;name&#8221;&#8221;:action&#8221;</td>
+<td>&#8220;*&#8221;&#8220;Option 1&#8221;&#8221;
+&#8220;&#8221;Option 2&#8221;&#8221;
+&#8220;&#8221;Option 3&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-even"><td>position</td>
+<td>&nbsp;</td>
+<td>A string description of the
+position (or is this a keyword?);
+An (x y) coordinate separated by a
+space</td>
+<td>center</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>&nbsp;</td>
+<td>A string description of the size
+(or keyword?); The (x y) dimensions
+separated by a space</td>
+<td>medium</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>&nbsp;</td>
+<td>A boolean indicating whether the
+object is hidden (True | true |
+False | false)</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="radiobuttons">
+<h2>RadioButtons<a class="headerlink" href="#radiobuttons" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Attributes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="23%" />
+<col width="41%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>&nbsp;</td>
+<td>A plaintext string | A
+FormattedText object</td>
+<td>&#8220;&#8221;&#8220;Untitled Radio
+Buttons&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>&nbsp;</td>
+<td>&#8220;A list separated by spaces
+containing (For Checkboxes etc) A
+string preceded by a * if default
+selected; (For Menu) A menuItem
+object; (For MenuItem) A menuItem
+object | a terminal in the format
+&#8220;&#8221;name&#8221;&#8221;:action&#8221;</td>
+<td>&#8220;*&#8221;&#8220;Option 1&#8221;&#8221;
+&#8220;&#8221;Option 2&#8221;&#8221;
+&#8220;&#8221;Option 3&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-even"><td>position</td>
+<td>&nbsp;</td>
+<td>A string description of the
+position (or is this a keyword?);
+An (x y) coordinate separated by a
+space</td>
+<td>center</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>&nbsp;</td>
+<td>A string description of the size
+(or keyword?); The (x y) dimensions
+separated by a space</td>
+<td>medium</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>&nbsp;</td>
+<td>A boolean indicating whether the
+object is hidden (True | true |
+False | false)</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="dropdown">
+<h2>DropDown<a class="headerlink" href="#dropdown" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>Attributes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="23%" />
+<col width="41%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>&nbsp;</td>
+<td>A plaintext string | A
+FormattedText object</td>
+<td>&#8220;&#8221;&#8220;Untitled Drop
+Down&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>&nbsp;</td>
+<td>&#8220;A list separated by spaces
+containing (For Checkboxes etc) A
+string preceded by a * if default
+selected; (For Menu) A menuItem
+object; (For MenuItem) A menuItem
+object | a terminal in the format
+&#8220;&#8221;name&#8221;&#8221;:action&#8221;</td>
+<td>&#8220;*&#8221;&#8220;Option 1&#8221;&#8221;
+&#8220;&#8221;Option 2&#8221;&#8221;
+&#8220;&#8221;Option 3&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-even"><td>position</td>
+<td>&nbsp;</td>
+<td>A string description of the
+position (or is this a keyword?);
+An (x y) coordinate separated by a
+space</td>
+<td>center</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>&nbsp;</td>
+<td>A string description of the size
+(or keyword?); The (x y) dimensions
+separated by a space</td>
+<td>medium</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>&nbsp;</td>
+<td>A boolean indicating whether the
+object is hidden (True | true |
+False | false)</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="text">
+<h2>Text<a class="headerlink" href="#text" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>Attributes<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="23%" />
+<col width="41%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>text</td>
+<td>&nbsp;</td>
+<td>A plaintext string | A
+FormattedText object</td>
+<td>&#8220;&#8221;&#8220;Text&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-odd"><td>position</td>
+<td>&nbsp;</td>
+<td>A string description of the
+position (or is this a keyword?);
+An (x y) coordinate separated by a
+space</td>
+<td>center</td>
+</tr>
+<tr class="row-even"><td>size</td>
+<td>&nbsp;</td>
+<td>A string description of the size
+(or keyword?); The (x y) dimensions
+separated by a space</td>
+<td>medium</td>
+</tr>
+<tr class="row-odd"><td>color</td>
+<td>&nbsp;</td>
+<td>A string description of the color
+(or keyword?); An rgb value
+separated by spaces</td>
+<td>white</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>&nbsp;</td>
+<td>A boolean indicating whether the
+object is hidden (True | true |
+False | false)</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="formattedtext">
+<h2>FormattedText<a class="headerlink" href="#formattedtext" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>Attributes<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="23%" />
+<col width="41%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>text</td>
+<td>&nbsp;</td>
+<td>A plaintext string | A
+FormattedText object</td>
+<td>&#8220;&#8221;&#8220;Formatted Text&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-odd"><td>font</td>
+<td>&nbsp;</td>
+<td>The string name of a font available
+in Gooey</td>
+<td>&#8220;&#8221;&#8220;Times New
+Roman&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-even"><td>fontSize</td>
+<td>&nbsp;</td>
+<td>A number indicating the font size</td>
+<td>12</td>
+</tr>
+<tr class="row-odd"><td>textColor</td>
+<td>&nbsp;</td>
+<td>A color (A string description or an
+rgb value)</td>
+<td>black</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="textbox">
+<h2>TextBox<a class="headerlink" href="#textbox" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>Attributes<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="23%" />
+<col width="41%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>&nbsp;</td>
+<td>A plaintext string | A
+FormattedText object</td>
+<td>&#8220;&#8221;&#8220;Untitled Text
+Box&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-odd"><td>text</td>
+<td>&nbsp;</td>
+<td>A plaintext string | A
+FormattedText object</td>
+<td>&#8220;&#8221;&#8220;Type here&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-even"><td>position</td>
+<td>&nbsp;</td>
+<td>A string description of the
+position (or is this a keyword?);
+An (x y) coordinate separated by a
+space</td>
+<td>center</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>&nbsp;</td>
+<td>A string description of the size
+(or keyword?); The (x y) dimensions
+separated by a space</td>
+<td>medium</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>&nbsp;</td>
+<td>A boolean indicating whether the
+object is hidden (True | true |
+False | false)</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="menu">
+<h2>Menu<a class="headerlink" href="#menu" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h3>Attributes<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="23%" />
+<col width="41%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>options</td>
+<td>&nbsp;</td>
+<td>&#8220;A list separated by spaces
+containing (For Checkboxes etc) A
+string preceded by a * if default
+selected; (For Menu) A menuItem
+object; (For MenuItem) A menuItem
+object | a terminal in the format
+&#8220;&#8221;name&#8221;&#8221;:action&#8221;</td>
+<td>menuItem1 menuItem2
+menuItem3</td>
+</tr>
+<tr class="row-odd"><td>position</td>
+<td>&nbsp;</td>
+<td>A string description of the
+position (or is this a keyword?);
+An (x y) coordinate separated by a
+space</td>
+<td>menuBar</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>&nbsp;</td>
+<td>A boolean indicating whether the
+object is hidden (True | true |
+False | false)</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="menuitem">
+<h2>MenuItem<a class="headerlink" href="#menuitem" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h3>Attributes<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="23%" />
+<col width="41%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>&nbsp;</td>
+<td>A plaintext string | A
+FormattedText object</td>
+<td>&#8220;&#8221;&#8220;Untitled Menu
+Item&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>&nbsp;</td>
+<td>&#8220;A list separated by spaces
+containing (For Checkboxes etc) A
+string preceded by a * if default
+selected; (For Menu) A menuItem
+object; (For MenuItem) A menuItem
+object | a terminal in the format
+&#8220;&#8221;name&#8221;&#8221;:action&#8221;</td>
+<td>&#8220;&#8221;&#8220;Option 1&#8221;&#8221;
+&#8220;&#8221;Option 2&#8221;&#8221;
+&#8220;&#8221;Option 3&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>&nbsp;</td>
+<td>A boolean indicating whether the
+object is hidden (True | true |
+False | false)</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="search">
+<h2>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h3>Attributes<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="23%" />
+<col width="41%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>text</td>
+<td>&nbsp;</td>
+<td>A plaintext string | A
+FormattedText object</td>
+<td>&#8220;&#8221;&#8220;Search&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-odd"><td>position</td>
+<td>&nbsp;</td>
+<td>A string description of the
+position (or is this a keyword?);
+An (x y) coordinate separated by a
+space</td>
+<td>center</td>
+</tr>
+<tr class="row-even"><td>size</td>
+<td>&nbsp;</td>
+<td>A string description of the size
+(or keyword?); The (x y) dimensions
+separated by a space</td>
+<td>medium</td>
+</tr>
+<tr class="row-odd"><td>hidden</td>
+<td>&nbsp;</td>
+<td>A boolean indicating whether the
+object is hidden (True | true |
+False | false)</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="image">
+<h2>Image<a class="headerlink" href="#image" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h3>Attributes<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="23%" />
+<col width="41%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>&nbsp;</td>
+<td>A plaintext string | A
+FormattedText object</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>text</td>
+<td>&nbsp;</td>
+<td>A plaintext string | A
+FormattedText object</td>
+<td>&#8220;&#8221;&#8220;Image Caption&#8221;&#8220;&#8221;</td>
+</tr>
+<tr class="row-even"><td>position</td>
+<td>&nbsp;</td>
+<td>A string description of the
+position (or is this a keyword?);
+An (x y) coordinate separated by a
+space</td>
+<td>center</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>&nbsp;</td>
+<td>A string description of the size
+(or keyword?); The (x y) dimensions
+separated by a space</td>
+<td>medium</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>&nbsp;</td>
+<td>A boolean indicating whether the
+object is hidden (True | true |
+False | false)</td>
+<td>False</td>
+</tr>
+<tr class="row-odd"><td>source</td>
+<td>&nbsp;</td>
+<td>A string containing a path/filename</td>
+<td>defaultIcon</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Test Objects</a><ul>
+<li><a class="reference internal" href="#window">Window</a><ul>
+<li><a class="reference internal" href="#attributes">Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#button">Button</a><ul>
+<li><a class="reference internal" href="#id1">Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#checkboxes">Checkboxes</a><ul>
+<li><a class="reference internal" href="#id2">Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#radiobuttons">RadioButtons</a><ul>
+<li><a class="reference internal" href="#id3">Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dropdown">DropDown</a><ul>
+<li><a class="reference internal" href="#id4">Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#text">Text</a><ul>
+<li><a class="reference internal" href="#id5">Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#formattedtext">FormattedText</a><ul>
+<li><a class="reference internal" href="#id6">Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#textbox">TextBox</a><ul>
+<li><a class="reference internal" href="#id7">Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#menu">Menu</a><ul>
+<li><a class="reference internal" href="#id8">Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#menuitem">MenuItem</a><ul>
+<li><a class="reference internal" href="#id9">Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#search">Search</a><ul>
+<li><a class="reference internal" href="#id10">Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#image">Image</a><ul>
+<li><a class="reference internal" href="#id11">Attributes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Objects.html"
+                        title="previous chapter">Objects</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/testDocs.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Objects.html" title="Objects"
+             >previous</a> |</li>
+        <li><a href="index.html">Gooey 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Emily Johnston, Leah Cole, Kenny Suh, Mary McCreary, Evan Harris, Jamaica Lammi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3b2.
+    </div>
+  </body>
+</html>

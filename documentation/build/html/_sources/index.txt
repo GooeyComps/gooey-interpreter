@@ -16,6 +16,7 @@ Contents:
    FunctionsAndActions
    MakeAndSet
    Objects
+   testDocs
 
 
 Indices and tables
