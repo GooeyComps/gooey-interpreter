@@ -10,7 +10,7 @@ import argparse
 Wrapper class for the live preview window
 '''
 class GUIWindow():
-   # def __init__(self, window):
+    # def __init__(self, window):
     #Changed this so that it doesn't take in a window - it just initializes the live preview when it begins
     def __init__(self):
         #self.window = window
@@ -55,10 +55,48 @@ class TextPad():
         m.add_cascade(label="File",menu=fm)
         fm.add_command(label="Run",command=self.update_preview)
         fm.add_command(label="Stop",command=self.stop_preview)
+        
+        
+### START EMILY CODE ###
+        # Add a "definitions" text area so users can see what they've already input but cannot edit it
+        self.definitionLabel = Label(text="Definitions")
+        self.definitionLabel.pack()
+        
+        self.definitions = ScrolledText(self.root, width=60, height=10, state=DISABLED)
+        self.definitions.configure(highlightbackground="black", fg="gray30",bg="gray95")
+        self.definitions.pack()
+        
+        # Editing area/text pad
+        self.editLabel = Label(text="Enter Code Below")
+        self.editLabel.pack()
+### END EMILY CODE ###
+
 
         #add textPad to root and open window
-        self.textPad = ScrolledText(self.root, width=60, height=30)
+        self.textPad = ScrolledText(self.root, width=60, height=10)
+        
+### START EMILY CODE ###
+        # Add a border to the text pad
+        self.textPad.configure(borderwidth=5, highlightbackground="black")
+### END EMILY CODE ###
+        
+    
         self.textPad.pack()
+        
+### START EMILY CODE ###
+        # Add run and stop buttons to the text pad
+        self.runIcon = PhotoImage(file="runIcon.gif")
+        self.stopIcon = PhotoImage(file="stopIcon.gif")
+        
+        self.stopButton = Button(self.root)
+        self.stopButton.configure(image=self.stopIcon, command=self.stop_preview)
+        self.stopButton.pack(side=RIGHT)
+        
+        self.runButton = Button(self.root)
+        self.runButton.configure(image=self.runIcon, command=self.update_preview)
+        self.runButton.pack(side=RIGHT)
+### END EMILY CODE ###
+
 
         #This is where the GUIWindow class is first called - since GUIWindow
         #makes a live preview window when it is initialized, we hide it until we need it
@@ -70,6 +108,13 @@ class TextPad():
 
     def update_preview(self):
         self.retrieve_input()
+        
+### START EMILY CODE ###
+        self.definitions.configure(state=NORMAL)
+        self.definitions.insert(END, self.text)
+        self.definitions.configure(state=DISABLED)
+### END EMILY CODE ###
+        
         ast = parse(self.text, Program)
         self.preview.modify(ast)
         #After it takes in a command and does something it deletes all of the text from the textbox

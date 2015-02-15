@@ -8,6 +8,26 @@ import math
 
 import os
 
+### START EMILY CODE ###
+class ErrorPopup:
+	'''
+	A pop-up window that gracefully handles Gooey errors.
+	Displays the error message to the user and closes when "OK" button is clicked.
+	'''
+	def __init__(self, message):
+		self.message = message
+		# Create error popup window
+		self.window = Toplevel()
+		self.window.title("Error")
+		self.window.geometry("%dx%d%+d%+d" % (200, 200, 200, 200))
+		# Add message to popup
+		messageText = Message(self.window, text=self.message)
+		messageText.pack()
+		# Add "OK" button to popup, that will close popup when clicked
+		button = Button(self.window, text="Ok", command=self.window.destroy)
+		button.pack()
+### END EMILY CODE ###
+
 #Binding object has four instance variables
 #bType - the type of object with regards to "Gooey" ex) Window, Button
 #varname - how we identify the object (a string)
@@ -26,10 +46,12 @@ class Binding:
 		self.bObject = bObject
 		self.params = params
 
-	#def __repr__(self):
-	#	'''Prints a pretty version of the bindings'''
-	#	prettyStr = "Binding " + str(varname) + " of type " + str(bType) + "."
-	#	return prettyStr
+### START EMILY CHANGE ###
+	def __repr__(self):
+		'''Prints a pretty version of the bindings'''
+		prettyStr = "Binding " + str(self.varname) + " of type " + str(self.bType) + "."
+		return prettyStr
+### END EMILY CHANGE ###
 
 class Interpreter():
 	'''Interpreter class: creates GUI based on the expression given by the user.'''
@@ -41,17 +63,11 @@ class Interpreter():
 		self.window = target
 		self.var = IntVar()
 
+### START EMILY CHANGE ###
 	def error(self, message):
 		'''Generates a popup error message'''
-		errorPopup = Toplevel()
-		errorPopup.title("Error")
-		errorPopup.geometry("%dx%d%+d%+d" % (200, 200, 200, 200))
-		msg = Message(errorPopup, text=message)
-		msg.pack()
-		button = Button(errorPopup, text="Ok", command=errorPopup.destroy)
-		button.pack()
-		#self.window.destroy()
-		sys.exit()
+		ErrorPopup(message)
+### END EMILY CHANGE ###
 
 	def interpret(self, ast, bindings):
 		'''Interprets the Gooey code and creates a GUI in the window.

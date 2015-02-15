@@ -13,7 +13,10 @@ class SizeGridValue(str):
 	grammar = "(", attr("columns", intRegex), ",", attr("rows", intRegex), ")"
 
 class ColorKeywordValue(Keyword):
-	grammar = Enum(K("red"),K("blue"),K("green"))
+### START EMILY CHANGE ###
+	grammar = Enum(K("red"),K("blue"),K("yellow"),K("orange"),K("green"),\
+                   K("purple"),K("pink"),K("cyan"),K("magenta"),K("white"),K("black"))
+### END EMILY CHANGE ###
 
 class SizeKeywordValue(Keyword):
 	grammar = Enum(K("small"),K("large"))
