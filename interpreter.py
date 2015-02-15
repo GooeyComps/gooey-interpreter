@@ -392,7 +392,8 @@ class Interpreter():
 		w.deiconify()
 		####NEED TO ADD FONT AND FONTSIZE####
 		####NEED TO DO textcolor as fg = defaults[textcolor]####
-		####NEED TO ADD WINDOW SIZE####
+		####NEED TO ADD WINDOW SIZE -- Right now it is just medium size
+		w.geometry('400x400')
 		w.title(defaults['title'])
 		w.configure(bg=defaults['color'])
 		return w
@@ -427,9 +428,11 @@ class Interpreter():
 						size = item.size.value+"x"+item.size.value
 						w.geometry(size)
 					else:
+						print("ITEM.SIZE.LOWER = ", item.size.value.lower())
 						if item.size.value.lower() == "large":
 							w.geometry('600x600')
 						elif item.size.value.lower() == "medium":
+							print("got to medium")
 							w.geometry('400x400')
 						elif item.size.value.lower() == "small":
 							w.geometry('200x200')
@@ -546,6 +549,7 @@ class Interpreter():
 		defaults = self.getAllDefaults('Button')
 		b = self.makeDefaultButton(w,defaults)
 		r, c = 0, 0
+		print("GOT TO MAKE BUTTON: ", r, c)
 		if hasattr(expr, "attributes"):
 			buttonAttributeList = expr.attributes
 			for item in buttonAttributeList:
@@ -568,6 +572,7 @@ class Interpreter():
 					#Cast action to string, otherwise you cannot find right action
 					#This is temporary until I can call the action as a direct line in the command
 					action = str(item.action.value)
+					print("THIS IS THE ACTION: ", action)
 					# print("AKLSJDHFKLAJHFH")
 					# print(item.action.value)
 					# if action == 'write':
@@ -676,7 +681,7 @@ class Interpreter():
 							subMenuText = item.text.value
 					bindings[key].bObject.add_cascade(label=subMenuText,menu=subMenu)
 
-					for item in expr.attributes[0]:
+					for item in expr.attributes:
 						if hasattr(item, 'options'):
 							for v in item.options.value:
 								print(v)

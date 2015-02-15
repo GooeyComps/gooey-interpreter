@@ -1,4 +1,4 @@
-from pypeg2 import *
+'''from pypeg2 import *
 
 #   SYMBOL DEFINITIONS: regex, Symbol, str, and Keyword
 rgbRegex = re.compile('\(\d{1,3}\,\s*\d{1,3}\,\s*\d{1,3}\)')
@@ -10,28 +10,28 @@ textRegex = re.compile('[^"\n](.[^"]*)')
 fileRegex = re.compile('.*\.\w+')
 
 class SizeGridValue(str):
-	grammar = "(", attr("columns", intRegex), ",", attr("rows", intRegex), ")"
+    grammar = "(", attr("columns", intRegex), ",", attr("rows", intRegex), ")"
 
 class ColorKeywordValue(Keyword):
 ### START EMILY CHANGE ###
-	grammar = Enum(K("red"),K("blue"),K("yellow"),K("orange"),K("green"),\
+    grammar = Enum(K("red"),K("blue"),K("yellow"),K("orange"),K("green"),\
                    K("purple"),K("pink"),K("cyan"),K("magenta"),K("white"),K("black"))
 ### END EMILY CHANGE ###
 
 class SizeKeywordValue(Keyword):
-	grammar = Enum(K("small"),K("large"))
+    grammar = Enum(K("small"),K("large"))
 
 class PositionGridValue(str):
-	grammar = "(", attr("r", intRegex), ",", attr("c", intRegex), ")"
+    grammar = "(", attr("r", intRegex), ",", attr("c", intRegex), ")"
 
 class PositionKeywordValue(Keyword):
-	grammar = Enum(K("center"), K("top"), K("bottom"), K("left"), K("right"), K("topcenter"), K("bottomcenter"), K("topleft"), K("topright"), K("bottomleft"), K("bottomright"))
+    grammar = Enum(K("center"), K("top"), K("bottom"), K("left"), K("right"), K("topcenter"), K("bottomcenter"), K("topleft"), K("topright"), K("bottomleft"), K("bottomright"))
 
 class QuotedText(str):
-	grammar = "\"", some(word), "\""
+    grammar = "\"", some(word), "\""
 
 class SourceFileText(str):
-	grammar = "\"", fileRegex, "\""
+    grammar = "\"", fileRegex, "\""
 
 
 #   WINDOW
@@ -84,7 +84,7 @@ class MenuAttributeList(List):
 
 #   MENUITEM
 class MenuItemTerminal(str):
-	grammar = "\"", attr("text", word), "\"", ":", attr("action", word)
+    grammar = "\"", attr("text", word), "\"", ":", attr("action", word)
 
 #Accept anything after options
 class MenuItemOptionsAttribute(List):
@@ -185,54 +185,54 @@ class RadioButtonsAttributeList(List):
 
 '''
 class ColorRGBValue(str):
-	grammar = rgbRegex
+    grammar = rgbRegex
 
 class ColorHEXValue(str):
-	grammar = hexRegex
+    grammar = hexRegex
 
 #Positions
 class PositionGridValue(str):
-	grammar = "(", intRegex, ",", intRegex, ")"
+    grammar = "(", intRegex, ",", intRegex, ")"
 
 class PositionKeywordValue(Keyword):
-	grammar = Enum(K("bottom"),K("top"), K("middle"), K("left"), K("right"))
+    grammar = Enum(K("bottom"),K("top"), K("middle"), K("left"), K("right"))
 
 class PositionAttribute:
     grammar = "position", blank, attr("value", [PositionGridValue,PositionKeywordValue])
 
 
 class ColorAttribute:
-	grammar = "color", blank, attr("value", [ColorRGBValue, ColorHEXValue, ColorKeywordValue])
+    grammar = "color", blank, attr("value", [ColorRGBValue, ColorHEXValue, ColorKeywordValue])
 
 #Sizes
 class SizeKeywordValue(Keyword):
-	grammar = Enum(K("small"),K("large"))
+    grammar = Enum(K("small"),K("large"))
 
 class SizeGridValue(str):
-	grammar = "(", intRegex, ",", intRegex, ")"
+    grammar = "(", intRegex, ",", intRegex, ")"
 
 class SizeIntValue(str):
-	grammar = intRegex
+    grammar = intRegex
 
 class SizeAttribute:
-	grammar = "size", blank, attr("value", [SizeKeywordValue, SizeIntValue, SizeGridValue])
+    grammar = "size", blank, attr("value", [SizeKeywordValue, SizeIntValue, SizeGridValue])
 
 #Parent window for a Button
 class WindowAttribute:
-	grammar = "window", blank, attr("value", name())
+    grammar = "window", blank, attr("value", name())
 
 #Text
 class TextAttribute:
-	grammar = "text", blank, "\"", attr("value", textRegex), "\""
+    grammar = "text", blank, "\"", attr("value", textRegex), "\""
 
 #TextColor
 class TextColorAttribute:
-	grammar = "textColor", blank, attr("value", [ColorRGBValue, ColorHEXValue, ColorKeywordValue])
+    grammar = "textColor", blank, attr("value", [ColorRGBValue, ColorHEXValue, ColorKeywordValue])
 
 
 #Title
 class TitleAttribute:
-	grammar = "title", blank, "\"", attr("value", textRegex), "\""
+    grammar = "title", blank, "\"", attr("value", textRegex), "\""
 
 
 #Font
@@ -245,15 +245,117 @@ class FontSizeAttribute:
 
 #Menu Options
 class MenuOptionsAttribute:
-	grammar = "options", blank, attr("options", maybe_some(optionsRegex))
+    grammar = "options", blank, attr("options", maybe_some(optionsRegex))
 
 #Button action (name of a function):
 class ActionAttribute:
-	grammar = "action", blank, attr("value", word), optional(attr("text", actionPrint)), optional(attr("color", [ColorRGBValue, ColorHEXValue, ColorKeywordValue]))
+    grammar = "action", blank, attr("value", word), optional(attr("text", actionPrint)), optional(attr("color", [ColorRGBValue, ColorHEXValue, ColorKeywordValue]))
 
 #Wrap as Attribute object and put into AttributeList
 class Attribute:
-	grammar = [attr("title", TitleAttribute), attr("color", ColorAttribute), attr("size", SizeAttribute), attr("window", WindowAttribute), attr("text", TextAttribute), attr("action",ActionAttribute), attr("options", MenuOptionsAttribute), attr("position", PositionAttribute), attr("font", FontAttribute), attr("fontSize", FontSizeAttribute), attr("textColor", TextColorAttribute), attr("source", ImageSourceAttribute)]
+    grammar = [attr("title", TitleAttribute), attr("color", ColorAttribute), attr("size", SizeAttribute), attr("window", WindowAttribute), attr("text", TextAttribute), attr("action",ActionAttribute), attr("options", MenuOptionsAttribute), attr("position", PositionAttribute), attr("font", FontAttribute), attr("fontSize", FontSizeAttribute), attr("textColor", TextColorAttribute), attr("source", ImageSourceAttribute)]
 
 class AttributeList(List):
- 	grammar = csl(Attribute)
+     grammar = csl(Attribute)'''
+
+
+
+
+
+
+
+
+
+
+from pypeg2 import *
+
+#   SYMBOL DEFINITIONS: regex, Symbol, str, and Keyword
+rgbRegex = re.compile('\(\d{1,3}\,\s*\d{1,3}\,\s*\d{1,3}\)')
+intRegex = re.compile('\d+')
+hexRegex = re.compile('\#[A-Fa-f0-9]{6}')
+actionPrint = re.compile('"(.*?)"')
+optionsRegex = re.compile('\"(.+?)\"|\w+')
+textRegex = re.compile('[^"\n](.[^"]*)')
+fileRegex = re.compile('.*\.\w+')
+
+class ColorKeywordValue(Keyword):
+    grammar = Enum(K("red"),K("blue"),K("yellow"),K("orange"),K("green"),\
+                    K("purple"),K("pink"),K("cyan"),K("magenta"),K("white"),K("black"))
+
+class SizeGridValue(str):
+    grammar = "(", attr("columns", intRegex), ",", attr("rows", intRegex), ")"
+
+class SizeKeywordValue(Keyword):
+    grammar = Enum(K("small"), K("medium"),K("large"))
+
+class PositionGridValue(str):
+    grammar = "(", attr("r", intRegex), ",", attr("c", intRegex), ")"
+
+class PositionKeywordValue(Keyword):
+    grammar = Enum(K("center"), K("top"), K("bottom"), K("left"), K("right"), K("topcenter"), K("bottomcenter"), K("topleft"), K("topright"), K("bottomleft"), K("bottomright"))
+
+class QuotedText(str):
+    grammar = "\"", some(word), "\""
+
+class SourceFileText(str):
+    grammar = "\"", fileRegex, "\""
+
+
+
+
+#Attributes to put in List
+class ColorAttribute(List):
+    grammar = 'color', blank, attr('value', [rgbRegex, hexRegex, ColorKeywordValue])
+
+#TextColor
+class TextColorAttribute:
+    grammar = 'textColor', blank, attr('value', [rgbRegex, hexRegex, ColorKeywordValue])
+
+class SizeAttribute(List):
+    grammar = 'size', blank, attr('value', [intRegex, SizeGridValue, SizeKeywordValue])
+
+class PositionAttribute(List):
+    grammar = 'position', blank, attr('value', [PositionKeywordValue, PositionGridValue])
+
+class TextAttribute(List):
+    grammar = 'text', blank, attr('value', QuotedText)
+
+class ActionAttribute(List):
+    #grammar = 'action', blank, attr("value", word)
+    grammar = "action", blank, attr("value", word), optional(attr("text", actionPrint)), optional(attr("color", [rgbRegex, hexRegex, ColorKeywordValue])), optional(attr("size", [intRegex, SizeGridValue, SizeKeywordValue]))
+
+class TitleAttribute(List):
+    #grammar = 'title', blank, attr('value', QuotedText)
+    grammar = "title", blank, "\"", attr("value", textRegex), "\""
+
+#Font
+class FontAttribute:
+    grammar = "font", blank, "\"", attr("value", textRegex), "\""
+
+#   MENUITEM DOES THIS GO IN ATTRIBUTE CLASS????
+class MenuItemTerminal(str):
+    grammar = "\"", attr("text", word), "\"", ":", attr("action", word)
+
+#Accept anything after options
+class MenuItemOptionsAttribute(List):
+    grammar = 'options', blank, attr('value', maybe_some([word, MenuItemTerminal]))
+
+#   IMAGE
+class ImageSourceAttribute(List):
+    grammar = 'source', blank, attr('value', SourceFileText)
+
+#   CHECKBOXES HOW TO CONDENSE? OR USE NEW KEYWORD?
+class CheckboxesOptionsAttribute(List):
+    grammar = 'options', blank, attr('options', some(optional("*"), QuotedText))
+
+#  RADIOBUTTONS
+class RadioButtonsOptionsAttribute(List):
+    grammar = 'options', blank, attr('options', some(optional("*"), QuotedText))
+
+
+#Wrap as Attribute object and put into AttributeList
+class Attribute:
+    grammar = [attr("color", ColorAttribute), attr("textColor", TextColorAttribute), attr("size", SizeAttribute), attr("position", PositionAttribute), attr("text", TextAttribute), attr("action", ActionAttribute), attr("title", TitleAttribute), attr("font", FontAttribute), attr("options", MenuItemOptionsAttribute), attr("source", ImageSourceAttribute)]
+
+class AttributeList(List):
+     grammar = csl(Attribute)
