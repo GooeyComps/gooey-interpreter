@@ -12,7 +12,7 @@ def write(window, item):
 
 # Close window actions
 #def close(window):
-def close(window, item):
+def quit(window, item):
     window.quit()
     #return (window, item)
 
@@ -22,6 +22,16 @@ def windowColorChange(window,item):
     c = item.action.color
     window.configure(bg= c)
     #return (window,item)
+
+# Changes size of window
+def windowSizeChange(window, item):
+    c = item.action.size
+    if c.lower() == "large":
+        window.geometry('600x600')
+    elif c.lower() == "medium":
+        window.geometry('400x400')
+    elif c.lower() == "small":
+        window.geometry('200x200')
 
 def findAction(item):
     action = str(item.action.value)

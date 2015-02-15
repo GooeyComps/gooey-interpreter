@@ -556,6 +556,7 @@ class Interpreter():
 					#Cast action to string, otherwise you cannot find right action
 					#This is temporary until I can call the action as a direct line in the command
 					action = str(item.action.value)
+					print("THIS IS THE ACTION: ", action)
 					# print("AKLSJDHFKLAJHFH")
 					# print(item.action.value)
 					# if action == 'write':
@@ -664,7 +665,7 @@ class Interpreter():
 							subMenuText = item.text.value
 					bindings[key].bObject.add_cascade(label=subMenuText,menu=subMenu)
 
-					for item in expr.attributes[0]:
+					for item in expr.attributes:
 						if hasattr(item, 'options'):
 							for v in item.options.value:
 								print(v)

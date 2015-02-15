@@ -317,7 +317,8 @@ class TextAttribute(List):
     grammar = 'text', blank, attr('value', QuotedText)
 
 class ActionAttribute(List):
-    grammar = 'action', blank, attr("value", word)
+    #grammar = 'action', blank, attr("value", word)
+	grammar = "action", blank, attr("value", word), optional(attr("text", actionPrint)), optional(attr("color", [rgbRegex, hexRegex, ColorKeywordValue])), optional(attr("size", [intRegex, SizeGridValue, SizeKeywordValue]))
 
 class TitleAttribute(List):
     #grammar = 'title', blank, attr('value', QuotedText)
