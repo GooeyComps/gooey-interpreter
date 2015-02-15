@@ -393,7 +393,7 @@ class Interpreter():
 		####NEED TO ADD FONT AND FONTSIZE####
 		####NEED TO DO textcolor as fg = defaults[textcolor]####
 		####NEED TO ADD WINDOW SIZE -- Right now it is just medium size
-		w.geometry('400x400')
+		#w.geometry('400x400')
 		w.title(defaults['title'])
 		w.configure(bg=defaults['color'])
 		return w

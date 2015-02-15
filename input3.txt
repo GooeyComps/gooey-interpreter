@@ -1,2 +1,2 @@
-make Window w with size (5,5).
+make Window w with size (5,5), color green.
 make Image i with source "apple.gif".
