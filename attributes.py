@@ -283,13 +283,13 @@ class ColorKeywordValue(Keyword):
                     K("purple"),K("pink"),K("cyan"),K("magenta"),K("white"),K("black"))
 
 class SizeGridValue(str):
-    grammar = "(", attr("columns", intRegex), ",", attr("rows", intRegex), ")"
+    grammar = attr("columns", intRegex), blank, attr("rows", intRegex)
 
 class SizeKeywordValue(Keyword):
     grammar = Enum(K("small"), K("medium"),K("large"))
 
 class PositionGridValue(str):
-    grammar = "(", attr("r", intRegex), ",", attr("c", intRegex), ")"
+    grammar = attr("r", intRegex), blank, attr("c", intRegex)
 
 class PositionKeywordValue(Keyword):
     grammar = Enum(K("center"), K("top"), K("bottom"), K("left"), K("right"), K("topcenter"), K("bottomcenter"), K("topleft"), K("topright"), K("bottomleft"), K("bottomright"))
@@ -312,7 +312,8 @@ class TextColorAttribute:
     grammar = 'textColor', blank, attr('value', [rgbRegex, hexRegex, ColorKeywordValue])
 
 class SizeAttribute(List):
-    grammar = 'size', blank, attr('value', [intRegex, SizeGridValue, SizeKeywordValue])
+#    grammar = 'size', blank, attr('value', [intRegex, SizeGridValue, SizeKeywordValue])
+    grammar = 'size', blank, attr('value', [SizeGridValue, SizeKeywordValue])
 
 class PositionAttribute(List):
     grammar = 'position', blank, attr('value', [PositionKeywordValue, PositionGridValue])
