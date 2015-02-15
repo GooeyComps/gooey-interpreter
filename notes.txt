@@ -27,4 +27,18 @@ Attributes is getting super messy
 2/14/15
 Small/med/large keywords for windows - maybe make large larger? - need to add medium
 In function call, adding an error check that there isn't already a binding of that name
-When we have user-defined functions that make a thing, should we have them set it equal to something? 
+When we have user-defined functions that make a thing, should we have them set it equal to something?
+
+2/15/15
+Make the window size the window size
+functions:
+    not require a return
+    have more than 1 param
+    make return return differently, following code should bind Button to but on global level, not b.
+        function hi() does
+            make Button b;
+            return b;
+        make Button but run hi().
+destroy/redefine/....???????
+position syntax 100 100 not (100, 100)
+menus wonky
