@@ -239,10 +239,10 @@ class Interpreter():
                             assert t.bType == 'TextBox'
                             tbox = t.bObject
                             if hasattr(expr, "attributes"):
-                                for item in expr.attributes[0]:
+                                for item in expr.attributes:
                                     if hasattr(item, 'text'):
-                                        tbox.insert(END, item.text.value)
-                                        tbox.pack()
+                                        tbox.delete("1.0", END)
+                                        tbox.insert(END, self.extractTextValue(item.text.value))
                         #print("THIS IS EXPR: ",expr.attributes.text)
                         #tbox.insert(END, expr)
                 else:
@@ -580,8 +580,11 @@ class Interpreter():
         t = self.makeDefaultTextBox(w,defaults)
         r, c = 0, 0
         if hasattr(expr, "attributes"):
-            for item in expr.attributes[0]:
+            for item in expr.attributes:
+                print("attribute[0]", item)
                 if hasattr(item, 'text'):
+                    print("has attribute text")
+                    t.delete("1.0",END)
                     t.insert(END, self.extractTextValue(item.text.value))
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
