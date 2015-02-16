@@ -44,3 +44,5 @@ position syntax 100 100 not (100, 100)
 menus wonky
 color windows???????>?????
 changed Interpreter.gRows/gColumns to self.gRows/gColumns in setWindow/makeWindow
+Cannot put punctuation in text objects???
+TextBox cannot modify text anymore??

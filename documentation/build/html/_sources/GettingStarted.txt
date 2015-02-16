@@ -7,9 +7,12 @@ Language Basics
 
 The Gooey GUI language was designed to be easy! Our goal was to make coding look less like code, and more like an English sentence. There are a few basic rules to follow, and then you’ll be on your way.
 
-Normally, each line starts with either **make** or **set**.
+Normally, each line starts with either **make** or **set**, which can be capital or lowercase. 
 
-As Gooey attempts to simulate english, each line of Gooey **ends with a period**.
+As Gooey attempts to simulate english, each line of Gooey **ends with a period**. When making a list of multiple attributes, lines are **seperated by commas*.
+
+Although Gooey is similar to Python, in Gooey **white space does not matter**.
+
 
 Make Commands
 =============

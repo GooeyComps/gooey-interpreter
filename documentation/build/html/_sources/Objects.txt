@@ -26,6 +26,33 @@ Example syntax::
  make Window w with size (10,10), color green.
  set w title "My favorite GUI".
 
+Attributes:
+
+===========  ====================  ===================================  ====================  
+Attribute    Description           Possible Values                      Default Value         
+===========  ====================  ===================================  ====================  
+title                              A plaintext string | A               """Untitled    
+                                   FormattedText object                 Window"""             
+size                               A string description of the size     medium                
+                                   (or keyword?); The (x y) dimensions  
+                                   separated by a space                 
+color                              A string description of the color    white                 
+                                   (or keyword?); An rgb value          
+                                   separated by spaces                  
+action                             The name of a Python or Gooey        """"""                
+                                   function to call when the object is  
+                                   acted upon                           
+hidden                             A boolean indicating whether the     False                 
+                                   object is hidden (True | true |      
+                                   False | false)                       
+font                               The string name of a font available  """Times New          
+                                   in Gooey                             Roman"""              
+fontSize                           A number indicating the font size    12                    
+textColor                          A color (A string description or an  black                 
+                                   rgb value)                           
+===========  ====================  ===================================  ====================  
+
+
 Checkboxes
 ==========
 

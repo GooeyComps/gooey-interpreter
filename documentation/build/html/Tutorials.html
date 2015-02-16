@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Gooey 1.0 documentation" href="index.html" />
-    <link rel="next" title="Functions and Actions" href="FunctionsAndActions.html" />
+    <link rel="next" title="Actions and Functions" href="FunctionsAndActions.html" />
     <link rel="prev" title="Getting Started" href="GettingStarted.html" /> 
   </head>
   <body role="document">
@@ -35,7 +35,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="FunctionsAndActions.html" title="Functions and Actions"
+          <a href="FunctionsAndActions.html" title="Actions and Functions"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="GettingStarted.html" title="Getting Started"
@@ -52,8 +52,8 @@
   <div class="section" id="tutorials">
 <h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
 <p>These tutorials are here to show examples of basic Gooey GUIs. If you&#8217;re just starting to learn Gooey, you might want to go through some or all of the tutorials before you make your own GUI.</p>
-<div class="section" id="basic-tutorial">
-<h2>Basic Tutorial<a class="headerlink" href="#basic-tutorial" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="window-text-and-button-tutorial">
+<h2>Window, Text, and Button Tutorial<a class="headerlink" href="#window-text-and-button-tutorial" title="Permalink to this headline">¶</a></h2>
 <p>To start using Gooey, go to the terminal and navigate to the project folder. Type in the terminal:</p>
 <div class="highlight-python"><div class="highlight"><pre>python3 gooey.py
 </pre></div>
@@ -65,14 +65,20 @@
 <div class="highlight-python"><div class="highlight"><pre>make Window w.
 </pre></div>
 </div>
-<p>When you’re ready to run your GUI, go to the <em>File</em> menu and select <em>Run</em>.</p>
+<p>When you’re ready to run your GUI, hit the play button at the bottom right corner.</p>
 <img alt="_images/run.png" src="_images/run.png" />
 <p>This is your live preview. Right now it’s a little boring.</p>
 <img alt="_images/preview.png" src="_images/preview.png" />
-<p>Make the window bigger or smaller with the set command. Type:</p>
-<div class="highlight-python"><div class="highlight"><pre>set w size 250.
+<p>Make the window bigger or smaller with the set command. The set command allows you to modify one or more things at a time. Try adjusting the title of the window, which will appear in the bar across the top. Type:</p>
+<div class="highlight-python"><div class="highlight"><pre>set w size 5 5, title &quot;My Fist Gooey&quot;.
 </pre></div>
 </div>
+<p>An empty window is useless though. To add writing to your GUI, you&#8217;ll need to add a Text object. Type:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Text t with text &quot;Welcome to Gooey!&quot;
+</pre></div>
+</div>
+<p>INSERT PICTURE
+make sure punctuation works in text objects.</p>
 <p>Now you’re ready to add a button. Type:</p>
 <div class="highlight-python"><div class="highlight"><pre>make Button b with text “Hello”.
 </pre></div>
@@ -84,9 +90,68 @@
 </pre></div>
 </div>
 <img alt="_images/green.png" src="_images/green.png" />
-<p>Now, let’s add one more item to our beautiful green window: checkboxes.
-Checkboxes have a title and values. The <em>title</em> sits just above the checkboxes. The <em>value</em> attribute is followed by a list of strings, or text within quotation marks. These strings list how many checkboxes you want, and what they’ll be labeled. The <em>default</em> attribute marks which checkboxes will be automatically checked.</p>
-<p>Tutorial unfinished beacuse nothing seems to be working quite yet.</p>
+<p>Your button is currently useless. You can click it, but since we haven&#8217;t given it an <em>action</em> attribute, it won&#8217;t do anything.</p>
+<p>Try:</p>
+<div class="highlight-python"><div class="highlight"><pre>set b text &quot;Go&quot;, action windowColorChange green.
+</pre></div>
+</div>
+<p>Try clicking on the button, see what happens. Your window should have turned green. Gooey has a number of built in actions which you can find in the Actions section of the Gooey Docs.</p>
+</div>
+<div class="section" id="image-textbox-checkbox-and-menu-tutorial">
+<h2>Image, TextBox, Checkbox, and Menu Tutorial<a class="headerlink" href="#image-textbox-checkbox-and-menu-tutorial" title="Permalink to this headline">¶</a></h2>
+<p>Now, let&#8217;s try making a slightly more complicated Gooey.</p>
+<p>Remember, always start by making a window:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Window w with title &quot;Gooey Two&quot;, size 10 10, color blue.
+</pre></div>
+</div>
+<p>Make things more decorative by adding a picture. This will use the <em>Image</em> object, and will need a still picture in the .gif format. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Image apple with source &quot;apple.gif&quot;, position 0 1.
+</pre></div>
+</div>
+<p>There are times when you might want your users to write something out. A TextBox is perfect in this situation! Type:</p>
+<div class="highlight-python"><div class="highlight"><pre>make TextBox comments with text &quot;Write your thoughts here&quot;.
+make Button submit with text &quot;Submit&quot;, position 1 0.
+</pre></div>
+</div>
+<p>But maybe instead of direct input, you merely want your users to choose between a few choices. A simple Checkbox looks like:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Checkboxes cb with options &quot;Apple&quot; &quot;Peach&quot; &quot;Pumpkin Pie&quot;.
+</pre></div>
+</div>
+<p>Each of the options you list will make another checkbox with that label. You can put a preface on your Checkboxes using the <em>title</em> attribute:</p>
+<div class="highlight-python"><div class="highlight"><pre>set cb title &quot;Choose from the following:&quot;.
+</pre></div>
+</div>
+<p>Now onto one of the most complex components of Gooey: Menus.</p>
+<p>The basic <em>Menu</em> object will keep track of the different menus you plan on having. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Menu toplevel with options file edit.
+</pre></div>
+</div>
+<p>will create two different drop down menu lists. To populate these lists, you need <em>MenuItem</em> objects. They should look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>make MenuItem file with
+   title &quot;File&quot;,
+   options &quot;Quit&quot;:quit
+make MenuItem edit with
+   title &quot;Edit&quot;,
+   options &quot;Change color&quot;:quit &quot;Change size&quot;:quit.
+</pre></div>
+</div>
+<p>All of these actions will close your program. You can create your own object actions by making functions.</p>
+<p>A simple function to simply change the window color looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>function myFunction(win) does set win color green; return win.
+</pre></div>
+</div>
+<p>After making a function, there are two ways to use it. To run myFucntion on the Window w, either you can say:</p>
+<div class="highlight-python"><div class="highlight"><pre>run myFunction(w).
+</pre></div>
+</div>
+<p>or you can turn your function into an action for Buttons and MenuItems</p>
+<div class="highlight-python"><div class="highlight"><pre>make Button b with action myFunction(w).
+
+make MenuItem edit with title &quot;Edit&quot;,
+   options &quot;Change color&quot;:myFunciton(w) &quot;Change size&quot;:quit.
+</pre></div>
+</div>
+<p>Now you&#8217;ve gone through all the main components of Gooey. You&#8217;re ready to make your own now!</p>
 </div>
 </div>
 
@@ -99,7 +164,8 @@ Checkboxes have a title and values. The <em>title</em> sits just above the check
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Tutorials</a><ul>
-<li><a class="reference internal" href="#basic-tutorial">Basic Tutorial</a></li>
+<li><a class="reference internal" href="#window-text-and-button-tutorial">Window, Text, and Button Tutorial</a></li>
+<li><a class="reference internal" href="#image-textbox-checkbox-and-menu-tutorial">Image, TextBox, Checkbox, and Menu Tutorial</a></li>
 </ul>
 </li>
 </ul>
@@ -109,7 +175,7 @@ Checkboxes have a title and values. The <em>title</em> sits just above the check
                         title="previous chapter">Getting Started</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="FunctionsAndActions.html"
-                        title="next chapter">Functions and Actions</a></p>
+                        title="next chapter">Actions and Functions</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -141,7 +207,7 @@ Checkboxes have a title and values. The <em>title</em> sits just above the check
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="FunctionsAndActions.html" title="Functions and Actions"
+          <a href="FunctionsAndActions.html" title="Actions and Functions"
              >next</a> |</li>
         <li class="right" >
           <a href="GettingStarted.html" title="Getting Started"

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Functions and Actions &mdash; Gooey 1.0 documentation</title>
+    <title>Actions and Functions &mdash; Gooey 1.0 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -49,15 +49,89 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="functions-and-actions">
-<h1>Functions and Actions<a class="headerlink" href="#functions-and-actions" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
-<p>You can use functions, probably.</p>
-</div>
+  <div class="section" id="actions-and-functions">
+<h1>Actions and Functions<a class="headerlink" href="#actions-and-functions" title="Permalink to this headline">¶</a></h1>
+<p>Actions and functions are extremely important elements of GUIs. Actions and functions make things happen.</p>
 <div class="section" id="actions">
 <h2>Actions<a class="headerlink" href="#actions" title="Permalink to this headline">¶</a></h2>
-<p>If your action is close you can make everything die.</p>
+<p><em>Actions</em> are the attributes for ojbects like <em>Buttons</em> and <em>MenuItems</em> that make them do things. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Button quit with title &quot;Stop&quot;, action quit.
+</pre></div>
+</div>
+<p>will make a button that shuts down the program when clicked.</p>
+<p><em>quit</em> is one of a handful of defualt actions Gooey has created for you.</p>
+<div class="section" id="write">
+<h3>Write<a class="headerlink" href="#write" title="Permalink to this headline">¶</a></h3>
+<p>The <em>write</em> action will print a string to the terminal. After declaring the write action, add a string in double quotation marks, as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Button b with action write &quot;I&#39;m a print statement&quot;.
+</pre></div>
+</div>
+</div>
+<div class="section" id="quit">
+<h3>Quit<a class="headerlink" href="#quit" title="Permalink to this headline">¶</a></h3>
+<p>The <em>quit</em> action closes the program.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Button b with action quit.
+</pre></div>
+</div>
+</div>
+<div class="section" id="windowcolorchange">
+<h3>windowColorChange<a class="headerlink" href="#windowcolorchange" title="Permalink to this headline">¶</a></h3>
+<p>The <em>windowColorChange</em> action changes the color of the window. After declaring the <em>windowColorChange</em>, add a color value.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Button error with title &quot;Error&quot;, action windowColorChange red.
+</pre></div>
+</div>
+</div>
+<div class="section" id="windowsizechange">
+<h3>windowSizeChange<a class="headerlink" href="#windowsizechange" title="Permalink to this headline">¶</a></h3>
+<p>The <em>windowSizeChange</em> action changes the size of the window. After declairing the <em>windowSizeChange</em> action, add a size value.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Button size with title &quot;Full Screen&quot;, action windowSizeChange large.
+</pre></div>
+</div>
+</div>
+<div class="section" id="findaction">
+<h3>findAction<a class="headerlink" href="#findaction" title="Permalink to this headline">¶</a></h3>
+<p>Please ask Jamica</p>
+</div>
+<div class="section" id="findmenuaction">
+<h3>findMenuAction<a class="headerlink" href="#findmenuaction" title="Permalink to this headline">¶</a></h3>
+<p>Ask Jamaica about this too.</p>
+</div>
+<div class="section" id="callaction">
+<h3>callAction<a class="headerlink" href="#callaction" title="Permalink to this headline">¶</a></h3>
+<p>What even is this</p>
+<p>make Window w.
+function myFunction(win) does set win color green; return win.
+run myFunction(w)</p>
+<p>make Button b with action myFunction(w).</p>
+</div>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<p>A function will let you <em>create your own actions</em>. The syntax for functions is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre>function NAME(VARIABLE) does GOOEY_CODE; return VARIABLE.
+</pre></div>
+</div>
+<p>A real example would look like this:</p>
+<blockquote>
+<div>function myFunction(win) does set win color green; return win.</div></blockquote>
+<p>This line of code means that the function named myFunction, which takes in an object <em>win</em>, will reset the window color to green. You need to return the object at the end for your changes to occur.</p>
+<p>There are two ways to run your function. You can use the <em>run</em> command to run the function yourself:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Window w.
+function myFunction(win) does set win color green; return win.
+run myFunction(w).
+</pre></div>
+</div>
+<p>Alternatively, you can set the function as a Button or MenuItem action.:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Window w.
+function myFunction(win) does set win color green; return win.
+make Button b with action myFunction(win).
+make Menu with options file
+make MenuItem file with title &quot;File&quot;, options &quot;Change&quot;:myFunction(win).
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -69,9 +143,18 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Functions and Actions</a><ul>
+<li><a class="reference internal" href="#">Actions and Functions</a><ul>
+<li><a class="reference internal" href="#actions">Actions</a><ul>
+<li><a class="reference internal" href="#write">Write</a></li>
+<li><a class="reference internal" href="#quit">Quit</a></li>
+<li><a class="reference internal" href="#windowcolorchange">windowColorChange</a></li>
+<li><a class="reference internal" href="#windowsizechange">windowSizeChange</a></li>
+<li><a class="reference internal" href="#findaction">findAction</a></li>
+<li><a class="reference internal" href="#findmenuaction">findMenuAction</a></li>
+<li><a class="reference internal" href="#callaction">callAction</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#functions">Functions</a></li>
-<li><a class="reference internal" href="#actions">Actions</a></li>
 </ul>
 </li>
 </ul>
