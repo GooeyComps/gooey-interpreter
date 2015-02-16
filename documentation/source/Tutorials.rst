@@ -31,11 +31,11 @@ This is your live preview. Right now it’s a little boring.
 
 Make the window bigger or smaller with the set command. The set command allows you to modify one or more things at a time. Try adjusting the title of the window, which will appear in the bar across the top. Type::
 
- set w size 5 5, title "My Fist Gooey".
+ set w size 5 5, title "My First Gooey".
  
 An empty window is useless though. To add writing to your GUI, you'll need to add a Text object. Type::
 
- make Text t with text "Welcome to Gooey!"
+ make Text t with text "Welcome to Gooey!".
 
 INSERT PICTURE
 make sure punctuation works in text objects.

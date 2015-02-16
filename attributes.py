@@ -295,7 +295,7 @@ class PositionKeywordValue(Keyword):
     grammar = Enum(K("center"), K("top"), K("bottom"), K("left"), K("right"), K("topcenter"), K("bottomcenter"), K("topleft"), K("topright"), K("bottomleft"), K("bottomright"))
 
 class QuotedText(str):
-    grammar = "\"", some(word), "\""
+    grammar = "\"", textRegex, "\""
 
 class SourceFileText(str):
     grammar = "\"", fileRegex, "\""

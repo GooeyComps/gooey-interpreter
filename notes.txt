@@ -46,3 +46,13 @@ color windows???????>?????
 changed Interpreter.gRows/gColumns to self.gRows/gColumns in setWindow/makeWindow
 Cannot put punctuation in text objects???
 TextBox cannot modify text anymore??
+
+
+
+2/16/15 Leah and Jamaica try things
+- make Text t with text "Welcome to Gooey!". doesn't work
+- make the window, make a button, set the color.
+- I think we're missing a lot of set methods
+- Text with punctuation - we need to change the regex in attributes
+Make toplevel window not resizable 
+Frames on frames on frames - the frames need to go somewhere where we can access them. In the window binding perhaps? This will fix a number of other problems. A lot. 

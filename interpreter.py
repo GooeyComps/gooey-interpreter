@@ -43,6 +43,7 @@ class Binding:
     bObject = None
     params = None
 
+
     def __init__(self,bType,varname,bObject,params):
         '''Sets instance variables: type, name, Tkinter object, and optional parameters'''
         self.bType = bType
@@ -125,7 +126,7 @@ class Interpreter():
                     elif(expr.type == "Text"):
                         self.checkVarname(expr,bindings)
                         t = self.makeText(self.window, expr)
-                        binding = self.makeBinding("Label", expr.varname, t)
+                        binding = self.makeBinding("Text", expr.varname, t)
                         bindings = self.addBinding(binding,bindings)
 
                     elif(expr.type == "Checkboxes"):
@@ -233,6 +234,10 @@ class Interpreter():
 
                         elif(obj.bType == "MenuItem"):
                             pass
+                        elif(obj.bType == "Text"):
+                            t = self.getObject(expr,bindings)
+                            assert t.bType == 'Text'
+                            t = self.setText(t.bObject,self.window, expr)
 
                         elif(obj.bType == "TextBox"):
                             t = self.getObject(expr,bindings)
@@ -343,6 +348,8 @@ class Interpreter():
         op.grid(row=r, column=c, sticky=N+S+E+W)
         return op
 
+    def setCheckboxes():
+        pass
 #
 #    #               RADIOBUTTONS
 #
@@ -356,6 +363,9 @@ class Interpreter():
         gg = Radiobutton(w, text=i, variable=self.var, value=num, anchor=W)
         gg.grid(row=r, column=c, sticky=N+S+E+W)
         return gg
+    
+    def setRadioButtons():
+        pass
 
 
 #    #               TEXT
@@ -372,6 +382,28 @@ class Interpreter():
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'text'):
+                    tl.configure(text=self.extractTextValue(item.text.value))
+                elif hasattr(item, 'position'):
+                    if hasattr(item.position.value, "r"):
+                        r = int(item.position.value.r)
+                        c = int(item.position.value.c)
+                    else:
+                        r, c = self.getPositionByKeyword(item.position.value)
+                elif hasattr(item, 'color'):
+                    tl.configure(fg=item.color.value)
+                else:
+                    self.error("Error: Incorrect attribute.")
+        tl.grid(row=r, column=c, sticky=N+S+E+W)
+        return tl
+    
+    def setText(self,tl,w,expr):
+        print("\n\nIn Set text")
+        r, c = 0, 0
+        if hasattr(expr, "attributes"):
+            print("I have attrs")
+            for item in expr.attributes:
+                if hasattr(item, 'text'):
+                    print(item.text.value)
                     tl.configure(text=self.extractTextValue(item.text.value))
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
@@ -407,10 +439,24 @@ class Interpreter():
     def setWindowSize(self, w, rows, columns):
         self.gRows = rows
         self.gColumns = columns
+        backgroundColor = w.cget('bg')
         for i in range(0,columns):
             for j in range(0,rows):
                 l = Frame(w, height=100, width=100)
                 l.grid(row = j, column = i)
+                l.configure(bg = backgroundColor)
+
+                
+                
+    def setWindowColor(self,w,color):
+#        self.gRows = rows
+#        self.gColumns = columns
+        
+        for i in range(0,self.gColumns):
+            for j in range(0,self.gRows):
+                l = Frame(w, height=100, width=100)
+                l.grid(row = j, column = i)
+                l.configure(bg = color)
 
     def makeWindow(self,w,expr):
         '''Makes a window given user attributes.
@@ -426,6 +472,7 @@ class Interpreter():
 
                 if hasattr(item, 'color'):
                     w.configure(bg=item.color.value)
+                    self.setWindowColor(w,item.color.value)
                 elif hasattr(item,'size'):
 #                    if hasattr(item.size.value, "columns"):
 #                        rows = int(item.size.value.rows)
@@ -500,6 +547,7 @@ class Interpreter():
                 if hasattr(item, 'color'):
                     #self.window.configure(bg=item.color.value)
                     w.configure(bg=item.color.value)
+                    self.setWindowColor(w,item.color.value)
                 elif hasattr(item,'size'):
 #                    if hasattr(item.size.value, "columns"):
 #                        rows = int(item.size.value.rows)
@@ -597,6 +645,8 @@ class Interpreter():
         t.grid(row=r, column=c, sticky=N+S+E+W)
         return t
 
+    def setTextBox():
+        pass
 
 
     #               BUTTONS
@@ -732,6 +782,9 @@ class Interpreter():
 #    def makeDefaultMenuItem(self,w,defaults):
 #        pass
 
+    def setMenu():
+        pass
+
     def makeMenuItem(self,w,expr,bindings):
         menuItem = None
         rootMenu = None
@@ -768,6 +821,9 @@ class Interpreter():
                     w.config(menu=bindings[key].bObject)
 
         return menuItem
+    
+        def setMenuItem():
+            pass
 
 
     #           IMAGES - not in window right now!
@@ -807,6 +863,9 @@ class Interpreter():
                     self.error("Error: Incorrect attribute.")
         l.grid(row=r, column=c, sticky=N+S+E+W)
         return l
+    
+    def setImage():
+        pass
 
 
 
