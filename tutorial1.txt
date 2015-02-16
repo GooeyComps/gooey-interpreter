@@ -1,0 +1,4 @@
+make Window w with title "My First Gooey".
+make Text t with text "Welcome to Gooey", position 0 1.
+make Button b with position 1 1, text "Go", action windowColorChange green.
+make Button r with position 1 2,text "Stop", action windowColorChange red.

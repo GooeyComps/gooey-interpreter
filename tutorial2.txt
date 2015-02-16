@@ -1,0 +1,7 @@
+make Window w with title "Gooey Two", size 5 5, color blue.
+make Image apple with source "apple.gif", position 0 1.
+make TextBox comments.
+make Button submit with text "Submit", position 1 0.
+make Menu toplevel with options file edit.
+make MenuItem file with title "File", options "Save":quit.
+make MenuItem edit with title "Edit", options "Copy":quit.
