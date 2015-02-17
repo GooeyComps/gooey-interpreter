@@ -58,10 +58,81 @@
 <p>Example syntax:</p>
 <div class="highlight-python"><div class="highlight"><pre>make Button b.
 make Button b with text &quot;Hello&quot;.
-make Button b with text &quot;Hello&quot;, position (3,5).
+make Button b with text &quot;Hello&quot;, position 3 5.
 set b action close.
 </pre></div>
 </div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="33%" />
+<col width="37%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>Text above the button</td>
+<td><ul class="first last simple">
+<li>A plaintext string</li>
+</ul>
+</td>
+<td>none</td>
+</tr>
+<tr class="row-odd"><td>text</td>
+<td>Words on button</td>
+<td><ul class="first last simple">
+<li>A plaintext string</li>
+</ul>
+</td>
+<td>&#8220;Untitled Button&#8221;</td>
+</tr>
+<tr class="row-even"><td>position</td>
+<td>location of button on window</td>
+<td><ul class="first last simple">
+<li>position keyword</li>
+<li>integer coordinate, seperated by
+space</li>
+</ul>
+</td>
+<td>center</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>size of button</td>
+<td><ul class="first last simple">
+<li>size keyword</li>
+<li>Height and width integers,
+seperated by a space</li>
+</ul>
+</td>
+<td>medium</td>
+</tr>
+<tr class="row-even"><td>action</td>
+<td>Effect when button clicked</td>
+<td><ul class="first last simple">
+<li>name of Python or Gooey function</li>
+</ul>
+</td>
+<td>none</td>
+</tr>
+<tr class="row-odd"><td>hidden</td>
+<td>Determines if button visible
+(False) or invisible (True)</td>
+<td><ul class="first last simple">
+<li>True</li>
+<li>False</li>
+</ul>
+</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="window">
 <h2>Window<a class="headerlink" href="#window" title="Permalink to this headline">¶</a></h2>
@@ -74,10 +145,10 @@ set w title &quot;My favorite GUI&quot;.
 <p>Attributes:</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="13%" />
-<col width="23%" />
-<col width="41%" />
-<col width="23%" />
+<col width="10%" />
+<col width="33%" />
+<col width="37%" />
+<col width="20%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Attribute</th>
@@ -88,56 +159,79 @@ set w title &quot;My favorite GUI&quot;.
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>title</td>
-<td>&nbsp;</td>
-<td>A plaintext string | A
-FormattedText object</td>
-<td>&#8220;&#8221;&#8220;Untitled
-Window&#8221;&#8220;&#8221;</td>
+<td>The name as displayed in the
+top bar of the window.</td>
+<td><ul class="first last simple">
+<li>A plaintext string</li>
+</ul>
+</td>
+<td>&#8220;Untitled Window&#8221;</td>
 </tr>
 <tr class="row-odd"><td>size</td>
-<td>&nbsp;</td>
-<td>A string description of the size
-(or keyword?); The (x y) dimensions
-separated by a space</td>
+<td>The width and height of the
+window</td>
+<td><ul class="first last simple">
+<li>size keyword</li>
+<li>Height and width integers,
+separated by a space</li>
+</ul>
+</td>
 <td>medium</td>
 </tr>
 <tr class="row-even"><td>color</td>
-<td>&nbsp;</td>
-<td>A string description of the color
-(or keyword?); An rgb value
-separated by spaces</td>
+<td>The color of the window
+background</td>
+<td><ul class="first last simple">
+<li>color keyword</li>
+<li>rgb value, sperated by spaces</li>
+</ul>
+</td>
 <td>white</td>
 </tr>
 <tr class="row-odd"><td>action</td>
-<td>&nbsp;</td>
-<td>The name of a Python or Gooey
-function to call when the object is
-acted upon</td>
-<td>&nbsp;</td>
+<td>The effect from interacting
+with a window.</td>
+<td><ul class="first last simple">
+<li>name of Python of Gooey function</li>
+</ul>
+</td>
+<td>none</td>
 </tr>
 <tr class="row-even"><td>hidden</td>
-<td>&nbsp;</td>
-<td>A boolean indicating whether the
-object is hidden (True | true |
-False | false)</td>
+<td>Determines if window is
+visible (False) or invisible
+(True)</td>
+<td><ul class="first last simple">
+<li>True</li>
+<li>False</li>
+</ul>
+</td>
 <td>False</td>
 </tr>
 <tr class="row-odd"><td>font</td>
-<td>&nbsp;</td>
-<td>The string name of a font available
-in Gooey</td>
-<td>&#8220;&#8221;&#8220;Times New
-Roman&#8221;&#8220;&#8221;</td>
+<td>The font for all text used in
+the window</td>
+<td><ul class="first last simple">
+<li>String name of avaliable font</li>
+</ul>
+</td>
+<td>Times New Roman</td>
 </tr>
 <tr class="row-even"><td>fontSize</td>
-<td>&nbsp;</td>
-<td>A number indicating the font size</td>
+<td>Size of text</td>
+<td><ul class="first last simple">
+<li>Integer</li>
+</ul>
+</td>
 <td>12</td>
 </tr>
 <tr class="row-odd"><td>textColor</td>
-<td>&nbsp;</td>
-<td>A color (A string description or an
-rgb value)</td>
+<td>Color of text</td>
+<td><ul class="first last simple">
+<li>color keyword</li>
+<li>rgb value, seperated by spaces</li>
+</ul>
+</td>
 <td>black</td>
 </tr>
 </tbody>
@@ -151,6 +245,77 @@ rgb value)</td>
 set c position (2,2).
 </pre></div>
 </div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="33%" />
+<col width="37%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>text above checkbox set</td>
+<td><ul class="first last simple">
+<li>A plaintext string</li>
+</ul>
+</td>
+<td>&#8220;Untitled
+Checkboxes&#8221;</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>The checkbox labels.</td>
+<td><ul class="first last simple">
+<li>strings in double quotes,
+seperated by a space</li>
+<li>string preceeded by * to
+mark default selections</li>
+</ul>
+</td>
+<td>*&#8221;Option 1&#8221;
+&#8220;Option 2&#8221;
+&#8220;Option 3&#8221;</td>
+</tr>
+<tr class="row-even"><td>position</td>
+<td>location of checkbox set in
+window</td>
+<td><ul class="first last simple">
+<li>position keyword</li>
+<li>integer coordinate, seperated
+by space</li>
+</ul>
+</td>
+<td>center</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>size of checkbox set</td>
+<td><ul class="first last simple">
+<li>size keyword</li>
+<li>height and width integers,
+seperated by space</li>
+</ul>
+</td>
+<td>medium</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>Determines if checkboxes
+visible (False) or invisible
+(True)</td>
+<td><ul class="first last simple">
+<li>True</li>
+<li>False</li>
+</ul>
+</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="radiobuttons">
 <h2>RadioButtons<a class="headerlink" href="#radiobuttons" title="Permalink to this headline">¶</a></h2>
@@ -160,6 +325,77 @@ set c position (2,2).
 set r title &quot;Choose one:&quot;.
 </pre></div>
 </div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="33%" />
+<col width="37%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>text above RadioButon set</td>
+<td><ul class="first last simple">
+<li>A plaintext string</li>
+</ul>
+</td>
+<td>&#8220;Untitled
+RadioButtons&#8221;</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>The RadioButton labels.</td>
+<td><ul class="first last simple">
+<li>strings in double quotes,
+seperated by a space</li>
+<li>string preceeded by * to
+mark default selected</li>
+</ul>
+</td>
+<td>*&#8221;Option 1&#8221;
+&#8220;Option 2&#8221;
+&#8220;Option 3&#8221;</td>
+</tr>
+<tr class="row-even"><td>position</td>
+<td>location of RadioButton set in
+window</td>
+<td><ul class="first last simple">
+<li>position keyword</li>
+<li>integer coordinate, seperated
+by space</li>
+</ul>
+</td>
+<td>center</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>size of RadioButton set</td>
+<td><ul class="first last simple">
+<li>size keyword</li>
+<li>height and width integers,
+seperated by space</li>
+</ul>
+</td>
+<td>medium</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>Determines if RadioButtons
+visible (False) or invisible
+(True)</td>
+<td><ul class="first last simple">
+<li>True</li>
+<li>False</li>
+</ul>
+</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="dropdown">
 <h2>Dropdown<a class="headerlink" href="#dropdown" title="Permalink to this headline">¶</a></h2>
@@ -169,6 +405,77 @@ set r title &quot;Choose one:&quot;.
 set d position bottomleft.
 </pre></div>
 </div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="33%" />
+<col width="37%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>text above Dropdown menu</td>
+<td><ul class="first last simple">
+<li>A plaintext string</li>
+</ul>
+</td>
+<td>&#8220;Untitled
+Dropdown&#8221;</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>The Drowdown labels.</td>
+<td><ul class="first last simple">
+<li>strings in double quotes,
+seperated by a space</li>
+<li>string preceeded by * to
+mark default selected</li>
+</ul>
+</td>
+<td>*&#8221;Option 1&#8221;
+&#8220;Option 2&#8221;
+&#8220;Option 3&#8221;</td>
+</tr>
+<tr class="row-even"><td>position</td>
+<td>location of Dropdown menu in
+window</td>
+<td><ul class="first last simple">
+<li>position keyword</li>
+<li>integer coordinate, seperated
+by space</li>
+</ul>
+</td>
+<td>center</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>size of Dropdown menu</td>
+<td><ul class="first last simple">
+<li>size keyword</li>
+<li>height and width integers,
+seperated by space</li>
+</ul>
+</td>
+<td>medium</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>Determines if Dropdown menu
+visible (False) or invisible
+(True)</td>
+<td><ul class="first last simple">
+<li>True</li>
+<li>False</li>
+</ul>
+</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="text">
 <h2>Text<a class="headerlink" href="#text" title="Permalink to this headline">¶</a></h2>
@@ -178,6 +485,71 @@ set d position bottomleft.
 set t color blue.
 </pre></div>
 </div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="33%" />
+<col width="37%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>text</td>
+<td>unmutable words in a window</td>
+<td><ul class="first last simple">
+<li>A plaintext string</li>
+</ul>
+</td>
+<td>&#8220;Text&#8221;</td>
+</tr>
+<tr class="row-odd"><td>position</td>
+<td>location of text in window</td>
+<td><ul class="first last simple">
+<li>position keyword</li>
+<li>integer coordinate, seperated
+by space</li>
+</ul>
+</td>
+<td>center</td>
+</tr>
+<tr class="row-even"><td>size</td>
+<td>size of text</td>
+<td><ul class="first last simple">
+<li>size keyword</li>
+<li>height and width integers,
+seperated by space</li>
+</ul>
+</td>
+<td>medium</td>
+</tr>
+<tr class="row-odd"><td>color</td>
+<td>color of text</td>
+<td><ul class="first last simple">
+<li>color keyword</li>
+<li>rgb value, seperated by spaces</li>
+</ul>
+</td>
+<td>black</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>Determines if text
+visible (False) or invisible
+(True)</td>
+<td><ul class="first last simple">
+<li>True</li>
+<li>False</li>
+</ul>
+</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="textbox">
 <h2>TextBox<a class="headerlink" href="#textbox" title="Permalink to this headline">¶</a></h2>
@@ -187,6 +559,71 @@ set t color blue.
 set tb size large.
 </pre></div>
 </div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="33%" />
+<col width="37%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>text above TextBox</td>
+<td><ul class="first last simple">
+<li>A plaintext string</li>
+</ul>
+</td>
+<td>&#8220;Untitled TextBox&#8221;</td>
+</tr>
+<tr class="row-odd"><td>text</td>
+<td>mutable words within the
+TextBox</td>
+<td><ul class="first last simple">
+<li>A plaintext string</li>
+</ul>
+</td>
+<td>&#8220;Type Here&#8221;</td>
+</tr>
+<tr class="row-even"><td>position</td>
+<td>location of TextBox in window</td>
+<td><ul class="first last simple">
+<li>position keyword</li>
+<li>integer coordinate, seperated
+by space</li>
+</ul>
+</td>
+<td>center</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>size of TextBox</td>
+<td><ul class="first last simple">
+<li>size keyword</li>
+<li>height and width integers,
+seperated by space</li>
+</ul>
+</td>
+<td>medium</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>Determines if TextBox
+visible (False) or invisible
+(True)</td>
+<td><ul class="first last simple">
+<li>True</li>
+<li>False</li>
+</ul>
+</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="menu">
 <h2>Menu<a class="headerlink" href="#menu" title="Permalink to this headline">¶</a></h2>
@@ -195,6 +632,45 @@ set tb size large.
 <div class="highlight-python"><div class="highlight"><pre>make Menu m with options file edit.
 </pre></div>
 </div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="33%" />
+<col width="37%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>options</td>
+<td>The top level menu labels</td>
+<td><ul class="first last simple">
+<li>list of MenuItem objects
+seperated by spaces</li>
+</ul>
+</td>
+<td>menuItem1
+menuItem2
+menuItem3</td>
+</tr>
+<tr class="row-odd"><td>hidden</td>
+<td>Determines if menu is
+visible (False) or invisible
+(True)</td>
+<td><ul class="first last simple">
+<li>True</li>
+<li>False</li>
+</ul>
+</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="menuitem">
 <h2>MenuItem<a class="headerlink" href="#menuitem" title="Permalink to this headline">¶</a></h2>
@@ -203,6 +679,134 @@ set tb size large.
 <div class="highlight-python"><div class="highlight"><pre>make MenuItem file with options &quot;quit&quot;:close.
 </pre></div>
 </div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="33%" />
+<col width="37%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>name visible in menu</td>
+<td><ul class="first last simple">
+<li>A plaintext string</li>
+</ul>
+</td>
+<td>&#8220;Untitled MenuItem&#8221;</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>The selections within the menu</td>
+<td><ul class="first last simple">
+<li>a MenuItem object</li>
+<li>a terminal in the format
+&#8220;name&#8221;:action</li>
+</ul>
+</td>
+<td>&#8220;Option1&#8221;
+&#8220;Option2&#8221;
+&#8220;Option3&#8221;</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>Determines if MenuItem is
+visible (False) or invisible
+(True)</td>
+<td><ul class="first last simple">
+<li>True</li>
+<li>False</li>
+</ul>
+</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="image">
+<h2>Image<a class="headerlink" href="#image" title="Permalink to this headline">¶</a></h2>
+<p>Images are pictures you can add your your Gooey. The image must be in <strong>.gif format</strong> although the movement will not be maintained.</p>
+<p>Exampel syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Image i with title &quot;Apple&quot;, text &quot;This is my most favorite apple&quot;, source &quot;apple.gif&quot;.
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="33%" />
+<col width="37%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Description</th>
+<th class="head">Possible Values</th>
+<th class="head">Default Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>title</td>
+<td>text above Image</td>
+<td><ul class="first last simple">
+<li>A plaintext string</li>
+</ul>
+</td>
+<td>none</td>
+</tr>
+<tr class="row-odd"><td>text</td>
+<td>Caption below the Image</td>
+<td><ul class="first last simple">
+<li>A plaintext string</li>
+</ul>
+</td>
+<td>&#8220;Image Caption&#8221;</td>
+</tr>
+<tr class="row-even"><td>position</td>
+<td>location of Image in window</td>
+<td><ul class="first last simple">
+<li>position keyword</li>
+<li>integer coordinate, seperated
+by space</li>
+</ul>
+</td>
+<td>center</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>size of Image</td>
+<td><ul class="first last simple">
+<li>size keyword</li>
+<li>height and width integers,
+seperated by space</li>
+</ul>
+</td>
+<td>medium</td>
+</tr>
+<tr class="row-even"><td>hidden</td>
+<td>Determines if Iamge
+visible (False) or invisible
+(True)</td>
+<td><ul class="first last simple">
+<li>True</li>
+<li>False</li>
+</ul>
+</td>
+<td>False</td>
+</tr>
+<tr class="row-odd"><td>source</td>
+<td>path orfilename of Image</td>
+<td><ul class="first last simple">
+<li>image file in .gif formar</li>
+</ul>
+</td>
+<td>defaultIcon</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
@@ -224,6 +828,7 @@ set tb size large.
 <li><a class="reference internal" href="#textbox">TextBox</a></li>
 <li><a class="reference internal" href="#menu">Menu</a></li>
 <li><a class="reference internal" href="#menuitem">MenuItem</a></li>
+<li><a class="reference internal" href="#image">Image</a></li>
 </ul>
 </li>
 </ul>

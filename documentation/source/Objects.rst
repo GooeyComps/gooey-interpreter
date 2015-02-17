@@ -13,8 +13,29 @@ Example syntax::
 
  make Button b.
  make Button b with text "Hello".
- make Button b with text "Hello", position (3,5).
+ make Button b with text "Hello", position 3 5.
  set b action close.
+ 
++---------+-------------------------------+-----------------------------------+-------------------+
+|Attribute| Description                   | Possible Values                   | Default Value     |
++=========+===============================+===================================+===================+
+|title    | Text above the button         | - A plaintext string              | none              |
++---------+-------------------------------+-----------------------------------+-------------------+
+|text     | Words on button               | - A plaintext string              | "Untitled Button" |
++---------+-------------------------------+-----------------------------------+-------------------+
+|position | location of button on window  | - position keyword                | center            |
+|         |                               | - integer coordinate, seperated by|                   |
+|         |                               |   space                           |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|size     | size of button                | - size keyword                    | medium            |
+|         |                               | - Height and width integers,      |                   |
+|         |                               |   seperated by a space            |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|action   | Effect when button clicked    | - name of Python or Gooey function| none              |
++---------+-------------------------------+-----------------------------------+-------------------+
+|hidden   | Determines if button visible  | - True                            | False             |
+|         | (False) or invisible (True)   | - False                           |                   |
++---------+-------------------------------+-----------------------------------+-------------------+ 
 
 Window
 ======
@@ -28,29 +49,34 @@ Example syntax::
 
 Attributes:
 
-===========  ====================  ===================================  ====================  
-Attribute    Description           Possible Values                      Default Value         
-===========  ====================  ===================================  ====================  
-title                              A plaintext string | A               """Untitled    
-                                   FormattedText object                 Window"""             
-size                               A string description of the size     medium                
-                                   (or keyword?); The (x y) dimensions  
-                                   separated by a space                 
-color                              A string description of the color    white                 
-                                   (or keyword?); An rgb value          
-                                   separated by spaces                  
-action                             The name of a Python or Gooey        """"""                
-                                   function to call when the object is  
-                                   acted upon                           
-hidden                             A boolean indicating whether the     False                 
-                                   object is hidden (True | true |      
-                                   False | false)                       
-font                               The string name of a font available  """Times New          
-                                   in Gooey                             Roman"""              
-fontSize                           A number indicating the font size    12                    
-textColor                          A color (A string description or an  black                 
-                                   rgb value)                           
-===========  ====================  ===================================  ====================  
++---------+-------------------------------+-----------------------------------+-------------------+
+|Attribute| Description                   | Possible Values                   | Default Value     |
++=========+===============================+===================================+===================+
+|title    | The name as displayed in the  | - A plaintext string              | "Untitled Window" |
+|         | top bar of the window.        |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|size     |  The width and height of the  | - size keyword                    | medium            |
+|         |  window                       | - Height and width integers,      |                   |
+|         |                               |   separated by a space            |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|color    | The color of the window       | - color keyword                   | white             |
+|         | background                    | - rgb value, sperated by spaces   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|action   | The effect from interacting   | - name of Python of Gooey function| none              |
+|         | with a window.                |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|hidden   | Determines if window is       | - True                            | False             |
+|         | visible (False) or invisible  | - False                           |                   |
+|         | (True)                        |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|font     | The font for all text used in | - String name of avaliable font   | Times New Roman   |
+|         | the window                    |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|fontSize | Size of text                  | - Integer                         | 12                |
++---------+-------------------------------+-----------------------------------+-------------------+
+|textColor| Color of text                 | - color keyword                   | black             |
+|         |                               | - rgb value, seperated by spaces  |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
 
 
 Checkboxes
@@ -62,6 +88,31 @@ Example syntax::
 
  make Checkbox c with options "hello" "yellow" "fellow".
  set c position (2,2).
+ 
++---------+-------------------------------+-----------------------------------+-------------------+
+|Attribute| Description                   | Possible Values                   | Default Value     |
++=========+===============================+===================================+===================+
+|title    | text above checkbox set       | - A plaintext string              | "Untitled         |
+|         |                               |                                   | Checkboxes"       |
++---------+-------------------------------+-----------------------------------+-------------------+
+|options  | The checkbox labels.          | - strings in double quotes,       | \*"Option 1"      |
+|         |                               |   seperated by a space            | "Option 2"        |
+|         |                               | - string preceeded by \* to       | "Option 3"        |
+|         |                               |   mark default selections         |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|position | location of checkbox set in   | - position keyword                | center            |
+|         | window                        | - integer coordinate, seperated   |                   |
+|         |                               |   by space                        |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|size     | size of checkbox set          | - size keyword                    | medium            |
+|         |                               | - height and width integers,      |                   |
+|         |                               |   seperated by space              |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|hidden   | Determines if checkboxes      | - True                            | False             |
+|         | visible (False) or invisible  | - False                           |                   |
+|         | (True)                        |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+ 
 
 RadioButtons
 ============
@@ -72,6 +123,31 @@ Example syntax::
 
  make RadioButton r with options "hello" "mello" "jello".
  set r title "Choose one:".
+ 
++---------+-------------------------------+-----------------------------------+-------------------+
+|Attribute| Description                   | Possible Values                   | Default Value     |
++=========+===============================+===================================+===================+
+|title    | text above RadioButon set     | - A plaintext string              | "Untitled         |
+|         |                               |                                   | RadioButtons"     |
++---------+-------------------------------+-----------------------------------+-------------------+
+|options  | The RadioButton labels.       | - strings in double quotes,       | \*"Option 1"      |
+|         |                               |   seperated by a space            | "Option 2"        |
+|         |                               | - string preceeded by \* to       | "Option 3"        |
+|         |                               |   mark default selected           |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|position | location of RadioButton set in| - position keyword                | center            |
+|         | window                        | - integer coordinate, seperated   |                   |
+|         |                               |   by space                        |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|size     | size of RadioButton set       | - size keyword                    | medium            |
+|         |                               | - height and width integers,      |                   |
+|         |                               |   seperated by space              |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|hidden   | Determines if RadioButtons    | - True                            | False             |
+|         | visible (False) or invisible  | - False                           |                   |
+|         | (True)                        |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+ 
 
 Dropdown
 ========
@@ -82,6 +158,31 @@ Example syntax::
 
  make Dropdown with options "hello" "cello" "othello".
  set d position bottomleft.
+ 
++---------+-------------------------------+-----------------------------------+-------------------+
+|Attribute| Description                   | Possible Values                   | Default Value     |
++=========+===============================+===================================+===================+
+|title    | text above Dropdown menu      | - A plaintext string              | "Untitled         |
+|         |                               |                                   | Dropdown"         |
++---------+-------------------------------+-----------------------------------+-------------------+
+|options  | The Drowdown labels.          | - strings in double quotes,       | \*"Option 1"      |
+|         |                               |   seperated by a space            | "Option 2"        |
+|         |                               | - string preceeded by \* to       | "Option 3"        |
+|         |                               |   mark default selected           |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|position | location of Dropdown menu in  | - position keyword                | center            |
+|         | window                        | - integer coordinate, seperated   |                   |
+|         |                               |   by space                        |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|size     | size of Dropdown menu         | - size keyword                    | medium            |
+|         |                               | - height and width integers,      |                   |
+|         |                               |   seperated by space              |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|hidden   | Determines if Dropdown menu   | - True                            | False             |
+|         | visible (False) or invisible  | - False                           |                   |
+|         | (True)                        |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+  
 
 Text
 ====
@@ -92,6 +193,27 @@ Example syntax::
  
  make Text t with text "Welcome to Gooey! Please leave your shoes at the door."
  set t color blue.
+ 
++---------+-------------------------------+-----------------------------------+-------------------+
+|Attribute| Description                   | Possible Values                   | Default Value     |
++=========+===============================+===================================+===================+
+|text     | unmutable words in a window   | - A plaintext string              | "Text"            |
++---------+-------------------------------+-----------------------------------+-------------------+
+|position | location of text in window    | - position keyword                | center            |
+|         |                               | - integer coordinate, seperated   |                   |
+|         |                               |   by space                        |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|size     | size of text                  | - size keyword                    | medium            |
+|         |                               | - height and width integers,      |                   |
+|         |                               |   seperated by space              |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|color    | color of text                 | - color keyword                   | black             |
+|         |                               | - rgb value, seperated by spaces  |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|hidden   | Determines if text            | - True                            | False             |
+|         | visible (False) or invisible  | - False                           |                   |
+|         | (True)                        |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+ 
 
 TextBox
 =======
@@ -102,6 +224,28 @@ Example syntax::
 
  make TextBox tb with text "Write your answer here".
  set tb size large.
+ 
++---------+-------------------------------+-----------------------------------+-------------------+
+|Attribute| Description                   | Possible Values                   | Default Value     |
++=========+===============================+===================================+===================+
+|title    | text above TextBox            | - A plaintext string              | "Untitled TextBox"|
++---------+-------------------------------+-----------------------------------+-------------------+
+|text     | mutable words within the      | - A plaintext string              | "Type Here"       |
+|         | TextBox                       |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|position | location of TextBox in window | - position keyword                | center            |
+|         |                               | - integer coordinate, seperated   |                   |
+|         |                               |   by space                        |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|size     | size of TextBox               | - size keyword                    | medium            |
+|         |                               | - height and width integers,      |                   |
+|         |                               |   seperated by space              |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|hidden   | Determines if TextBox         | - True                            | False             |
+|         | visible (False) or invisible  | - False                           |                   |
+|         | (True)                        |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+ 
+ 
 
 Menu
 ====
@@ -111,6 +255,20 @@ Menus are a list of actions. Menu's are created with Menu Items. When creating a
 Example syntax::
 
  make Menu m with options file edit.
+ 
++---------+-------------------------------+-----------------------------------+-------------------+
+|Attribute| Description                   | Possible Values                   | Default Value     |
++=========+===============================+===================================+===================+
+|options  | The top level menu labels     | - list of MenuItem objects        | menuItem1         |
+|         |                               |   seperated by spaces             | menuItem2         |
+|         |                               |                                   | menuItem3         |
+|         |                               |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|hidden   | Determines if menu is         | - True                            | False             |
+|         | visible (False) or invisible  | - False                           |                   |
+|         | (True)                        |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+
 
 MenuItem
 ========
@@ -120,3 +278,51 @@ MenuItems are the terminal actions in a Menu. The variable name of the MenuItem 
 Example syntax::
 
  make MenuItem file with options "quit":close.
+ 
++---------+-------------------------------+-----------------------------------+-------------------+
+|Attribute| Description                   | Possible Values                   | Default Value     |
++=========+===============================+===================================+===================+
+|title    | name visible in menu          | - A plaintext string              |"Untitled MenuItem"|
++---------+-------------------------------+-----------------------------------+-------------------+
+|options  | The selections within the menu| - a MenuItem object               | "Option1"         |
+|         |                               | - a terminal in the format        | "Option2"         |
+|         |                               |   "name":action                   | "Option3"         |
+|         |                               |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|hidden   | Determines if MenuItem is     | - True                            | False             |
+|         | visible (False) or invisible  | - False                           |                   |
+|         | (True)                        |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+ 
+
+Image
+=====
+
+Images are pictures you can add your your Gooey. The image must be in **.gif format** although the movement will not be maintained. 
+
+Exampel syntax::
+
+ make Image i with title "Apple", text "This is my most favorite apple", source "apple.gif".
+
++---------+-------------------------------+-----------------------------------+-------------------+
+|Attribute| Description                   | Possible Values                   | Default Value     |
++=========+===============================+===================================+===================+
+|title    | text above Image              | - A plaintext string              | none              |
++---------+-------------------------------+-----------------------------------+-------------------+
+|text     | Caption below the Image       | - A plaintext string              | "Image Caption"   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|position | location of Image in window   | - position keyword                | center            |
+|         |                               | - integer coordinate, seperated   |                   |
+|         |                               |   by space                        |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|size     | size of Image                 | - size keyword                    | medium            |
+|         |                               | - height and width integers,      |                   |
+|         |                               |   seperated by space              |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|hidden   | Determines if Iamge           | - True                            | False             |
+|         | visible (False) or invisible  | - False                           |                   |
+|         | (True)                        |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+ 
+|source   | path orfilename of Image      | - image file in .gif formar       | defaultIcon       |
++---------+-------------------------------+-----------------------------------+-------------------+ 
+  

@@ -45,7 +45,6 @@ menus wonky
 color windows???????>?????
 changed Interpreter.gRows/gColumns to self.gRows/gColumns in setWindow/makeWindow
 Cannot put punctuation in text objects???
-TextBox cannot modify text anymore??
 
 
 
