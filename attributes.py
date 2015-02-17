@@ -300,6 +300,9 @@ class QuotedText(str):
 class SourceFileText(str):
     grammar = "\"", fileRegex, "\""
 
+class Star(str):
+    grammar = "*"
+
 
 
 
@@ -347,16 +350,16 @@ class ImageSourceAttribute(List):
 
 #   CHECKBOXES HOW TO CONDENSE? OR USE NEW KEYWORD?
 class CheckboxesOptionsAttribute(List):
-    grammar = 'options', blank, attr('options', some(optional("*"), QuotedText))
+    grammar = 'options', blank, attr('options', some(optional(Star), QuotedText))
 
 #  RADIOBUTTONS
 class RadioButtonsOptionsAttribute(List):
-    grammar = 'options', blank, attr('options', some(optional("*"), QuotedText))
+    grammar = 'options', blank, attr('options', some(optional(Star), QuotedText))
 
 
 #Wrap as Attribute object and put into AttributeList
 class Attribute:
-    grammar = [attr("color", ColorAttribute), attr("textColor", TextColorAttribute), attr("size", SizeAttribute), attr("position", PositionAttribute), attr("text", TextAttribute), attr("action", ActionAttribute), attr("title", TitleAttribute), attr("font", FontAttribute), attr("options", MenuItemOptionsAttribute), attr("source", ImageSourceAttribute)]
+    grammar = [attr('options', RadioButtonsOptionsAttribute), attr('options', CheckboxesOptionsAttribute), attr("color", ColorAttribute), attr("textColor", TextColorAttribute), attr("size", SizeAttribute), attr("position", PositionAttribute), attr("text", TextAttribute), attr("action", ActionAttribute), attr("title", TitleAttribute), attr("font", FontAttribute), attr("options", MenuItemOptionsAttribute), attr("source", ImageSourceAttribute)]
 
 class AttributeList(List):
      grammar = csl(Attribute)

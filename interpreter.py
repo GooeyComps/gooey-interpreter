@@ -70,7 +70,6 @@ class Interpreter():
     def __init__(self, target):
         '''Initializes the GUI window'''
         self.window = target
-        self.var = IntVar()
 
 ### START EMILY CHANGE ###
     def error(self, message):
@@ -136,7 +135,7 @@ class Interpreter():
                     elif(expr.type == "Checkboxes"):
                         self.checkVarname(expr,bindings)
                         if hasattr(expr, "attributes"):
-                            for item in expr.attributes[0]:
+                            for item in expr.attributes:
                                 if hasattr(item, 'position'):
                                     if hasattr(item.position.value, "r"):
                                         cbRow = int(item.position.value.r)
@@ -144,16 +143,26 @@ class Interpreter():
                                     else:
                                         cbRow, cbColumn = self.getPositionByKeyword(item.position.value)
 
-                            for item in expr.attributes[0]:
+                            for item in expr.attributes:
                                 if(hasattr(item, 'options')):
                                     i = 0
+                                    j = 0
+                                    isDefault = False
                                     while(i < len(item.options.options)):
-                                        cb = self.makeCheckboxes(self.window,expr,item.options.options[i], i, cbRow, cbColumn)
-                                        binding = self.makeBinding("Checkboxes", expr.varname, cb)
-                                        bindings = self.addBinding(binding, bindings)
+                                        if(item.options.options[i] != ""):
+                                            cb = self.makeCheckboxes(self.window,expr,item.options.options[i], j, cbRow, cbColumn)
+                                            if (isDefault):
+                                                cb.select()
+                                            binding = self.makeBinding("Checkboxes", expr.varname, cb)
+                                            bindings = self.addBinding(binding, bindings)
+                                            isDefault = False
+                                            j += 1
+                                        else:
+                                            isDefault = True
                                         i += 1
+
                                 elif(hasattr(item, 'title')):
-                                    cbTitle = item.title.title.strip("[]'")
+                                    cbTitle = self.extractTextValue(item.title.value)
                                     ttl = Label(self.window, text=cbTitle)
                                     ttl.grid(row=cbRow, column=cbColumn, sticky=N+S+E+W)
                                     binding = self.makeBinding("Checkboxes", expr.varname, ttl)
@@ -168,8 +177,10 @@ class Interpreter():
 
                     elif(expr.type == "RadioButtons"):
                         self.checkVarname(expr,bindings)
+                        selected = False
+                        var = IntVar()
                         if hasattr(expr, "attributes"):
-                            for item in expr.attributes[0]:
+                            for item in expr.attributes:
                                 if hasattr(item, 'position'):
                                     if hasattr(item.position.value, "r"):
                                         rbRow = int(item.position.value.r)
@@ -177,16 +188,32 @@ class Interpreter():
                                     else:
                                         rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
 
-                            for item in expr.attributes[0]:
+                            for item in expr.attributes:
                                 if(hasattr(item, 'options')):
+                                    count = 0
+                                    for x in item.options.options:
+                                        if (x == ""):
+                                            count += 1
+                                        if (count == 2):
+                                            self.error("Error: Cannot have multiple defaults.")
+
                                     i = 0
+                                    j = 0
                                     while(i < len(item.options.options)):
-                                        rb = self.makeRadioButtons(self.window,expr,item.options.options[i], i, rbRow, rbColumn)
-                                        binding = self.makeBinding("RadioButtons", expr.varname, rb)
-                                        bindings = self.addBinding(binding, bindings)
+                                        if (item.options.options[i] == ""):
+                                            selected = True
+                                        else:                                            
+                                            rb = self.makeRadioButtons(self.window,expr,item.options.options[i], j, rbRow, rbColumn, var)   
+                                            rb.deselect() 
+                                            if (selected):
+                                                var.set(j)
+                                                selected = False                                        
+                                            binding = self.makeBinding("RadioButtons", expr.varname, rb)
+                                            bindings = self.addBinding(binding, bindings)
+                                            j += 1
                                         i += 1
                                 elif(hasattr(item, 'title')):
-                                    rbTitle = self.extractTextValue(item.title.title)
+                                    rbTitle = self.extractTextValue(item.title.value)
                                     ttl = Label(self.window, text=rbTitle)
                                     ttl.grid(row=rbRow, column=rbColumn, sticky=N+S+E+W)
                                     binding = self.makeBinding("RadioButtons", expr.varname, ttl)
@@ -362,10 +389,10 @@ class Interpreter():
     def makeDefaultRadioButtons(self,w,defaults):
         pass
 
-    def makeRadioButtons(self,w,expr,i,num, r, c):
+    def makeRadioButtons(self,w,expr,i,num, r, c, v):
         r = r + num + 1
         i = self.extractTextValue(i)
-        gg = Radiobutton(w, text=i, variable=self.var, value=num, anchor=W)
+        gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W)
         gg.grid(row=r, column=c, sticky=N+S+E+W)
         return gg
 
