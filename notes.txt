@@ -53,5 +53,6 @@ Cannot put punctuation in text objects???
 - make the window, make a button, set the color.
 - I think we're missing a lot of set methods
 - Text with punctuation - we need to change the regex in attributes
-Make toplevel window not resizable 
-Frames on frames on frames - the frames need to go somewhere where we can access them. In the window binding perhaps? This will fix a number of other problems. A lot. 
+Make toplevel window not resizable
+Frames on frames on frames - the frames need to go somewhere where we can access them. In the window binding perhaps? This will fix a number of other problems. A lot.
+make syntax errors more helpful
