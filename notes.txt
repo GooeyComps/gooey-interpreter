@@ -56,3 +56,7 @@ Cannot put punctuation in text objects???
 Make toplevel window not resizable
 Frames on frames on frames - the frames need to go somewhere where we can access them. In the window binding perhaps? This will fix a number of other problems. A lot.
 make syntax errors more helpful
+
+
+2/17/15
+If they put something in a position that is outside of our window we should suggest that they change the size of their window first
