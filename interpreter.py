@@ -12,6 +12,10 @@ SMALL_WIN_SIZE = 2
 MED_WIN_SIZE = 4
 LARGE_WIN_SIZE = 6
 
+SMALL_TEXTBOX_SIZE = 10
+MED_TEXTBOX_SIZE = 20
+LARGE_TEXTBOX_SIZE = 30
+
 ### START EMILY CODE ###
 class ErrorPopup:
     '''
@@ -243,11 +247,12 @@ class Interpreter():
                             t = self.getObject(expr,bindings)
                             assert t.bType == 'TextBox'
                             tbox = t.bObject
-                            if hasattr(expr, "attributes"):
-                                for item in expr.attributes:
-                                    if hasattr(item, 'text'):
-                                        tbox.delete("1.0", END)
-                                        tbox.insert(END, self.extractTextValue(item.text.value))
+                            tbox = self.setTextBox(tbox, self.window, expr)
+                            #if hasattr(expr, "attributes"):
+                            #    for item in expr.attributes:
+                            #        if hasattr(item, 'text'):
+                            #            tbox.delete("1.0", END)
+                            #            tbox.insert(END, self.extractTextValue(item.text.value))
                         #print("THIS IS EXPR: ",expr.attributes.text)
                         #tbox.insert(END, expr)
                 else:
@@ -363,7 +368,7 @@ class Interpreter():
         gg = Radiobutton(w, text=i, variable=self.var, value=num, anchor=W)
         gg.grid(row=r, column=c, sticky=N+S+E+W)
         return gg
-    
+
     def setRadioButtons():
         pass
 
@@ -395,12 +400,10 @@ class Interpreter():
                     self.error("Error: Incorrect attribute.")
         tl.grid(row=r, column=c, sticky=N+S+E+W)
         return tl
-    
+
     def setText(self,tl,w,expr):
-        print("\n\nIn Set text")
         r, c = 0, 0
         if hasattr(expr, "attributes"):
-            print("I have attrs")
             for item in expr.attributes:
                 if hasattr(item, 'text'):
                     print(item.text.value)
@@ -446,12 +449,12 @@ class Interpreter():
                 l.grid(row = j, column = i)
                 l.configure(bg = backgroundColor)
 
-                
-                
+
+
     def setWindowColor(self,w,color):
 #        self.gRows = rows
 #        self.gColumns = columns
-        
+
         for i in range(0,self.gColumns):
             for j in range(0,self.gRows):
                 l = Frame(w, height=100, width=100)
@@ -575,14 +578,14 @@ class Interpreter():
                         columns = int(item.size.value.columns)
                     else:
                         if item.size.value.lower() == "small":
-                            rows = 4
-                            columns = 4
+                            rows = SMALL_WIN_SIZE
+                            columns = SMALL_WIN_SIZE
                         elif item.size.value.lower() == "medium":
-                            rows = 6
-                            columns = 6
+                            rows = MED_WIN_SIZE
+                            columns = MED_WIN_SIZE
                         elif item.size.value.lower() == "large":
-                            rows = 8
-                            columns = 8
+                            rows = LARGE_WIN_SIZE
+                            columns = LARGE_WIN_SIZE
 #                    self.gRows = rows
 #                    self.gColumns = columns
 #                    #fill cells with empty space somehow, so the user gets a sense of it actually being a grid
@@ -619,6 +622,17 @@ class Interpreter():
         #Position
         #size
         #hidden
+        print("Default size for textbox is: ", defaults['size'])
+        if defaults['size'] == "small":
+            TextBoxWidth = SMALL_TEXTBOX_SIZE
+            TextBoxHeight = SMALL_TEXTBOX_SIZE
+        elif defaults['size'] == "medium":
+            TextBoxWidth = MED_TEXTBOX_SIZE
+            TextBoxHeight = MED_TEXTBOX_SIZE
+        elif defaults['size'] == "large":
+            TextBoxWidth = LARGE_TEXTBOX_SIZE
+            TextBoxHeight = LARGE_TEXTBOX_SIZE
+        t.configure(width=TextBoxWidth, height = TextBoxHeight)
         return t
 
     def makeTextBox(self,w,expr):
@@ -629,9 +643,7 @@ class Interpreter():
         r, c = 0, 0
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
-                print("attribute[0]", item)
                 if hasattr(item, 'text'):
-                    print("has attribute text")
                     t.delete("1.0",END)
                     t.insert(END, self.extractTextValue(item.text.value))
                 elif hasattr(item, 'position'):
@@ -640,13 +652,57 @@ class Interpreter():
                         c = int(item.position.value.c)
                     else:
                         r, c = self.getPositionByKeyword(item.position.value)
+                elif hasattr(item, 'size'):
+                    if item.size.value == "small":
+                        TextBoxWidth = SMALL_TEXTBOX_SIZE
+                        TextBoxHeight = SMALL_TEXTBOX_SIZE
+                    elif item.size.value == "medium":
+                        TextBoxWidth = MED_TEXTBOX_SIZE
+                        TextBoxHeight = MED_TEXTBOX_SIZE
+                    elif item.size.value == "large":
+                        TextBoxWidth = LARGE_TEXTBOX_SIZE
+                        TextBoxHeight = LARGE_TEXTBOX_SIZE
+                    else:
+                        TextBoxWidth = item.size.value
+                        TextBoxHeight = item.size.value
+                    t.configure(width=TextBoxWidth, height = TextBoxHeight)
                 else:
                     self.error("Error: Incorrect attribute.")
         t.grid(row=r, column=c, sticky=N+S+E+W)
         return t
 
-    def setTextBox():
-        pass
+    def setTextBox(self,t,w,expr):
+        r, c = 0, 0
+        if hasattr(expr, "attributes"):
+            for item in expr.attributes:
+                if hasattr(item, 'text'):
+                    t.delete("1.0",END)
+                    t.insert(END, self.extractTextValue(item.text.value))
+                elif hasattr(item, 'position'):
+                    if hasattr(item.position.value, "r"):
+                        r = int(item.position.value.r)
+                        c = int(item.position.value.c)
+                    else:
+                        r, c = self.getPositionByKeyword(item.position.value)
+                elif hasattr(item, 'size'):
+                    print("GOT TO SIZE: ", item.size.value)
+                    if item.size.value == "small":
+                        TextBoxWidth = SMALL_TEXTBOX_SIZE
+                        TextBoxHeight = SMALL_TEXTBOX_SIZE
+                    elif item.size.value == "medium":
+                        TextBoxWidth = MED_TEXTBOX_SIZE
+                        TextBoxHeight = MED_TEXTBOX_SIZE
+                    elif item.size.value == "large":
+                        TextBoxWidth = LARGE_TEXTBOX_SIZE
+                        TextBoxHeight = LARGE_TEXTBOX_SIZE
+                    else:
+                        TextBoxWidth = item.size.value
+                        TextBoxHeight = item.size.value
+                    t.configure(width=TextBoxWidth, height = TextBoxHeight)
+                else:
+                    self.error("Error: Incorrect attribute.")
+        t.grid(row=r, column=c, sticky=N+S+E+W)
+        return t
 
 
     #               BUTTONS
@@ -821,7 +877,7 @@ class Interpreter():
                     w.config(menu=bindings[key].bObject)
 
         return menuItem
-    
+
         def setMenuItem():
             pass
 
@@ -834,6 +890,7 @@ class Interpreter():
         defaults = self.getAllDefaults("Image")
         #(i,l) = self.makeDefaultImage(w,defaults)
         r, c = 0, 0
+        print("W is type: ", w)
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'source'):
@@ -851,7 +908,7 @@ class Interpreter():
 
 
                     i = PhotoImage(file=item.source.value)
-                    l = Label(image=i)
+                    l = Label(w, image=i)
                     l.image = i
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
@@ -863,7 +920,7 @@ class Interpreter():
                     self.error("Error: Incorrect attribute.")
         l.grid(row=r, column=c, sticky=N+S+E+W)
         return l
-    
+
     def setImage():
         pass
 
