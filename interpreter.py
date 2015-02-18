@@ -202,12 +202,12 @@ class Interpreter():
                                     while(i < len(item.options.options)):
                                         if (item.options.options[i] == ""):
                                             selected = True
-                                        else:                                            
-                                            rb = self.makeRadioButtons(self.window,expr,item.options.options[i], j, rbRow, rbColumn, var)   
-                                            rb.deselect() 
+                                        else:
+                                            rb = self.makeRadioButtons(self.window,expr,item.options.options[i], j, rbRow, rbColumn, var)
+                                            rb.deselect()
                                             if (selected):
                                                 var.set(j)
-                                                selected = False                                        
+                                                selected = False
                                             binding = self.makeBinding("RadioButtons", expr.varname, rb)
                                             bindings = self.addBinding(binding, bindings)
                                             j += 1
