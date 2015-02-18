@@ -61,6 +61,7 @@ Attributes:
 +---------+-------------------------------+-----------------------------------+-------------------+
 |color    | The color of the window       | - color keyword                   | white             |
 |         | background                    | - rgb value, sperated by spaces   |                   |
+|         |                               | - #hexvalue                       |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |action   | The effect from interacting   | - name of Python of Gooey function| none              |
 |         | with a window.                |                                   |                   |
@@ -209,6 +210,7 @@ Example syntax::
 +---------+-------------------------------+-----------------------------------+-------------------+
 |color    | color of text                 | - color keyword                   | black             |
 |         |                               | - rgb value, seperated by spaces  |                   |
+|         |                               | - #hexvalue                       |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |hidden   | Determines if text            | - True                            | False             |
 |         | visible (False) or invisible  | - False                           |                   |

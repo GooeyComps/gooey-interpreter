@@ -65,7 +65,7 @@ class TextPad():
 
         self.definitions = ScrolledText(self.root, width=60, height=10, state=DISABLED)
         self.definitions.configure(highlightbackground="black", fg="gray30",bg="gray95")
-        self.definitions.pack()
+        self.definitions.pack(padx=(12,0))
 
         # Editing area/text pad
         self.editLabel = Label(text="Enter Code Below")
@@ -74,15 +74,15 @@ class TextPad():
 
 
         #add textPad to root and open window
-        self.textPad = ScrolledText(self.root, width=60, height=10)
+        self.textPad = ScrolledText(self.root, width=59, height=10)
 
 ### START EMILY CODE ###
         # Add a border to the text pad
-        self.textPad.configure(borderwidth=5, highlightbackground="black")
+        self.textPad.configure(borderwidth=4, highlightbackground="black")
 ### END EMILY CODE ###
 
 
-        self.textPad.pack()
+        self.textPad.pack(padx=(12,0))
 
 ### START EMILY CODE ###
         # Add run and stop buttons to the text pad

@@ -14,7 +14,7 @@ Contents:
    GettingStarted
    Tutorials
    FunctionsAndActions
-   MakeAndSet
+   Attributes
    Objects
    testDocs
 

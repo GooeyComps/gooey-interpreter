@@ -52,30 +52,6 @@ Example::
  make Button size with title "Full Screen", action windowSizeChange large.
 
 
-findAction
-----------
-
-Please ask Jamaica
-
-
-findMenuAction
---------------
-
-Ask Jamaica about this too.
-
-
-callAction
-----------
-
-What even is this
-
-
-make Window w.
-function myFunction(win) does set win color green; return win.
-run myFunction(w)
-
-make Button b with action myFunction(w).
-
 Functions
 =========
 

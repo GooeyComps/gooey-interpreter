@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Attributes &mdash; Gooey 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Gooey 1.0 documentation" href="index.html" />
+    <link rel="next" title="Objects" href="Objects.html" />
+    <link rel="prev" title="Actions and Functions" href="FunctionsAndActions.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Objects.html" title="Objects"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="FunctionsAndActions.html" title="Actions and Functions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Gooey 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="attributes">
+<h1>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h1>
+<p>Attributes control the details of each Object you create. Not all Objects can have the same attributes, and some attributes are specific to one or two Objects.</p>
+<p>Each attribute needs a <em>value</em>. Some attributes accept values in multiple different formats.</p>
+<div class="section" id="title">
+<h2>Title<a class="headerlink" href="#title" title="Permalink to this headline">¶</a></h2>
+<p>A title generally creates text <em>above</em> the Object.</p>
+<p>In a <strong>window</strong>, a title will put a name at the very top bar across the application window.</p>
+<p>Values:</p>
+<ul class="simple">
+<li>A plaintext string</li>
+</ul>
+</div>
+<div class="section" id="text">
+<h2>Text<a class="headerlink" href="#text" title="Permalink to this headline">¶</a></h2>
+<p>Text will generally create words on top of or inside the object.</p>
+<p>Values:</p>
+<ul class="simple">
+<li>A plaintext string</li>
+</ul>
+</div>
+<div class="section" id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<p>Options will generally be a list describing the different Checkboxes, RadioButtions, or Menu/MenuItems.</p>
+<p>Values:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>A space seperated list of plaintext strings surrounded by double quotation marks.</dt>
+<dd><ul class="first last simple">
+<li>Example: &#8220;Option1&#8221; &#8220;Option2&#8221; &#8220;Option3&#8221;</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>For <em>Checkboxes</em>, an * before <strong>one or more</strong> of the strings will create those values automatically checked</dt>
+<dd><ul class="first last simple">
+<li>Example: *&#8221;Option1&#8221; &#8220;Option2&#8221; *&#8221;Option3&#8221;</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>For <em>RadioButtons</em> an * before <strong>one</strong> of the strings will create that value automatically selected</dt>
+<dd><ul class="first last simple">
+<li>Example &#8220;Option1&#8221; *&#8221;Option2&#8221; &#8220;Option3&#8221;</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="position">
+<h2>Position<a class="headerlink" href="#position" title="Permalink to this headline">¶</a></h2>
+<p>Position allows you to move your objects around the window.</p>
+<p>Values:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>A position keyword</dt>
+<dd><ul class="first last simple">
+<li>center</li>
+<li>top</li>
+<li>bottom</li>
+<li>left</li>
+<li>right</li>
+<li>topleft</li>
+<li>topright</li>
+<li>bottomleft</li>
+<li>bottomright</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Height and width integer coordinates, seperated by a space.</dt>
+<dd><ul class="first last simple">
+<li>Example: position 3 5</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="size">
+<h2>Size<a class="headerlink" href="#size" title="Permalink to this headline">¶</a></h2>
+<p>Size allows for the adjustment of the height and width of the object.</p>
+<p>Values:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>A size keyword</dt>
+<dd><ul class="first last simple">
+<li>small</li>
+<li>medium</li>
+<li>large</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Height and Width integers, seperated by a space.</dt>
+<dd><ul class="first last simple">
+<li>Example: size 2 5</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="color">
+<h2>Color<a class="headerlink" href="#color" title="Permalink to this headline">¶</a></h2>
+<p>Color changes the color of the object.</p>
+<p>Values:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>A color keyword</dt>
+<dd><ul class="first last simple">
+<li>red</li>
+<li>blue</li>
+<li>yellow</li>
+<li>orange</li>
+<li>green</li>
+<li>purple</li>
+<li>pink</li>
+<li>cyan</li>
+<li>magenta</li>
+<li>white</li>
+<li>black</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>A RGB value, seperated by spaces.</dt>
+<dd><ul class="first last simple">
+<li>Example: color 000 000 255.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>A hex value</dt>
+<dd><ul class="first last simple">
+<li>Example: color #33aa00</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="action">
+<h2>Action<a class="headerlink" href="#action" title="Permalink to this headline">¶</a></h2>
+<p>Action sets the events that happen after an object is interacted with.</p>
+<p>Values:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>A built-in Gooey action:</dt>
+<dd><ul class="first last simple">
+<li>quit</li>
+<li>write</li>
+<li>changeWindowColor</li>
+<li>changeWindowSize</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>A custom function:</dt>
+<dd><ul class="first last simple">
+<li>See: Functions and Actions</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="hidden">
+<h2>Hidden<a class="headerlink" href="#hidden" title="Permalink to this headline">¶</a></h2>
+<p>Determines if object can be seen. Default is <strong>always False</strong>, obejct is <em>not</em> hidden. Setting hidden to True will hide the Object without destorying it.</p>
+<p>Values:</p>
+<ul class="simple">
+<li>True</li>
+<li>False</li>
+</ul>
+</div>
+<div class="section" id="font">
+<h2>Font<a class="headerlink" href="#font" title="Permalink to this headline">¶</a></h2>
+<p>Changes font used if Object incorporates text. Default is &#8220;Times New Roman&#8221;</p>
+<p>Values:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>A font name, surrounded by double quotation marks.</dt>
+<dd><ul class="first last simple">
+<li>&#8220;Times New Roman&#8221;</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="fontsize">
+<h2>FontSize<a class="headerlink" href="#fontsize" title="Permalink to this headline">¶</a></h2>
+<p>Changes font size used if Object incorporates text.</p>
+</div>
+<div class="section" id="textcolor">
+<h2>textColor<a class="headerlink" href="#textcolor" title="Permalink to this headline">¶</a></h2>
+<p>Changes color of text if Object incorporates text.</p>
+</div>
+<div class="section" id="bold">
+<h2>bold<a class="headerlink" href="#bold" title="Permalink to this headline">¶</a></h2>
+<p>Changes text to bold font when set to True. Default is <strong>False</strong>.</p>
+<p>Values:</p>
+<ul class="simple">
+<li>True</li>
+<li>False</li>
+</ul>
+</div>
+<div class="section" id="italics">
+<h2>italics<a class="headerlink" href="#italics" title="Permalink to this headline">¶</a></h2>
+<p>Changes text to italicized font when set to True. Default is <strong>False</strong>.</p>
+<p>Values:</p>
+<ul class="simple">
+<li>True</li>
+<li>False</li>
+</ul>
+</div>
+<div class="section" id="source">
+<h2>source<a class="headerlink" href="#source" title="Permalink to this headline">¶</a></h2>
+<p>The path or filename for the Image object. Source files <strong>must be in .gif format</strong></p>
+<p>Values:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>filename surrounded by double quotation marks</dt>
+<dd><ul class="first last simple">
+<li>Example: source &#8220;apple.gif&#8221;</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Attributes</a><ul>
+<li><a class="reference internal" href="#title">Title</a></li>
+<li><a class="reference internal" href="#text">Text</a></li>
+<li><a class="reference internal" href="#options">Options</a></li>
+<li><a class="reference internal" href="#position">Position</a></li>
+<li><a class="reference internal" href="#size">Size</a></li>
+<li><a class="reference internal" href="#color">Color</a></li>
+<li><a class="reference internal" href="#action">Action</a></li>
+<li><a class="reference internal" href="#hidden">Hidden</a></li>
+<li><a class="reference internal" href="#font">Font</a></li>
+<li><a class="reference internal" href="#fontsize">FontSize</a></li>
+<li><a class="reference internal" href="#textcolor">textColor</a></li>
+<li><a class="reference internal" href="#bold">bold</a></li>
+<li><a class="reference internal" href="#italics">italics</a></li>
+<li><a class="reference internal" href="#source">source</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="FunctionsAndActions.html"
+                        title="previous chapter">Actions and Functions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Objects.html"
+                        title="next chapter">Objects</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Attributes.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Objects.html" title="Objects"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="FunctionsAndActions.html" title="Actions and Functions"
+             >previous</a> |</li>
+        <li><a href="index.html">Gooey 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Emily Johnston, Leah Cole, Kenny Suh, Mary McCreary, Evan Harris, Jamaica Lammi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3b2.
+    </div>
+  </body>
+</html>
