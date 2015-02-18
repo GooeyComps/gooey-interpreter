@@ -482,7 +482,18 @@ class Interpreter():
                 frames.append(l)
         return frames
 
+        ###Leah's messing stuff up here###
+        self.gRows = rows
+        self.gColumns = columns
+        backgroundColor = w.cget('bg')
+        l = Frame(w, height = rows*100, width = columns*100)
+        l.grid(row = 0, column = 0)
+        l.configure(bg = backgroundColor)
+        return l
+        ###leah's messing up stops here###
+
     def setWindowSize(self,w,rows,columns,frames):
+        print("Rows is", rows, "and is of type", type(rows))
         winsize = rows*columns-1
 
         #If we're shrinking the window size, we need to remove the rows and columns of frames
@@ -500,6 +511,14 @@ class Interpreter():
             fr.grid(row = f//rows, column = f%columns)
             frames.append(fr)
         return frames
+        #
+        # ##Leah is boogering stuff starting here ####
+        # frames.configure(height=rows*100,width=columns*100)
+        # print("configured the frame")
+        # frames.grid(row = 0, column = 0)
+        # print("Trouble gridding")
+        # return (w,frames)
+        # ##Leah's boogering done####
 
 
 
@@ -528,6 +547,7 @@ class Interpreter():
                     w.configure(bg=item.color.value)
                     self.setWindowColor(w,item.color.value)
                 elif hasattr(item,'size'):
+                    print("Working on size")
 #                    if hasattr(item.size.value, "columns"):
 #                        rows = int(item.size.value.rows)
 #                        columns = int(item.size.value.columns)
@@ -574,7 +594,9 @@ class Interpreter():
 #                        for j in range(0,rows):
 #                            l = Frame(w, height=100, width=100)
 #                            l.grid(row = j, column = i)
+                    print("hello")
                     (w,frames) = self.setWindowSize(w, rows, columns,frames)
+                    print("What's up")
 
 
 
