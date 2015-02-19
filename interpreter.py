@@ -8,6 +8,7 @@ import math
 
 import os
 
+
 SMALL_WIN_SIZE = 2
 MED_WIN_SIZE = 4
 LARGE_WIN_SIZE = 6
@@ -16,7 +17,7 @@ SMALL_TEXTBOX_SIZE = 10
 MED_TEXTBOX_SIZE = 20
 LARGE_TEXTBOX_SIZE = 30
 
-### START EMILY CODE ###
+
 class ErrorPopup:
     '''
     A pop-up window that gracefully handles Gooey errors.
@@ -34,7 +35,7 @@ class ErrorPopup:
         # Add "OK" button to popup, that will close popup when clicked
         button = Button(self.window, text="Ok", command=self.window.destroy)
         button.pack()
-### END EMILY CODE ###
+
 
 #Binding object has four instance variables
 #bType - the type of object with regards to "Gooey" ex) Window, Button
@@ -55,12 +56,11 @@ class Binding:
         self.bObject = bObject
         self.params = params
 
-### START EMILY CHANGE ###
     def __repr__(self):
         '''Prints a pretty version of the bindings'''
         prettyStr = "Binding " + str(self.varname) + " of type " + str(self.bType) + "."
         return prettyStr
-### END EMILY CHANGE ###
+
 
 class Interpreter():
     '''Interpreter class: creates GUI based on the expression given by the user.'''
@@ -71,11 +71,9 @@ class Interpreter():
         '''Initializes the GUI window'''
         self.window = target
 
-### START EMILY CHANGE ###
     def error(self, message):
         '''Generates a popup error message'''
         ErrorPopup(message)
-### END EMILY CHANGE ###
 
     def interpret(self, ast, bindings):
         '''Interprets the Gooey code and creates a GUI in the window.
@@ -84,8 +82,9 @@ class Interpreter():
         for expr in ast:
 
 
-
-            #   MAKE
+            '''
+ -------------------- MAKE --------------------
+            '''
             if(expr.__class__.__name__ == "Make"):
                 if hasattr(expr, "type"):
                     if (expr.type == "Window"):
@@ -233,8 +232,9 @@ class Interpreter():
                     self.error("Error: No type recognized.")
 
 
-
-            #   SET
+            '''
+ -------------------- SET --------------------
+            '''
             elif(expr.__class__.__name__ == "GooeySet"):
                 print("GOOEY Set")
                 if hasattr(expr, "varname"):
@@ -285,8 +285,9 @@ class Interpreter():
                 else:
                     self.error("Error: Undefined variable used.")
 
-
-            #               FUNCTIONS
+            '''
+ -------------------- FUNCTIONS --------------------
+            '''
             #Interprets all function definition statements
             elif(expr.__class__.__name__ == "FunctionDefinition"):
                 if hasattr(expr, "funcname"):
@@ -366,9 +367,9 @@ class Interpreter():
         print("THESE ARE THE BINDINGS: ", bindings)
         return bindings
 
-    #               CHECKBOXES
-
-
+    '''
+ -------------------- CHECKBOXES --------------------
+    '''
     def makeDefaultCheckboxes(self,w,defaults):
         pass
 
@@ -382,10 +383,10 @@ class Interpreter():
 
     def setCheckboxes():
         pass
-#
-#    #               RADIOBUTTONS
-#
-#
+
+    '''
+ -------------------- RADIOBUTTONS --------------------
+    '''
     def makeDefaultRadioButtons(self,w,defaults):
         pass
 
@@ -399,8 +400,9 @@ class Interpreter():
     def setRadioButtons():
         pass
 
-
-#    #               TEXT
+    '''
+ -------------------- TEXT --------------------
+    '''
     def makeDefaultText(self,w,defaults):
         tl = Label(w, text = defaults['text'], bg = defaults['color'])
         #needs position and size
@@ -448,10 +450,9 @@ class Interpreter():
         tl.grid(row=r, column=c, sticky=N+S+E+W)
         return tl
 
-
-    #               WINDOWS
-
-
+    '''
+ -------------------- WINDOWS --------------------
+    '''
     def makeDefaultWindow(self,w,defaults):
         '''Makes a window with default attributes'''
         #Configure the window with defaults
@@ -494,45 +495,22 @@ class Interpreter():
         #Construct the default window
         defaults = self.getAllDefaults("Window")
         w = self.makeDefaultWindow(w,defaults)
+
         #If the user input any attributes, change the default window to reflect that
         if hasattr(expr, "attributes"):
             windowAttributeList = expr.attributes
             for item in windowAttributeList:
-                print(item)
-
+                # Set window background to user-input color
                 if hasattr(item, 'color'):
                     w.configure(bg=item.color.value)
                     self.setWindowColor(w,item.color.value)
+                # Set window size to user-input size
                 elif hasattr(item,'size'):
-#                    if hasattr(item.size.value, "columns"):
-#                        rows = int(item.size.value.rows)
-#                        columns = int(item.size.value.columns)
-#                        Interpreter.gRows = rows
-#                        Interpreter.gColumns = columns
-#                        #fill cells with empty space somehow, so the user gets a sense of it actually being a grid
-#                        for i in range(0,columns):
-#                            for j in range(0,rows):
-#                                l = Frame(w, height=100, width=100)
-#                                l.grid(row = j, column = i)
-#
-#                    elif item.size.value[0].isdigit():
-#                        size = item.size.value+"x"+item.size.value
-#                        w.geometry(size)
-#                    else:
-#                        print("ITEM.SIZE.LOWER = ", item.size.value.lower())
-#                        if item.size.value.lower() == "large":
-#                            w.geometry('600x600')
-#                        elif item.size.value.lower() == "medium":
-#                            print("got to medium")
-#                            w.geometry('400x400')
-#                        elif item.size.value.lower() == "small":
-#                            w.geometry('200x200')
-
-
-
+                    # User entered numerical window size
                     if hasattr(item.size.value, "columns"):
                         rows = int(item.size.value.rows)
                         columns = int(item.size.value.columns)
+                    # User entered descriptive window size
                     else:
                         if item.size.value.lower() == "small":
                             rows = SMALL_WIN_SIZE
@@ -543,17 +521,8 @@ class Interpreter():
                         elif item.size.value.lower() == "large":
                             rows = LARGE_WIN_SIZE
                             columns = MED_WIN_SIZE
-#                    Interpreter.gRows = rows
-#                    Interpreter.gColumns = columns
-#                    #fill cells with empty space somehow, so the user gets a sense of it actually being a grid
-#                    for i in range(0,columns):
-#                        for j in range(0,rows):
-#                            l = Frame(w, height=100, width=100)
-#                            l.grid(row = j, column = i)
+                    # Once sizes have been fetched from user input, set window size by refilling frames
                     self.setWindowSize(w, rows, columns)
-
-
-
                 elif hasattr(item, 'title'):
                     w.title(item.title.value)
                 elif hasattr(item, 'font'):
@@ -562,11 +531,9 @@ class Interpreter():
                     pass
                 elif hasattr(item, 'textColor'):
                     pass
-        #somewhere in here we need to look and error check that there are only
+        # TODO: somewhere in here we need to look and error check that there are only
         #attributes that are supposed to be here
         return w
-
-
 
 
     def setWindow(self,w,expr):
@@ -579,27 +546,6 @@ class Interpreter():
                     w.configure(bg=item.color.value)
                     self.setWindowColor(w,item.color.value)
                 elif hasattr(item,'size'):
-#                    if hasattr(item.size.value, "columns"):
-#                        rows = int(item.size.value.rows)
-#                        columns = int(item.size.value.columns)
-#                        for i in range(0,columns):
-#                            for j in range(0,rows):
-#                                l = Frame(w, height=100, width=100)
-#                                l.rowconfigure('all', minsize = 100)
-#                                l.columnconfigure('all', minsize = 100)
-#                                l.grid(row = j, column = i)
-#
-#                    elif item.size.value[0].isdigit():
-#                        size = item.size.value+"x"+item.size.value
-#                        w.geometry(size)
-#                    else:
-#                        if item.size.value.lower() == "large":
-#                            w.geometry('600x600')
-#                        elif item.size.value.lower() == "medium":
-#                            w.geometry('400x400')
-#                        elif item.size.value.lower() == "small":
-#                            w.geometry('200x200')
-
                     if hasattr(item.size.value, "columns"):
                         rows = int(item.size.value.rows)
                         columns = int(item.size.value.columns)
@@ -613,13 +559,6 @@ class Interpreter():
                         elif item.size.value.lower() == "large":
                             rows = LARGE_WIN_SIZE
                             columns = LARGE_WIN_SIZE
-#                    self.gRows = rows
-#                    self.gColumns = columns
-#                    #fill cells with empty space somehow, so the user gets a sense of it actually being a grid
-#                    for i in range(0,columns):
-#                        for j in range(0,rows):
-#                            l = Frame(w, height=100, width=100)
-#                            l.grid(row = j, column = i)
                     self.setWindowSize(w, rows, columns)
 
                     #TODO: Loop through all existing bindings, redraw them so they aren't covered by the frames
@@ -636,9 +575,9 @@ class Interpreter():
 
 
 
-
-    #               TEXT BOX
-
+    '''
+ -------------------- TEXT BOX --------------------
+    '''
     def makeDefaultTextBox(self,w,defaults):
         ###STILL NEEDS MORE ###
         '''Makes a TextBox with default attributes'''
@@ -732,8 +671,9 @@ class Interpreter():
         return t
 
 
-    #               BUTTONS
-
+    '''
+ -------------------- BUTTONS --------------------
+    '''
     def makeDefaultButton(self, w, defaults):
         '''Makes a button with default attributes'''
         #This is the current background color of the window
@@ -844,13 +784,9 @@ class Interpreter():
         return bindings
 
 
-
-
-
-
-
-
-#    #               MENUS
+    '''
+ -------------------- MENUS --------------------
+    '''
 #    def makeDefaultMenu(self,w,defaults):
 #        pass
     def makeMenu(self,w,expr,bindings):
@@ -909,7 +845,9 @@ class Interpreter():
             pass
 
 
-    #           IMAGES - not in window right now!
+        '''
+ -------------------- IMAGES - not in window right now! --------------------
+    '''
     def makeDefaultImage(self,w,defaults):
         pass
     def makeImage(self, w, expr):
@@ -953,8 +891,9 @@ class Interpreter():
 
 
 
-
-    #               HELPER METHODS
+    '''
+ -------------------- HELPER METHODS --------------------
+    '''
     def makeBinding(self,t,v,o,p=[]):
         '''Makes a binding for the object.'''
         binding = Binding(t,v,o,p)
