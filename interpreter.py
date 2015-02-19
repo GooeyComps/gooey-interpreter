@@ -82,9 +82,7 @@ class Interpreter():
         for expr in ast:
 
 
-            '''
- -------------------- MAKE --------------------
-            '''
+            ''' -------------------- MAKE --------------------'''
             if(expr.__class__.__name__ == "Make"):
                 if hasattr(expr, "type"):
                     if (expr.type == "Window"):
@@ -232,9 +230,7 @@ class Interpreter():
                     self.error("Error: No type recognized.")
 
 
-            '''
- -------------------- SET --------------------
-            '''
+                    ''' -------------------- SET --------------------'''
             elif(expr.__class__.__name__ == "GooeySet"):
                 print("GOOEY Set")
                 if hasattr(expr, "varname"):
@@ -285,9 +281,8 @@ class Interpreter():
                 else:
                     self.error("Error: Undefined variable used.")
 
-            '''
- -------------------- FUNCTIONS --------------------
-            '''
+
+                    ''' -------------------- FUNCTIONS --------------------'''
             #Interprets all function definition statements
             elif(expr.__class__.__name__ == "FunctionDefinition"):
                 if hasattr(expr, "funcname"):
@@ -367,9 +362,8 @@ class Interpreter():
         print("THESE ARE THE BINDINGS: ", bindings)
         return bindings
 
-    '''
- -------------------- CHECKBOXES --------------------
-    '''
+
+    ''' -------------------- CHECKBOXES --------------------'''
     def makeDefaultCheckboxes(self,w,defaults):
         pass
 
@@ -384,9 +378,8 @@ class Interpreter():
     def setCheckboxes():
         pass
 
-    '''
- -------------------- RADIOBUTTONS --------------------
-    '''
+
+    ''' -------------------- RADIOBUTTONS -------------------'''
     def makeDefaultRadioButtons(self,w,defaults):
         pass
 
@@ -400,9 +393,8 @@ class Interpreter():
     def setRadioButtons():
         pass
 
-    '''
- -------------------- TEXT --------------------
-    '''
+
+    ''' -------------------- TEXT --------------------'''
     def makeDefaultText(self,w,defaults):
         tl = Label(w, text = defaults['text'], bg = defaults['color'])
         #needs position and size
@@ -450,9 +442,8 @@ class Interpreter():
         tl.grid(row=r, column=c, sticky=N+S+E+W)
         return tl
 
-    '''
- -------------------- WINDOWS --------------------
-    '''
+
+    ''' -------------------- WINDOWS --------------------'''
     def makeDefaultWindow(self,w,defaults):
         '''Makes a window with default attributes'''
         #Configure the window with defaults
@@ -575,9 +566,8 @@ class Interpreter():
 
 
 
-    '''
- -------------------- TEXT BOX --------------------
-    '''
+
+    ''' -------------------- TEXT BOX --------------------'''
     def makeDefaultTextBox(self,w,defaults):
         ###STILL NEEDS MORE ###
         '''Makes a TextBox with default attributes'''
@@ -671,9 +661,8 @@ class Interpreter():
         return t
 
 
-    '''
- -------------------- BUTTONS --------------------
-    '''
+
+    ''' -------------------- BUTTONS --------------------'''
     def makeDefaultButton(self, w, defaults):
         '''Makes a button with default attributes'''
         #This is the current background color of the window
@@ -784,9 +773,8 @@ class Interpreter():
         return bindings
 
 
-    '''
- -------------------- MENUS --------------------
-    '''
+
+    ''' -------------------- MENUS --------------------'''
 #    def makeDefaultMenu(self,w,defaults):
 #        pass
     def makeMenu(self,w,expr,bindings):
@@ -845,9 +833,8 @@ class Interpreter():
             pass
 
 
-        '''
- -------------------- IMAGES - not in window right now! --------------------
-    '''
+
+    ''' -------------------- IMAGES - not in window right now! --------------------'''
     def makeDefaultImage(self,w,defaults):
         pass
     def makeImage(self, w, expr):
@@ -891,9 +878,8 @@ class Interpreter():
 
 
 
-    '''
- -------------------- HELPER METHODS --------------------
-    '''
+
+    ''' -------------------- HELPER METHODS --------------------'''
     def makeBinding(self,t,v,o,p=[]):
         '''Makes a binding for the object.'''
         binding = Binding(t,v,o,p)

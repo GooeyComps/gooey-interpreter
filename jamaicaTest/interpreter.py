@@ -248,7 +248,7 @@ class Interpreter():
                 print("GOOEY Set")
                 if hasattr(expr, "varname"):
                     print("Has Varname: ", expr.varname)
-                    print("BINDINGS: ", bindings)
+                    print("BINDINGS: ", expr)
                     if expr.varname in bindings:
                         print("expr.varname is in bindings")
                         obj = bindings[expr.varname]
@@ -264,7 +264,7 @@ class Interpreter():
 
                             ###LEAH WUZ HERE###
                             win = self.getObject(expr,bindings)
-                            print(win)
+                            print("BINDINGS", bindings)
                             assert win.bType == 'Window'
                             #wColorBefore = win.bObject.cget('bg')
                             print("HI")
@@ -660,6 +660,9 @@ class Interpreter():
 
     def setWindow(self,w,expr):
         print("insetwindow")
+        print("")
+        print("")
+        print("WIN TYPE: ", type(w))
         w = w.bObject
         frames = w.frames
         '''Sets window attributes to those specified by the user.'''
@@ -729,7 +732,7 @@ class Interpreter():
                     pass
                 elif hasattr(item, 'textColor'):
                     pass
-        return w
+        return (w, frames)
 
 
 
