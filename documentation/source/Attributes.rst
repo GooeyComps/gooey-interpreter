@@ -45,7 +45,7 @@ Values:
 Position
 ========
 
-Position allows you to move your objects around the window.
+Position allows you to move your objects around the window. If you want to set the position  of an Object, you must first set the size of the of the Window. 
 
 Values:
 
