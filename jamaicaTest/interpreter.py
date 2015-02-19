@@ -72,6 +72,11 @@ class Interpreter():
     def __init__(self, target):
         '''Initializes the GUI window'''
         self.window = target
+        self.winBinding = None
+
+    def setWinBinding(self, b):
+        print("Here's b in winbinding", b)
+        self.winBinding = b
 
 ### START EMILY CHANGE ###
     def error(self, message):
@@ -96,8 +101,11 @@ class Interpreter():
 
                         ####Leah change###
                         (w,frames) = self.makeWindow(self.window,expr)
-                        binding = self.makeBinding("Window", expr.varname, w,frames)
+                        binding = self.makeBinding("Window", expr.varname, w,[],frames)
+                        self.setWinBinding(binding)
+                        print("!!!!!!!!!!!!!!!!!!!!!!!!!! ", self.winBinding)
                         ####Stop leah###
+                        print("This is the winBinding ", self.winBinding)
 
                         #
                         # binding = self.makeBinding("Window", expr.varname, w)
@@ -105,7 +113,8 @@ class Interpreter():
 
                     elif(expr.type == "Button"):
                         self.checkVarname(expr,bindings)
-                        b = self.makeButton(self.window,expr)
+                        print("WINBINDING ", self.winBinding)
+                        b = self.makeButton(self.winBinding,expr)
                         binding = self.makeBinding("Button", expr.varname, b)
                         bindings = self.addBinding(binding, bindings)
 
@@ -518,7 +527,7 @@ class Interpreter():
         # return w
         ###leah's messing up stops here###
 
-    def setWindowSize(self,w,rows,columns,frames):
+    def setWindowSize(self,frames,rows,columns):
     #def setWindowSize(self,w,rows,columns):
         # print("Rows is", rows, "and is of type", type(rows))
         # winsize = rows*columns-1
@@ -546,7 +555,7 @@ class Interpreter():
         frames.grid(row = 0, column = 0)
         #w.grid(row=0,column=0)
         print("Trouble gridding")
-        return (w,frames)
+        return frames
         #return w
         ##Leah's boogering done####
 
@@ -634,7 +643,7 @@ class Interpreter():
 #                            l = Frame(w, height=100, width=100)
 #                            l.grid(row = j, column = i)
                     print("hello")
-                    (w,frames) = self.setWindowSize(w, rows, columns,frames)
+                    frames = self.setWindowSize(frames, rows, columns)
                     #w = self.setWindowSize(w,rows,columns)
                     print("What's up")
 
@@ -658,13 +667,13 @@ class Interpreter():
 
 
 
-    def setWindow(self,w,expr):
+    def setWindow(self,win,expr):
         print("insetwindow")
         print("")
         print("")
-        print("WIN TYPE: ", type(w))
-        w = w.bObject
-        frames = w.frames
+        #print("WIN TYPE: ", type(w))
+        w = win.bObject
+        frames = win.frames
         '''Sets window attributes to those specified by the user.'''
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
@@ -720,7 +729,7 @@ class Interpreter():
 #                        for j in range(0,rows):
 #                            l = Frame(w, height=100, width=100)
 #                            l.grid(row = j, column = i)
-                    self.setWindowSize(w, rows, columns)
+                    self.setWindowSize(frames, rows, columns)
 
                     #TODO: Loop through all existing bindings, redraw them so they aren't covered by the frames
 
@@ -846,10 +855,13 @@ class Interpreter():
 
 
     def makeButton(self,w,expr):
+        print("Look here's w in makeButton", w)
+        win = w.frames
+
         '''Makes a button by taking in the window the button should be made in
         and the expression given by the user.'''
         defaults = self.getAllDefaults('Button')
-        b = self.makeDefaultButton(w,defaults)
+        b = self.makeDefaultButton(win,defaults)
         r, c = 0, 0
         print("GOT TO MAKE BUTTON: ", r, c)
         if hasattr(expr, "attributes"):
@@ -890,7 +902,7 @@ class Interpreter():
                     a = actionbuttons.findAction(item)
                     #w = a[0]
                     #item = a[1]
-                    b.configure(command=lambda: actionbuttons.callAction(w,item,action))
+                    b.configure(command=lambda: actionbuttons.callAction(win,item,action))
                     # else:
                     #     print("You have entered a command that is not defined")
 

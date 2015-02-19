@@ -493,6 +493,7 @@ class Interpreter():
             for item in windowAttributeList:
                 # Set window background to user-input color
                 if hasattr(item, 'color'):
+                    print("THIS IS THE COLOR: ", item.color.value)
                     w.configure(bg=item.color.value)
                     self.setWindowColor(w,item.color.value)
                 # Set window size to user-input size

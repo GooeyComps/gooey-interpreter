@@ -15,10 +15,20 @@ in Matrix - the attributes needed to be enumerated
 
 
 2/11/15
-Right now we can't make more than one button. Trouble trouble trouble 
+Right now we can't make more than one button. Trouble trouble trouble
 
 
 2/12/15
 When we make the matrix, our keywords need to be in quotes. We have a problem otherwise
 Need to add destruction!
-Attributes is getting super messy 
+Attributes is getting super messy
+
+2/18
+We want to have a binding that is related to our "master" window - the target - which is always passed in
+when we call Interpreter from gooey.py. However, we call Interpreter multiple times, and when we re-call
+it then the winBinding (masterBinding lol) is popped off the stack frame. To do this, we should probably
+have bindings be passed and forth between Gui and interpreter - right now bindings are only passed out and not in,
+which seems kind of weird and I feel like we might be losing track of bindings at some point
+
+RGB values don't work: we need to convert them to hex first (maybe when we change color, first convert string to tuple, then do the
+weird tkinter thing to convert it to hex) --> There should be a better way to do this.
