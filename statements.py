@@ -20,11 +20,14 @@ class GooeySet(List):
 
      grammar = "set", blank, attr("varname", VarName), attr("attributes",AttributeList)
 
+class Return(List):
+    grammar = "return", optional(blank, attr("param", word))
+
 class Line(List):
     grammar = attr("lineAction", [Make, GooeySet]), ";", blank
 
-class Return(List):
-    grammar = "return", optional(blank, attr("param", word))
+class LastLine(List):
+    grammar = attr("lineAction", [Make, GooeySet, Return])
 
 class FunctionDefinition(List):
     # grammar = "function", blank, attr("funcname", VarName), "(", attr("params", \
@@ -34,7 +37,7 @@ class FunctionDefinition(List):
     # csl(maybe_some(word))), ")", blank, "does", blank, attr("funcaction", csl(maybe_some(word))), "."
     # grammar = "function", blank, attr("funcname", VarName), "(", attr("params", \
     # csl(maybe_some(word))), ")", blank, "does", blank, attr("funcaction", [Make, GooeySet])
-    grammar = "function", blank, attr("funcname", varnameRegex), "(", attr("params", csl(maybe_some(word))), ")", blank, "does", blank, attr("funcaction", csl(maybe_some(Line), blank, Return))
+    grammar = "function", blank, attr("funcname", varnameRegex), "(", attr("params", csl(maybe_some(word))), ")", blank, "does", blank, attr("funcaction", csl(maybe_some(Line), blank, LastLine))
 
 class FunctionCall(List):
     # TODO: change this syntax

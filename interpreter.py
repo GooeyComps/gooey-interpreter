@@ -283,6 +283,9 @@ class Interpreter():
                             #            tbox.insert(END, self.extractTextValue(item.text.value))
                         #print("THIS IS EXPR: ",expr.attributes.text)
                         #tbox.insert(END, expr)
+                        else:
+                            err = "Error: Cannot set variable of type", obj.bType
+                            self.error(err)
                     else:
                         self.error("Error: Undefined variable used.")
 
@@ -924,10 +927,10 @@ class Interpreter():
 
     def getFunctionLineAction(self, expr):
         '''Interprets one line of a function, returns the action that line does.'''
-        if(expr.__class__.__name__ == "Return"):
-            return expr
-        else:
-            return expr.lineAction
+#        if(expr.__class__.__name__ == "Return"):
+#            return expr
+#        else:
+        return expr.lineAction
 
 
     def getOptions(self,expr):
