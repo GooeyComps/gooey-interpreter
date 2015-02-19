@@ -1,3 +1,5 @@
-function hi() does make Window w.
-function bye(win) does set win color blue.
-run bye(w).
+make Window w.
+function fun() does
+    make Button b;
+    return b.
+run fun() as but.
