@@ -84,7 +84,7 @@ class Interpreter():
 
 
             '''
- -------------------- MAKE --------------------
+-------------------- MAKE --------------------
             '''
             if(expr.__class__.__name__ == "Make"):
                 if hasattr(expr, "type"):
@@ -162,7 +162,7 @@ class Interpreter():
                                         i += 1
 
                                 elif(hasattr(item, 'title')):
-                                    cbTitle = self.extractTextValue(item.title.value)
+                                    cbTitle = item.title.value
                                     ttl = Label(self.window, text=cbTitle)
                                     ttl.grid(row=cbRow, column=cbColumn, sticky=N+S+E+W)
                                     binding = self.makeBinding("Checkboxes", expr.varname, ttl)
@@ -213,7 +213,7 @@ class Interpreter():
                                             j += 1
                                         i += 1
                                 elif(hasattr(item, 'title')):
-                                    rbTitle = self.extractTextValue(item.title.value)
+                                    rbTitle = item.title.value
                                     ttl = Label(self.window, text=rbTitle)
                                     ttl.grid(row=rbRow, column=rbColumn, sticky=N+S+E+W)
                                     binding = self.makeBinding("RadioButtons", expr.varname, ttl)
@@ -370,8 +370,9 @@ class Interpreter():
         print("THESE ARE THE BINDINGS: ", bindings)
         return bindings
 
+
     '''
- -------------------- CHECKBOXES --------------------
+-------------------- CHECKBOXES --------------------
     '''
     def makeDefaultCheckboxes(self,w,defaults):
         pass
@@ -379,7 +380,6 @@ class Interpreter():
 
     def makeCheckboxes(self,w,expr,i,num, r, c):
         r = r + num + 1
-        i = self.extractTextValue(i)
         op = Checkbutton(w, text=i, variable=str(num), anchor=W)
         op.grid(row=r, column=c, sticky=N+S+E+W)
         return op
@@ -387,15 +387,15 @@ class Interpreter():
     def setCheckboxes():
         pass
 
+
     '''
- -------------------- RADIOBUTTONS --------------------
+-------------------- RADIOBUTTONS --------------------
     '''
     def makeDefaultRadioButtons(self,w,defaults):
         pass
 
     def makeRadioButtons(self,w,expr,i,num, r, c, v):
         r = r + num + 1
-        i = self.extractTextValue(i)
         gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W)
         gg.grid(row=r, column=c, sticky=N+S+E+W)
         return gg
@@ -403,8 +403,9 @@ class Interpreter():
     def setRadioButtons():
         pass
 
+
     '''
- -------------------- TEXT --------------------
+-------------------- TEXT --------------------
     '''
     def makeDefaultText(self,w,defaults):
         tl = Label(w, text = defaults['text'], bg = defaults['color'])
@@ -419,7 +420,7 @@ class Interpreter():
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'text'):
-                    tl.configure(text=self.extractTextValue(item.text.value))
+                    tl.configure(text=item.text.value)
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         r = int(item.position.value.r)
@@ -439,7 +440,7 @@ class Interpreter():
             for item in expr.attributes:
                 if hasattr(item, 'text'):
                     print(item.text.value)
-                    tl.configure(text=self.extractTextValue(item.text.value))
+                    tl.configure(text=item.text.value)
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         r = int(item.position.value.r)
@@ -453,8 +454,9 @@ class Interpreter():
         tl.grid(row=r, column=c, sticky=N+S+E+W)
         return tl
 
+
     '''
- -------------------- WINDOWS --------------------
+-------------------- WINDOWS --------------------
     '''
     def makeDefaultWindow(self,w,defaults):
         '''Makes a window with default attributes'''
@@ -505,6 +507,8 @@ class Interpreter():
             for item in windowAttributeList:
                 # Set window background to user-input color
                 if hasattr(item, 'color'):
+                    print("THIS IS THE COLOR: ", item.color.value)
+                    print("WINDOW COLOR:", item.color.value)
                     w.configure(bg=item.color.value)
                     self.setWindowColor(w,item.color.value)
                 # Set window size to user-input size
@@ -578,8 +582,9 @@ class Interpreter():
 
 
 
+
     '''
- -------------------- TEXT BOX --------------------
+-------------------- TEXT BOX --------------------
     '''
     def makeDefaultTextBox(self,w,defaults):
         ###STILL NEEDS MORE ###
@@ -614,7 +619,7 @@ class Interpreter():
             for item in expr.attributes:
                 if hasattr(item, 'text'):
                     t.delete("1.0",END)
-                    t.insert(END, self.extractTextValue(item.text.value))
+                    t.insert(END, item.text.value)
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         r = int(item.position.value.r)
@@ -646,7 +651,7 @@ class Interpreter():
             for item in expr.attributes:
                 if hasattr(item, 'text'):
                     t.delete("1.0",END)
-                    t.insert(END, self.extractTextValue(item.text.value))
+                    t.insert(END, item.text.value)
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         r = int(item.position.value.r)
@@ -674,8 +679,9 @@ class Interpreter():
         return t
 
 
+
     '''
- -------------------- BUTTONS --------------------
+-------------------- BUTTONS --------------------
     '''
     def makeDefaultButton(self, w, defaults):
         '''Makes a button with default attributes'''
@@ -701,7 +707,7 @@ class Interpreter():
                 if hasattr(item, 'color'):
                     b.configure(bg=item.color.value)
                 if hasattr(item, 'text'):
-                    b.configure(text=self.extractTextValue(item.text.value))
+                    b.configure(text=item.text.value)
                 elif hasattr(item,'size'):
                     b.configure(width=item.size.value)
                     b.configure(height=item.size.value)
@@ -749,7 +755,7 @@ class Interpreter():
             if hasattr(item, 'color'):
                 b.configure(bg=item.color.value)
             if hasattr(item, 'text'):
-                b.configure(text=self.extractTextValue(item.text.value))
+                b.configure(text=item.text.value)
             elif hasattr(item,'size'):
                 b.configure(width=item.size.value)
                 b.configure(height=item.size.value)
@@ -787,8 +793,9 @@ class Interpreter():
         return bindings
 
 
+
     '''
- -------------------- MENUS --------------------
+-------------------- MENUS --------------------
     '''
 #    def makeDefaultMenu(self,w,defaults):
 #        pass
@@ -848,8 +855,9 @@ class Interpreter():
             pass
 
 
-        '''
- -------------------- IMAGES - not in window right now! --------------------
+
+    '''
+-------------------- IMAGES - not in window right now! --------------------
     '''
     def makeDefaultImage(self,w,defaults):
         pass
@@ -894,8 +902,9 @@ class Interpreter():
 
 
 
+
     '''
- -------------------- HELPER METHODS --------------------
+-------------------- HELPER METHODS --------------------
     '''
     def makeBinding(self,t,v,o,p=[]):
         '''Makes a binding for the object.'''
@@ -987,6 +996,9 @@ class Interpreter():
             c = Interpreter.gColumns
         return r, c
 
+'''
+#method just recreating itself??
     def extractTextValue(self, value):
+        print("The value is:", value)
         words = re.findall(r'[\w\d\.]+', value)
-        return ' '.join(words)
+        return ' '.join(words) '''

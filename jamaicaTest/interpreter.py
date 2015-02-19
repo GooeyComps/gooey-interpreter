@@ -72,6 +72,11 @@ class Interpreter():
     def __init__(self, target):
         '''Initializes the GUI window'''
         self.window = target
+        self.winBinding = None
+
+    def setWinBinding(self, b):
+        print("Here's b in winbinding", b)
+        self.winBinding = b
 
 ### START EMILY CHANGE ###
     def error(self, message):
@@ -92,13 +97,24 @@ class Interpreter():
                 if hasattr(expr, "type"):
                     if (expr.type == "Window"):
                         self.checkVarname(expr,bindings)
-                        w = self.makeWindow(self.window,expr)
-                        binding = self.makeBinding("Window", expr.varname, w)
+                        #w = self.makeWindow(self.window,expr)
+
+                        ####Leah change###
+                        (w,frames) = self.makeWindow(self.window,expr)
+                        binding = self.makeBinding("Window", expr.varname, w,[],frames)
+                        self.setWinBinding(binding)
+                        print("!!!!!!!!!!!!!!!!!!!!!!!!!! ", self.winBinding)
+                        ####Stop leah###
+                        print("This is the winBinding ", self.winBinding)
+
+                        #
+                        # binding = self.makeBinding("Window", expr.varname, w)
                         bindings = self.addBinding(binding, bindings)
 
                     elif(expr.type == "Button"):
                         self.checkVarname(expr,bindings)
-                        b = self.makeButton(self.window,expr)
+                        print("WINBINDING ", self.winBinding)
+                        b = self.makeButton(self.winBinding,expr)
                         binding = self.makeBinding("Button", expr.varname, b)
                         bindings = self.addBinding(binding, bindings)
 
@@ -241,21 +257,33 @@ class Interpreter():
                 print("GOOEY Set")
                 if hasattr(expr, "varname"):
                     print("Has Varname: ", expr.varname)
-                    print("BINDINGS: ", bindings)
+                    print("BINDINGS: ", expr)
                     if expr.varname in bindings:
                         print("expr.varname is in bindings")
                         obj = bindings[expr.varname]
                         if obj.bType == "Window":
+                            # win = self.getObject(expr,bindings)
+                            # assert win.bType == 'Window'
+                            # wColorBefore = win.bObject.cget('bg')
+                            # w = self.setWindow(win.bObject,expr)
+                            # wColorAfter = w.cget('bg')
+                            # if wColorBefore != wColorAfter:
+                            #     bindings = self.fixButtonPadding(wColorAfter,bindings)
+                            # w = self.setWindow(win.bObject,expr)
+
+                            ###LEAH WUZ HERE###
                             win = self.getObject(expr,bindings)
-                            print("Type Before: ", win.bType)
+                            print("BINDINGS", bindings)
                             assert win.bType == 'Window'
-                            print("Type After: ", win.bType)
-                            wColorBefore = win.bObject.cget('bg')
-                            w = self.setWindow(win.bObject,expr)
-                            wColorAfter = w.cget('bg')
-                            if wColorBefore != wColorAfter:
-                                bindings = self.fixButtonPadding(wColorAfter,bindings)
-                            w = self.setWindow(win.bObject,expr)
+                            #wColorBefore = win.bObject.cget('bg')
+                            print("HI")
+                            (w,frames) = self.setWindow(win,expr)
+                            print("BYE")
+                            #wColorAfter = w.cget('bg')
+                            #if wColorBefore != wColorAfter:
+                            #    bindings = self.fixButtonPadding(wColorAfter,bindings)
+                            #w = self.setWindow(win.bObject,expr)
+                            ###LEAHZ GONE NOW###
 
                         elif(obj.bType == "Button"):
                             button = self.getObject(expr,bindings)
@@ -464,23 +492,27 @@ class Interpreter():
         #w.geometry('400x400')
         w.title(defaults['title'])
         #w.configure(bg=defaults['color'])
-        self.setWindowColor(w,defaults['color'])
+        #self.setWindowColor(w,defaults['color'])
         #Set window size to default size
         frames = self.setDefaultWindowSize(w, MED_WIN_SIZE, MED_WIN_SIZE)
+        self.setWindowColor(frames,defaults['color'])
+        #w = self.setDefaultWindowSize(w, MED_WIN_SIZE, MED_WIN_SIZE)
+
         return (w,frames)
+        #return w
 
     def setDefaultWindowSize(self, w, rows, columns):
-        frames = []
-        self.gRows = rows
-        self.gColumns = columns
-        backgroundColor = w.cget('bg')
-        for i in range(0,columns):
-            for j in range(0,rows):
-                l = Frame(w, height=100, width=100)
-                l.grid(row = j, column = i)
-                l.configure(bg = backgroundColor)
-                frames.append(l)
-        return frames
+        # frames = []
+        # self.gRows = rows
+        # self.gColumns = columns
+        # backgroundColor = w.cget('bg')
+        # for i in range(0,columns):
+        #     for j in range(0,rows):
+        #         l = Frame(w, height=100, width=100)
+        #         l.grid(row = j, column = i)
+        #         l.configure(bg = backgroundColor)
+        #         frames.append(l)
+        # return frames
 
         ###Leah's messing stuff up here###
         self.gRows = rows
@@ -490,46 +522,60 @@ class Interpreter():
         l.grid(row = 0, column = 0)
         l.configure(bg = backgroundColor)
         return l
+        # w.configure(height = rows*100, width = columns*100)
+        # w.grid(row=0,column=0)
+        # return w
         ###leah's messing up stops here###
 
-    def setWindowSize(self,w,rows,columns,frames):
-        print("Rows is", rows, "and is of type", type(rows))
-        winsize = rows*columns-1
-
-        #If we're shrinking the window size, we need to remove the rows and columns of frames
-        #if we're removing rows, then we need to remove indicies of f modded with the removed values
-        #to do this we do modular arithmatic and if the result is bigger than "rows" or "columns", we
-        #remove the frame
-
-        #if we're growing it, we need to add appropriate rows and columns
-        #We add them
-
-        for f in range(0,len(frames)):
-            print(f)
-            fr = frames[f]
-            print("This is the current height and width", fr.cget('height'), fr.cget('width'))
-            fr.grid(row = f//rows, column = f%columns)
-            frames.append(fr)
-        return frames
+    def setWindowSize(self,frames,rows,columns):
+    #def setWindowSize(self,w,rows,columns):
+        # print("Rows is", rows, "and is of type", type(rows))
+        # winsize = rows*columns-1
         #
-        # ##Leah is boogering stuff starting here ####
-        # frames.configure(height=rows*100,width=columns*100)
-        # print("configured the frame")
-        # frames.grid(row = 0, column = 0)
-        # print("Trouble gridding")
-        # return (w,frames)
-        # ##Leah's boogering done####
+        # #If we're shrinking the window size, we need to remove the rows and columns of frames
+        # #if we're removing rows, then we need to remove indicies of f modded with the removed values
+        # #to do this we do modular arithmatic and if the result is bigger than "rows" or "columns", we
+        # #remove the frame
+        #
+        # #if we're growing it, we need to add appropriate rows and columns
+        # #We add them
+        #
+        # for f in range(0,len(frames)):
+        #     print(f)
+        #     fr = frames[f]
+        #     print("This is the current height and width", fr.cget('height'), fr.cget('width'))
+        #     fr.grid(row = f//rows, column = f%columns)
+        #     frames.append(fr)
+        # return frames
+        #
+        ##Leah is boogering stuff starting here ####
+        frames.configure(height=rows*100,width=columns*100)
+        #w.configure(height=rows*100,width=columns*100)
+        print("configured the frame")
+        frames.grid(row = 0, column = 0)
+        #w.grid(row=0,column=0)
+        print("Trouble gridding")
+        return frames
+        #return w
+        ##Leah's boogering done####
 
 
 
     def setWindowColor(self,w,color):
+        print("in setwindowcolor")
 #        self.gRows = rows
 #        self.gColumns = columns
-        for i in range(0,self.gColumns):
-            for j in range(0,self.gRows):
-                l = Frame(w, height=100, width=100)
-                l.grid(row = j, column = i)
-                l.configure(bg = color)
+        # for i in range(0,self.gColumns):
+        #     for j in range(0,self.gRows):
+        #         l = Frame(w, height=100, width=100)
+        #         l.grid(row = j, column = i)
+        #         l.configure(bg = color)
+
+        ###Leah's shit###
+        #NOTE w is now a frame, not the root window##SECOND NOTE NO IT'S NOT#JK it is
+        w.configure(bg = color)
+        w.grid(row = 0, column = 0)
+        ###STop leah's shit###
 
     def makeWindow(self,w,expr):
         '''Makes a window given user attributes.
@@ -537,6 +583,7 @@ class Interpreter():
         #Construct the default window
         defaults = self.getAllDefaults("Window")
         (w,frames) = self.makeDefaultWindow(w,defaults)
+        #w = self.makeDefaultWindow(w,defaults)
         #If the user input any attributes, change the default window to reflect that
         if hasattr(expr, "attributes"):
             windowAttributeList = expr.attributes
@@ -544,8 +591,9 @@ class Interpreter():
                 print(item)
 
                 if hasattr(item, 'color'):
-                    w.configure(bg=item.color.value)
-                    self.setWindowColor(w,item.color.value)
+                    #w.configure(bg=item.color.value)
+                    #self.setWindowColor(w,item.color.value)
+                    self.setWindowColor(frames,item.color.value)
                 elif hasattr(item,'size'):
                     print("Working on size")
 #                    if hasattr(item.size.value, "columns"):
@@ -595,7 +643,8 @@ class Interpreter():
 #                            l = Frame(w, height=100, width=100)
 #                            l.grid(row = j, column = i)
                     print("hello")
-                    (w,frames) = self.setWindowSize(w, rows, columns,frames)
+                    frames = self.setWindowSize(frames, rows, columns)
+                    #w = self.setWindowSize(w,rows,columns)
                     print("What's up")
 
 
@@ -610,19 +659,34 @@ class Interpreter():
                     pass
         #somewhere in here we need to look and error check that there are only
         #attributes that are supposed to be here
-        return w
+        #return w
+        ###Leah change###
+        return (w,frames)
+        ###Stop leah###
 
 
 
 
-    def setWindow(self,w,expr):
+    def setWindow(self,win,expr):
+        print("insetwindow")
+        print("")
+        print("")
+        #print("WIN TYPE: ", type(w))
+        w = win.bObject
+        frames = win.frames
         '''Sets window attributes to those specified by the user.'''
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'color'):
                     #self.window.configure(bg=item.color.value)
-                    w.configure(bg=item.color.value)
-                    self.setWindowColor(w,item.color.value)
+                    # w.configure(bg=item.color.value)
+                    # self.setWindowColor(w,item.color.value)
+                    #
+                    ###LEAH WAS HERE###
+                    print("setting the color maybe")
+                    self.setWindowColor(frames,item.color.value)
+
+                    ###BYE LEAH###
                 elif hasattr(item,'size'):
 #                    if hasattr(item.size.value, "columns"):
 #                        rows = int(item.size.value.rows)
@@ -665,7 +729,7 @@ class Interpreter():
 #                        for j in range(0,rows):
 #                            l = Frame(w, height=100, width=100)
 #                            l.grid(row = j, column = i)
-                    self.setWindowSize(w, rows, columns)
+                    self.setWindowSize(frames, rows, columns)
 
                     #TODO: Loop through all existing bindings, redraw them so they aren't covered by the frames
 
@@ -677,7 +741,7 @@ class Interpreter():
                     pass
                 elif hasattr(item, 'textColor'):
                     pass
-        return w
+        return (w, frames)
 
 
 
@@ -791,10 +855,13 @@ class Interpreter():
 
 
     def makeButton(self,w,expr):
+        print("Look here's w in makeButton", w)
+        win = w.frames
+
         '''Makes a button by taking in the window the button should be made in
         and the expression given by the user.'''
         defaults = self.getAllDefaults('Button')
-        b = self.makeDefaultButton(w,defaults)
+        b = self.makeDefaultButton(win,defaults)
         r, c = 0, 0
         print("GOT TO MAKE BUTTON: ", r, c)
         if hasattr(expr, "attributes"):
@@ -835,7 +902,7 @@ class Interpreter():
                     a = actionbuttons.findAction(item)
                     #w = a[0]
                     #item = a[1]
-                    b.configure(command=lambda: actionbuttons.callAction(w,item,action))
+                    b.configure(command=lambda: actionbuttons.callAction(win,item,action))
                     # else:
                     #     print("You have entered a command that is not defined")
 
