@@ -159,7 +159,7 @@ class Interpreter():
                                         i += 1
 
                                 elif(hasattr(item, 'title')):
-                                    cbTitle = self.extractTextValue(item.title.value)
+                                    cbTitle = item.title.value
                                     ttl = Label(self.window, text=cbTitle)
                                     ttl.grid(row=cbRow, column=cbColumn, sticky=N+S+E+W)
                                     binding = self.makeBinding("Checkboxes", expr.varname, ttl)
@@ -210,7 +210,7 @@ class Interpreter():
                                             j += 1
                                         i += 1
                                 elif(hasattr(item, 'title')):
-                                    rbTitle = self.extractTextValue(item.title.value)
+                                    rbTitle = item.title.value
                                     ttl = Label(self.window, text=rbTitle)
                                     ttl.grid(row=rbRow, column=rbColumn, sticky=N+S+E+W)
                                     binding = self.makeBinding("RadioButtons", expr.varname, ttl)
@@ -370,7 +370,6 @@ class Interpreter():
 
     def makeCheckboxes(self,w,expr,i,num, r, c):
         r = r + num + 1
-        i = self.extractTextValue(i)
         op = Checkbutton(w, text=i, variable=str(num), anchor=W)
         op.grid(row=r, column=c, sticky=N+S+E+W)
         return op
@@ -385,7 +384,6 @@ class Interpreter():
 
     def makeRadioButtons(self,w,expr,i,num, r, c, v):
         r = r + num + 1
-        i = self.extractTextValue(i)
         gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W)
         gg.grid(row=r, column=c, sticky=N+S+E+W)
         return gg
@@ -408,7 +406,7 @@ class Interpreter():
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'text'):
-                    tl.configure(text=self.extractTextValue(item.text.value))
+                    tl.configure(text=item.text.value)
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         r = int(item.position.value.r)
@@ -428,7 +426,7 @@ class Interpreter():
             for item in expr.attributes:
                 if hasattr(item, 'text'):
                     print(item.text.value)
-                    tl.configure(text=self.extractTextValue(item.text.value))
+                    tl.configure(text=item.text.value)
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         r = int(item.position.value.r)
@@ -494,6 +492,7 @@ class Interpreter():
                 # Set window background to user-input color
                 if hasattr(item, 'color'):
                     print("THIS IS THE COLOR: ", item.color.value)
+                    print("WINDOW COLOR:", item.color.value)
                     w.configure(bg=item.color.value)
                     self.setWindowColor(w,item.color.value)
                 # Set window size to user-input size
@@ -602,7 +601,7 @@ class Interpreter():
             for item in expr.attributes:
                 if hasattr(item, 'text'):
                     t.delete("1.0",END)
-                    t.insert(END, self.extractTextValue(item.text.value))
+                    t.insert(END, item.text.value)
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         r = int(item.position.value.r)
@@ -634,7 +633,7 @@ class Interpreter():
             for item in expr.attributes:
                 if hasattr(item, 'text'):
                     t.delete("1.0",END)
-                    t.insert(END, self.extractTextValue(item.text.value))
+                    t.insert(END, item.text.value)
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         r = int(item.position.value.r)
@@ -688,7 +687,7 @@ class Interpreter():
                 if hasattr(item, 'color'):
                     b.configure(bg=item.color.value)
                 if hasattr(item, 'text'):
-                    b.configure(text=self.extractTextValue(item.text.value))
+                    b.configure(text=item.text.value)
                 elif hasattr(item,'size'):
                     b.configure(width=item.size.value)
                     b.configure(height=item.size.value)
@@ -736,7 +735,7 @@ class Interpreter():
             if hasattr(item, 'color'):
                 b.configure(bg=item.color.value)
             if hasattr(item, 'text'):
-                b.configure(text=self.extractTextValue(item.text.value))
+                b.configure(text=item.text.value)
             elif hasattr(item,'size'):
                 b.configure(width=item.size.value)
                 b.configure(height=item.size.value)
@@ -992,6 +991,9 @@ class Interpreter():
             c = Interpreter.gColumns
         return r, c
 
+'''
+#method just recreating itself??
     def extractTextValue(self, value):
+        print("The value is:", value)
         words = re.findall(r'[\w\d\.]+', value)
-        return ' '.join(words)
+        return ' '.join(words) '''
