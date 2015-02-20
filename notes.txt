@@ -60,3 +60,4 @@ make syntax errors more helpful
 
 2/17/15
 If they put something in a position that is outside of our window we should suggest that they change the size of their window first
+Button sizes are not working, perhaps because it's in the same column as a TextBox. More testing to follow.
