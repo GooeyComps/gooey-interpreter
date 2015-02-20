@@ -32,3 +32,8 @@ which seems kind of weird and I feel like we might be losing track of bindings a
 
 RGB values don't work: we need to convert them to hex first (maybe when we change color, first convert string to tuple, then do the
 weird tkinter thing to convert it to hex) --> There should be a better way to do this.
+
+
+2/19 
+Using place to place objects - need to have some error catching in case they place it outside the window. 
+Smart dumb positioning - going through bindings and seeing the positions of objects - if there's something there, cry and run away 

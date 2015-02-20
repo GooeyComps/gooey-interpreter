@@ -69,10 +69,10 @@ class Interpreter():
     gRows = 0
     gColumns = 0
 
-    def __init__(self, target):
+    def __init__(self, target,winBinding):
         '''Initializes the GUI window'''
         self.window = target
-        self.winBinding = None
+        self.winBinding = winBinding
 
     def setWinBinding(self, b):
         print("Here's b in winbinding", b)
@@ -134,6 +134,7 @@ class Interpreter():
 
                     elif(expr.type == "TextBox"):
                         self.checkVarname(expr,bindings)
+                        print("making stupid textbox")
                         t = self.makeTextBox(self.window, expr)
                         binding = self.makeBinding("TextBox", expr.varname, t)
                         bindings = self.addBinding(binding,bindings)
@@ -288,7 +289,7 @@ class Interpreter():
                         elif(obj.bType == "Button"):
                             button = self.getObject(expr,bindings)
                             assert button.bType == 'Button'
-                            b = self.setButton(button.bObject,self.window, expr)
+                            b = self.setButton(button.bObject,self.winBinding, expr)
 
                         elif(obj.bType == "Menu"):
                             pass
@@ -394,7 +395,7 @@ class Interpreter():
                 #Invalid first word
                 self.error("Error: Invalid command. Please start your command with Make, Set, or other valid start commands.")
         print("THESE ARE THE BINDINGS: ", bindings)
-        return bindings
+        return (bindings,self.winBinding)
 
     #               CHECKBOXES
 
@@ -772,11 +773,13 @@ class Interpreter():
         return t
 
     def makeTextBox(self,w,expr):
+        print("WHYYYYYYY")
         '''Makes a text box with the user defined attributes.'''
         #t = Text(w, height=2, width=30)
         defaults = self.getAllDefaults("TextBox")
         t = self.makeDefaultTextBox(w,defaults)
         r, c = 0, 0
+        print("shit")
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'text'):
@@ -789,6 +792,7 @@ class Interpreter():
                     else:
                         r, c = self.getPositionByKeyword(item.position.value)
                 elif hasattr(item, 'size'):
+                    print("HAS SIZE")
                     if item.size.value == "small":
                         TextBoxWidth = SMALL_TEXTBOX_SIZE
                         TextBoxHeight = SMALL_TEXTBOX_SIZE
@@ -799,9 +803,12 @@ class Interpreter():
                         TextBoxWidth = LARGE_TEXTBOX_SIZE
                         TextBoxHeight = LARGE_TEXTBOX_SIZE
                     else:
+                        print("ELSE")
                         TextBoxWidth = item.size.value
                         TextBoxHeight = item.size.value
                     t.configure(width=TextBoxWidth, height = TextBoxHeight)
+                    print("THIS IS THE TEXTBOX HEIGHT ", TextBoxHeight)
+                    print("THIS IS THE TEXTBOX WIDTH ", TextBoxWidth)
                 else:
                     self.error("Error: Incorrect attribute.")
         t.grid(row=r, column=c, sticky=N+S+E+W)
@@ -842,6 +849,15 @@ class Interpreter():
 
 
     #               BUTTONS
+
+    def checkOccupied(self,obj,bindings):
+        print("THIS IS THE OBJECT", obj)
+        print("THESE ARE THE BINDINGS", bindings)
+        # Checks to make sure nothing is in the space the user is trying to place an object
+        # If something is there, raise an error saying which object is there, try again, and do not place object
+
+        #Check and raise an error if the object will appear outside the edge of the window, so fuck you
+        pass
 
     def makeDefaultButton(self, w, defaults):
         '''Makes a button with default attributes'''
@@ -907,11 +923,14 @@ class Interpreter():
                     #     print("You have entered a command that is not defined")
 
         print("R:", r, "C", c)
-        b.grid(row=r, column=c, sticky=N+S+E+W)
+        #b.grid(row=r, column=c, sticky=N+S+E+W)
+        #self.checkOccupied(b,bindings)
+        b.place(x = r*100, y = c*100, bordermode="outside")
         return b
 
 
-    def setButton(self,b,w,expr):
+    def setButton(self,b,win,expr):
+        w = win.frames
         '''Sets button based on user attributes.'''
         buttonAttributeList = expr.attributes
         for item in buttonAttributeList:
@@ -928,7 +947,8 @@ class Interpreter():
                     c = int(item.position.value.c)
                 else:
                     r, c = self.getPositionByKeyword(item.position.value)
-                b.grid(row=r, column=c, sticky=N+S+E+W)
+                #b.grid(row=r, column=c, sticky=N+S+E+W)
+                b.place(x=r*100, y=c*100)
             elif hasattr(item, 'action'):
                 # print(item)
                 action = str(item.action.value)
