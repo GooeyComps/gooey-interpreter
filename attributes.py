@@ -293,6 +293,9 @@ class PositionGridValue(str):
 
 class PositionKeywordValue(Keyword):
     grammar = Enum(K("center"), K("top"), K("bottom"), K("left"), K("right"), K("topcenter"), K("bottomcenter"), K("topleft"), K("topright"), K("bottomleft"), K("bottomright"))
+    
+class HiddenKeywordValue(Keyword):
+    grammar = Enum(K("true"), K("false"))
 
 class QuotedText(str):
     grammar = "\"", textRegex, "\""
@@ -355,11 +358,14 @@ class CheckboxesOptionsAttribute(List):
 #  RADIOBUTTONS
 class RadioButtonsOptionsAttribute(List):
     grammar = 'options', blank, attr('options', some(optional(Star), QuotedText))
+    
+class HiddenAttribute(List):
+    grammar = 'hidden', blank, attr('value', HiddenKeywordValue)
 
 
 #Wrap as Attribute object and put into AttributeList
 class Attribute:
-    grammar = [attr('options', RadioButtonsOptionsAttribute), attr('options', CheckboxesOptionsAttribute), attr("color", ColorAttribute), attr("textColor", TextColorAttribute), attr("size", SizeAttribute), attr("position", PositionAttribute), attr("text", TextAttribute), attr("action", ActionAttribute), attr("title", TitleAttribute), attr("font", FontAttribute), attr("options", MenuItemOptionsAttribute), attr("source", ImageSourceAttribute)]
+    grammar = [attr('options', RadioButtonsOptionsAttribute), attr('options', CheckboxesOptionsAttribute), attr("color", ColorAttribute), attr("textColor", TextColorAttribute), attr("size", SizeAttribute), attr("position", PositionAttribute), attr("text", TextAttribute), attr("action", ActionAttribute), attr("title", TitleAttribute), attr("font", FontAttribute), attr("options", MenuItemOptionsAttribute), attr("source", ImageSourceAttribute), attr("hidden", HiddenAttribute)]
 
 class AttributeList(List):
      grammar = csl(Attribute)
