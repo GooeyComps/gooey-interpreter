@@ -58,7 +58,6 @@ class TextPad():
         fm.add_command(label="Stop",command=self.stop_preview)
 
 
-### START EMILY CODE ###
         # Add a "definitions" text area so users can see what they've already input but cannot edit it
         self.definitionLabel = Label(text="Definitions")
         self.definitionLabel.pack()
@@ -70,21 +69,17 @@ class TextPad():
         # Editing area/text pad
         self.editLabel = Label(text="Enter Code Below")
         self.editLabel.pack()
-### END EMILY CODE ###
 
 
         #add textPad to root and open window
         self.textPad = ScrolledText(self.root, width=59, height=10)
 
-### START EMILY CODE ###
         # Add a border to the text pad
         self.textPad.configure(borderwidth=4, highlightbackground="black")
-### END EMILY CODE ###
 
 
         self.textPad.pack(padx=(12,0))
 
-### START EMILY CODE ###
         # Add run and stop buttons to the text pad
         self.runIcon = PhotoImage(file="runIcon.gif")
         self.stopIcon = PhotoImage(file="stopIcon.gif")
@@ -96,7 +91,6 @@ class TextPad():
         self.runButton = Button(self.root)
         self.runButton.configure(image=self.runIcon, command=self.update_preview)
         self.runButton.pack(side=RIGHT)
-### END EMILY CODE ###
 
 
         #This is where the GUIWindow class is first called - since GUIWindow
@@ -110,11 +104,9 @@ class TextPad():
     def update_preview(self):
         self.retrieve_input()
 
-### START EMILY CODE ###
         self.definitions.configure(state=NORMAL)
         self.definitions.insert(END, self.text)
         self.definitions.configure(state=DISABLED)
-### END EMILY CODE ###
 
         ast = parse(self.text, Program)
         self.preview.modify(ast)
@@ -144,29 +136,33 @@ class TextPad():
     def retrieve_input(self):
         self.text = self.textPad.get('1.0', END)
 
+def readFromFile(infile):
+    # Create bindings for Gooey program
+    bindings = dict()
+
+    # Make the preview window, and hide it until it is needed.
+    preview = GUIWindow()
+    preview.window.withdraw()
+
+    # Parse, interpret, and execute the program
+    ast = parse(infile.read(), Program)
+    i = Interpreter(preview.window)
+    bindings = i.interpret(ast, bindings)
+
+    preview.window.mainloop()
 
 
 if __name__ == "__main__":
-    #Create the parser
+    #Create the command line argument parser
     parser = argparse.ArgumentParser()
-    #Parser looks for the optional filename argument
-    parser.add_argument('filename', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
+
+    #Parser looks for the optional input filename argument
+    parser.add_argument('infile', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
     args = parser.parse_args()
-    #If the filename argument is something, open the file
-    if args.filename.name!='<stdin>':
-        print("Hi")
-        bindings = dict()
-        preview = GUIWindow()
-        preview.window.withdraw()
 
-        for line in args.filename:
-            ast = parse(line, Program)
-            i = Interpreter(preview.window)
-
-            bindings = i.interpret(ast, bindings)
-            #del i
-        preview.window.mainloop()
-
+    #If the input filename argument is something, open the file
+    if args.infile.name != '<stdin>':
+        readFromFile(args.infile)
     #Otherwise, open our text editor
     else:
         textpad = TextPad()
