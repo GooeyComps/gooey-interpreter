@@ -24,7 +24,7 @@ class ErrorPopup:
     Displays the error message to the user and closes when "OK" button is clicked.
     '''
     def __init__(self, message):
-        self.message = message
+        self.message = "Error: " + str(message)
         # Create error popup window
         self.window = Toplevel()
         self.window.title("Error")
@@ -36,6 +36,14 @@ class ErrorPopup:
         button = Button(self.window, text="Ok", command=self.window.destroy)
         button.pack()
 
+### START EMILY CODE ###
+class GooeyError(Exception):
+    def __init__(self, message):
+        self.message = message
+        ErrorPopup(self.message)
+    def __repr__(self):
+        return self.message
+### END EMILY CODE ###
 
 #Binding object has four instance variables
 #bType - the type of object with regards to "Gooey" ex) Window, Button
@@ -71,9 +79,12 @@ class Interpreter():
         '''Initializes the GUI window'''
         self.window = target
 
-    def error(self, message):
-        '''Generates a popup error message'''
-        ErrorPopup(message)
+#    def error(self, message):
+#        '''Generates a popup error message'''
+#        ErrorPopup(message)
+#        ### START EMILY CODE ###
+#        raise Error
+#        ### END EMILY CODE ###
 
     def interpret(self, ast, bindings):
         '''Interprets the Gooey code and creates a GUI in the window.
@@ -170,7 +181,7 @@ class Interpreter():
                                 elif(hasattr(item, 'position')):
                                     pass
                                 else:
-                                    self.error("Error: Incorrect attribute.")
+                                    raise GooeyError("Cannot make Checkboxes with an attribute that Checkboxes does not have.")
                         else:
                             # Use default values
                             pass
@@ -195,7 +206,7 @@ class Interpreter():
                                         if (x == ""):
                                             count += 1
                                         if (count == 2):
-                                            self.error("Error: Cannot have multiple defaults.")
+                                            raise GooeyError("RadioButtons cannot have multiple default selected options.")
 
                                     i = 0
                                     j = 0
@@ -221,16 +232,16 @@ class Interpreter():
                                 elif(hasattr(item, 'position')):
                                     pass
                                 else:
-                                    self.error("Error: Incorrect attribute.")
+                                    raise GooeyError("Cannot make RadioButtons with an attribute that RadioButtons does not have.")
                         else:
                             # Use default values
                             pass
 
                     else:
-                        self.error("Error: Object not recognized. Make sure to capitalize the object name.")
+                        raise GooeyError("Object in Make statement not recognized. Make sure to capitalize the object name.")
 
                 else:
-                    self.error("Error: No type recognized.")
+                    raise GooeyError("No type name provided to Make statement.")
 
 
                 '''
@@ -284,10 +295,9 @@ class Interpreter():
                         #print("THIS IS EXPR: ",expr.attributes.text)
                         #tbox.insert(END, expr)
                         else:
-                            err = "Error: Cannot set variable of type", obj.bType
-                            self.error(err)
+                            raise GooeyError("Cannot set variable of type" + str(obj.bType))
                     else:
-                        self.error("Error: Undefined variable used.")
+                        raise GooeyError(str(expr.varname) + "is undefined.")
 
                 '''
  -------------------- FUNCTIONS --------------------
@@ -317,9 +327,9 @@ class Interpreter():
                         bindings = self.addBinding(binding,bindings)
 
                     else:
-                        self.error("Sorry, this function name is already used.")
+                        raise GooeyError("Sorry, this function name is already used.")
                 else:
-                    self.error("Sorry, you need to give your function a name")
+                    raise GooeyError("Sorry, you need to give your function a name")
 
             #Interprets all function calls
             elif(expr.__class__.__name__ == "FunctionCall"):
@@ -344,8 +354,7 @@ class Interpreter():
                                 newLocalBinding = self.makeBinding(argument.bType, paramName, argument.bObject, argument.params)
                                 localBindings = self.addBinding(newLocalBinding, localBindings)
                             else:
-                                err = "Error:", argumentName, "is undefined."
-                                self.error(err)
+                                raise GooeyError(str(argumentName) + " is undefined.")
                                 return bindings
 
                         # Interpret each line of the function
@@ -361,15 +370,15 @@ class Interpreter():
                                 localBindings = self.interpret([line], localBindings)
 
                     else:
-                        self.error("The function", function, "requires", len(functionBinding.params), \
+                        raise GooeyError("The function", function, "requires", len(functionBinding.params), \
                                    "arguments; you have passed it", len(expr.params), "arguments.")
                 else:
-                    self.error("This function isn't defined.")
+                    raise GooeyError("This function isn't defined.")
 
 
             else:
                 #Invalid first word
-                self.error("Error: Invalid command. Please start your command with Make, Set, or other valid start commands.")
+                raise GooeyError("Invalid command. Please start your command with Make, Set, or other valid start commands.")
         print("THESE ARE THE BINDINGS: ", bindings)
         return bindings
 
@@ -433,7 +442,7 @@ class Interpreter():
                 elif hasattr(item, 'color'):
                     tl.configure(fg=item.color.value)
                 else:
-                    self.error("Error: Incorrect attribute.")
+                    raise GooeyError("Incorrect attribute.")
         tl.grid(row=r, column=c, sticky=N+S+E+W)
         return tl
 
@@ -453,7 +462,7 @@ class Interpreter():
                 elif hasattr(item, 'color'):
                     tl.configure(fg=item.color.value)
                 else:
-                    self.error("Error: Incorrect attribute.")
+                    raise GooeyError("Incorrect attribute.")
         tl.grid(row=r, column=c, sticky=N+S+E+W)
         return tl
 
@@ -581,6 +590,12 @@ class Interpreter():
                     pass
                 elif hasattr(item, 'textColor'):
                     pass
+                else:
+                    err = "Cannot set an attribute that Window does not have. Window only has the following attributes: "
+                    for key in self.getAllDefaults('Window').keys():
+                        err += str(key) + ', '
+                    err = err[:-2]
+                    raise GooeyError(err)
         return w
 
 
@@ -651,7 +666,7 @@ class Interpreter():
 
                     t.configure(width=TextBoxWidth, height = TextBoxHeight)
                 else:
-                    self.error("Error: Incorrect attribute.")
+                    raise GooeyError("Incorrect attribute.")
         t.grid(row=r, column=c, sticky=N+S+E+W)
         return t
 
@@ -684,7 +699,7 @@ class Interpreter():
                         TextBoxHeight = item.size.value.rows
                     t.configure(width=TextBoxWidth, height = TextBoxHeight)
                 else:
-                    self.error("Error: Incorrect attribute.")
+                    raise GooeyError("Incorrect attribute.")
         t.grid(row=r, column=c, sticky=N+S+E+W)
         return t
 
@@ -903,7 +918,7 @@ class Interpreter():
                     else:
                         r, c = self.getPositionByKeyword(item.position.value)
                 else:
-                    self.error("Error: Incorrect attribute.")
+                    raise GooeyError("Incorrect attribute.")
         l.grid(row=r, column=c, sticky=N+S+E+W)
         return l
 
@@ -965,7 +980,7 @@ class Interpreter():
             #if expr.varname in bindings:
             if exp.varname in bindings:
                 message = exp.varname, "already defined."
-                self.error(message)
+                raise GooeyError(message)
 
 
     def getObject(self,exp,bindings):
@@ -973,7 +988,7 @@ class Interpreter():
             return bindings[exp.varname]
         else:
             message = exp.varname, "undefined."
-            self.error(message)
+            raise GooeyError(message)
 
 
     def getPositionByKeyword(self, keyword):

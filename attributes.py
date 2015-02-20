@@ -308,7 +308,6 @@ class Star(str):
 
 #Attributes to put in List
 class ColorAttribute(List):
-    print("rgbregex type:", rgbRegex)
     grammar = 'color', blank, attr('value', [rgbRegex, hexRegex, ColorKeywordValue])
 
 #TextColor

@@ -3,3 +3,4 @@ function fun() does
     make Button b;
     return b.
 run fun() as but.
+set but position 2 2.
