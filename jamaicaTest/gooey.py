@@ -21,6 +21,7 @@ class GUIWindow():
         #What if each binding is a dictionary element that contains type and varname?
 
         self.bindings = dict()
+        self.winBinding = None #This is used to keep track of the binding linked to our master window
         self.is_open = False
 
     def openWindow(self):
@@ -33,9 +34,9 @@ class GUIWindow():
 
     def modify(self, ast):
         #create new instance of interpeter class, passing a reference the live preview window
-        i = Interpreter(self.window)
+        i = Interpreter(self.window,self.winBinding)
 
-        self.bindings = i.interpret(ast, self.bindings)
+        (self.bindings, self.winBinding) = i.interpret(ast, self.bindings)
         del i
 
 '''

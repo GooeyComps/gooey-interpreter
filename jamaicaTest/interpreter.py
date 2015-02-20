@@ -69,10 +69,10 @@ class Interpreter():
     gRows = 0
     gColumns = 0
 
-    def __init__(self, target):
+    def __init__(self, target,winBinding):
         '''Initializes the GUI window'''
         self.window = target
-        self.winBinding = None
+        self.winBinding = winBinding
 
     def setWinBinding(self, b):
         print("Here's b in winbinding", b)
@@ -394,7 +394,7 @@ class Interpreter():
                 #Invalid first word
                 self.error("Error: Invalid command. Please start your command with Make, Set, or other valid start commands.")
         print("THESE ARE THE BINDINGS: ", bindings)
-        return bindings
+        return (bindings,self.winBinding)
 
     #               CHECKBOXES
 
@@ -908,6 +908,7 @@ class Interpreter():
 
         print("R:", r, "C", c)
         b.grid(row=r, column=c, sticky=N+S+E+W)
+        #b.place(x = r*100, y = c*100, anchor = CENTER)
         return b
 
 
