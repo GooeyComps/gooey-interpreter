@@ -34,6 +34,16 @@ RGB values don't work: we need to convert them to hex first (maybe when we chang
 weird tkinter thing to convert it to hex) --> There should be a better way to do this.
 
 
-2/19 
-Using place to place objects - need to have some error catching in case they place it outside the window. 
-Smart dumb positioning - going through bindings and seeing the positions of objects - if there's something there, cry and run away 
+2/19
+Using place to place objects - need to have some error catching in case they place it outside the window.
+Smart dumb positioning - going through bindings and seeing the positions of objects - if there's something there, cry and run away
+
+
+
+
+
+
+
+
+Had to change getObject from getObject(self,exp,bindings): to getObject(self,exp): everywhere in interpreter
+What to do with local bindings?

@@ -274,7 +274,7 @@ class Interpreter():
                             # w = self.setWindow(win.bObject,expr)
 
                             ###LEAH WUZ HERE###
-                            win = self.getObject(expr,self.bindings)
+                            win = self.getObject(expr)
                             print("BINDINGS", self.bindings)
                             assert win.bType == 'Window'
                             #wColorBefore = win.bObject.cget('bg')
@@ -288,7 +288,7 @@ class Interpreter():
                             ###LEAHZ GONE NOW###
 
                         elif(obj.bType == "Button"):
-                            button = self.getObject(expr,self.bindings)
+                            button = self.getObject(expr)
                             assert button.bType == 'Button'
                             b = self.setButton(button.bObject,self.winBinding, expr)
 
@@ -298,12 +298,12 @@ class Interpreter():
                         elif(obj.bType == "MenuItem"):
                             pass
                         elif(obj.bType == "Text"):
-                            t = self.getObject(expr,self.bindings)
+                            t = self.getObject(expr)
                             assert t.bType == 'Text'
                             t = self.setText(t.bObject,self.window, expr)
 
                         elif(obj.bType == "TextBox"):
-                            t = self.getObject(expr,self.bindings)
+                            t = self.getObject(expr)
                             assert t.bType == 'TextBox'
                             tbox = t.bObject
                             tbox = self.setTextBox(tbox, self.window, expr)
@@ -367,7 +367,7 @@ class Interpreter():
                         #Sets the type of the local to the thing that we're passing in.
                         print("FunctionParam: ", functionParam)
                         b = self.makeBinding(functionInput.bType, functionParam, functionInput.bObject)
-                        localBindings = self.addBinding(b, localBindings)
+                        localBindings = self.addLocalBinding(b, localBindings)
                         print("local bindings: ", localBindings)
                         newBindings = self.runFunction(self.bindings,function,localBindings)
                         newB = newBindings[functionParam]
@@ -1098,6 +1098,12 @@ class Interpreter():
         self.bindings[b.varname] = b
         return self.bindings
 
+    ######################STUPID JAMAICA EDIT TO FIX MAYBE???####################
+    def addLocalBinding(self,b, bindings):
+        '''Takes a binding and adds to the dictionary of bindings.'''
+        bindings[b.varname] = b
+        return bindings
+        ###########################################################################
     '''#Make the binding associated with this function
     #The object will be the parameters passed in and the function action (in a tuple)
     def makeFunction(self,w, expr):
