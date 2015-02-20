@@ -19,11 +19,11 @@ You can now enter the Gooey language into the editor.
 
 To start, make an empty window. Type in the editor::
 
- make Window w. 
+ make Window win. 
  
 When you’re ready to run your GUI, hit the play button at the bottom right corner.
  
-.. image:: images/run.png
+.. image:: images/editor.png
  
 This is your live preview. Right now it’s a little boring. 
 
@@ -31,32 +31,25 @@ This is your live preview. Right now it’s a little boring.
 
 Make the window bigger or smaller with the set command. The set command allows you to modify one or more things at a time. Try adjusting the title of the window, which will appear in the bar across the top. Type::
 
- set w size 5 5, title "My First Gooey".
+ set win size 5 5, title "My First Gooey".
+ 
+.. image:: images/empty.png
  
 An empty window is useless though. To add writing to your GUI, you'll need to add a Text object. Type::
 
- make Text t with text "Welcome to Gooey!".
+ make Text greeting with text "Welcome to Gooey!".
 
-INSERT PICTURE
-make sure punctuation works in text objects.
-
+.. image:: images/welcome.png
 
 Now you’re ready to add a button. Type::
 
- make Button b with text “Hello”.
+ make Button hello with text “Hello”, position 1 1.
 
 After you Run, your GUI should look like this
 
 .. image:: images/hello.png
 
-
-Now that you have a simple layout, you can modify your existing objects further by using the *set* function. Try::
-
- set w color green.
- 
-.. image:: images/green.png
-
-Your button is currently useless. You can click it, but since we haven't given it an *action* attribute, it won't do anything.
+Your button is currently useless. You can click it, but since we haven't given it an *action* attribute, it won't do anything. You can modify existing objects further by using the *set* function.
 
 Try::
 
@@ -72,11 +65,9 @@ Now, let's try making a slightly more complicated Gooey.
 
 Remember, always start by making a window::
 
- make Window w with title "Gooey Two", size 10 10, color blue.
+ make Window w with title "Gooey Two", size 4 5, color #8fefdc.
  
-Make things more decorative by adding a picture. This will use the *Image* object, and will need a still picture in the .gif format. For example::
-
- make Image apple with source "apple.gif", position 0 1.
+ .. image:: images/gooeytwo.png
  
 There are times when you might want your users to write something out. A TextBox is perfect in this situation! Type::
 
