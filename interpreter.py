@@ -13,9 +13,12 @@ SMALL_WIN_SIZE = 2
 MED_WIN_SIZE = 4
 LARGE_WIN_SIZE = 6
 
-SMALL_TEXTBOX_SIZE = 10
-MED_TEXTBOX_SIZE = 20
-LARGE_TEXTBOX_SIZE = 30
+SMALL_TEXTBOX_WIDTH = 1
+SMALL_TEXTBOX_HEIGHT = 1
+MED_TEXTBOX_WIDTH = 35
+MED_TEXTBOX_HEIGHT = 8
+LARGE_TEXTBOX_WIDTH = 30
+LARGE_TEXTBOX_HEIGHT = 30
 
 
 class ErrorPopup:
@@ -429,6 +432,7 @@ class Interpreter():
         tl = self.makeDefaultText(w,defaults)
         #tl = Label(w, text="Text")
         r, c = 0, 0
+        hide = False
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'text'):
@@ -441,13 +445,18 @@ class Interpreter():
                         r, c = self.getPositionByKeyword(item.position.value)
                 elif hasattr(item, 'color'):
                     tl.configure(fg=item.color.value)
+                elif hasattr(item, 'hidden'):
+                    if item.hidden.value == "true":
+                        hide = True
                 else:
                     raise GooeyError("Incorrect attribute.")
         tl.grid(row=r, column=c, sticky=N+S+E+W)
+        if hide:
+            tl.grid_remove()
         return tl
 
     def setText(self,tl,w,expr):
-        r, c = 0, 0
+        hide = False
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'text'):
@@ -459,11 +468,17 @@ class Interpreter():
                         c = int(item.position.value.c)
                     else:
                         r, c = self.getPositionByKeyword(item.position.value)
+                    tl.grid(row=r, column=c, sticky=N+S+E+W)
                 elif hasattr(item, 'color'):
                     tl.configure(fg=item.color.value)
+                elif hasattr(item, 'hidden'):
+                    if item.hidden.value == 'true':
+                        hide = True
+                        tl.grid_remove()
+                    elif item.hidden.value == 'false':
+                        tl.grid()
                 else:
                     raise GooeyError("Incorrect attribute.")
-        tl.grid(row=r, column=c, sticky=N+S+E+W)
         return tl
 
 
@@ -616,15 +631,15 @@ class Interpreter():
         #hidden
         print("Default size for textbox is: ", defaults['size'])
         if defaults['size'] == "small":
-            TextBoxWidth = SMALL_TEXTBOX_SIZE
-            TextBoxHeight = SMALL_TEXTBOX_SIZE
+            TextBoxWidth = SMALL_TEXTBOX_WIDTH
+            TextBoxHeight = SMALL_TEXTBOX_HEIGHT
         elif defaults['size'] == "medium":
-            TextBoxWidth = MED_TEXTBOX_SIZE
-            TextBoxHeight = MED_TEXTBOX_SIZE
+            TextBoxWidth = MED_TEXTBOX_WIDTH
+            TextBoxHeight = MED_TEXTBOX_HEIGHT
         elif defaults['size'] == "large":
-            TextBoxWidth = LARGE_TEXTBOX_SIZE
-            TextBoxHeight = LARGE_TEXTBOX_SIZE
-        t.configure(width=TextBoxWidth, height = TextBoxHeight)
+            TextBoxWidth = LARGE_TEXTBOX_WIDTH
+            TextBoxHeight = LARGE_TEXTBOX_HEIGHT
+        t.configure(width=TextBoxWidth, height = TextBoxHeight, borderwidth=4)
         return t
 
     def makeTextBox(self,w,expr):
@@ -633,6 +648,7 @@ class Interpreter():
         defaults = self.getAllDefaults("TextBox")
         t = self.makeDefaultTextBox(w,defaults)
         r, c = 0, 0
+        hide = False
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'text'):
@@ -647,14 +663,14 @@ class Interpreter():
                 elif hasattr(item, 'size'):
 
                     if item.size.value == "small":
-                        TextBoxWidth = SMALL_TEXTBOX_SIZE
-                        TextBoxHeight = SMALL_TEXTBOX_SIZE
+                        TextBoxWidth = SMALL_TEXTBOX_WIDTH
+                        TextBoxHeight = SMALL_TEXTBOX_HEIGHT
                     elif item.size.value == "medium":
-                        TextBoxWidth = MED_TEXTBOX_SIZE
-                        TextBoxHeight = MED_TEXTBOX_SIZE
+                        TextBoxWidth = MED_TEXTBOX_WIDTH
+                        TextBoxHeight = MED_TEXTBOX_HEIGHT
                     elif item.size.value == "large":
-                        TextBoxWidth = LARGE_TEXTBOX_SIZE
-                        TextBoxHeight = LARGE_TEXTBOX_SIZE
+                        TextBoxWidth = LARGE_TEXTBOX_WIDTH
+                        TextBoxHeight = LARGE_TEXTBOX_HEIGHT
                     else:
                         print("else")
                         TextBoxWidth = item.size.value.columns
@@ -665,13 +681,18 @@ class Interpreter():
                         print("item.size.rows ", item.size.value.rows)
 
                     t.configure(width=TextBoxWidth, height = TextBoxHeight)
+                elif hasattr(item, 'hidden'):
+                    if item.hidden.value == "true":
+                        hide = True
                 else:
                     raise GooeyError("Incorrect attribute.")
         t.grid(row=r, column=c, sticky=N+S+E+W)
+        if hide:
+            t.grid_remove()
         return t
 
     def setTextBox(self,t,w,expr):
-        r, c = 0, 0
+        hide = False
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'text'):
@@ -683,24 +704,30 @@ class Interpreter():
                         c = int(item.position.value.c)
                     else:
                         r, c = self.getPositionByKeyword(item.position.value)
+                    t.grid(row=r, column=c, sticky=N+S+E+W)
                 elif hasattr(item, 'size'):
                     print("GOT TO SIZE: ", item.size.value)
                     if item.size.value == "small":
-                        TextBoxWidth = SMALL_TEXTBOX_SIZE
-                        TextBoxHeight = SMALL_TEXTBOX_SIZE
+                        TextBoxWidth = SMALL_TEXTBOX_WIDTH
+                        TextBoxHeight = SMALL_TEXTBOX_HEIGHT
                     elif item.size.value == "medium":
-                        TextBoxWidth = MED_TEXTBOX_SIZE
-                        TextBoxHeight = MED_TEXTBOX_SIZE
+                        TextBoxWidth = MED_TEXTBOX_WIDTH
+                        TextBoxHeight = MED_TEXTBOX_HEIGHT
                     elif item.size.value == "large":
-                        TextBoxWidth = LARGE_TEXTBOX_SIZE
-                        TextBoxHeight = LARGE_TEXTBOX_SIZE
+                        TextBoxWidth = LARGE_TEXTBOX_WIDTH
+                        TextBoxHeight = LARGE_TEXTBOX_HEIGHT
                     else:
                         TextBoxWidth = item.size.value.columns
                         TextBoxHeight = item.size.value.rows
                     t.configure(width=TextBoxWidth, height = TextBoxHeight)
+                elif hasattr(item, 'hidden'):
+                    if item.hidden.value == "true":
+                        hide = True
+                        t.grid_remove()
+                    elif item.hidden.value == "false":
+                        t.grid()
                 else:
                     raise GooeyError("Incorrect attribute.")
-        t.grid(row=r, column=c, sticky=N+S+E+W)
         return t
 
 
@@ -725,6 +752,7 @@ class Interpreter():
         defaults = self.getAllDefaults('Button')
         b = self.makeDefaultButton(w,defaults)
         r, c = 0, 0
+        hide = False
         print("GOT TO MAKE BUTTON: ", r, c)
         if hasattr(expr, "attributes"):
             buttonAttributeList = expr.attributes
@@ -767,9 +795,14 @@ class Interpreter():
                     b.configure(command=lambda: actionbuttons.callAction(w,item,action))
                     # else:
                     #     print("You have entered a command that is not defined")
-
+                elif hasattr(item, 'hidden'):
+                    if item.hidden.value == "true":
+                        hide = True
+                    
         print("R:", r, "C", c)
         b.grid(row=r, column=c, sticky=N+S+E+W)
+        if hide:
+            b.grid_remove()
         return b
 
 
@@ -808,6 +841,11 @@ class Interpreter():
                 #w = a[0]
                 #item = a[1]
                 b.configure(command=lambda: actionbuttons.callAction(w,item,action))
+            elif hasattr(item, 'hidden'):
+                if item.hidden.value == 'false':
+                    b.grid()
+                elif item.hidden.value == 'true':
+                    b.grid_remove()
         return b
 
     def fixButtonPadding(self,color,bindings):
@@ -891,6 +929,7 @@ class Interpreter():
         defaults = self.getAllDefaults("Image")
         #(i,l) = self.makeDefaultImage(w,defaults)
         r, c = 0, 0
+        hide = False
         print("W is type: ", w)
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
@@ -917,9 +956,14 @@ class Interpreter():
                         c = int(item.position.value.c)
                     else:
                         r, c = self.getPositionByKeyword(item.position.value)
+                elif hasattr(item, 'hidden'):
+                    if item.hidden.value == "true":
+                        hide = True
                 else:
                     raise GooeyError("Incorrect attribute.")
         l.grid(row=r, column=c, sticky=N+S+E+W)
+        if hide:
+            l.grid_remove
         return l
 
     def setImage():

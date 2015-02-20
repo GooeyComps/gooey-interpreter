@@ -28,7 +28,7 @@ Example syntax::
 |         |                               |   space                           |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |size     | size of button                | - size keyword                    | medium            |
-|         |                               | - Height and width integers,      |                   |
+|         |                               | - width and height integers,      |                   |
 |         |                               |   seperated by a space            |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |action   | Effect when button clicked    | - name of Python or Gooey function| none              |
@@ -56,7 +56,7 @@ Attributes:
 |         | top bar of the window.        |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |size     |  The width and height of the  | - size keyword                    | medium            |
-|         |  window                       | - Height and width integers,      |                   |
+|         |  window                       | - width and height integers,      |                   |
 |         |                               |   separated by a space            |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |color    | The color of the window       | - color keyword                   | white             |
@@ -106,7 +106,7 @@ Example syntax::
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |size     | size of checkbox set          | - size keyword                    | medium            |
-|         |                               | - height and width integers,      |                   |
+|         |                               | - width and height integers,      |                   |
 |         |                               |   seperated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |hidden   | Determines if checkboxes      | - True                            | False             |
@@ -141,7 +141,7 @@ Example syntax::
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |size     | size of RadioButton set       | - size keyword                    | medium            |
-|         |                               | - height and width integers,      |                   |
+|         |                               | - width and height integers,      |                   |
 |         |                               |   seperated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |hidden   | Determines if RadioButtons    | - True                            | False             |
@@ -176,7 +176,7 @@ Example syntax::
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |size     | size of Dropdown menu         | - size keyword                    | medium            |
-|         |                               | - height and width integers,      |                   |
+|         |                               | - width and height integers,      |                   |
 |         |                               |   seperated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |hidden   | Determines if Dropdown menu   | - True                            | False             |
@@ -205,7 +205,7 @@ Example syntax::
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |size     | size of text                  | - size keyword                    | medium            |
-|         |                               | - height and width integers,      |                   |
+|         |                               | - width and height integers,      |                   |
 |         |                               |   seperated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |color    | color of text                 | - color keyword                   | black             |
@@ -220,7 +220,11 @@ Example syntax::
 TextBox
 =======
 
-TextBox objects create a space where users can type. When you create a TextBox with a *text* attribute, the value entered will appear as defualt text within the text box.
+TextBox objects create a space where users can type. When you create a TextBox with a *text* attribute, the value entered will appear as defualt text within the text box. 
+
+When setting the *size* of the TextBox using integers for width and height, the integers will set the width and height by **character count**. For example, size 15 10 will create a TextBox 15 *characters* across, with ten *lines* of height.
+
+The smallest a TextBox can be is size 13 6.
 
 Example syntax::
 
@@ -240,7 +244,7 @@ Example syntax::
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |size     | size of TextBox               | - size keyword                    | medium            |
-|         |                               | - height and width integers,      |                   |
+|         |                               | - width and height integers,      |                   |
 |         |                               |   seperated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |hidden   | Determines if TextBox         | - True                            | False             |
@@ -318,7 +322,7 @@ Exampel syntax::
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |size     | size of Image                 | - size keyword                    | medium            |
-|         |                               | - height and width integers,      |                   |
+|         |                               | - width and height integers,      |                   |
 |         |                               |   seperated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |hidden   | Determines if Iamge           | - True                            | False             |
