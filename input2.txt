@@ -1,4 +1,4 @@
-make Window w with size (7,7).
+make Window w with size 7 7.
 make Button c with position center, text "center".
 make Button t with position top, text "top".
 make Button b with position bottom, text "bottom".
@@ -8,4 +8,4 @@ make Button tl with position topleft, text "topleft".
 make Button tr with position topright, text "topright".
 make Button bl with position bottomleft, text "bottomleft".
 make Button br with position bottomright, text "bottomright".
-make Button g with position (2,5), text "2x5".
+make Button g with position 2 5, text "2x5".
