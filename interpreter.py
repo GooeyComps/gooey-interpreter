@@ -630,6 +630,7 @@ class Interpreter():
                     else:
                         r, c = self.getPositionByKeyword(item.position.value)
                 elif hasattr(item, 'size'):
+
                     if item.size.value == "small":
                         TextBoxWidth = SMALL_TEXTBOX_SIZE
                         TextBoxHeight = SMALL_TEXTBOX_SIZE
@@ -640,8 +641,14 @@ class Interpreter():
                         TextBoxWidth = LARGE_TEXTBOX_SIZE
                         TextBoxHeight = LARGE_TEXTBOX_SIZE
                     else:
-                        TextBoxWidth = item.size.value
-                        TextBoxHeight = item.size.value
+                        print("else")
+                        TextBoxWidth = item.size.value.columns
+                        TextBoxHeight = item.size.value.rows
+                        print("TextBoxHeight ", TextBoxHeight)
+                        print("TextBoxWidth ", TextBoxWidth)
+                        print("item.size.cols ", item.size.value.columns)
+                        print("item.size.rows ", item.size.value.rows)
+
                     t.configure(width=TextBoxWidth, height = TextBoxHeight)
                 else:
                     self.error("Error: Incorrect attribute.")
@@ -673,8 +680,8 @@ class Interpreter():
                         TextBoxWidth = LARGE_TEXTBOX_SIZE
                         TextBoxHeight = LARGE_TEXTBOX_SIZE
                     else:
-                        TextBoxWidth = item.size.value
-                        TextBoxHeight = item.size.value
+                        TextBoxWidth = item.size.value.columns
+                        TextBoxHeight = item.size.value.rows
                     t.configure(width=TextBoxWidth, height = TextBoxHeight)
                 else:
                     self.error("Error: Incorrect attribute.")
