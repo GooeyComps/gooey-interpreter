@@ -34,9 +34,9 @@ class GUIWindow():
 
     def modify(self, ast):
         #create new instance of interpeter class, passing a reference the live preview window
-        i = Interpreter(self.window,self.winBinding)
+        i = Interpreter(self.window,self.winBinding,self.bindings)
 
-        (self.bindings, self.winBinding) = i.interpret(ast, self.bindings)
+        (self.bindings, self.winBinding) = i.interpret(ast)
         del i
 
 '''
