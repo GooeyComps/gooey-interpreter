@@ -9,7 +9,7 @@ class VarName(str):
     grammar = varnameRegex
 
 class MakeType(Keyword):
-    grammar = Enum(K("Button"), K("Window"), K("Menu"), K("MenuItem"), K("TextBox"), K("Text"), K("Image"), K("Checkboxes"), K("RadioButtons"))
+    grammar = Enum(K("Button"), K("Window"), K("Menu"), K("MenuItem"), K("TextBox"), K("Text"), K("Image"), K("Checkboxes"), K("RadioButtons"), K("FormattedText"))
 
 class Make(List):
     #grammar = "make", blank, attr("type", MakeType), blank, attr("varname", VarName), optional("with", attr("attributes",AttributeList)), "."

@@ -277,6 +277,7 @@ actionPrint = re.compile('"(.*?)"')
 optionsRegex = re.compile('\"(.+?)\"|\w+')
 textRegex = re.compile('[^"\n](.[^"]*)')
 fileRegex = re.compile('.*\.\w+')
+varnameRegex = re.compile('[a-z][A-Za-z\d\_]*')
 
 class ColorKeywordValue(Keyword):
     grammar = Enum(K("red"),K("blue"),K("yellow"),K("orange"),K("green"),\
@@ -298,7 +299,7 @@ class HiddenKeywordValue(Keyword):
     grammar = Enum(K("true"), K("false"))
 
 class QuotedText(str):
-    grammar = "\"", textRegex, "\""
+    grammar = "\"", word, "\""
 
 class SourceFileText(str):
     grammar = "\"", fileRegex, "\""
@@ -306,6 +307,8 @@ class SourceFileText(str):
 class Star(str):
     grammar = "*"
 
+class BooleanValue(Keyword):
+    grammar = Enum(K("true"), K("false"))
 
 
 
@@ -325,7 +328,7 @@ class PositionAttribute(List):
     grammar = 'position', blank, attr('value', [PositionKeywordValue, PositionGridValue])
 
 class TextAttribute(List):
-    grammar = 'text', blank, attr('value', QuotedText)
+    grammar = 'text', blank, [attr('value', QuotedText), attr('var', varnameRegex)]
 
 class ActionAttribute(List):
     #grammar = 'action', blank, attr("value", word)
@@ -333,7 +336,8 @@ class ActionAttribute(List):
 
 class TitleAttribute(List):
     #grammar = 'title', blank, attr('value', QuotedText)
-    grammar = "title", blank, "\"", attr("value", textRegex), "\""
+    #grammar = "title", blank, "\"", attr("value", textRegex), "\""
+    grammar = 'title', blank, [attr('value', QuotedText), attr('var', varnameRegex)]
 
 #Font
 class FontAttribute:
@@ -351,13 +355,25 @@ class MenuItemOptionsAttribute(List):
 class ImageSourceAttribute(List):
     grammar = 'source', blank, attr('value', SourceFileText)
 
-#   CHECKBOXES HOW TO CONDENSE? OR USE NEW KEYWORD?
-class CheckboxesOptionsAttribute(List):
+#   CHECKBOXES and RADIOBUTTONS
+class GroupOptionsAttribute(List):
     grammar = 'options', blank, attr('options', some(optional(Star), QuotedText))
 
-#  RADIOBUTTONS
-class RadioButtonsOptionsAttribute(List):
-    grammar = 'options', blank, attr('options', some(optional(Star), QuotedText))
+#   FORMATTED TEXT
+class FTFontAttribute:
+    grammar = 'font', blank, attr('name', QuotedText)
+
+class FTSizeAttribute:
+    grammar = 'size', blank, attr('value', intRegex)
+
+class FTBoldAttribute:
+    grammar = 'bold', blank, attr('value', BooleanValue)
+
+class FTItalicAttribute:
+    grammar = 'italic', blank, attr('value', BooleanValue)
+
+class FTUnderlineAttribute:
+    grammar = 'underline', blank, attr('value', BooleanValue)
     
 class HiddenAttribute(List):
     grammar = 'hidden', blank, attr('value', HiddenKeywordValue)
@@ -365,7 +381,7 @@ class HiddenAttribute(List):
 
 #Wrap as Attribute object and put into AttributeList
 class Attribute:
-    grammar = [attr('options', RadioButtonsOptionsAttribute), attr('options', CheckboxesOptionsAttribute), attr("color", ColorAttribute), attr("textColor", TextColorAttribute), attr("size", SizeAttribute), attr("position", PositionAttribute), attr("text", TextAttribute), attr("action", ActionAttribute), attr("title", TitleAttribute), attr("font", FontAttribute), attr("options", MenuItemOptionsAttribute), attr("source", ImageSourceAttribute), attr("hidden", HiddenAttribute)]
+    grammar = [attr('font', FTFontAttribute), attr('size', FTSizeAttribute), attr('bold', FTBoldAttribute), attr('italic', FTItalicAttribute), attr('underline', FTUnderlineAttribute), attr('options', GroupOptionsAttribute), attr("color", ColorAttribute), attr("textColor", TextColorAttribute), attr("size", SizeAttribute), attr("position", PositionAttribute), attr("text", TextAttribute), attr("action", ActionAttribute), attr("title", TitleAttribute), attr("font", FontAttribute), attr("options", MenuItemOptionsAttribute), attr("source", ImageSourceAttribute), attr("hidden", HiddenAttribute)]
 
 class AttributeList(List):
      grammar = csl(Attribute)

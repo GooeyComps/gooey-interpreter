@@ -1,4 +1,3 @@
 make Window w with size medium.
-make Checkboxes cb with title "Checkboxes", options *"hello" "mello" *"yello", position 2 2.
-make RadioButtons rb with options "yoyo" "froyo" *"ice cream", position 3 3, title "Radiobuttons".
-make Text t with text "Whoa man", color red, position 1 2.
+make FormattedText ft with text "Hello", font "Arial", size 15, color blue, bold true.
+make Checkboxes c with title ft, options *"yo" "a" "wmoefiew", size 5, position 0 0.
