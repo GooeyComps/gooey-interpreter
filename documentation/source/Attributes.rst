@@ -33,7 +33,7 @@ Options will generally be a list describing the different Checkboxes, RadioButti
 
 Values:
 
-- A space seperated list of plaintext strings surrounded by double quotation marks. 
+- A space separated list of plaintext strings surrounded by double quotation marks. 
     + Example: "Option1" "Option2" "Option3"
  
 - For *Checkboxes*, an \* before **one or more** of the strings will create those values automatically checked
@@ -60,7 +60,7 @@ Values:
     + bottomleft
     + bottomright
     
-- Height and width integer coordinates, seperated by a space.
+- Height and width integer coordinates, separated by a space.
     + Example: position 3 5
 
 
@@ -76,7 +76,7 @@ Values:
     + medium
     + large
     
-- Height and Width integers, seperated by a space.
+- Height and Width integers, separated by a space.
     + Example: size 2 5
 
 Color
@@ -99,7 +99,7 @@ Values:
     + white
     + black
 
-- A RGB value, seperated by spaces.
+- A RGB value, separated by spaces.
     + Example: color 000 000 255.
     
 - A hex value
@@ -124,12 +124,12 @@ Values:
 Hidden
 ======
 
-Determines if object can be seen. Default is **always False**, obejct is *not* hidden. Setting hidden to True will hide the Object without destorying it.
+Determines if object can be seen. Default is **always false**, object is *not* hidden. Setting hidden to true will hide the Object without destroying it.
 
 Values:
 
-- True
-- False
+- true
+- false
 
 Font
 ====
@@ -142,15 +142,14 @@ Values:
     + "Times New Roman"
 
 
-FontSize
+Size (for FormattedText)
 ========
 
-Changes font size used if Object incorporates text.
+Changes font size for FormattedText object
 
-textColor
-=========
+Values:
 
-Changes color of text if Object incorporates text. 
+- An integer for font pt size
 
 bold
 ====
@@ -159,18 +158,28 @@ Changes text to bold font when set to True. Default is **False**.
 
 Values:
 
-- True
-- False
+- true
+- false
 
-italics
+italic
 =======
 
 Changes text to italicized font when set to True. Default is **False**.
 
 Values:
 
-- True
-- False
+- true
+- false
+
+underline
+=======
+
+Changes text to be underlined when set to True. Default is **False**.
+
+Values:
+
+- true
+- false
 
 source
 ======

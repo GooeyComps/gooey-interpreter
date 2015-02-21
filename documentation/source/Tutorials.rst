@@ -58,7 +58,7 @@ Try::
 Try clicking on the button, see what happens. Your window should have turned green. Gooey has a number of built in actions which you can find in the Actions section of the Gooey Docs.
 
 
-Image, TextBox, Checkbox, and Menu Tutorial
+Image, TextBox, Checkboxes, and Menu Tutorial
 ===========================================
 
 Now, let's try making a slightly more complicated Gooey.
@@ -74,7 +74,7 @@ There are times when you might want your users to write something out. A TextBox
  make TextBox comments with text "Write your thoughts here".
  make Button submit with text "Submit", position 1 0.
  
-But maybe instead of direct input, you merely want your users to choose between a few choices. A simple Checkbox looks like::
+But maybe instead of direct input, you merely want your users to choose between a few choices. A simple Checkboxes object looks like::
 
  make Checkboxes cb with options "Apple" "Peach" "Pumpkin Pie".
  
@@ -112,7 +112,7 @@ or you can turn your function into an action for Buttons and MenuItems ::
  make Button b with action myFunction(w).
  
  make MenuItem edit with title "Edit",
-    options "Change color":myFunciton(w) "Change size":quit.
+    options "Change color":myFunction(w) "Change size":quit.
 
 
 
