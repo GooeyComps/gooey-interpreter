@@ -324,7 +324,8 @@ class Interpreter():
                 if hasattr(expr, "funcname"):
                     #Checks bindings to see if function name is already there
                     for i in range(len(expr.funcaction)):
-                        b = self.interpret([expr.funcaction[i]], self.bindings) #this putting i in a list is stupid and Leah fully admits it
+                        #b = self.interpret([expr.funcaction[i]], self.bindings) #this putting i in a list is stupid and Leah fully admits it
+                        b = self.interpret([expr.funcaction[i]])
                         # b = self.interpret(expr.funcaction[i], bindings) #this putting i in a list is stupid and Leah fully admits it
 
                         expr.funcaction[i] = b
@@ -369,14 +370,15 @@ class Interpreter():
                         b = self.makeBinding(functionInput.bType, functionParam, functionInput.bObject)
                         localBindings = self.addLocalBinding(b, localBindings)
                         print("local bindings: ", localBindings)
-                        newBindings = self.runFunction(self.bindings,function,localBindings)
+                        newBindings = self.runFunction(function,localBindings)
+                        print("THIS IS THE FUNCTION PARAM", functionParam)
                         newB = newBindings[functionParam]
                         newB.varname = functionInput.varname
 
                         #Binds the returned object to the thing that it modified
                         self.bindings[functionInput.varname] = newB
                     else:
-                        newBindings = self.runFunction(self.bindings,function,localBindings)
+                        newBindings = self.runFunction(function,localBindings)
                         for key in newBindings.keys():
                             self.bindings[key] = newBindings[key]
                         print("NEW BINDINGS: ", newBindings)
@@ -1120,11 +1122,16 @@ class Interpreter():
         functionCode = self.bindings[function].bObject #We need to make this proper gooey code
         print("This is the functionCode: ", functionCode)
         newBindings = localBindings
+        #self.binding = localBindings
         #print("New Bindings: ", newBindings)
         for i in range(len(functionCode)-1):
         #for action in functionCode:
             print("Here's the action", functionCode[i])
-            newBindings = self.interpret([functionCode[i]], newBindings)
+
+            ##########################OH SHIT, JAMAICA IS TRYING SOMETHING#############################
+            #newBindings = self.interpret([functionCode[i]], newBindings)
+            newBindings = self.interpret([functionCode[i]])
+            ###############################END TRIAL, PROBS BAD #####################################
             # newBindings = self.interpret(action, newBindings)
 
             #print("New Bindings: ", newBindings)

@@ -46,4 +46,5 @@ Smart dumb positioning - going through bindings and seeing the positions of obje
 
 
 Had to change getObject from getObject(self,exp,bindings): to getObject(self,exp): everywhere in interpreter
+Same with runFunction
 What to do with local bindings?
