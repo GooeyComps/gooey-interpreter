@@ -7,13 +7,13 @@ Actions and functions are extremely important elements of GUIs. Actions and func
 Actions
 =======
 
-*Actions* are the attributes for ojbects like *Buttons* and *MenuItems* that make them do things. For example::
+*Actions* are the attributes for objects like *Buttons* and *MenuItems* that make them do things. For example::
 
  make Button quit with title "Stop", action quit.
 
 will make a button that shuts down the program when clicked.
 
-*quit* is one of a handful of defualt actions Gooey has created for you.
+*quit* is one of a handful of default actions Gooey has created for you.
 
 Write
 -----
