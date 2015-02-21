@@ -107,6 +107,10 @@ class Interpreter():
                         print("!!!!!!!!!!!!!!!!!!!!!!!!!! ", self.winBinding)
                         ####Stop leah###
                         print("This is the winBinding ", self.winBinding)
+                        print("THIS IS THE WINDOW HEIGHT", self.winBinding.bObject.winfo_reqheight())
+                        print("THIS IS THE WINDOW WIDTH", self.winBinding.bObject.winfo_reqwidth())
+                        print("THIS IS THE WINDOW HEIGHT", self.winBinding.frames.winfo_reqheight())
+                        print("THIS IS THE WINDOW WIDTH", self.winBinding.frames.winfo_reqwidth())
 
                         #
                         # binding = self.makeBinding("Window", expr.varname, w)
@@ -277,14 +281,14 @@ class Interpreter():
                             win = self.getObject(expr)
                             print("BINDINGS", self.bindings)
                             assert win.bType == 'Window'
-                            #wColorBefore = win.bObject.cget('bg')
+                            wColorBefore = win.frames.cget('bg')
                             print("HI")
-                            (w,frames) = self.setWindow(win,expr)
+                            w = self.setWindow(win,expr)
                             print("BYE")
-                            #wColorAfter = w.cget('bg')
-                            #if wColorBefore != wColorAfter:
-                            #    bindings = self.fixButtonPadding(wColorAfter,bindings)
-                            #w = self.setWindow(win.bObject,expr)
+                            wColorAfter = w.frames.cget('bg')
+                            if wColorBefore != wColorAfter:
+                                bindings = self.fixButtonPadding(wColorAfter)
+                            w = self.setWindow(win,expr)
                             ###LEAHZ GONE NOW###
 
                         elif(obj.bType == "Button"):
@@ -503,7 +507,12 @@ class Interpreter():
         #w.configure(bg=defaults['color'])
         #self.setWindowColor(w,defaults['color'])
         #Set window size to default size
+        w.configure(height=MED_WIN_SIZE, width=MED_WIN_SIZE)
+        print("\n\n\nIN MAKE DEFAULTWINDOW")
+        print("THIS IS MED_WIN_SIZE", MED_WIN_SIZE)
+        print("height and width of w", w.winfo_reqheight(), w.winfo_reqwidth())
         frames = self.setDefaultWindowSize(w, MED_WIN_SIZE, MED_WIN_SIZE)
+        print("height and with of frames", frames.winfo_height(),frames.winfo_width())
         self.setWindowColor(frames,defaults['color'])
         #w = self.setDefaultWindowSize(w, MED_WIN_SIZE, MED_WIN_SIZE)
 
@@ -511,6 +520,7 @@ class Interpreter():
         #return w
 
     def setDefaultWindowSize(self, w, rows, columns):
+        print("Setting default window size to:", rows, columns)
         # frames = []
         # self.gRows = rows
         # self.gColumns = columns
@@ -559,13 +569,14 @@ class Interpreter():
         # return frames
         #
         ##Leah is boogering stuff starting here ####
-        frames.configure(height=rows,width=columns)
         w.configure(height=rows,width=columns)
+        frames.configure(height=rows,width=columns)
+        
         print("configured the frame")
         print(rows)
         print(columns)
         #frames.grid(row = 0, column = 0)
-        frames.place(x = rows, y = columns, bordermode="outside")
+        #frames.place(x = rows, y = columns, bordermode="outside")
         #w.grid(row=0,column=0)
         print("Trouble gridding")
         return frames
@@ -755,7 +766,7 @@ class Interpreter():
                     pass
                 elif hasattr(item, 'textColor'):
                     pass
-        return (w, frames)
+        return win
 
 
 
@@ -872,8 +883,11 @@ class Interpreter():
         # Checks to make sure nothing is in the space the user is trying to place an object
         # If something is there, raise an error saying which object is there, try again, and do not place object
         print("this is the window height",self.winBinding.bObject.winfo_height())
-        winHeight = self.winBinding.bObject.winfo_height()
-        winWidth = self.winBinding.bObject.winfo_width()
+        winHeight = self.winBinding.bObject.winfo_reqheight()
+        winWidth = self.winBinding.bObject.winfo_reqwidth()
+#        winHeight = self.winBinding.bObject.winfo_height()
+#        winWidth = self.winBinding.bObject.winfo_width()
+        
 
         print("OBJECT SIZE", obj.winfo_width(), obj.winfo_height())
         if obj.winfo_width()+width > winWidth:
@@ -882,6 +896,13 @@ class Interpreter():
         if obj.winfo_height()+height > winHeight:
             print("you done goofed, try again")
             self.error("Error: Object placed outside window.  Choose a new height")
+       #Go through the bindings and make sure we're not placing on top of other objects
+        #See children of root window
+        for child in self.winBinding.frames.winfo_children():
+            if child != obj:
+                print(child.winfo_x(), child.winfo_y())
+            # else:
+        #    print("Everything is hunky dory")
         #Check and raise an error if the object will appear outside the edge of the window, so fuck you
 
 
@@ -951,7 +972,9 @@ class Interpreter():
         print("R:", r, "C", c)
         #b.grid(row=r, column=c, sticky=N+S+E+W)
         self.checkOccupied(b, r, c)
+        print("\n\nMade it through check occupied!")
         b.place(x = r, y = c, bordermode="outside")
+        print("I placed it")
         return b
 
 
@@ -974,6 +997,7 @@ class Interpreter():
                 else:
                     r, c = self.getPositionByKeyword(item.position.value)
                 #b.grid(row=r, column=c, sticky=N+S+E+W)
+                self.checkOccupied(b, r, c)
                 b.place(x=r, y=c)
             elif hasattr(item, 'action'):
                 # print(item)
