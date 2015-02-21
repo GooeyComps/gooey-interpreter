@@ -48,3 +48,9 @@ Smart dumb positioning - going through bindings and seeing the positions of obje
 Had to change getObject from getObject(self,exp,bindings): to getObject(self,exp): everywhere in interpreter
 Same with runFunction
 What to do with local bindings?
+
+
+We had to change how size/position is done!  Instead of specifying 5 5 and multiplying by 100 we have the user
+set the specific pixel value.
+
+We are changing grid into place, but not for checkboxes/radiobuttons yet

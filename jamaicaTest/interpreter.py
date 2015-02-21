@@ -8,9 +8,9 @@ import math
 
 import os
 
-SMALL_WIN_SIZE = 2
-MED_WIN_SIZE = 4
-LARGE_WIN_SIZE = 6
+SMALL_WIN_SIZE = 200
+MED_WIN_SIZE = 400
+LARGE_WIN_SIZE = 600
 
 SMALL_TEXTBOX_SIZE = 10
 MED_TEXTBOX_SIZE = 20
@@ -459,11 +459,13 @@ class Interpreter():
                     tl.configure(fg=item.color.value)
                 else:
                     self.error("Error: Incorrect attribute.")
-        tl.grid(row=r, column=c, sticky=N+S+E+W)
+        #tl.grid(row=r, column=c, sticky=N+S+E+W)
+        self.checkOccupied(tl, r, c)
+        tl.place(x = r, y = c, bordermode="outside")
         return tl
 
     def setText(self,tl,w,expr):
-        r, c = 0, 0
+        #r, c = 0, 0
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'text'):
@@ -473,13 +475,16 @@ class Interpreter():
                     if hasattr(item.position.value, "r"):
                         r = int(item.position.value.r)
                         c = int(item.position.value.c)
+
                     else:
                         r, c = self.getPositionByKeyword(item.position.value)
+                    self.checkOccupied(tl, r, c)
+                    tl.place(x = r, y = c, bordermode="outside")
                 elif hasattr(item, 'color'):
                     tl.configure(fg=item.color.value)
                 else:
                     self.error("Error: Incorrect attribute.")
-        tl.grid(row=r, column=c, sticky=N+S+E+W)
+        #tl.grid(row=r, column=c, sticky=N+S+E+W)
         return tl
 
 
@@ -522,8 +527,9 @@ class Interpreter():
         self.gRows = rows
         self.gColumns = columns
         backgroundColor = w.cget('bg')
-        l = Frame(w, height = rows*100, width = columns*100)
-        l.grid(row = 0, column = 0)
+        l = Frame(w, height = rows, width = columns)
+        #l.grid(row = 0, column = 0)
+        l.place(x = 0, y = 0, bordermode="outside")
         l.configure(bg = backgroundColor)
         return l
         # w.configure(height = rows*100, width = columns*100)
@@ -531,7 +537,7 @@ class Interpreter():
         # return w
         ###leah's messing up stops here###
 
-    def setWindowSize(self,frames,rows,columns):
+    def setWindowSize(self,w, frames,rows,columns):
     #def setWindowSize(self,w,rows,columns):
         # print("Rows is", rows, "and is of type", type(rows))
         # winsize = rows*columns-1
@@ -553,10 +559,13 @@ class Interpreter():
         # return frames
         #
         ##Leah is boogering stuff starting here ####
-        frames.configure(height=rows*100,width=columns*100)
-        #w.configure(height=rows*100,width=columns*100)
+        frames.configure(height=rows,width=columns)
+        w.configure(height=rows,width=columns)
         print("configured the frame")
-        frames.grid(row = 0, column = 0)
+        print(rows)
+        print(columns)
+        #frames.grid(row = 0, column = 0)
+        frames.place(x = rows, y = columns, bordermode="outside")
         #w.grid(row=0,column=0)
         print("Trouble gridding")
         return frames
@@ -578,7 +587,8 @@ class Interpreter():
         ###Leah's shit###
         #NOTE w is now a frame, not the root window##SECOND NOTE NO IT'S NOT#JK it is
         w.configure(bg = color)
-        w.grid(row = 0, column = 0)
+        #w.grid(row = 0, column = 0)
+        w.place(x = 0, y = 0, bordermode="outside")
         ###STop leah's shit###
 
     def makeWindow(self,w,expr):
@@ -647,7 +657,7 @@ class Interpreter():
 #                            l = Frame(w, height=100, width=100)
 #                            l.grid(row = j, column = i)
                     print("hello")
-                    frames = self.setWindowSize(frames, rows, columns)
+                    frames = self.setWindowSize(w,frames, rows, columns)
                     #w = self.setWindowSize(w,rows,columns)
                     print("What's up")
 
@@ -733,7 +743,7 @@ class Interpreter():
 #                        for j in range(0,rows):
 #                            l = Frame(w, height=100, width=100)
 #                            l.grid(row = j, column = i)
-                    self.setWindowSize(frames, rows, columns)
+                    self.setWindowSize(w,frames, rows, columns)
 
                     #TODO: Loop through all existing bindings, redraw them so they aren't covered by the frames
 
@@ -814,11 +824,12 @@ class Interpreter():
                     print("THIS IS THE TEXTBOX WIDTH ", TextBoxWidth)
                 else:
                     self.error("Error: Incorrect attribute.")
-        t.grid(row=r, column=c, sticky=N+S+E+W)
+        #t.grid(row=r, column=c, sticky=N+S+E+W)
+        self.checkOccupied(t, r, c)
+        t.place(x = r, y = c, bordermode="outside")
         return t
 
     def setTextBox(self,t,w,expr):
-        r, c = 0, 0
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'text'):
@@ -830,6 +841,8 @@ class Interpreter():
                         c = int(item.position.value.c)
                     else:
                         r, c = self.getPositionByKeyword(item.position.value)
+                    self.checkOccupied(t, r, c)
+                    t.place(x = r, y = c, bordermode="outside")
                 elif hasattr(item, 'size'):
                     print("GOT TO SIZE: ", item.size.value)
                     if item.size.value == "small":
@@ -847,20 +860,30 @@ class Interpreter():
                     t.configure(width=TextBoxWidth, height = TextBoxHeight)
                 else:
                     self.error("Error: Incorrect attribute.")
-        t.grid(row=r, column=c, sticky=N+S+E+W)
+        #t.grid(row=r, column=c, sticky=N+S+E+W)
         return t
 
 
     #               BUTTONS
 
-    def checkOccupied(self,obj):
+    def checkOccupied(self,obj, height, width):
         print("THIS IS THE OBJECT", obj)
-        print("THESE ARE THE BINDINGS", self.bindings)
+        print("THESE ARE THE BINDINGS", self.winBinding.bObject)
         # Checks to make sure nothing is in the space the user is trying to place an object
         # If something is there, raise an error saying which object is there, try again, and do not place object
+        print("this is the window height",self.winBinding.bObject.winfo_height())
+        winHeight = self.winBinding.bObject.winfo_height()
+        winWidth = self.winBinding.bObject.winfo_width()
 
+        print("OBJECT SIZE", obj.winfo_width(), obj.winfo_height())
+        if obj.winfo_width()+width > winWidth:
+            print("you done goofed, try again")
+            self.error("Error: Object placed outside window.  Choose a new width")
+        if obj.winfo_height()+height > winHeight:
+            print("you done goofed, try again")
+            self.error("Error: Object placed outside window.  Choose a new height")
         #Check and raise an error if the object will appear outside the edge of the window, so fuck you
-        pass
+
 
     def makeDefaultButton(self, w, defaults):
         '''Makes a button with default attributes'''
@@ -927,8 +950,8 @@ class Interpreter():
 
         print("R:", r, "C", c)
         #b.grid(row=r, column=c, sticky=N+S+E+W)
-        #self.checkOccupied(b,bindings)
-        b.place(x = r*100, y = c*100, bordermode="outside")
+        self.checkOccupied(b, r, c)
+        b.place(x = r, y = c, bordermode="outside")
         return b
 
 
@@ -951,7 +974,7 @@ class Interpreter():
                 else:
                     r, c = self.getPositionByKeyword(item.position.value)
                 #b.grid(row=r, column=c, sticky=N+S+E+W)
-                b.place(x=r*100, y=c*100)
+                b.place(x=r, y=c)
             elif hasattr(item, 'action'):
                 # print(item)
                 action = str(item.action.value)
@@ -1080,7 +1103,9 @@ class Interpreter():
                         r, c = self.getPositionByKeyword(item.position.value)
                 else:
                     self.error("Error: Incorrect attribute.")
-        l.grid(row=r, column=c, sticky=N+S+E+W)
+        #l.grid(row=r, column=c, sticky=N+S+E+W)
+        self.checkOccupied(l, r, c)
+        l.place(x = r, y = c, bordermode="outside")
         return l
 
     def setImage():
