@@ -374,8 +374,8 @@ class Interpreter():
                 ft[6] = item.underline.value
 
 
-##########################################################################################    
-    
+##########################################################################################
+
     #               CHECKBOXES
 
     def makeCheckboxes(self,w,expr):
@@ -383,7 +383,7 @@ class Interpreter():
         cbSize = 1
         cbRow, cbColumn = 0, 0
         var = StringVar(master=w)
-        cbTitle = "Untitled Checkboxes"
+        cbTitle = "Untitled Checkboxes:"
         hasTitle = False
         hasOptions = False
 
@@ -461,12 +461,6 @@ class Interpreter():
                         else:
                             isDefault = True
                         i += 1
-                elif(hasattr(item, 'title')):
-                    pass
-                elif(hasattr(item, 'position')):
-                    pass
-                elif(hasattr(item, 'size')):
-                    pass
                 else:
                     raise GooeyError("Cannot make Checkboxes with an attribute that Checkboxes does not have.")
 
@@ -523,7 +517,7 @@ class Interpreter():
         for item in expr.attributes:
             if hasattr(item, "title"):
                 if hasattr(item.title, "var"):
-                    
+
                     if (item.title.var in self.bindings):
                         a = self.bindings.get(item.title.var).bObject
                         special = ""
@@ -584,7 +578,7 @@ class Interpreter():
         for i in cb[2:]:
             i.place(x=cbRow, y=cbColumn)
             cbColumn += 20 * cbSize
-        
+
         return cb
 
 #
@@ -685,7 +679,7 @@ class Interpreter():
                     pass
                 else:
                     raise GooeyError("Cannot make RadioButtons with an attribute that RadioButtons does not have.")
-            
+
             if not hasOptions:
                 i = 0
                 j = 0
@@ -734,7 +728,7 @@ class Interpreter():
         for item in expr.attributes:
             if hasattr(item, "title"):
                 if hasattr(item.title, "var"):
-                    
+
                     if (item.title.var in self.bindings):
                         a = self.bindings.get(item.title.var).bObject
                         special = ""
@@ -792,7 +786,7 @@ class Interpreter():
         for i in rb[2:]:
             i.place(x=rbRow, y=rbColumn)
             rbColumn += 20 * rbSize
-        
+
         return rb
 
 
@@ -1284,10 +1278,10 @@ class Interpreter():
 #        winWidth = self.winBinding.bObject.winfo_width()
 
 
-        print("OBJECT SIZE", obj.winfo_width(), )
-        if obj.winfo_width()+width > winWidth:
+        print("OBJECT SIZE", obj.winfo_reqwidth(), obj.winfo_reqheight())
+        if obj.winfo_x()+obj.winfo_reqwidth() > winWidth:
             raise GooeyError("Object placed outside window. Choose a new width")
-        if obj.winfo_height()+height > winHeight:
+        if obj.winfo_y()+obj.winfo_reqheight() > winHeight:
             raise GooeyError("Object placed outside window. Choose a new height")
         #Go through the bindings and make sure we're not placing on top of other objects
         #See children of root window
@@ -1364,8 +1358,8 @@ class Interpreter():
                     #This is temporary until I can call the action as a direct line in the command
                     act = str(item.action.funcname)
                     print("THIS IS THE ACTION: ", act)
-       
-                    
+
+
                     a = actionbuttons.findAction(item)
                     if actionbuttons.checkActions(a):
                         b.configure(command=lambda: actionbuttons.callAction(win,item,act))
@@ -1377,8 +1371,8 @@ class Interpreter():
                             print("ARGS", args)
                         b.configure(command=lambda: self.gooeyCallAction(a, args)) #figure out params for this
                         #run this like we're running a function definition
-                            
-                        
+
+
                     # else:
                     #     print("You have entered a command that is not defined")
                 elif hasattr(item, 'hidden'):
@@ -1392,8 +1386,8 @@ class Interpreter():
         if hide:
             b.place_forget() #Note won't work yet
         return b
-    
-    
+
+
     def gooeyCallAction(self,action, params):
         #Create an interpreter with the bindings and winbinding of this interpreter
         #Execute the code in this button action
@@ -1487,8 +1481,8 @@ class Interpreter():
                     #This is temporary until I can call the action as a direct line in the command
                     action = str(item.action.funcname)
                     print("THIS IS THE ACTION: ", action)
-       
-                    
+
+
                     a = actionbuttons.findAction(item)
                     if actionbuttons.checkActions(a):
                         b.configure(command=lambda: actionbuttons.callAction(win,item,action))
@@ -1498,8 +1492,8 @@ class Interpreter():
                             args = item.argument
                         b.configure(command=lambda: self.gooeyCallAction(a, args)) #figure out params for this
                         #run this like we're running a function definition
-                            
-                        
+
+
                     # else:
                     #     print("You have entered a command that is not defined")
             elif hasattr(item, 'hidden'):
@@ -1739,32 +1733,34 @@ class Interpreter():
         objheight = obj.winfo_reqheight()
 
         if keyword == "center":
-            w = winwidth/2 - objwidth/2
-            h = winheight/2 - objheight/2
+            w = math.floor(winwidth/2 - objwidth/2)
+            h = math.floor(winheight/2 - objheight/2)
         elif keyword == "top":
-            w = winwidth/2 - objwidth/2
+            w = math.floor(winwidth/2 - objwidth/2)
             h = 0
         elif keyword == "bottom":
-            w = winwidth/2 - objwidth/2
-            h = winheight - objheight - 1
+            w = math.floor(winwidth/2 - objwidth/2)
+            h = math.floor(winheight - objheight) - 1
         elif keyword == "left":
             w = 0
-            h = winheight/2 - objheight/2
+            h = math.floor(winheight/2 - objheight/2)
         elif keyword == "right":
-            w = winwidth - objwidth
-            h = winheight/2-objheight/2
+            w = math.floor(winwidth - objwidth)
+            h = math.floor(winheight/2-objheight/2)
         elif keyword == "topleft":
             w = 0
             h = 0
         elif keyword == "topright":
-            w = winwidth - objwidth
+            w = math.floor(winwidth - objwidth)
             h = 0
         elif keyword == "bottomleft":
             w = 0
-            h = winheight - objheight - 1
+            h = math.floor(winheight - objheight) - 1
         elif keyword == "bottomright":
-            w = winwidth - objwidth
-            h = winheight - objheight - 1
+            w = winwidth - objwidth - 1
+            h = math.floor(winheight - objheight) - 1
+
+        print("POSITIONING", winwidth, winheight, objwidth, objheight, w, h)
         return w, h
 
 #    def extractTextValue(self, value):
