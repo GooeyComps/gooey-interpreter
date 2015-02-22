@@ -194,7 +194,7 @@ class Interpreter():
                             wColorAfter = w.frames.cget('bg')
                             if wColorBefore != wColorAfter:
                                 print("Colors didn't match")
-                                bindings = self.fixButtonPadding(wColorAfter)
+                                self.bindings = self.fixButtonPadding(wColorAfter)
                                 print("tried to fix button padding")
                             w = self.setWindow(win,expr)
 
@@ -277,6 +277,7 @@ class Interpreter():
                 #Find function with that name
                 function = expr.funcname
                 if function in self.bindings:
+                    wColorBefore = self.winBinding.frames.cget('bg') #NEEDED FOR BUTTON PADDING ADJUSTING
 
                     # Fetch function from bindings
                     functionBinding = self.bindings[function]
@@ -320,6 +321,13 @@ class Interpreter():
                             else:
                                 print("THE LINE:", line)
                                 (localI.bindings, self.winBinding) = localI.interpret([line])
+                        #CHECK BUTTON PADDING HERE
+
+                        wColorAfter = self.winBinding.frames.cget('bg')
+                        if wColorBefore != wColorAfter:
+                            print("Colors didn't match")
+                            self.bindings = self.fixButtonPadding(wColorAfter)
+                            print("tried to fix button padding")
 
                     else:
                         raise GooeyError("The function "+str(function)+" requires "+str(len(functionBinding.params))+" arguments; you have passed it "+str(len(expr.params))+" arguments.")
@@ -1362,6 +1370,7 @@ class Interpreter():
 
                     a = actionbuttons.findAction(item)
                     if actionbuttons.checkActions(a):
+                        print('ifififififif')
                         b.configure(command=lambda: actionbuttons.callAction(win,item,act))
                     else: #Gooey code function
                         print("in da else")
@@ -1392,20 +1401,7 @@ class Interpreter():
         #Create an interpreter with the bindings and winbinding of this interpreter
         #Execute the code in this button action
         #Modify global bindings accordingly
-#        function = expr.funcname
-#        if function in self.bindings:
-#
-#            # Fetch function from bindings
-#            functionBinding = self.bindings[function]
-#
-#            # Check if parameter and argument lists are same length
-#            if len(expr.params) == len(functionBinding.params):
 
-                # Create new dictionary of local bindings for the function frame,
-                # and add arguments passed in to it.
-#            localBindings = dict()
-#            localI = Interpreter(self.winBinding.bObject,self.winBinding, localBindings)
-#            (self.bindings,self.winBindings) = localI.interpret(
         print("PARAMS:", params, "LEN PARAMS", len(params))
         gooeyStr = "run "+str(action)+"("
         for param in range(len(params)):
@@ -1458,38 +1454,24 @@ class Interpreter():
                 #b.grid(row=r, column=c, sticky=N+S+E+W)
                 self.checkOccupied(b, r, c)
                 b.place(x=r, y=c)
-#            elif hasattr(item, 'action'):
-#                # print(item)
-#                action = str(item.action.value)
-#                # print("AKLSJDHFKLAJHFH")
-#                # print(item.action.value)
-#                # if action == 'write':
-#                #     b.configure(command=lambda: actionbuttons.Actions.write(item.action.text))
-#                # elif action == 'close':
-#                #     b.configure(command=lambda: actionbuttons.Actions.close(w))
-#                # elif action == 'colorChange':
-#                #     b.configure(command=lambda: actionbuttons.Actions.windowColorChange(w, item.action.color))
-#                #     print("interpreter")
-#                #a = actionbuttons.Actions.callAction(w,item)
-#                a = actionbuttons.findAction(item)
-#                #w = a[0]
-#                #item = a[1]
-#                b.configure(command=lambda: actionbuttons.callAction(w,item,action))
 
             elif hasattr(item, 'action'):
                     #Cast action to string, otherwise you cannot find right action
                     #This is temporary until I can call the action as a direct line in the command
-                    action = str(item.action.funcname)
-                    print("THIS IS THE ACTION: ", action)
 
+                    act = str(item.action.funcname)
+                    print("THIS IS THE ACTION: ", act)
 
                     a = actionbuttons.findAction(item)
                     if actionbuttons.checkActions(a):
-                        b.configure(command=lambda: actionbuttons.callAction(win,item,action))
+                        print('ifififififif')
+                        b.configure(command=lambda: actionbuttons.callAction(w,item,act))
                     else: #Gooey code function
+                        print("in da else")
                         args = []
-                        if hasattr(item, "argument"):
-                            args = item.argument
+                        if hasattr(item.action, "arguments"):
+                            args = item.action.arguments
+                            print("ARGS", args)
                         b.configure(command=lambda: self.gooeyCallAction(a, args)) #figure out params for this
                         #run this like we're running a function definition
 
@@ -1590,6 +1572,7 @@ class Interpreter():
         defaults = self.getAllDefaults("Image")
         #(i,l) = self.makeDefaultImage(w,defaults)
         r, c = 0, 0
+        hide = False
         print("W is type: ", w)
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
