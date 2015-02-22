@@ -163,7 +163,8 @@ class Interpreter():
                                         cbRow = int(item.position.value.r)
                                         cbColumn = int(item.position.value.c)
                                     else:
-                                        cbRow, cbColumn = self.getPositionByKeyword(item.position.value)
+                                        #GET POSITION BY KEYWORD NEEDS THE CHECKBOX OBJECT TO GET THE HEIGHT AND WIDTH
+                                        cbRow, cbColumn = self.getPositionByKeyword(w,item.position.value)
                                 if hasattr(item, 'size'):
                                     cbSize = item.size.value
 
@@ -237,7 +238,8 @@ class Interpreter():
                                         rbRow = int(item.position.value.r)
                                         rbColumn = int(item.position.value.c)
                                     else:
-                                        rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
+                                        #GET POSITION BY KEYWORD NEEDS THE OBJECT SO IT CAN GET THE WIDTH AND HEIGHT
+                                        rbRow, rbColumn = self.getPositionByKeyword(w, item.position.value)
                                 if hasattr(item, 'size'):
                                     rbSize = item.size.value
 
@@ -546,7 +548,7 @@ class Interpreter():
                         r = int(item.position.value.r)
                         c = int(item.position.value.c)
                     else:
-                        r, c = self.getPositionByKeyword(item.position.value)
+                        r, c = self.getPositionByKeyword(tl, item.position.value)
                 elif hasattr(item, 'color'):
                     tl.configure(fg=item.color.value)
                 elif hasattr(item, 'hidden'):
@@ -575,7 +577,7 @@ class Interpreter():
                         r = int(item.position.value.r)
                         c = int(item.position.value.c)
                     else:
-                        r, c = self.getPositionByKeyword(item.position.value)
+                        r, c = self.getPositionByKeyword(tl, item.position.value)
                     self.checkOccupied(tl, r, c)
                     tl.place(x = r, y = c, bordermode="outside")
                 elif hasattr(item, 'color'):
@@ -586,7 +588,7 @@ class Interpreter():
                         tl.place_forget()
                     elif item.hidden.value == 'false':
                         #####NOTE: THIS ISN'T GOING TO WORK COME BACK
-s                        tl.place(x=tl.winfo_x(), y=tl.winfo_y())
+                        tl.place(x=tl.winfo_x(), y=tl.winfo_y())
                 else:
                     raise GooeyError("Can't set Text with an attribute that Text does not have.")
         #tl.grid(row=r, column=c, sticky=N+S+E+W)
@@ -904,7 +906,7 @@ s                        tl.place(x=tl.winfo_x(), y=tl.winfo_y())
                         r = int(item.position.value.r)
                         c = int(item.position.value.c)
                     else:
-                        r, c = self.getPositionByKeyword(item.position.value)
+                        r, c = self.getPositionByKeyword(t, item.position.value)
                 elif hasattr(item, 'size'):
                     print("HAS SIZE")
                     if item.size.value == "small":
@@ -948,7 +950,7 @@ s                        tl.place(x=tl.winfo_x(), y=tl.winfo_y())
                         r = int(item.position.value.r)
                         c = int(item.position.value.c)
                     else:
-                        r, c = self.getPositionByKeyword(item.position.value)
+                        r, c = self.getPositionByKeyword(t, item.position.value)
                     self.checkOccupied(t, r, c)
                     t.place(x = r, y = c, bordermode="outside")
                 elif hasattr(item, 'size'):
@@ -1066,7 +1068,7 @@ s                        tl.place(x=tl.winfo_x(), y=tl.winfo_y())
                         print("R", r)
                         print("C", c)
                     else:
-                        r, c = self.getPositionByKeyword(item.position.value)
+                        r, c = self.getPositionByKeyword(b, item.position.value)
 
                 # These are the action statements
                 elif hasattr(item, 'action'):
@@ -1138,7 +1140,7 @@ s                        tl.place(x=tl.winfo_x(), y=tl.winfo_y())
                     r = int(item.position.value.r)
                     c = int(item.position.value.c)
                 else:
-                    r, c = self.getPositionByKeyword(item.position.value)
+                    r, c = self.getPositionByKeyword(b, item.position.value)
                 #b.grid(row=r, column=c, sticky=N+S+E+W)
                 self.checkOccupied(b, r, c)
                 b.place(x=r, y=c)
@@ -1271,14 +1273,15 @@ s                        tl.place(x=tl.winfo_x(), y=tl.winfo_y())
                     i = PhotoImage(file=item.source.value)
                     l = Label(w, image=i)
                     l.image = i
-                elif hasattr(item, 'position'):
-                    if hasattr(item.position.value, "r"):
-                        r = int(item.position.value.r)
-                        c = int(item.position.value.c)
-                    else:
-                        r, c = self.getPositionByKeyword(item.position.value)
                 else:
+                    i = PhotoImage(file="gooeylogosmallest.gif")
                     raise GooeyError("Cannot make Image with attribute Image does not have.") # Note: change gooey error
+                if hasattr(item, 'position'):
+                        if hasattr(item.position.value, "r"):
+                            r = int(item.position.value.r)
+                            c = int(item.position.value.c)
+                        else:
+                            r, c = self.getPositionByKeyword(i, item.position.value)
         #l.grid(row=r, column=c, sticky=N+S+E+W)
         self.checkOccupied(l, r, c)
         l.place(x = r, y = c, bordermode="outside")
@@ -1392,36 +1395,40 @@ s                        tl.place(x=tl.winfo_x(), y=tl.winfo_y())
             raise GooeyError(str(exp.varname)+" undefined.")
 
 
-    def getPositionByKeyword(self, keyword):
+    def getPositionByKeyword(self, obj, keyword):
+        winwidth = self.winBinding.bObject.winfo_reqwidth()
+        winheight = self.winBinding.bObject.winfo_reqheight()
+        objwidth = obj.winfo_reqwidth()
+        objheight = obj.winfo_reqheight()
+
         if keyword == "center":
-            r = math.floor(self.winBinding.bObject.winfo_reqheight()/2)
-            c = math.floor(self.winBinding.bObject.winfo_reqwidth()/2)
-            print("KEYWORD POSITION", r, c)
+            w = winwidth/2 - objwidth/2
+            h = winheight/2 - objheight/2
         elif keyword == "top":
-            r = 0
-            c = math.floor(float(Interpreter.gColumns)/2)
+            w = winwidth/2 - objwidth/2
+            h = 0
         elif keyword == "bottom":
-            r = Interpreter.gRows
-            c = math.floor(float(Interpreter.gColumns)/2)
+            w = winwidth/2 - objwidth/2
+            h = winheight - objheight - 1
         elif keyword == "left":
-            r = math.floor(float(Interpreter.gRows)/2)
-            c = 0
+            w = 0
+            h = winheight/2 - objheight/2
         elif keyword == "right":
-            r = math.floor(float(Interpreter.gRows)/2)
-            c = Interpreter.gColumns
+            w = winwidth - objwidth
+            h = winheight/2-objheight/2
         elif keyword == "topleft":
-            r = 0
-            c = 0
+            w = 0
+            h = 0
         elif keyword == "topright":
-            r = 0
-            c = Interpreter.gColumns
+            w = winwidth - objwidth
+            h = 0
         elif keyword == "bottomleft":
-            r = Interpreter.gRows
-            c = 0
+            w = 0
+            h = winheight - objheight - 1
         elif keyword == "bottomright":
-            r = Interpreter.gRows
-            c = Interpreter.gColumns
-        return r, c
+            w = winwidth - objwidth
+            h = winheight - objheight - 1
+        return w, h
 
 #    def extractTextValue(self, value):
 #        words = re.findall(r'[\w\d\.]+', value)

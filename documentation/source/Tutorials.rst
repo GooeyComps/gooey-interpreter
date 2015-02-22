@@ -56,8 +56,8 @@ Try::
 Try clicking on the button, see what happens. Your window should have turned green. Gooey has a number of built in actions which you can find in the Actions section of the Gooey Docs.
 
 
-Image, TextBox, Checkboxes, and Menu Tutorial
-=============================================
+TextBox, Checkboxes, and Menu Tutorial
+======================================
 
 Now, let's try making a slightly more complicated Gooey.
 
@@ -70,7 +70,7 @@ Remember, always start by making a window::
 There are times when you might want your users to write something out. A TextBox is perfect in this situation! Type::
 
  make TextBox comments with text "Write your thoughts here".
- make Button submit with text "Submit", position 1 0.
+ make Button submit with text "Submit", position 100 0.
 
 But maybe instead of direct input, you merely want your users to choose between a few choices. A simple Checkboxes object looks like::
 
