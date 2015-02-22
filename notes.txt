@@ -70,3 +70,7 @@ TESTING NOTES:
 
 
 Button padding isn't working when you make a button with a colorchange action because it doesn't know that button exists yet. 
+2/22
+Hide - check on hide
+Actions - multiple clicks on gooey function
+images? (they suck)

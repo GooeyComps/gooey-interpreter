@@ -1578,6 +1578,7 @@ class Interpreter():
         defaults = self.getAllDefaults("Image")
         #(i,l) = self.makeDefaultImage(w,defaults)
         r, c = 0, 0
+        hide = False
         print("W is type: ", w)
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
