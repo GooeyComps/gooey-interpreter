@@ -47,6 +47,7 @@ def findMenuAction(item):
     return a
 
 def callAction(window,item,action):
+    print("calling action")
 
     # print(locals())
     # print(globals())

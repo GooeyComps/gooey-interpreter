@@ -1,0 +1,4 @@
+make Window w with color purple.
+make Button b with text "Gooey".
+function blue(win) does set win color blue.
+run blue(w).

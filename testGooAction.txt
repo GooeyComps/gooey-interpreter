@@ -1,0 +1,3 @@
+function change(win) does set win color purple.
+make Window w.
+make Button b with action change w.
