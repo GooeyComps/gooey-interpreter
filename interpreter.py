@@ -194,7 +194,7 @@ class Interpreter():
                             wColorAfter = w.frames.cget('bg')
                             if wColorBefore != wColorAfter:
                                 print("Colors didn't match")
-                                self.bindings = self.fixButtonPadding(wColorAfter)
+                                self.bindings = self.fixObjectPadding(wColorAfter)
                                 print("tried to fix button padding")
                             w = self.setWindow(win,expr)
 
@@ -326,7 +326,7 @@ class Interpreter():
                         wColorAfter = self.winBinding.frames.cget('bg')
                         if wColorBefore != wColorAfter:
                             print("Colors didn't match")
-                            self.bindings = self.fixButtonPadding(wColorAfter)
+                            self.bindings = self.fixObjectPadding(wColorAfter)
                             print("tried to fix button padding")
 
                     else:
@@ -1485,13 +1485,18 @@ class Interpreter():
                     b.place_forget() #Note: won't work yet
         return b
 
-    def fixButtonPadding(self,color):
+    def fixObjectPadding(self,color):
         print("in fixbuttonpadding")
         '''Fixes the padding around the buttons'''
         for i in self.bindings.keys():
             if self.bindings[i].bType == "Button":
-                print("Got a button")
+                print("Got a thing")
                 self.bindings[i].bObject.configure(highlightbackground = color)
+            #We may only need this if we aren't setting background color correctly
+            # elif self.bindings[i].bType == "Checkboxes":
+            #     for j in range(1,len(self.bindings[i].bObject)):
+            #         print(self.bindings[i].bObject[j])
+            #         self.bindings[i].bObject[j].configure(bg = color, highlightbackground=color)
         return self.bindings
 
 
