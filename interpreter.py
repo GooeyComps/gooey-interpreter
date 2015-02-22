@@ -414,7 +414,7 @@ class Interpreter():
                             argumentName = expr.params[paramIndex]
                             if argumentName in self.bindings:
                                 argument = self.bindings[argumentName]
-                                newLocalBinding = localI.makeBinding(argument.bType, paramName, argument.bObject, argument.params)
+                                newLocalBinding = localI.makeBinding(argument.bType, paramName, argument.bObject, argument.params, argument.frames)
                                 localI.bindings = localI.addBinding(newLocalBinding)
                                 if argument.__class__.__name__ == 'Window':
                                     localI.winBinding = newLocalBinding
