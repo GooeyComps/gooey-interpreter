@@ -1376,7 +1376,6 @@ class Interpreter():
                     
                     a = actionbuttons.findAction(item)
                     if actionbuttons.checkActions(a):
-                        print('ifififififif')
                         b.configure(command=lambda: actionbuttons.callAction(win,item,act))
                     else: #Gooey code function
                         print("in da else")
@@ -1418,7 +1417,7 @@ class Interpreter():
         print(gooeyStr)
         ast = parse(gooeyStr, Program)
         newI = Interpreter(self.winBinding.bObject, self.winBinding, self.bindings)
-        (self.winBinding, self.bindings) = newI.interpret(ast)
+        (self.bindings, self.winBinding) = newI.interpret(ast)
 
 
     def setButton(self,b,win,expr):
