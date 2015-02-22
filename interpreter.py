@@ -402,7 +402,8 @@ class Interpreter():
                         cbRow = int(item.position.value.r)
                         cbColumn = int(item.position.value.c)
                     else:
-                        cbRow, cbColumn = self.getPositionByKeyword(item.position.value)
+                        cbRow, cbColumn = 0, 0
+                        #cbRow, cbColumn = self.getPositionByKeyword(item.position.value)
                 if hasattr(item, 'size'):
                     cbSize = int(item.size.value)
 
@@ -427,7 +428,7 @@ class Interpreter():
                                 special += "italic "
                             if (a[6] == BooleanValue('true')):
                                 special += "underline"
-                            special = special.strip()
+                            special = special.strip() #ow owwwwww
 
                             font = (a[1], a[2], special)
                             ttl.configure(text=a[0], fg=a[3], font=font)
@@ -469,6 +470,12 @@ class Interpreter():
                         else:
                             isDefault = True
                         i += 1
+                elif(hasattr(item, 'title')):
+                    pass
+                elif(hasattr(item, 'position')):
+                    pass
+                elif(hasattr(item, 'size')):
+                    pass
                 else:
                     raise GooeyError("Cannot make Checkboxes with an attribute that Checkboxes does not have.")
 
@@ -508,7 +515,19 @@ class Interpreter():
                 j += 1
                 i += 1
 
+        if hasattr(expr, "attributes"):
+            for item in expr.attributes:
+                if hasattr(item, 'position'):
+                    if hasattr(item.position.value, "r"):
+                        pass
+                    else:
+                        moveCheckboxbyKeyword(cbList)
+
         return cbList
+    
+    def moveCheckboxbyKeyword(self, cbList):
+        for item in cbList:
+            print("item in cblist", item)
 
     def makeCheckbox(self,w,i,num, r, c):
         var = StringVar()
@@ -1349,8 +1368,9 @@ class Interpreter():
                     else:
                         b.configure(text=item.text.value)
                 elif hasattr(item,'size'):
-                    b.configure(width=item.size.value)
-                    b.configure(height=item.size.value)
+                    print("BUTTON SIZE: ", int(item.size.value.columns), int(item.size.value.rows))
+                    b.configure(width=int(item.size.value.columns))
+                    #b.configure(height=int(item.size.value.rows))
                 elif hasattr(item,'position'):
                     if hasattr(item.position.value, "r"):
                         r = int(item.position.value.r)
@@ -1442,8 +1462,8 @@ class Interpreter():
                 else:
                     b.configure(text=item.text.value)
             elif hasattr(item,'size'):
-                b.configure(width=item.size.value)
-                b.configure(height=item.size.value)
+                b.configure(width=int(item.size.value))
+                #b.configure(height=int(item.size.value))
             elif hasattr(item,'position'):
                 if hasattr(item.position.value, "r"):
                     r = int(item.position.value.r)
