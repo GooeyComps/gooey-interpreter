@@ -69,8 +69,9 @@ TESTING NOTES:
 - When making a window, if you have a space in the title you’re screwed
 
 
-Button padding isn't working when you make a button with a colorchange action because it doesn't know that button exists yet. 
+Button padding isn't working when you make a button with a colorchange action because it doesn't know that button exists yet.
 2/22
 Hide - check on hide
 Actions - multiple clicks on gooey function
-images? (they suck)
+images? (they suck) - positioning
+positioning inconsistencies
