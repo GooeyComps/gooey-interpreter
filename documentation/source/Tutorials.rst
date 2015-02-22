@@ -41,7 +41,7 @@ An empty window is useless though. To add writing to your GUI, you'll need to ad
 
 Now you’re ready to add a button. Type::
 
- make Button hello with text “Hello”, position 1 1.
+ make Button hello with text “Hello”, position 0 30.
 
 After you Run, your GUI should look like this
 
@@ -57,13 +57,13 @@ Try clicking on the button, see what happens. Your window should have turned gre
 
 
 Image, TextBox, Checkboxes, and Menu Tutorial
-===========================================
+=============================================
 
 Now, let's try making a slightly more complicated Gooey.
 
 Remember, always start by making a window::
 
- make Window w with title "Gooey Two", size 4 5, color #8fefdc.
+ make Window w with title "Gooey Two", size 400 500, color #8fefdc.
 
  .. image:: images/gooeytwo.png
 
