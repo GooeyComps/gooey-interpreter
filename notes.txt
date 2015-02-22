@@ -67,3 +67,6 @@ Button sizes are not working, perhaps because it's in the same column as a TextB
 2/21/15
 TESTING NOTES:
 - When making a window, if you have a space in the title you’re screwed
+
+
+Button padding isn't working when you make a button with a colorchange action because it doesn't know that button exists yet. 

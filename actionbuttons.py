@@ -1,7 +1,7 @@
 from tkinter import *
 
 
-# class Actions:
+
 
 # Print something actions
 #def write(printTest):
@@ -34,7 +34,7 @@ def windowSizeChange(window, item):
         window.geometry('200x200')
 
 def findAction(item):
-    action = str(item.action.value)
+    action = str(item.action.funcname)
     #a = "%s(window,item)" % action
     #print(a)
     #a = "Actions.%s(window,item)" % action
@@ -51,7 +51,13 @@ def callAction(window,item,action):
     # print(locals())
     # print(globals())
     exec(action+"(window,item)")
-
+    
+def checkActions(action):
+    actionList = ['write','quit','windowColorChange','windowSizeChange']
+    if action not in actionList:
+        return False
+    else:
+        return True
 
 
     # Submit button

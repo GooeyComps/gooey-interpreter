@@ -59,7 +59,8 @@ class TextAttribute(List):
 
 class ActionAttribute(List):
     #grammar = 'action', blank, attr("value", word)
-    grammar = "action", blank, attr("value", word), optional(attr("text", actionPrint)), optional(attr("color", [rgbRegex, hexRegex, ColorKeywordValue])), optional(attr("size", [intRegex, SizeGridValue, SizeKeywordValue]))
+#    grammar = "action", blank, attr("value", word), optional(attr("text", actionPrint)), optional(attr("color", [rgbRegex, hexRegex, ColorKeywordValue])), optional(attr("size", [intRegex, SizeGridValue, SizeKeywordValue]))
+    grammar = "action", blank, attr("funcname", word), optional(attr("arguments", some(word)))
 
 class TitleAttribute(List):
     #grammar = 'title', blank, attr('value', QuotedText)
