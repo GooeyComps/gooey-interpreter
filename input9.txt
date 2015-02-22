@@ -1,0 +1,2 @@
+make Window w.
+make Checkboxes cb with title "Title", options "one" "two" "three", position center.
