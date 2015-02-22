@@ -55,7 +55,7 @@ class PositionAttribute(List):
     grammar = 'position', blank, attr('value', [PositionKeywordValue, PositionGridValue])
 
 class TextAttribute(List):
-    grammar = 'text', blank, attr('value', QuotedText)
+    grammar = 'text', blank, [attr('value', QuotedText), attr('var', varnameRegex)]
 
 class ActionAttribute(List):
     #grammar = 'action', blank, attr("value", word)
@@ -110,7 +110,7 @@ class FTSizeAttribute:
 
 class SizeAttribute(List):
 #    grammar = 'size', blank, attr('value', [intRegex, SizeGridValue, SizeKeywordValue])
-    grammar = 'size', blank, attr('value', [SizeGridValue, SizeKeywordValue, FTSizeAttribute])
+    grammar = 'size', blank, attr('value', [SizeGridValue, SizeKeywordValue, intRegex])
 
 
 #Wrap as Attribute object and put into AttributeList

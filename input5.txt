@@ -1,3 +1,10 @@
-make Window w with size medium.
+make Window w with size large.
 make FormattedText ft with text "Hello", font "Arial", size 15, color blue, bold true.
-make Checkboxes c with title ft, options *"yo" "a" "wmoefiew", size 5, position 0 0.
+set ft text "Nope", italic true, underline true.
+make RadioButtons c with title ft.
+make Button b with text "Fafa", position 300 300.
+make Text t with text ft, position 200 200.
+make FormattedText asdf with text "point", font "Times", size 18, color purple, underline true.
+set ft color red, italic false.
+set c options "noqwdfqwfq" "wer" *"a" "123" "feifjei", title ft.
+set c options *"fff" "t5t".

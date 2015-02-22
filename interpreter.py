@@ -153,157 +153,17 @@ class Interpreter():
                         bindings = self.addBinding(binding)
 
                     elif(expr.type == "Checkboxes"):
-
                         self.checkVarname(expr)
-                        cbSize = 0
-                        if hasattr(expr, "attributes"):
-                            for item in expr.attributes:
-                                if hasattr(item, 'position'):
-                                    if hasattr(item.position.value, "r"):
-                                        cbRow = int(item.position.value.r)
-                                        cbColumn = int(item.position.value.c)
-                                    else:
-                                        #GET POSITION BY KEYWORD NEEDS THE CHECKBOX OBJECT TO GET THE HEIGHT AND WIDTH
-                                        cbRow, cbColumn = self.getPositionByKeyword(w,item.position.value)
-                                if hasattr(item, 'size'):
-                                    cbSize = item.size.value
-
-                            for item in expr.attributes:
-                                if(hasattr(item, 'options')):
-                                    i = 0
-                                    j = 0
-                                    isDefault = False
-                                    while(i < len(item.options.options)):
-                                        if(item.options.options[i] != ""):
-                                            cb = self.makeCheckboxes(self.window,expr,item.options.options[i], j, cbRow, cbColumn)
-                                            cb.configure(width=cbSize, height=cbSize)
-                                            if (isDefault):
-                                                cb.select()
-                                            binding = self.makeBinding("Checkboxes", expr.varname, cb)
-                                            self.bindings = self.addBinding(binding)
-                                            isDefault = False
-                                            j += 1
-                                        else:
-                                            isDefault = True
-                                        i += 1
-
-                                elif(hasattr(item, 'title')):
-                                    cbTitle = ""
-                                    if (hasattr(item.title, 'value')):
-                                        cbTitle = item.title.value
-                                    ttl = Label(self.window, text=cbTitle)
-                                    ttl.place(x=cbRow,y=cbColumn)
-                                    if hasattr(item.title, 'var'):
-                                        if (item.title.var in bindings):
-                                            a = bindings.get(item.title.var).bObject
-                                            special = ""
-
-                                            if (a[4] == BooleanValue('true')):
-                                                special += "bold "
-                                            if (a[5] == BooleanValue('true')):
-                                                special += "italic "
-                                            if (a[6] == BooleanValue('true')):
-                                                special += "underline"
-                                            special = special.strip()
-
-                                            font = (a[1], a[2], special)
-                                            ttl.configure(text=a[0], fg=a[3], font=font)
-                                        else:
-                                            raise GooeyError("No formatted text with that name.")
-                                    else:
-                                        ttl.configure(text=item.title.value)
-
-                                    binding = self.makeBinding("Checkboxes", expr.varname, ttl)
-                                    self.bindings = self.addBinding(binding)
-                                elif(hasattr(item, 'position')):
-                                    pass
-                                elif(hasattr(item, 'size')):
-                                    pass
-                                else:
-                                    raise GooeyError("Cannot make Checkboxes with an attribute that Checkboxes does not have.")
-                        else:
-                            # Use default values
-                            pass
-
+                        cb = self.makeCheckboxes(self.window, expr)
+                        binding = self.makeBinding("Checkboxes", expr.varname, cb)
+                        self.bindings = self.addBinding(binding)
 
                     elif(expr.type == "RadioButtons"):
                         self.checkVarname(expr)
-                        selected = False
-                        var = IntVar()
-                        rbSize = 0
-                        if hasattr(expr, "attributes"):
-                            for item in expr.attributes:
-                                if hasattr(item, 'position'):
-                                    if hasattr(item.position.value, "r"):
-                                        rbRow = int(item.position.value.r)
-                                        rbColumn = int(item.position.value.c)
-                                    else:
-                                        #GET POSITION BY KEYWORD NEEDS THE OBJECT SO IT CAN GET THE WIDTH AND HEIGHT
-                                        rbRow, rbColumn = self.getPositionByKeyword(w, item.position.value)
-                                if hasattr(item, 'size'):
-                                    rbSize = item.size.value
+                        rb = self.makeRadioButtons(self.window, expr)
+                        binding = self.makeBinding("RadioButtons", expr.varname, rb)
+                        self.bindings = self.addBinding(binding)
 
-                            for item in expr.attributes:
-                                if(hasattr(item, 'options')):
-                                    count = 0
-                                    for x in item.options.options:
-                                        if (x == ""):
-                                            count += 1
-                                        if (count == 2):
-                                            raise GooeyError("RadioButtons cannot have multiple default selected options.")
-
-                                    i = 0
-                                    j = 0
-                                    while(i < len(item.options.options)):
-                                        if (item.options.options[i] == ""):
-                                            selected = True
-                                        else:
-                                            rb = self.makeRadioButtons(self.window,expr,item.options.options[i], j, rbRow, rbColumn, var)
-                                            rb.configure(width=rbSize, height=rbSize)
-                                            rb.deselect()
-                                            if (selected):
-                                                var.set(j)
-                                                selected = False
-                                            binding = self.makeBinding("RadioButtons", expr.varname, rb)
-                                            self.bindings = self.addBinding(binding)
-                                            j += 1
-                                        i += 1
-                                elif(hasattr(item, 'title')):
-                                    rbTitle = ""
-                                    if (hasattr(item.title, 'value')):
-                                        rbTitle = item.title.value
-                                    ttl = Label(self.window, text=rbTitle)
-                                    ttl.place(x=rbRow,y=rbColumn)
-                                    if hasattr(item.title, 'var'):
-                                        if (item.title.var in self.bindings):
-                                            a = bindings.get(item.title.var).bObject
-                                            special = ""
-
-                                            if (a[4] == BooleanValue('true')):
-                                                special += "bold "
-                                            if (a[5] == BooleanValue('true')):
-                                                special += "italic "
-                                            if (a[6] == BooleanValue('true')):
-                                                special += "underline"
-                                            special = special.strip()
-
-                                            font = (a[1], a[2], special)
-                                            ttl.configure(text=a[0], fg=a[3], font=font)
-                                        else:
-                                            raise GooeyError("No formatted text with that name.")
-                                    else:
-                                        ttl.configure(text=item.title.value)
-                                    binding = self.makeBinding("RadioButtons", expr.varname, ttl)
-                                    self.bindings = self.addBinding(binding)
-                                elif(hasattr(item, 'position')):
-                                    pass
-                                elif(hasattr(item, 'size')):
-                                    pass
-                                else:
-                                    raise GooeyError("Cannot make RadioButtons with an attribute that RadioButtons does not have.")
-                        else:
-                            # Use default values
-                            pass
                     else:
                         raise GooeyError("Object in Make statement not recognized. Make sure to capitalize the object name.")
                 else:
@@ -358,6 +218,24 @@ class Interpreter():
                             assert t.bType == 'TextBox'
                             tbox = t.bObject
                             tbox = self.setTextBox(tbox, self.window, expr) #change to be winbinding
+
+                        elif(obj.bType == "FormattedText"):
+                            ft = self.getObject(expr)
+                            assert ft.bType == 'FormattedText'
+                            ft = self.setFormattedText(ft.bObject, self.window, expr)
+
+                        elif(obj.bType == "Checkboxes"):
+                            cb = self.getObject(expr)
+                            assert cb.bType == 'Checkboxes'
+                            cb = self.setCheckboxes(cb.bObject, self.window, expr)
+                            obj.bObject = cb
+
+                        elif(obj.bType == "RadioButtons"):
+                            rb = self.getObject(expr)
+                            assert rb.bType == 'RadioButtons'
+                            rb = self.setRadioButtons(rb.bObject, self.window, expr)
+                            obj.bObject = rb
+
                         else:
                             raise GooeyError("Cannot set variable of type " + str(obj.bType))
                     else:
@@ -478,36 +356,444 @@ class Interpreter():
 
         return settings
 
+    def setFormattedText(self, ft, w, expr):
+        for item in expr.attributes:
+            if hasattr(item, 'text'):
+                ft[0] = item.text.value
+            elif hasattr(item, "font"):
+                ft[1] = item.font.name
+            elif hasattr(item, "size"):
+                ft[2] = int(item.size.value)
+            elif hasattr(item, "color"):
+                ft[3] = item.color.value
+            elif hasattr(item, "bold"):
+                ft[4] = item.bold.value
+            elif hasattr(item, "italic"):
+                ft[5] = item.italic.value
+            elif hasattr(item, "underline"):
+                ft[6] = item.underline.value
 
-    '''
--------------------- CHECKBOXES --------------------
-    '''
-    def makeDefaultCheckboxes(self,w,defaults):
-        pass
 
-    def makeCheckboxes(self,w,expr,i,num, r, c):
-        r = r + num + 1
-        op = Checkbutton(w, text=i, variable=str(num), anchor=W)
-        op.grid(row=r, column=c, sticky=N+S+E+W)
+##########################################################################################    
+    
+    #               CHECKBOXES
+
+    def makeCheckboxes(self,w,expr):
+        cbList = []
+        cbSize = 1
+        cbRow, cbColumn = 0, 0
+        var = StringVar(master=w)
+        cbTitle = "Untitled Checkboxes"
+        hasTitle = False
+        hasOptions = False
+
+        if hasattr(expr, "attributes"):
+            for item in expr.attributes:
+                if hasattr(item, 'position'):
+                    if hasattr(item.position.value, "r"):
+                        cbRow = int(item.position.value.r)
+                        cbColumn = int(item.position.value.c)
+                    else:
+                        cbRow, cbColumn = self.getPositionByKeyword(item.position.value)
+                if hasattr(item, 'size'):
+                    cbSize = int(item.size.value)
+
+            cbList.append([cbRow, cbColumn, cbSize])
+
+            for item in expr.attributes:
+                if(hasattr(item, 'title')):
+                    hasTitle = True
+                    cbTitle = ""
+                    if (hasattr(item.title, 'value')):
+                        cbTitle = item.title.value
+                    ttl = Label(self.window, text=cbTitle)
+                    ttl.place(x=cbColumn,y=cbRow)
+                    if hasattr(item.title, 'var'):
+                        if (item.title.var in self.bindings):
+                            a = self.bindings.get(item.title.var).bObject
+                            special = ""
+
+                            if (a[4] == BooleanValue('true')):
+                                special += "bold "
+                            if (a[5] == BooleanValue('true')):
+                                special += "italic "
+                            if (a[6] == BooleanValue('true')):
+                                special += "underline"
+                            special = special.strip()
+
+                            font = (a[1], a[2], special)
+                            ttl.configure(text=a[0], fg=a[3], font=font)
+                            cbColumn += a[2] + 10
+                            cbList[0].append(a[2] + 10)
+                        else:
+                            raise GooeyError("No formatted text with that name.")
+                    else:
+                        ttl.configure(text=item.title.value)
+                        cbColumn += 22
+                        cbList[0].append(22)
+                    cbList.append(ttl)
+
+            if not hasTitle:
+                ttl = Label(self.window, text=cbTitle)
+                ttl.place(x=cbColumn,y=cbRow)
+                cbColumn += 22
+                cbList[0].append(22)
+                cbList.append(ttl)
+
+            for item in expr.attributes:
+                if(hasattr(item, 'options')):
+                    hasOptions = True
+                    i = 0
+                    j = 0
+                    isDefault = False
+                    while(i < len(item.options.options)):
+                        if(item.options.options[i] != ""):
+                            cb = self.makeCheckbox(self.window,item.options.options[i], j, cbRow, cbColumn)
+                            cbColumn += 20 * cbSize
+                            cb.configure(height=cbSize)
+                            if (isDefault):
+                                cb.select()
+                            # binding = self.makeBinding("Checkboxes", expr.varname, cb)
+                            # self.bindings = self.addBinding(binding)
+                            cbList.append(cb)
+                            isDefault = False
+                            j += 1
+                        else:
+                            isDefault = True
+                        i += 1
+                elif(hasattr(item, 'title')):
+                    pass
+                elif(hasattr(item, 'position')):
+                    pass
+                elif(hasattr(item, 'size')):
+                    pass
+                else:
+                    raise GooeyError("Cannot make Checkboxes with an attribute that Checkboxes does not have.")
+
+            if not hasOptions:
+                i = 0
+                j = 0
+                while(i < 3):
+                    optionText = "Option " + str(i + 1)
+                    cb = self.makeCheckbox(self.window,optionText, j, cbRow, cbColumn)
+                    cbColumn += 20 * cbSize
+                    cb.configure(height=cbSize)
+                    # binding = self.makeBinding("Checkboxes", expr.varname, cb)
+                    # self.bindings = self.addBinding(binding)
+                    cbList.append(cb)
+                    j += 1
+                    i += 1
+
+        else:
+            cbTitle = "Untitled Checkboxes"
+            cbRow, cbColumn = 0, 0
+            cbSize = 1
+            ttl = Label(self.window, text=cbTitle)
+            ttl.place(x=cbColumn,y=cbRow)
+            cbColumn += 22
+            cbList.append([0, 0, 1, 22])
+            cbList.append(ttl)
+            i = 0
+            j = 0
+            while(i < 3):
+                optionText = "Option " + str(i + 1)
+                cb = self.makeCheckbox(self.window,optionText, j, cbRow, cbColumn)
+                cbColumn += 20 * cbSize
+                cb.configure(height=cbSize)
+                # binding = self.makeBinding("Checkboxes", expr.varname, cb)
+                # self.bindings = self.addBinding(binding)
+                cbList.append(cb)
+                j += 1
+                i += 1
+
+        return cbList
+
+    def makeCheckbox(self,w,i,num, r, c):
+        var = StringVar()
+        op = Checkbutton(w, text=i, variable=var, anchor=W)
+        op.place(x=r, y=c, bordermode="outside")
         return op
 
-    def setCheckboxes():
-        pass
+    def setCheckboxes(self, cb, w, expr):
+        cbSize = cb[0][2]
+        cbRow = cb[0][0]
+        cbColumn = cb[0][1]
+        ttlSize = cb[0][3]
+        ttl = cb[1]
+        for item in expr.attributes:
+            if hasattr(item, "title"):
+                if hasattr(item.title, "var"):
+                    
+                    if (item.title.var in self.bindings):
+                        a = self.bindings.get(item.title.var).bObject
+                        special = ""
+                        if (a[4] == BooleanValue('true')):
+                            special += "bold "
+                        if (a[5] == BooleanValue('true')):
+                            special += "italic "
+                        if (a[6] == BooleanValue('true')):
+                            special += "underline"
+                        special = special.strip()
 
-    '''
--------------------- RADIOBUTTONS --------------------
-    '''
-    def makeDefaultRadioButtons(self,w,defaults):
-        pass
+                        font = (a[1], a[2], special)
+                        ttl.configure(text=a[0], fg=a[3], font=font)
+                        cb[1].place(x=cbRow, y=cbColumn)
+                        ttlSize = a[2] + 10
+                    else:
+                        raise GooeyError("No formatted text with that name.")
+                else:
+                    cb[1].place(x=cbRow, y=cbColumn)
+                    ttlSize += 20
+                    ttl.config(text=item.title.value, fg='black', font="system 10")
+            elif hasattr(item, "options"):
+                for a in cb[2:]:
+                    a.place_forget()
 
-    def makeRadioButtons(self,w,expr,i,num, r, c, v):
-        r = r + num + 1
+                cb = cb[:2]
+                i = 0
+                j = 0
+                isDefault = False
+                while(i < len(item.options.options)):
+                    if(item.options.options[i] != ""):
+                        var = StringVar()
+                        c = Checkbutton(w, text=item.options.options[i], variable=var, anchor=W)
+                        c.configure(height=cbSize)
+                        if (isDefault):
+                            c.select()
+                        # binding = self.makeBinding("Checkboxes", expr.varname, cb)
+                        # self.bindings = self.addBinding(binding)
+                        cb.append(c)
+                        isDefault = False
+                        j += 1
+                    else:
+                        isDefault = True
+                    i += 1
+            elif hasattr(item, "position"):
+                if hasattr(item.position.value, "r"):
+                    cbRow = int(item.position.value.r)
+                    cbColumn = int(item.position.value.c)
+                else:
+                    cbRow, cbColumn = self.getPositionByKeyword(item.position.value)
+            elif hasattr(item, "size"):
+                cbSize = item.size.value
+
+        cb[1].place(x=cbRow, y=cbColumn)
+        cb[1] = ttl
+        cb[0] = [cbRow, cbColumn, cbSize, ttlSize]
+        cbColumn += ttlSize
+        for i in cb[2:]:
+            i.place(x=cbRow, y=cbColumn)
+            cbColumn += 20 * cbSize
+        
+        return cb
+
+#
+#    #               RADIOBUTTONS
+#
+#
+    def makeRadioButtons(self,w,expr):
+        rbList = []
+        selected = False
+        var = StringVar(master=w)
+        rbSize = 1
+        rbRow, rbColumn = 0, 0
+        rbTitle = "Untitled RadioButtons"
+        hasTitle = False
+        hasOptions = False
+        if hasattr(expr, "attributes"):
+            for item in expr.attributes:
+                if hasattr(item, 'position'):
+                    if hasattr(item.position.value, "r"):
+                        rbRow = int(item.position.value.r)
+                        rbColumn = int(item.position.value.c)
+                    else:
+                        rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
+                if hasattr(item, 'size'):
+                    rbSize = item.size.value
+
+            rbList.append([rbRow, rbColumn, rbSize])
+
+            for item in expr.attributes:
+                if(hasattr(item, 'title')):
+                    hasTitle = True
+                    rbTitle = ""
+                    if (hasattr(item.title, 'value')):
+                        rbTitle = item.title.value
+                    ttl = Label(self.window, text=rbTitle)
+                    ttl.place(x=rbColumn,y=rbRow)
+                    if hasattr(item.title, 'var'):
+                        if (item.title.var in self.bindings):
+                            a = self.bindings.get(item.title.var).bObject
+                            special = ""
+
+                            if (a[4] == BooleanValue('true')):
+                                special += "bold "
+                            if (a[5] == BooleanValue('true')):
+                                special += "italic "
+                            if (a[6] == BooleanValue('true')):
+                                special += "underline"
+                            special = special.strip()
+
+                            font = (a[1], a[2], special)
+                            ttl.configure(text=a[0], fg=a[3], font=font)
+                            rbColumn += a[2] + 10
+                            rbList[0].append(a[2] + 10)
+                        else:
+                            raise GooeyError("No formatted text with that name.")
+                    else:
+                        ttl.configure(text=item.title.value)
+                        rbColumn += 22
+                        rbList[0].append(22)
+                    rbList.append(ttl)
+
+            if not hasTitle:
+                ttl = Label(self.window, text=rbTitle)
+                ttl.place(x=rbColumn,y=rbRow)
+                rbColumn += 22
+                rbList[0].append(22)
+                rbList.append(ttl)
+
+            for item in expr.attributes:
+                if(hasattr(item, 'options')):
+                    count = 0
+                    for x in item.options.options:
+                        if (x == ""):
+                            count += 1
+                        if (count == 2):
+                            raise GooeyError("RadioButtons cannot have multiple default selected options.")
+
+                    i = 0
+                    j = 0
+                    while(i < len(item.options.options)):
+                        if (item.options.options[i] == ""):
+                            selected = True
+                        else:
+                            rb = self.makeRadioButton(self.window,item.options.options[i], j, rbRow, rbColumn, var)
+                            rb.configure(height=rbSize)
+                            rb.deselect()
+                            rbList.append(rb)
+                            # if (selected):
+                            #     var.set(j)
+                            #     selected = False
+                            j += 1
+                        i += 1
+                elif(hasattr(item, 'title')):
+                    pass
+                elif(hasattr(item, 'position')):
+                    pass
+                elif(hasattr(item, 'size')):
+                    pass
+                else:
+                    raise GooeyError("Cannot make RadioButtons with an attribute that RadioButtons does not have.")
+            
+            if not hasOptions:
+                i = 0
+                j = 0
+                while(i < 3):
+                    optionText = "Option " + str(i + 1)
+                    rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
+                    rbColumn += 20 * rbSize
+                    rb.configure(height=rbSize)
+                    rbList.append(rb)
+                    j += 1
+                    i += 1
+
+        else:
+            rbTitle = "Untitled RadioButtons"
+            rbRow, rbColumn = 0, 0
+            rbSize = 1
+            ttl = Label(self.window, text=rbTitle)
+            ttl.place(x=rbColumn,y=rbRow)
+            rbColumn += 22
+            rbList.append([0, 0, 1, 22])
+            rbList.append(ttl)
+            i = 0
+            j = 0
+            while(i < 3):
+                optionText = "Option " + str(i + 1)
+                rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
+                rbColumn += 20 * rbSize
+                rb.configure(height=rbSize)
+                rbList.append(rb)
+                j += 1
+                i += 1
+
+        return rbList
+
+    def makeRadioButton(self,w,i,num, r, c, v):
         gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W)
-        gg.grid(row=r, column=c, sticky=N+S+E+W)
+        gg.place(x=r, y=c, bordermode="outside")
         return gg
 
-    def setRadioButtons():
-        pass
+    def setRadioButtons(self, rb, w, expr):
+        rbSize = rb[0][2]
+        rbRow = rb[0][0]
+        rbColumn = rb[0][1]
+        ttlSize = rb[0][3]
+        ttl = rb[1]
+        for item in expr.attributes:
+            if hasattr(item, "title"):
+                if hasattr(item.title, "var"):
+                    
+                    if (item.title.var in self.bindings):
+                        a = self.bindings.get(item.title.var).bObject
+                        special = ""
+                        if (a[4] == BooleanValue('true')):
+                            special += "bold "
+                        if (a[5] == BooleanValue('true')):
+                            special += "italic "
+                        if (a[6] == BooleanValue('true')):
+                            special += "underline"
+                        special = special.strip()
+
+                        font = (a[1], a[2], special)
+                        ttl.configure(text=a[0], fg=a[3], font=font)
+                        rb[1].place(x=rbRow, y=rbColumn)
+                        ttlSize = a[2] + 10
+                    else:
+                        raise GooeyError("No formatted text with that name.")
+                else:
+                    rb[1].place(x=rbRow, y=rbColumn)
+                    ttlSize += 20
+                    ttl.config(text=item.title.value, fg='black', font="system 10")
+            elif hasattr(item, "options"):
+                for a in rb[2:]:
+                    a.place_forget()
+
+                rb = rb[:2]
+                i = 0
+                j = 0
+                var = StringVar(master=w)
+                while(i < len(item.options.options)):
+                    if (item.options.options[i] == ""):
+                        selected = True
+                    else:
+                        r = Radiobutton(w, text=item.options.options[i], variable=var, value=i, anchor=W)
+                        r.configure(height=rbSize)
+                        rb.append(r)
+                        # if (selected):
+                        #     var.set(j)
+                        #     selected = False
+                        j += 1
+                    i += 1
+            elif hasattr(item, "position"):
+                if hasattr(item.position.value, "r"):
+                    rbRow = int(item.position.value.r)
+                    rbColumn = int(item.position.value.c)
+                else:
+                    rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
+            elif hasattr(item, "size"):
+                rbSize = item.size.value
+
+        rb[1].place(x=rbRow, y=rbColumn)
+        rb[1] = ttl
+        rb[0] = [rbRow, rbColumn, rbSize, ttlSize]
+        rbColumn += ttlSize
+        for i in rb[2:]:
+            i.place(x=rbRow, y=rbColumn)
+            rbColumn += 20 * rbSize
+        
+        return rb
 
 
     '''
