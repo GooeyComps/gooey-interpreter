@@ -1009,7 +1009,14 @@ class Interpreter():
 
         ###Leah's shit###
         #NOTE w is now a frame, not the root window##SECOND NOTE NO IT'S NOT#JK it is
-        w.configure(bg = color)
+        #if color[0]='(':
+        print("THIS IS THE COLOR:", color[0])
+        if color[0] == '(':
+            print("COLORS: ",int(color[1]),int(color[3]),int(color[5]))
+            w.configure(bg=color_rgb(int(color[1]),int(color[3]),int(color[5])))
+            print("DID RGB YAY")
+        else:
+            w.configure(bg = color)
         #w.grid(row = 0, column = 0)
         w.place(x = 0, y = 0, bordermode="outside")
         ###STop leah's shit###
