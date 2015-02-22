@@ -792,12 +792,10 @@ class Interpreter():
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == 'true':
                         hide = True
-                        print("hide x y", tl.winfo_x(), tl.winfo_y())
                         tl.place_forget()
                     elif item.hidden.value == 'false':
                         #####NOTE: THIS ISN'T GOING TO WORK COME BACK
-                        print("unhide x y", tl.winfo_x(), tl.winfo_y())
-                        tl.place(x=tl.winfo_x(), y=tl.winfo_y())
+s                        tl.place(x=tl.winfo_x(), y=tl.winfo_y())
                 else:
                     raise GooeyError("Can't set Text with an attribute that Text does not have.")
         #tl.grid(row=r, column=c, sticky=N+S+E+W)
@@ -1598,8 +1596,9 @@ class Interpreter():
 
     def getPositionByKeyword(self, keyword):
         if keyword == "center":
-            r = math.floor(float(Interpreter.gRows)/2)
-            c = math.floor(float(Interpreter.gColumns)/2)
+            r = math.floor(self.winBinding.bObject.winfo_reqheight()/2)
+            c = math.floor(self.winBinding.bObject.winfo_reqwidth()/2)
+            print("KEYWORD POSITION", r, c)
         elif keyword == "top":
             r = 0
             c = math.floor(float(Interpreter.gColumns)/2)
