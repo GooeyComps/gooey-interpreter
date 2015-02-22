@@ -224,8 +224,6 @@ TextBox objects create a space where users can type. When you create a TextBox w
 
 When setting the *size* of the TextBox using integers for width and height, the integers will set the width and height by **character count**. For example, size 15 10 will create a TextBox 15 *characters* across, with ten *lines* of height.
 
-The smallest a TextBox can be is size 13 6.
-
 Example syntax::
 
  make TextBox tb with text "Write your answer here".

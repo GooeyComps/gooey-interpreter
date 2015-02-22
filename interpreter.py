@@ -12,12 +12,12 @@ SMALL_WIN_SIZE = 200
 MED_WIN_SIZE = 400
 LARGE_WIN_SIZE = 600
 
-SMALL_TEXTBOX_WIDTH = 1
+SMALL_TEXTBOX_WIDTH = 20
 SMALL_TEXTBOX_HEIGHT = 1
 MED_TEXTBOX_WIDTH = 35
 MED_TEXTBOX_HEIGHT = 8
-LARGE_TEXTBOX_WIDTH = 30
-LARGE_TEXTBOX_HEIGHT = 30
+LARGE_TEXTBOX_WIDTH = 50
+LARGE_TEXTBOX_HEIGHT = 10
 
 #TODO: ADDRESS MERGE OF ERROR POPUP CLASS
 ### START EMILY CODE ###
@@ -41,14 +41,14 @@ class ErrorPopup:
 ### END EMILY CODE ###
 ### START EMILY CODE ###
 class GooeyError(Exception):
-	def __init__(self, message):
-		self.message = message
-		ErrorPopup(self.message)
-	def __repr__(self):
-		return self.message
+    def __init__(self, message):
+        self.message = message
+        ErrorPopup(self.message)
+    def __repr__(self):
+        return self.message
 ### END EMILY CODE ###
 
-#TODO: ADDRESS MERGE 
+#TODO: ADDRESS MERGE
 #Binding object has four instance variables
 #bType - the type of object with regards to "Gooey" ex) Window, Button
 #varname - how we identify the object (a string)
@@ -77,7 +77,7 @@ class Binding:
         return prettyStr
 ### END EMILY CHANGE ###
 
-#TODO: ADDRESS MERGE 
+#TODO: ADDRESS MERGE
 class Interpreter():
     '''Interpreter class: creates GUI based on the expression given by the user.'''
     gRows = 0
@@ -169,7 +169,7 @@ class Interpreter():
                         t = self.makeText(self.window, expr)
                         binding = self.makeBinding("Text", expr.varname, t)
                         self.bindings = self.addBinding(binding)
-                        
+
                     elif(expr.type == "FormattedText"):
                         self.checkVarname(expr)
                         ft = self.makeFormattedText(self.window, expr)
@@ -178,7 +178,7 @@ class Interpreter():
 
                     ##MERGE??? MAYBE???
                     # Add formatted text!
-                    
+
 #                    elif(expr.type == "Checkboxes"):
 #                        self.checkVarname(expr)
 #                        if hasattr(expr, "attributes"):
@@ -488,13 +488,13 @@ class Interpreter():
                             #            tbox.insert(END, self.extractTextValue(item.text.value))
                         #print("THIS IS EXPR: ",expr.attributes.text)
                         #tbox.insert(END, expr)
-                        
-                        ###NOTE: STILL NEED FORMATTED TEXT SET  
+
+                        ###NOTE: STILL NEED FORMATTED TEXT SET
                     else:
                         raise GooeyError("Cannot set variable of type" + str(obj.bType))
                 else:
                     raise GooeyError(str(expr.varname) + "is undefined.")
-                    
+
             ###AT THE END OF SET WE NEED EMILY'S ERROR STUFF####
 
             #######STILL NEED TO MERGE FUNCTIONS##################################
@@ -564,7 +564,7 @@ class Interpreter():
 #                        print("NEW BINDINGS: ", newBindings)
 #                else:
 #                    raise GooeyError("This function isn't defined.")
-	#Interprets all function definition statements
+    #Interprets all function definition statements
             elif(expr.__class__.__name__ == "FunctionDefinition"):
                 if hasattr(expr, "funcname"):
 
@@ -659,8 +659,8 @@ class Interpreter():
         print("THESE ARE THE self.bindings: ", self.bindings)
         return (self.bindings,self.winBinding)
 
-    
-    
+
+
 
     def makeFormattedText(self,w,expr):
         settings = ["Untitled Text", "Times", 12, "black", False, False, False]
@@ -683,8 +683,8 @@ class Interpreter():
                     settings[6] = item.underline.value
 
         return settings
-##########################################################################################    
-    
+##########################################################################################
+
     #               CHECKBOXES
 
 
@@ -735,7 +735,7 @@ class Interpreter():
                     if hasattr(item.text, 'var'):
                         if (item.text.var in bindings):
                             a = bindings.get(item.text.var).bObjectspecial = ""
-                            
+
                             if (a[4] == BooleanValue('true')):
                                 special += "bold "
                             if (a[5] == BooleanValue('true')):
@@ -766,8 +766,9 @@ class Interpreter():
         #tl.grid(row=r, column=c, sticky=N+S+E+W)
         self.checkOccupied(tl, r, c)
         tl.place(x = r, y = c, bordermode="outside")
+        print("text x y", tl.winfo_x(), tl.winfo_y())
         if hide:
-            tl.place_remove()
+            tl.place_forget()
         return tl
 
     def setText(self,tl,w,expr):
@@ -791,10 +792,12 @@ class Interpreter():
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == 'true':
                         hide = True
-                        tl.place_remove()
+                        print("hide x y", tl.winfo_x(), tl.winfo_y())
+                        tl.place_forget()
                     elif item.hidden.value == 'false':
-                        #####NOTE: THIS ISN'T GOING TO WORK COME BACK 
-                        tl.place(x=0, y=0)
+                        #####NOTE: THIS ISN'T GOING TO WORK COME BACK
+                        print("unhide x y", tl.winfo_x(), tl.winfo_y())
+                        tl.place(x=tl.winfo_x(), y=tl.winfo_y())
                 else:
                     raise GooeyError("Can't set Text with an attribute that Text does not have.")
         #tl.grid(row=r, column=c, sticky=N+S+E+W)
@@ -879,7 +882,7 @@ class Interpreter():
         ##Leah is boogering stuff starting here ####
         w.configure(height=rows,width=columns)
         frames.configure(height=rows,width=columns)
-        
+
         print("configured the frame")
         print(rows)
         print(columns)
@@ -1047,6 +1050,7 @@ class Interpreter():
                     #TODO: Loop through all existing bindings, redraw them so they aren't covered by the frames
 
                 elif hasattr(item, 'title'):
+                    print("SET WINDOW TITLE", type(item.title.value))
                     w.title(item.title.value)
                 elif hasattr(item, 'font'):
                     pass
@@ -1103,7 +1107,7 @@ class Interpreter():
             for item in expr.attributes:
                 if hasattr(item, 'text'):
                     t.delete("1.0",END)
-                    t.insert(END, self.extractTextValue(item.text.value))
+                    t.insert(END, item.text.value)
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         r = int(item.position.value.r)
@@ -1138,7 +1142,7 @@ class Interpreter():
         self.checkOccupied(t, r, c)
         t.place(x = r, y = c, bordermode="outside")
         if hide:
-            t.place_forget(x=0,y=0) #Note: this will not work
+            t.place_forget(x=t.winfo_x(), y=t.winfo_y()) #Note: this will not work
         return t
 
     def setTextBox(self,t,w,expr):
@@ -1147,7 +1151,7 @@ class Interpreter():
             for item in expr.attributes:
                 if hasattr(item, 'text'):
                     t.delete("1.0",END)
-                    t.insert(END, self.extractTextValue(item.text.value))
+                    t.insert(END, item.text.value)
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         r = int(item.position.value.r)
@@ -1176,7 +1180,7 @@ class Interpreter():
                         hide = True
                         t.place_forget() #Note: won't work yet
                     elif item.hidden.value == "false":
-                        t.place() #Note: won't work yet - need it to go back to position from before it was hidden
+                        t.place(x=t.winfo_x(), y=t.winfo_y())
                 else:
                     raise GooeyError("Can't set Textbox with an attribute that Textbox does not have.")
                     #Note: raise gooey error
@@ -1196,9 +1200,9 @@ class Interpreter():
         winWidth = self.winBinding.bObject.winfo_reqwidth()
 #        winHeight = self.winBinding.bObject.winfo_height()
 #        winWidth = self.winBinding.bObject.winfo_width()
-        
 
-        print("OBJECT SIZE", obj.winfo_width(), obj.winfo_height())
+
+        print("OBJECT SIZE", obj.winfo_width(), )
         if obj.winfo_width()+width > winWidth:
             raise GooeyError("Object placed outside window.  Choose a new width")
         if obj.winfo_height()+height > winHeight:
@@ -1302,7 +1306,6 @@ class Interpreter():
         self.checkOccupied(b, r, c)
         print("\n\nMade it through check occupied!")
         b.place(x = r, y = c, bordermode="outside")
-        print("I placed it")
         if hide:
             b.place_forget() #Note won't work yet
         return b
@@ -1366,9 +1369,9 @@ class Interpreter():
                 b.configure(command=lambda: actionbuttons.callAction(w,item,action))
             elif hasattr(item, 'hidden'):
                 if item.hidden.value == 'false':
-                    b.place() #Note: won't work yet
+                    b.place(x=b.winfo_x(), y=b.winfo_y()) #Note: won't work yet
                 elif item.hidden.value == 'true':
-                    b.place_remove() #Note: won't work yet
+                    b.place_forget() #Note: won't work yet
         return b
 
     def fixButtonPadding(self,color):
@@ -1503,14 +1506,14 @@ class Interpreter():
         '''Takes a binding and adds to the dictionary of bindings.'''
         self.bindings[b.varname] = b
         return self.bindings
-    
+
     def getFunctionLineAction(self, expr):
         '''Interprets one line of a function, returns the action that line does.'''
     #        if(expr.__class__.__name__ == "Return"):
     #            return expr
     #        else:
         return expr.lineAction
-    
+
     ######################STUPID JAMAICA EDIT TO FIX MAYBE???####################
     def addLocalBinding(self,b, bindings):
         '''Takes a binding and adds to the dictionary of bindings.'''

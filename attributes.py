@@ -299,7 +299,7 @@ class HiddenKeywordValue(Keyword):
     grammar = Enum(K("true"), K("false"))
 
 class QuotedText(str):
-    grammar = "\"", word, "\""
+    grammar = "\"", textRegex, "\""
 
 class SourceFileText(str):
     grammar = "\"", fileRegex, "\""
@@ -328,7 +328,7 @@ class PositionAttribute(List):
     grammar = 'position', blank, attr('value', [PositionKeywordValue, PositionGridValue])
 
 class TextAttribute(List):
-    grammar = 'text', blank, [attr('value', QuotedText), attr('var', varnameRegex)]
+    grammar = 'text', blank, attr('value', QuotedText)
 
 class ActionAttribute(List):
     #grammar = 'action', blank, attr("value", word)
