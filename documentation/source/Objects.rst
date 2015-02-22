@@ -2,7 +2,7 @@
 Objects
 =======
 
-Objects are the builing blocks of your GUI. Each object has a differnet set of uses, attributes, and functions.
+Objects are the building blocks of your GUI. Each object has a different set of uses, attributes, and functions.
    
 Button
 ======
@@ -13,7 +13,7 @@ Example syntax::
 
  make Button b.
  make Button b with text "Hello".
- make Button b with text "Hello", position 3 5.
+ make Button b with text "Hello", position 100 25.
  set b action close.
  
 +---------+-------------------------------+-----------------------------------+-------------------+
@@ -24,17 +24,17 @@ Example syntax::
 |text     | Words on button               | - A plaintext string              | "Untitled Button" |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |position | location of button on window  | - position keyword                | center            |
-|         |                               | - integer coordinate, seperated by|                   |
+|         |                               | - integer coordinate, separated by|                   |
 |         |                               |   space                           |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |size     | size of button                | - size keyword                    | medium            |
 |         |                               | - width and height integers,      |                   |
-|         |                               |   seperated by a space            |                   |
+|         |                               |   separated by a space            |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |action   | Effect when button clicked    | - name of Python or Gooey function| none              |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if button visible  | - True                            | False             |
-|         | (False) or invisible (True)   | - False                           |                   |
+|hidden   | Determines if button visible  | - true                            | false             |
+|         | (false) or invisible (true)   | - false                           |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+ 
 
 Window
@@ -44,7 +44,7 @@ A window is the frame on which you create your GUI. The window is **always the f
 
 Example syntax::
 
- make Window w with size (10,10), color green.
+ make Window w with size 500 500, color green.
  set w title "My favorite GUI".
 
 Attributes:
@@ -60,35 +60,36 @@ Attributes:
 |         |                               |   separated by a space            |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |color    | The color of the window       | - color keyword                   | white             |
-|         | background                    | - rgb value, sperated by spaces   |                   |
+|         | background                    | - rgb value, separated by spaces   |                   |
+|         |                               |   (0 - 255)                       |                   |
 |         |                               | - #hexvalue                       |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |action   | The effect from interacting   | - name of Python of Gooey function| none              |
 |         | with a window.                |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if window is       | - True                            | False             |
-|         | visible (False) or invisible  | - False                           |                   |
-|         | (True)                        |                                   |                   |
+|hidden   | Determines if window is       | - true                            | false             |
+|         | visible (false) or invisible  | - false                           |                   |
+|         | (true)                        |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|font     | The font for all text used in | - String name of avaliable font   | Times New Roman   |
+|font     | The font for all text used in | - String name of available font   | Times New Roman   |
 |         | the window                    |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |fontSize | Size of text                  | - Integer                         | 12                |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |textColor| Color of text                 | - color keyword                   | black             |
-|         |                               | - rgb value, seperated by spaces  |                   |
+|         |                               | - rgb value, separated by spaces  |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 
 
 Checkboxes
 ==========
 
-Checkboxes are square boxes the user can click on to select any number of options. If you create a Checkbox object without the *options* attribute, it will have three default checkboxes labeled "Option 1", "Option 2", and "Option 3". Placing an asterisk before any of the attributes will mark that option to be selected by default. 
+Checkboxes are square boxes the user can click on to select any number of options. If you create a Checkboxes object without the *options* attribute, it will have three default checkboxes labeled "Option 1", "Option 2", and "Option 3". Placing an asterisk before any of the attributes will mark that option to be selected by default. 
 
 Example syntax::
 
- make Checkbox c with options "hello" "yellow" "fellow".
- set c position (2,2).
+ make Checkboxes c with options "hello" "yellow" "fellow".
+ set c position 20 20.
  
 +---------+-------------------------------+-----------------------------------+-------------------+
 |Attribute| Description                   | Possible Values                   | Default Value     |
@@ -96,57 +97,57 @@ Example syntax::
 |title    | text above checkbox set       | - A plaintext string              | "Untitled         |
 |         |                               |                                   | Checkboxes"       |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|options  | The checkbox labels.          | - strings in double quotes,       | \*"Option 1"      |
-|         |                               |   seperated by a space            | "Option 2"        |
-|         |                               | - string preceeded by \* to       | "Option 3"        |
+|options  | The Checkboxes labels.        | - strings in double quotes,       | \*"Option 1"      |
+|         |                               |   separated by a space            | "Option 2"        |
+|         |                               | - string preceded by \* to        | "Option 3"        |
 |         |                               |   mark default selections         |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |position | location of checkbox set in   | - position keyword                | center            |
-|         | window                        | - integer coordinate, seperated   |                   |
+|         | window                        | - integer coordinate, separated   |                   |
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |size     | size of checkbox set          | - size keyword                    | medium            |
 |         |                               | - width and height integers,      |                   |
-|         |                               |   seperated by space              |                   |
+|         |                               |   separated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if checkboxes      | - True                            | False             |
-|         | visible (False) or invisible  | - False                           |                   |
-|         | (True)                        |                                   |                   |
+|hidden   | Determines if checkboxes      | - true                            | false             |
+|         | visible (false) or invisible  | - false                           |                   |
+|         | (true)                        |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
  
 
 RadioButtons
 ============
 
-Radio Button are circular buttons a user can click to select **one** option out of many. If you create a RadioButton object without the *options* attribute, it will have three default buttons labeled "Option 1", "Option 2", and "Option 3". Placing an asterisk before one of the attributes will make that option to be selected by default. 
+RadioButtons are circular buttons a user can click to select **one** option out of many. If you create a RadioButtons object without the *options* attribute, it will have three default buttons labeled "Option 1", "Option 2", and "Option 3". Placing an asterisk before one of the attributes will make that option to be selected by default. 
 
 Example syntax::
 
- make RadioButton r with options "hello" "mello" "jello".
+ make RadioButtons r with options "hello" "mello" "jello".
  set r title "Choose one:".
  
 +---------+-------------------------------+-----------------------------------+-------------------+
 |Attribute| Description                   | Possible Values                   | Default Value     |
 +=========+===============================+===================================+===================+
-|title    | text above RadioButon set     | - A plaintext string              | "Untitled         |
+|title    | text above RadioButtons set   | - A plaintext string              | "Untitled         |
 |         |                               |                                   | RadioButtons"     |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|options  | The RadioButton labels.       | - strings in double quotes,       | \*"Option 1"      |
-|         |                               |   seperated by a space            | "Option 2"        |
-|         |                               | - string preceeded by \* to       | "Option 3"        |
+|options  | The RadioButtons labels.      | - strings in double quotes,       | \*"Option 1"      |
+|         |                               |   separated by a space            | "Option 2"        |
+|         |                               | - string preceded by \* to       | "Option 3"        |
 |         |                               |   mark default selected           |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|position | location of RadioButton set in| - position keyword                | center            |
-|         | window                        | - integer coordinate, seperated   |                   |
+|position | location of RadioButtons set  | - position keyword                | center            |
+|         | in window                     | - integer coordinate, separated   |                   |
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|size     | size of RadioButton set       | - size keyword                    | medium            |
+|size     | size of RadioButtons set       | - size keyword                    | medium            |
 |         |                               | - width and height integers,      |                   |
-|         |                               |   seperated by space              |                   |
+|         |                               |   separated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if RadioButtons    | - True                            | False             |
-|         | visible (False) or invisible  | - False                           |                   |
-|         | (True)                        |                                   |                   |
+|hidden   | Determines if RadioButtons    | - true                            | false             |
+|         | visible (false) or invisible  | - false                           |                   |
+|         | (true)                        |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
  
 
@@ -166,22 +167,22 @@ Example syntax::
 |title    | text above Dropdown menu      | - A plaintext string              | "Untitled         |
 |         |                               |                                   | Dropdown"         |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|options  | The Drowdown labels.          | - strings in double quotes,       | \*"Option 1"      |
-|         |                               |   seperated by a space            | "Option 2"        |
-|         |                               | - string preceeded by \* to       | "Option 3"        |
+|options  | The Dropdown labels.          | - strings in double quotes,       | \*"Option 1"      |
+|         |                               |   separated by a space            | "Option 2"        |
+|         |                               | - string preceded by \* to        | "Option 3"        |
 |         |                               |   mark default selected           |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |position | location of Dropdown menu in  | - position keyword                | center            |
-|         | window                        | - integer coordinate, seperated   |                   |
+|         | window                        | - integer coordinate, separated   |                   |
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |size     | size of Dropdown menu         | - size keyword                    | medium            |
 |         |                               | - width and height integers,      |                   |
-|         |                               |   seperated by space              |                   |
+|         |                               |   separated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if Dropdown menu   | - True                            | False             |
-|         | visible (False) or invisible  | - False                           |                   |
-|         | (True)                        |                                   |                   |
+|hidden   | Determines if Dropdown menu   | - true                            | false             |
+|         | visible (false) or invisible  | - false                           |                   |
+|         | (true)                        |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
   
 
@@ -201,26 +202,27 @@ Example syntax::
 |text     | unmutable words in a window   | - A plaintext string              | "Text"            |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |position | location of text in window    | - position keyword                | center            |
-|         |                               | - integer coordinate, seperated   |                   |
+|         |                               | - integer coordinate, separated   |                   |
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |size     | size of text                  | - size keyword                    | medium            |
 |         |                               | - width and height integers,      |                   |
-|         |                               |   seperated by space              |                   |
+|         |                               |   separated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |color    | color of text                 | - color keyword                   | black             |
-|         |                               | - rgb value, seperated by spaces  |                   |
+|         |                               | - rgb value, separated by spaces  |                   |
+|         |                               |   (0 - 255)                       |                   |
 |         |                               | - #hexvalue                       |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if text            | - True                            | False             |
-|         | visible (False) or invisible  | - False                           |                   |
-|         | (True)                        |                                   |                   |
+|hidden   | Determines if text            | - true                            | false             |
+|         | visible (false) or invisible  | - false                           |                   |
+|         | (true)                        |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+ 
 
 TextBox
 =======
 
-TextBox objects create a space where users can type. When you create a TextBox with a *text* attribute, the value entered will appear as defualt text within the text box. 
+TextBox objects create a space where users can type. When you create a TextBox with a *text* attribute, the value entered will appear as default text within the text box. 
 
 When setting the *size* of the TextBox using integers for width and height, the integers will set the width and height by **character count**. For example, size 15 10 will create a TextBox 15 *characters* across, with ten *lines* of height.
 
@@ -238,16 +240,16 @@ Example syntax::
 |         | TextBox                       |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |position | location of TextBox in window | - position keyword                | center            |
-|         |                               | - integer coordinate, seperated   |                   |
+|         |                               | - integer coordinate, separated   |                   |
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |size     | size of TextBox               | - size keyword                    | medium            |
 |         |                               | - width and height integers,      |                   |
-|         |                               |   seperated by space              |                   |
+|         |                               |   separated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if TextBox         | - True                            | False             |
-|         | visible (False) or invisible  | - False                           |                   |
-|         | (True)                        |                                   |                   |
+|hidden   | Determines if TextBox         | - true                            | false             |
+|         | visible (false) or invisible  | - false                           |                   |
+|         | (true)                        |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+ 
  
 
@@ -264,13 +266,13 @@ Example syntax::
 |Attribute| Description                   | Possible Values                   | Default Value     |
 +=========+===============================+===================================+===================+
 |options  | The top level menu labels     | - list of MenuItem objects        | menuItem1         |
-|         |                               |   seperated by spaces             | menuItem2         |
+|         |                               |   separated by spaces             | menuItem2         |
 |         |                               |                                   | menuItem3         |
 |         |                               |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if menu is         | - True                            | False             |
-|         | visible (False) or invisible  | - False                           |                   |
-|         | (True)                        |                                   |                   |
+|hidden   | Determines if menu is         | - true                            | false             |
+|         | visible (false) or invisible  | - false                           |                   |
+|         | (true)                        |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 
 
@@ -293,9 +295,9 @@ Example syntax::
 |         |                               |   "name":action                   | "Option3"         |
 |         |                               |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if MenuItem is     | - True                            | False             |
-|         | visible (False) or invisible  | - False                           |                   |
-|         | (True)                        |                                   |                   |
+|hidden   | Determines if MenuItem is     | - true                            | false             |
+|         | visible (false) or invisible  | - false                           |                   |
+|         | (true)                        |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
  
 
@@ -304,7 +306,7 @@ Image
 
 Images are pictures you can add your your Gooey. The image must be in **.gif format** although the movement will not be maintained. 
 
-Exampel syntax::
+Example syntax::
 
  make Image i with title "Apple", text "This is my most favorite apple", source "apple.gif".
 
@@ -316,17 +318,56 @@ Exampel syntax::
 |text     | Caption below the Image       | - A plaintext string              | "Image Caption"   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |position | location of Image in window   | - position keyword                | center            |
-|         |                               | - integer coordinate, seperated   |                   |
+|         |                               | - integer coordinate, separated   |                   |
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |size     | size of Image                 | - size keyword                    | medium            |
 |         |                               | - width and height integers,      |                   |
-|         |                               |   seperated by space              |                   |
+|         |                               |   separated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if Iamge           | - True                            | False             |
-|         | visible (False) or invisible  | - False                           |                   |
-|         | (True)                        |                                   |                   |
+|hidden   | Determines if Image           | - true                            | false             |
+|         | visible (false) or invisible  | - false                           |                   |
+|         | (true)                        |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+ 
-|source   | path orfilename of Image      | - image file in .gif formar       | defaultIcon       |
+|source   | path or filename of Image     | - image file in .gif format       | defaultIcon       |
 +---------+-------------------------------+-----------------------------------+-------------------+ 
-  
+
+FormattedText
+=====
+
+FormattedText is an object that stores values for a text with different formatting options. It is first created by the user with attributes of their choice and then can be used in button text, checkboxes/radiobutton titles, and text objects.
+
+Example syntax::
+
+ make FormattedText t with text "Hello World!", font "Arial", size 15, color blue, bold true, italic true, underline true.
+ make Button b with text t.
+ make Checkboxes c with title t, options "Yay" "Nay", position 50 50, size medium.
+ 
++---------+-------------------------------+-----------------------------------+-------------------+
+|Attribute| Description                   | Possible Values                   | Default Value     |
++=========+===============================+===================================+===================+
+|text     | text to be store in object    | - A plaintext string              | "Untitled Text"   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|font     | font of text                  | - A plaintext string: "Times",    | "Times"           |
+|         |                               |   "Arial"/"Helvetica", "Courier"  |                   |
+|         |                               |   "Comic Sans MS", "MS Sans Serif"|                   |
+|         |                               |   "MS Serif", "Verdana"           |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|color    | color of text                 | - color keyword                   | black             |
+|         |                               | - rgb value, separated by spaces  |                   |
+|         |                               |   (0 - 255)                       |                   |
+|         |                               | - #hexvalue                       |                   |
++---------+-------------------------------+-----------------------------------+-------------------+
+|size     | size of text                  | - integer (pt size)               | 12                |
++---------+-------------------------------+-----------------------------------+-------------------+
+|bold     | Determines if the text is     | - true                            | false             |
+|         | bold (true) or not (false)    | - false                           |                   |
++---------+-------------------------------+-----------------------------------+-------------------+ 
+|italic   | Determines if the text is     | - true                            | false             |
+|         | italicized (true) or not      | - false                           |                   |
+|         | (false)                       |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+ 
+|underline| Determines if the text is     | - true                            | false             |
+|         | underlined (true) or not      | - false                           |                   |
+|         | (false)                       |                                   |                   |
++---------+-------------------------------+-----------------------------------+-------------------+ 

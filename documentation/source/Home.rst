@@ -13,7 +13,7 @@ Gooey is a tool for quick and easy creation of Graphical User Interfaces (GUIs).
 What are the Gooey Docs?
 ========================
 
-Gooey is meant to be easy and intuitive, but a tool is only as good as it's documentation. The Gooey team worked tirelessly to create flawless* documentation so that their users could create the very best GUIs possible. Here users can find language basics, tutorials, and all the nity-gritty details of each object and attribute. 
+Gooey is meant to be easy and intuitive, but a tool is only as good as it's documentation. The Gooey team worked tirelessly to create flawless* documentation so that their users could create the very best GUIs possible. Here users can find language basics, tutorials, and all the nitty-gritty details of each object and attribute. 
 
 \* :sub:`some restrictions may apply.`
 
