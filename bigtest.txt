@@ -3,6 +3,7 @@ set w color blue.
 make Button b with text "Blue", position 300 300.
 set b text "Leah".
 make TextBox t with text "Type here, you sexy thing.", position 450 0.
-make Image i with source "gooeylogosmallest.gif".
 make Text t2 with text "RUN FORREST", position 400 400.
 make Checkboxes cb with options "you" "me" "everything", position 200 200.
+make RadioButtons rb with options "HI" "hello" "hi", position 100 0.
+make Button b2 with text "Jamaica", position 300 300.
