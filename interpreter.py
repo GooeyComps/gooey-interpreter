@@ -1462,8 +1462,8 @@ class Interpreter():
                 else:
                     b.configure(text=item.text.value)
             elif hasattr(item,'size'):
-                b.configure(width=int(item.size.value))
-                #b.configure(height=int(item.size.value))
+                b.configure(width=int(item.size.value.columns))
+                #b.configure(height=int(item.size.value.rows))
             elif hasattr(item,'position'):
                 if hasattr(item.position.value, "r"):
                     r = int(item.position.value.r)
