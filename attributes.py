@@ -72,12 +72,15 @@ class FontAttribute:
     grammar = "font", blank, "\"", attr("value", textRegex), "\""
 
 #   MENUITEM DOES THIS GO IN ATTRIBUTE CLASS????
-class MenuItemTerminal(str):
+class MenuItemTerminal(List):
     grammar = "\"", attr("text", word), "\"", ":", attr("action", word)
+
+
 
 #Accept anything after options
 class MenuItemOptionsAttribute(List):
-    grammar = 'options', blank, attr('value', maybe_some([word, MenuItemTerminal]))
+    # grammar = 'menuoption', blank, attr('value', maybe_some([word, MenuItemTerminal]))
+    grammar = 'menuoption', blank, attr('value', maybe_some(MenuItemTerminal))
 
 #   IMAGE
 class ImageSourceAttribute(List):
@@ -115,7 +118,14 @@ class SizeAttribute(List):
 
 #Wrap as Attribute object and put into AttributeList
 class Attribute:
-    grammar = [attr('font', FTFontAttribute), attr('size', SizeAttribute), attr('bold', FTBoldAttribute), attr('italic', FTItalicAttribute), attr('underline', FTUnderlineAttribute), attr('options', GroupOptionsAttribute), attr("color", ColorAttribute), attr("textColor", TextColorAttribute), attr("position", PositionAttribute), attr("text", TextAttribute), attr("action", ActionAttribute), attr("title", TitleAttribute), attr("font", FontAttribute), attr("options", MenuItemOptionsAttribute), attr("source", ImageSourceAttribute), attr("hidden", HiddenAttribute)]
+    grammar = [attr('font', FTFontAttribute), attr('size', SizeAttribute), \
+    attr('bold', FTBoldAttribute), attr('italic', FTItalicAttribute), \
+    attr('underline', FTUnderlineAttribute), attr('options', GroupOptionsAttribute), \
+    attr("color", ColorAttribute), attr("textColor", TextColorAttribute), \
+    attr("position", PositionAttribute), attr("text", TextAttribute), \
+    attr("action", ActionAttribute), attr("title", TitleAttribute), \
+    attr("font", FontAttribute),  \
+    attr("source", ImageSourceAttribute), attr("hidden", HiddenAttribute), attr("menuoption",MenuItemOptionsAttribute)]
 
 class AttributeList(List):
      grammar = csl(Attribute)
