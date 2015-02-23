@@ -1,3 +1,4 @@
-make Window w with size large, color purple.
-make Checkboxes c.
-set c options "hi" "bye", position 100 100.
+make Window w with size medium, color red.
+make FormattedText ft with text "Hello".
+make Button t with text ft.
+set ft color purple.
