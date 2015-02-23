@@ -128,6 +128,13 @@ make Button submit with text &quot;Submit&quot;, position 0 150.
 <div class="highlight-python"><div class="highlight"><pre>make Button change with action myFunction(w).
 </pre></div>
 </div>
+<p>Now for one of the most complicated parts of Gooey - menus. Menus actually use the <em>Menu</em> object and the <em>MenuItem</em> object. First, make the Menu object with the names the nested MenuItems.</p>
+<blockquote>
+<div>make Menu m with menuoption &#8220;File&#8221;:file &#8220;Edit&#8221;:edit.</div></blockquote>
+<p>Then, make the MenuItem with the lower level option.</p>
+<blockquote>
+<div>make MenuItem file with menuoption &#8220;Save&#8221;:close.</div></blockquote>
+<img alt="_images/menus.png" src="_images/menus.png" />
 <p>You may want to write all the code in a .txt file instead of dynamically generating it in the Gooey editor. You can rum those files by typing in the terminal:</p>
 <div class="highlight-python"><div class="highlight"><pre>python3 gooey.py input.txt
 </pre></div>
@@ -138,26 +145,10 @@ make Button submit with text &quot;Submit&quot;, position 0 150.
 make TextBox comments with text &#8220;Tell me your thoughts&#8221;.
 function change(win) does set win color cyan.
 make Button sumbit with text &#8220;Submit&#8221;, position 0 150, action change w.
-make FormattedText cbtitle with text &#8220;Choose something:&#8221;, font &#8220;Comic Sans MS&#8221;, underline true.</div></blockquote>
+make FormattedText cbtitle with text &#8220;Choose something:&#8221;, font &#8220;Comic Sans MS&#8221;, underline true.
+make Menu m with menuoption &#8220;File&#8221;:file &#8220;Edit&#8221;:edit.
+make MenuItem file with menuoption &#8220;Save&#8221;:close.</div></blockquote>
 <p>Now you&#8217;ve gone through all the main components of Gooey. You&#8217;re ready to make your own now!</p>
-<p>Now onto one of the most complex components of Gooey: Menus.</p>
-<p>The basic <em>Menu</em> object will keep track of the different menus you plan on having. For example:</p>
-<div class="highlight-python"><div class="highlight"><pre>make Menu toplevel with options file edit.
-</pre></div>
-</div>
-<p>will create two different drop down menu lists. To populate these lists, you need <em>MenuItem</em> objects. They should look like this:</p>
-<div class="highlight-python"><div class="highlight"><pre>make MenuItem file with
-   title &quot;File&quot;,
-   options &quot;Quit&quot;:quit
-make MenuItem edit with
-   title &quot;Edit&quot;,
-   options &quot;Change color&quot;:quit &quot;Change size&quot;:quit.
-
-make MenuItem edit with title &quot;Edit&quot;,
-   options &quot;Change color&quot;:myFunction(w) &quot;Change size&quot;:quit.
-</pre></div>
-</div>
-<p>All of these actions will close your program. You can create your own object actions by making functions.</p>
 </div>
 </div>
 

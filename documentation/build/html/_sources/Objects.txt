@@ -100,10 +100,6 @@ Example syntax::
 |         | window                        | - integer pixels, separated by    |                   |
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|size     | size of checkbox set          | - size keyword                    | medium            |
-|         |                               | - width and height pixel integers,|                   |
-|         |                               |   separated by space              |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
 
 
 
@@ -131,10 +127,6 @@ Example syntax::
 |position | location of RadioButtons set  | - position keyword                | center            |
 |         | in window                     | - integer pixels, separated by    |                   |
 |         |                               |   by space                        |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
-|size     | size of RadioButtons set      |                                   | medium            |
-|         |                               | - width and height pixel integers,|                   |
-|         |                               |   separated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 
 

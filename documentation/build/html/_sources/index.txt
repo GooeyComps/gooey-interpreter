@@ -16,7 +16,6 @@ Contents:
    FunctionsAndActions
    Attributes
    Objects
-   testDocs
 
 
 Indices and tables
