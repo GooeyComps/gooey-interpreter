@@ -83,14 +83,6 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="windowsizechange">
-<h3>windowSizeChange<a class="headerlink" href="#windowsizechange" title="Permalink to this headline">¶</a></h3>
-<p>The <em>windowSizeChange</em> action changes the size of the window. After declaring the <em>windowSizeChange</em> action, add a size value.</p>
-<p>Example:</p>
-<div class="highlight-python"><div class="highlight"><pre>make Button size with title &quot;Full Screen&quot;, action windowSizeChange large.
-</pre></div>
-</div>
-</div>
 </div>
 <div class="section" id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
@@ -104,16 +96,14 @@
 <p>This line of code means that the function named myFunction, which takes in an object <em>win</em>, will reset the window color to green. You need to return the object at the end for your changes to occur.</p>
 <p>There are two ways to run your function. You can use the <em>run</em> command to run the function yourself:</p>
 <div class="highlight-python"><div class="highlight"><pre>make Window w.
-function myFunction(win) does set win color green; return win.
+function myFunction(win) does set win color green.
 run myFunction(w).
 </pre></div>
 </div>
-<p>Alternatively, you can set the function as a Button or MenuItem action.:</p>
+<p>Alternatively, you can set the function as a Button.:</p>
 <div class="highlight-python"><div class="highlight"><pre>make Window w.
 function myFunction(win) does set win color green; return win.
-make Button b with action myFunction(win).
-make Menu with options file
-make MenuItem file with title &quot;File&quot;, options &quot;Change&quot;:myFunction(win).
+make Button b with action myFunction w.
 </pre></div>
 </div>
 </div>
@@ -135,7 +125,6 @@ make MenuItem file with title &quot;File&quot;, options &quot;Change&quot;:myFun
 <li><a class="reference internal" href="#write">Write</a></li>
 <li><a class="reference internal" href="#quit">Quit</a></li>
 <li><a class="reference internal" href="#windowcolorchange">windowColorChange</a></li>
-<li><a class="reference internal" href="#windowsizechange">windowSizeChange</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#functions">Functions</a></li>

@@ -116,17 +116,23 @@ class Interpreter():
                     #NEEDS TO BE MODIFIED TO NOT TAKE IN SELF.WINDOW
                     elif(expr.type == "Menu"):
                         self.checkVarname(expr)
-                        m = self.makeMenu(self.window,expr,self.bindings)
+                        m = self.makeMenu(self.winBinding,expr)
                         options = self.getOptions(expr)
+                        print("OPTIONS IN MAKEMENU",options)
                         binding = self.makeBinding("Menu", expr.varname, m, options)
                         self.bindings = self.addBinding(binding)
+                        print("made the menu")
 
                     elif(expr.type == "MenuItem"):
-                        self.checkVarname(expr)
-                        mi = self.makeMenuItem(self.window,expr,self.bindings)
-                        options = self.getOptions(expr)
-                        binding = self.makeBinding("MenuItem", expr.varname, mi, options)
-                        self.bindings = self.addBinding(binding)
+                        print("making the menuitem")
+                        #self.checkVarname(expr) #Can't do this right now cuz of how we're making the menuitems in menu
+                        print("Checked the varname")
+                        mi = self.makeMenuItem(self.winBinding,expr)
+                        # print("made the menuitem")
+                        # options = self.getOptions(expr)
+                        # print("options",options)
+                        # binding = self.makeBinding("MenuItem", expr.varname, mi, options)
+                        # self.bindings = self.addBinding(binding)
 
                     elif(expr.type == "TextBox"):
                         self.checkVarname(expr)
@@ -1533,14 +1539,31 @@ class Interpreter():
     '''
 -------------------- MENUS --------------------
     '''
+
     def makeDefaultMenu(self,w,defaults):
         pass
     def makeMenu(self,w,expr):
+
         rootMenu = None
         children = w.winfo_children()
         for c in children:
             if type(c).__name__ == "Menu":
+                print("menu")
                 rootMenu = c
+        if hasattr(expr,'attributes'):
+            for item in expr.attributes:
+
+                if hasattr(item,'menuoption'):
+                    print("menuoption")
+                    mop = item.menuoption.value
+                    for mopItem in mop:
+                        if hasattr(mopItem, 'text'):
+                            if hasattr(mopItem, 'action'):
+                                #mopItem.action = Menu(rootMenu,tearoff=0)
+                                subm = Menu(rootMenu,tearoff=0)
+                                binding = self.makeBinding("MenuItem",str(mopItem.action),subm)
+                                self.bindings = self.addBinding(binding)
+                                rootMenu.add_cascade(label=mopItem.text,menu=subm)
         w.config(menu=rootMenu)
         return rootMenu
 
@@ -1550,41 +1573,47 @@ class Interpreter():
     def setMenu():
         pass
 
-    def makeMenuItem(self,w,expr):
+    def makeMenuItem(self,win,expr):
+        print("MAKING A MENU ITEM")
+        w = win.bObject
         menuItem = None
         rootMenu = None
         children = w.winfo_children()
+        print("CHILDREN", children)
         for c in children:
+            print("C",c)
             if type(c).__name__ == "Menu":
                 rootMenu = c
 
+
         #check if menu item has already been defined as a child of some other menu or menuitem
         for key in self.bindings:
+
+            print("KEY",key)
+            print("HERE",self.bindings[key])
             if self.bindings[key].bType == "Menu":
-                if expr.varname in self.bindings[key].params:
+                print(expr.varname)
+                if expr.varname in self.bindings.keys():
+                    print("GOTEM", expr.varname)
+                    #print(self.bindings[key])
                     #binding found, add to submenu to rootMenu
-                    subMenu = Menu(self.bindings[key].bObject, tearoff=0)
-                    #get the text attribute
-                    subMenuText = "Undefined"
-                    for item in expr.attributes:
-                        if hasattr(item,'text'):
-                            subMenuText = item.text.value
-                    self.bindings[key].bObject.add_cascade(label=subMenuText,menu=subMenu)
 
-                    for item in expr.attributes:
-                        if hasattr(item, 'options'):
-                            for v in item.options.value:
-                                '''
-                                action = str(v)
-                                a = actionbuttons.findAction(v)
-                                subMenu.add_command(label=v.text,command=lambda: actionbuttons.callAction(w,v,action))
-                                '''
+                    #subMenu = Menu(self.bindings[key].bObject, tearoff=0)
+                    subMenu = self.bindings[expr.varname].bObject
+                    if hasattr(expr, 'attributes'):
+                        for item in expr.attributes:
+                            if hasattr(item,'menuoption'):
+                                mop = item.menuoption.value
+                                for mopItem in mop:
+                                    if hasattr(mopItem, 'text'):
+                                        if hasattr(mopItem, 'action'):
+                                            subMenu.add_command(label=mopItem.text,command=None)#change this
 
+                    # menuItem = subMenu
+                    # w.config(menu=self.bindings[key].bObject)
 
-                    menuItem = subMenu
-                    w.config(menu=self.bindings[key].bObject)
+        # return menuItem
 
-        return menuItem
 
         def setMenuItem():
             pass
@@ -1667,11 +1696,21 @@ class Interpreter():
 
     def getOptions(self,expr):
         '''Get list of options, ie: make MenuItem with options [red green blue]. '''
+        print("Getting options")
+        options = []
         for item in expr.attributes:
-            if hasattr(item, 'options'):
-                return item.options.value
+            if hasattr(item, 'menuoption'):
+                print("has a menuoption")
+                mop = item.menuoption.value
+                print("mop",mop)
+                for mopItem in mop:
+                    print('MOPITEM',mopItem)
+                    if hasattr(mopItem,'action'):
+                        print('mopitemaction',mopItem.action)
+                        options.append(mopItem.action)
             else:
                 return None
+        return options
 
 
     def getAllDefaults(self, typeName):
