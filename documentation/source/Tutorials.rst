@@ -59,8 +59,8 @@ Try::
 Try clicking on the button, see what happens. Gooey has a number of built in actions which you can find in the Actions section of the Gooey Docs.
 
 
-FormattedText, TextBox, Checkboxes, and Menu Tutorial
-=====================================================
+FormattedText, TextBox, Checkboxes, and Function Tutorial
+=========================================================
 
 Now, let's try making a slightly more complicated Gooey.
 
@@ -89,10 +89,7 @@ You're going to have to wait to put that object somewhere. Maybe instead of dire
 
 Gooey only has a few default actions - lucky, users can make their own! A simple function to simply change the window color looks like this::
 
- function myFunction(win) does set win color green; return win.
-
- function change(but1, t1, t2) does set but1 text t1; maek Button but2 with text t2; returnbut2.
- run change(b1, "hello there", "what what") as b2.
+ function myFunction(win) does set win color cyan.
 
 After making a function, there are two ways to use it. To run myFucntion on the Window w, either you can say::
 
@@ -105,6 +102,14 @@ or you can turn your function into an action for Buttons and MenuItems ::
 You may want to write all the code in a .txt file instead of dynamically generating it in the Gooey editor. You can rum those files by typing in the terminal::
 
  python3 gooey.py input.txt
+
+For everything in this tutorial, put the following into a .txt file.
+
+ make Window w with title "Gooey Two", size 400 500, color #8fefdc.
+ make TextBox comments with text "Tell me your thoughts".
+ function change(win) does set win color cyan.
+ make Button sumbit with text "Submit", position 0 150, action change w.
+ make FormattedText cbtitle with text "Choose something:", font "Comic Sans MS", underline true.
 
 Now you've gone through all the main components of Gooey. You're ready to make your own now!
 
