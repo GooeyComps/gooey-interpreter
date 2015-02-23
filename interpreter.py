@@ -317,7 +317,7 @@ class Interpreter():
                             wColorAfter = self.winBinding.frames.cget('bg')
                             if wColorBefore != wColorAfter:
                                 print("Colors didn't match")
-                                self.bindings = self.fixButtonPadding(wColorAfter)
+                                self.bindings = self.fixObjectPadding(wColorAfter)
                                 print("tried to fix button padding")
                         else:
                             raise GooeyError("The function "+str(function)+" requires "+str(len(functionBinding.params))+" arguments; you have passed it "+str(len(expr.params))+" arguments.")

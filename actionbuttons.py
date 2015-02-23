@@ -6,7 +6,7 @@ from tkinter import *
 # Print something actions
 #def write(printTest):
 def write(window, item):
-    printTest = item.action.text
+    printTest = item.action.arguments
     print(printTest)
     #return (window, item)
 
