@@ -37,11 +37,11 @@ class FunctionDefinition(List):
     # csl(maybe_some(word))), ")", blank, "does", blank, attr("funcaction", csl(maybe_some(word))), "."
     # grammar = "function", blank, attr("funcname", VarName), "(", attr("params", \
     # csl(maybe_some(word))), ")", blank, "does", blank, attr("funcaction", [Make, GooeySet])
-    grammar = "function", blank, attr("funcname", varnameRegex), "(", attr("params", csl(maybe_some([word,varnameRegex,intRegex,QuotedText]))), ")", blank, "does", blank, attr("funcaction", csl(maybe_some(Line), blank, LastLine))
+    grammar = "function", blank, attr("funcname", varnameRegex), "(", attr("params", csl(maybe_some(varnameRegex))), ")", blank, "does", blank, attr("funcaction", csl(maybe_some(Line), blank, LastLine))
 
 class FunctionCall(List):
     # TODO: change this syntax
-    grammar = "run", blank, attr("funcname", VarName), "(", attr("params", csl(maybe_some(word))), ")", optional(blank, "as", blank, attr("returnTo", VarName))
+    grammar = "run", blank, attr("funcname", VarName), "(", attr("params", csl(maybe_some([QuotedText, varnameRegex, intRegex]))), ")", optional(blank, "as", blank, attr("returnTo", VarName))
 
 
 class Program(List):
