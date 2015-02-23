@@ -946,6 +946,18 @@ class Interpreter():
         #tl.grid(row=r, column=c, sticky=N+S+E+W)
         return tl
 
+    def checkRGBColor(self,color):
+        if color[0] == '(':
+            newColor = color.replace("(","")
+            newColor = color.replace(")","")
+            newColor = color.replace(","," ")
+            newColor = color.split(' ')
+            rgbColor = "#%02x%02x%02x" % (int(newColor[0]), int(newColor[1]), int(newColor[2]))
+            print("RGBBBBB", rgbColor)
+            return rgbColor
+        else:
+            return color
+
 
     '''
 -------------------- WINDOWS --------------------
@@ -1053,13 +1065,9 @@ class Interpreter():
         ###Leah's shit###
         #NOTE w is now a frame, not the root window##SECOND NOTE NO IT'S NOT#JK it is
         #if color[0]='(':
-        print("THIS IS THE COLOR:", color[0])
-        if color[0] == '(':
-            print("COLORS: ",int(color[1]),int(color[3]),int(color[5]))
-            w.configure(bg=color_rgb(int(color[1]),int(color[3]),int(color[5])))
-            print("DID RGB YAY")
-        else:
-            w.configure(bg = color)
+        color = self.checkRGBColor(color)
+        print("PPOOOOOOOOPPPPPPP")
+        w.configure(bg = color)
         #w.grid(row = 0, column = 0)
         w.place(x = 0, y = 0, bordermode="outside")
         ###STop leah's shit###
