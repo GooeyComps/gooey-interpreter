@@ -423,6 +423,7 @@ class Interpreter():
 -------------------- CHECKBOXES --------------------
     '''
     def makeCheckboxes(self,w,expr):
+        w = w.frames
         cbList = []
         cbSize = 1
         #cbRow, cbColumn = 0, 0
@@ -665,6 +666,7 @@ class Interpreter():
 -------------------- RADIOBUTTONS--------------------
     '''
     def makeRadioButtons(self,w,expr):
+        w=w.frames
         rbList = []
         selected = False
         var = StringVar(master=w)
