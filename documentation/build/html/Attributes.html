@@ -76,7 +76,7 @@
 <p>Values:</p>
 <ul>
 <li><dl class="first docutils">
-<dt>A space seperated list of plaintext strings surrounded by double quotation marks.</dt>
+<dt>A space separated list of plaintext strings surrounded by double quotation marks.</dt>
 <dd><ul class="first last simple">
 <li>Example: &#8220;Option1&#8221; &#8220;Option2&#8221; &#8220;Option3&#8221;</li>
 </ul>
@@ -103,7 +103,11 @@
 </div>
 <div class="section" id="position">
 <h2>Position<a class="headerlink" href="#position" title="Permalink to this headline">¶</a></h2>
-<p>Position allows you to move your objects around the window.</p>
+<p>Position allows you to move your objects around the window. If you want to set the position of an Object, you must first set the size of the of the Window. Position can be set as an x y coordinate by <strong>pixels</strong>, with x an y as plain integers seperated by a space.</p>
+<p>For an idea of pixel positions, refer to the following <em>size 500 500</em> window.</p>
+<blockquote>
+<div><img alt="_images/positionguide.png" src="_images/positionguide.png" />
+</div></blockquote>
 <p>Values:</p>
 <ul>
 <li><dl class="first docutils">
@@ -123,7 +127,7 @@
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt>Height and width integer coordinates, seperated by a space.</dt>
+<dt>Height and width integer coordinates, separated by a space.</dt>
 <dd><ul class="first last simple">
 <li>Example: position 3 5</li>
 </ul>
@@ -148,7 +152,7 @@
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt>Height and Width integers, seperated by a space.</dt>
+<dt>Height and Width integers, separated by a space.</dt>
 <dd><ul class="first last simple">
 <li>Example: size 2 5</li>
 </ul>
@@ -181,7 +185,7 @@
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt>A RGB value, seperated by spaces.</dt>
+<dt>A RGB value, separated by spaces.</dt>
 <dd><ul class="first last simple">
 <li>Example: color 000 000 255.</li>
 </ul>
@@ -226,11 +230,11 @@
 </div>
 <div class="section" id="hidden">
 <h2>Hidden<a class="headerlink" href="#hidden" title="Permalink to this headline">¶</a></h2>
-<p>Determines if object can be seen. Default is <strong>always False</strong>, obejct is <em>not</em> hidden. Setting hidden to True will hide the Object without destorying it.</p>
+<p>Determines if object can be seen. Default is <strong>always false</strong>, object is <em>not</em> hidden. Setting hidden to true will hide the Object without destroying it.</p>
 <p>Values:</p>
 <ul class="simple">
-<li>True</li>
-<li>False</li>
+<li>true</li>
+<li>false</li>
 </ul>
 </div>
 <div class="section" id="font">
@@ -248,30 +252,39 @@
 </li>
 </ul>
 </div>
-<div class="section" id="fontsize">
-<h2>FontSize<a class="headerlink" href="#fontsize" title="Permalink to this headline">¶</a></h2>
-<p>Changes font size used if Object incorporates text.</p>
-</div>
-<div class="section" id="textcolor">
-<h2>textColor<a class="headerlink" href="#textcolor" title="Permalink to this headline">¶</a></h2>
-<p>Changes color of text if Object incorporates text.</p>
+<div class="section" id="size-for-formattedtext">
+<h2>Size (for FormattedText)<a class="headerlink" href="#size-for-formattedtext" title="Permalink to this headline">¶</a></h2>
+<p>Changes font size for FormattedText object</p>
+<p>Values:</p>
+<ul class="simple">
+<li>An integer for font pt size</li>
+</ul>
 </div>
 <div class="section" id="bold">
 <h2>bold<a class="headerlink" href="#bold" title="Permalink to this headline">¶</a></h2>
 <p>Changes text to bold font when set to True. Default is <strong>False</strong>.</p>
 <p>Values:</p>
 <ul class="simple">
-<li>True</li>
-<li>False</li>
+<li>true</li>
+<li>false</li>
 </ul>
 </div>
-<div class="section" id="italics">
-<h2>italics<a class="headerlink" href="#italics" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="italic">
+<h2>italic<a class="headerlink" href="#italic" title="Permalink to this headline">¶</a></h2>
 <p>Changes text to italicized font when set to True. Default is <strong>False</strong>.</p>
 <p>Values:</p>
 <ul class="simple">
-<li>True</li>
-<li>False</li>
+<li>true</li>
+<li>false</li>
+</ul>
+</div>
+<div class="section" id="underline">
+<h2>underline<a class="headerlink" href="#underline" title="Permalink to this headline">¶</a></h2>
+<p>Changes text to be underlined when set to True. Default is <strong>False</strong>.</p>
+<p>Values:</p>
+<ul class="simple">
+<li>true</li>
+<li>false</li>
 </ul>
 </div>
 <div class="section" id="source">
@@ -309,10 +322,10 @@
 <li><a class="reference internal" href="#action">Action</a></li>
 <li><a class="reference internal" href="#hidden">Hidden</a></li>
 <li><a class="reference internal" href="#font">Font</a></li>
-<li><a class="reference internal" href="#fontsize">FontSize</a></li>
-<li><a class="reference internal" href="#textcolor">textColor</a></li>
+<li><a class="reference internal" href="#size-for-formattedtext">Size (for FormattedText)</a></li>
 <li><a class="reference internal" href="#bold">bold</a></li>
-<li><a class="reference internal" href="#italics">italics</a></li>
+<li><a class="reference internal" href="#italic">italic</a></li>
+<li><a class="reference internal" href="#underline">underline</a></li>
 <li><a class="reference internal" href="#source">source</a></li>
 </ul>
 </li>

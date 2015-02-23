@@ -19,7 +19,7 @@ def quit(window, item):
 # Change color of window actions
 #def windowColorChange(window, c):
 def windowColorChange(window,item):
-    c = item.action.color
+    c = item.action.arguments
     window.configure(bg= c)
     #return (window,item)
 
@@ -52,7 +52,7 @@ def callAction(window,item,action):
     # print(locals())
     # print(globals())
     exec(action+"(window,item)")
-    
+
 def checkActions(action):
     actionList = ['write','quit','windowColorChange','windowSizeChange']
     if action not in actionList:

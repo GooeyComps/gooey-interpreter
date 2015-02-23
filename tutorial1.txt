@@ -1,4 +1,4 @@
-make Window win with size 500 500, title "My First Gooey!".
-make Text t with text "Welcome to Gooey", position 200 0.
-make Button b with position 100 150, text "Go", action windowColorChange green.
-make Button r with position 300 150, text "Stop", action windowColorChange red.
+make Window win with size 200 200, title "My First Gooey!".
+make Text greeting with text "Welcome to Gooey".
+make Button go with text "Go", position left, action windowColorChange green.
+make Button stop with text "Stop", position right, action windowColorChange red.

@@ -150,42 +150,6 @@ Example syntax::
 |         | (true)                        |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 
-
-Dropdown
-========
-
-Dropdown Menus allow the user to choose one option from pop-down list. If you create a Dropdown object without the *options* attribute, it will have three default options in the list labeled "Option 1", "Option 2", and "Option 3".
-
-Example syntax::
-
- make Dropdown with options "hello" "cello" "othello".
- set d position bottomleft.
-
-+---------+-------------------------------+-----------------------------------+-------------------+
-|Attribute| Description                   | Possible Values                   | Default Value     |
-+=========+===============================+===================================+===================+
-|title    | text above Dropdown menu      | - A plaintext string              | "Untitled         |
-|         |                               |                                   | Dropdown"         |
-+---------+-------------------------------+-----------------------------------+-------------------+
-|options  | The Dropdown labels.          | - strings in double quotes,       | \*"Option 1"      |
-|         |                               |   separated by a space            | "Option 2"        |
-|         |                               | - string preceded by \* to        | "Option 3"        |
-|         |                               |   mark default selected           |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
-|position | location of Dropdown menu in  | - position keyword                | center            |
-|         | window                        | - integer pixels, separated by    |                   |
-|         |                               |   by space                        |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
-|size     | size of Dropdown menu         | - size keyword                    | medium            |
-|         |                               | - width and height pixel integers,|                   |
-|         |                               |   separated by space              |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if Dropdown menu   | - true                            | false             |
-|         | visible (false) or invisible  | - false                           |                   |
-|         | (true)                        |                                   |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
-
-
 Text
 ====
 
@@ -333,7 +297,7 @@ Example syntax::
 +---------+-------------------------------+-----------------------------------+-------------------+
 
 FormattedText
-=====
+=============
 
 FormattedText is an object that stores values for a text with different formatting options. It is first created by the user with attributes of their choice and then can be used in button text, checkboxes/radiobutton titles, and text objects.
 

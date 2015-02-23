@@ -59,68 +59,79 @@
 </pre></div>
 </div>
 <p>Your Gooey editor will appear.</p>
-<img alt="_images/gooeyeditor.png" src="_images/gooeyeditor.png" />
+<img alt="_images/editor.png" src="_images/editor.png" />
 <p>You can now enter the Gooey language into the editor.</p>
 <p>To start, make an empty window. Type in the editor:</p>
-<div class="highlight-python"><div class="highlight"><pre>make Window w.
+<div class="highlight-python"><div class="highlight"><pre>make Window win.
 </pre></div>
 </div>
 <p>When you’re ready to run your GUI, hit the play button at the bottom right corner.</p>
-<img alt="_images/run.png" src="_images/run.png" />
-<p>This is your live preview. Right now it’s a little boring.</p>
 <img alt="_images/preview.png" src="_images/preview.png" />
+<p>This is your live preview. Right now it’s a little boring.</p>
+<img alt="_images/empty.png" src="_images/empty.png" />
 <p>Make the window bigger or smaller with the set command. The set command allows you to modify one or more things at a time. Try adjusting the title of the window, which will appear in the bar across the top. Type:</p>
-<div class="highlight-python"><div class="highlight"><pre>set w size 5 5, title &quot;My First Gooey&quot;.
+<div class="highlight-python"><div class="highlight"><pre>set win size 200 200, title &quot;My First Gooey&quot;.
 </pre></div>
 </div>
 <p>An empty window is useless though. To add writing to your GUI, you&#8217;ll need to add a Text object. Type:</p>
-<div class="highlight-python"><div class="highlight"><pre>make Text t with text &quot;Welcome to Gooey!&quot;.
+<div class="highlight-python"><div class="highlight"><pre>make Text greeting with text &quot;Welcome to Gooey!&quot;.
 </pre></div>
 </div>
-<p>INSERT PICTURE
-make sure punctuation works in text objects.</p>
-<p>Now you’re ready to add a button. Type:</p>
-<div class="highlight-python"><div class="highlight"><pre>make Button b with text “Hello”.
+<img alt="_images/welcome.png" src="_images/welcome.png" />
+<p>Now try making a button. If you don&#8217;t specify some attributes, Gooey will fill it in for you. Type:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Button go with position left.
 </pre></div>
 </div>
 <p>After you Run, your GUI should look like this</p>
-<img alt="_images/hello.png" src="_images/hello.png" />
-<p>Now that you have a simple layout, you can modify your existing objects further by using the <em>set</em> function. Try:</p>
-<div class="highlight-python"><div class="highlight"><pre>set w color green.
-</pre></div>
-</div>
-<img alt="_images/green.png" src="_images/green.png" />
-<p>Your button is currently useless. You can click it, but since we haven&#8217;t given it an <em>action</em> attribute, it won&#8217;t do anything.</p>
+<img alt="_images/button.png" src="_images/button.png" />
+<p>Your button is currently useless. You can click it, but since we haven&#8217;t given it an <em>action</em> attribute, it won&#8217;t do anything. You can modify existing objects further by using the <em>set</em> function. You can also write as many lines of Gooey code you want in the editor before you hit run.</p>
 <p>Try:</p>
-<div class="highlight-python"><div class="highlight"><pre>set b text &quot;Go&quot;, action windowColorChange green.
+<div class="highlight-python"><div class="highlight"><pre>set go text &quot;Go&quot;, action windowChangeColor green.
+make Button stop with text &quot;Stop&quot;, position right, action windowChangeColor red.
 </pre></div>
 </div>
-<p>Try clicking on the button, see what happens. Your window should have turned green. Gooey has a number of built in actions which you can find in the Actions section of the Gooey Docs.</p>
+<img alt="_images/onedone.png" src="_images/onedone.png" />
+<p>Try clicking on the button, see what happens. Gooey has a number of built in actions which you can find in the Actions section of the Gooey Docs.</p>
 </div>
-<div class="section" id="image-textbox-checkbox-and-menu-tutorial">
-<h2>Image, TextBox, Checkbox, and Menu Tutorial<a class="headerlink" href="#image-textbox-checkbox-and-menu-tutorial" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="formattedtext-textbox-checkboxes-and-menu-tutorial">
+<h2>FormattedText, TextBox, Checkboxes, and Menu Tutorial<a class="headerlink" href="#formattedtext-textbox-checkboxes-and-menu-tutorial" title="Permalink to this headline">¶</a></h2>
 <p>Now, let&#8217;s try making a slightly more complicated Gooey.</p>
 <p>Remember, always start by making a window:</p>
-<div class="highlight-python"><div class="highlight"><pre>make Window w with title &quot;Gooey Two&quot;, size 10 10, color blue.
+<div class="highlight-python"><div class="highlight"><pre>make Window win with title &quot;Gooey Two&quot;, size 400 500, color #8fefdc.
 </pre></div>
 </div>
-<p>Make things more decorative by adding a picture. This will use the <em>Image</em> object, and will need a still picture in the .gif format. For example:</p>
-<div class="highlight-python"><div class="highlight"><pre>make Image apple with source &quot;apple.gif&quot;, position 0 1.
-</pre></div>
-</div>
+<img alt="_images/gooeytwo.png" src="_images/gooeytwo.png" />
 <p>There are times when you might want your users to write something out. A TextBox is perfect in this situation! Type:</p>
-<div class="highlight-python"><div class="highlight"><pre>make TextBox comments with text &quot;Write your thoughts here&quot;.
-make Button submit with text &quot;Submit&quot;, position 1 0.
+<div class="highlight-python"><div class="highlight"><pre>make TextBox comments with text &quot;Tell me your thoughts&quot;.
+make Button submit with text &quot;Submit&quot;, position 0 150.
 </pre></div>
 </div>
-<p>But maybe instead of direct input, you merely want your users to choose between a few choices. A simple Checkbox looks like:</p>
-<div class="highlight-python"><div class="highlight"><pre>make Checkboxes cb with options &quot;Apple&quot; &quot;Peach&quot; &quot;Pumpkin Pie&quot;.
+<img alt="_images/thoughts.png" src="_images/thoughts.png" />
+<p>So far, everything looks the same. One way to diversify your interface to fit your asthetic is to use FormattedText options:</p>
+<div class="highlight-python"><div class="highlight"><pre>make FormattedText cbtitle with text &quot;Choose something:&quot;, font &quot;Comic Sans MS&quot;, underline true.
 </pre></div>
 </div>
-<p>Each of the options you list will make another checkbox with that label. You can put a preface on your Checkboxes using the <em>title</em> attribute:</p>
-<div class="highlight-python"><div class="highlight"><pre>set cb title &quot;Choose from the following:&quot;.
+<p>You&#8217;re going to have to wait to put that object somewhere. Maybe instead of direct input, you merely want your users to choose between a few choices. Try setting the title of some Checkboxes with your new FormattedText object. A simple Checkboxes object looks like:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Checkboxes yummy with title cbtitle, options &quot;Apple&quot; &quot;Peach&quot; &quot;Pumpkin Pie&quot;, position 270 0.
 </pre></div>
 </div>
+<img alt="_images/ihatecomicsans.png" src="_images/ihatecomicsans.png" />
+<p>Gooey only has a few default actions - lucky, users can make their own! A simple function to simply change the window color looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>function myFunction(win) does set win color green; return win.
+
+function change(but1, t1, t2) does set but1 text t1; maek Button but2 with text t2; returnbut2.
+run change(b1, &quot;hello there&quot;, &quot;what what&quot;) as b2.
+</pre></div>
+</div>
+<p>After making a function, there are two ways to use it. To run myFucntion on the Window w, either you can say:</p>
+<div class="highlight-python"><div class="highlight"><pre>run myFunction(w).
+</pre></div>
+</div>
+<p>or you can turn your function into an action for Buttons and MenuItems</p>
+<div class="highlight-python"><div class="highlight"><pre>make Button change with action myFunction(w).
+</pre></div>
+</div>
+<p>Now you&#8217;ve gone through all the main components of Gooey. You&#8217;re ready to make your own now!</p>
 <p>Now onto one of the most complex components of Gooey: Menus.</p>
 <p>The basic <em>Menu</em> object will keep track of the different menus you plan on having. For example:</p>
 <div class="highlight-python"><div class="highlight"><pre>make Menu toplevel with options file edit.
@@ -133,25 +144,12 @@ make Button submit with text &quot;Submit&quot;, position 1 0.
 make MenuItem edit with
    title &quot;Edit&quot;,
    options &quot;Change color&quot;:quit &quot;Change size&quot;:quit.
+
+make MenuItem edit with title &quot;Edit&quot;,
+   options &quot;Change color&quot;:myFunction(w) &quot;Change size&quot;:quit.
 </pre></div>
 </div>
 <p>All of these actions will close your program. You can create your own object actions by making functions.</p>
-<p>A simple function to simply change the window color looks like this:</p>
-<div class="highlight-python"><div class="highlight"><pre>function myFunction(win) does set win color green; return win.
-</pre></div>
-</div>
-<p>After making a function, there are two ways to use it. To run myFucntion on the Window w, either you can say:</p>
-<div class="highlight-python"><div class="highlight"><pre>run myFunction(w).
-</pre></div>
-</div>
-<p>or you can turn your function into an action for Buttons and MenuItems</p>
-<div class="highlight-python"><div class="highlight"><pre>make Button b with action myFunction(w).
-
-make MenuItem edit with title &quot;Edit&quot;,
-   options &quot;Change color&quot;:myFunciton(w) &quot;Change size&quot;:quit.
-</pre></div>
-</div>
-<p>Now you&#8217;ve gone through all the main components of Gooey. You&#8217;re ready to make your own now!</p>
 </div>
 </div>
 
@@ -165,7 +163,7 @@ make MenuItem edit with title &quot;Edit&quot;,
   <ul>
 <li><a class="reference internal" href="#">Tutorials</a><ul>
 <li><a class="reference internal" href="#window-text-and-button-tutorial">Window, Text, and Button Tutorial</a></li>
-<li><a class="reference internal" href="#image-textbox-checkbox-and-menu-tutorial">Image, TextBox, Checkbox, and Menu Tutorial</a></li>
+<li><a class="reference internal" href="#formattedtext-textbox-checkboxes-and-menu-tutorial">FormattedText, TextBox, Checkboxes, and Menu Tutorial</a></li>
 </ul>
 </li>
 </ul>
