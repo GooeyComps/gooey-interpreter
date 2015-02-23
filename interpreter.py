@@ -440,7 +440,7 @@ class Interpreter():
 
                             font = (a[1], a[2], special)
                             ttl.configure(text=a[0], fg=a[3], font=font)
-                            height += a[2] + 10
+                            height += a[2] * 1.8# + 10
                             #cbColumn += a[2] + 10
                             cbList[0].append(a[2] + 10)
                         else:
@@ -578,12 +578,12 @@ class Interpreter():
                         font = (a[1], a[2], special)
                         ttl.configure(text=a[0], fg=a[3], font=font)
                         cb[1].place(x=width, y=height)
-                        ttlSize = a[2] + 10
+                        ttlSize = a[2] * 1.8# + 10
                     else:
                         raise GooeyError("No formatted text with that name.")
                 else:
                     cb[1].place(x=width, y=height)
-                    ttlSize += 20
+                    #ttlSize += 20
                     ttl.config(text=item.title.value, fg='black', font="system 10",bg = w.cget('bg'))
             elif hasattr(item, "options"):
                 for a in cb[2:]:
@@ -682,7 +682,7 @@ class Interpreter():
 
                             font = (a[1], a[2], special)
                             ttl.configure(text=a[0], fg=a[3], font=font)
-                            height += a[2] + 10
+                            height += a[2] * 1.8# + 10
 #                            rbColumn += a[2] + 10
                             rbList[0].append(a[2] + 10)
                         else:
@@ -810,13 +810,13 @@ class Interpreter():
                         ttl.configure(text=a[0], fg=a[3], font=font)
                         rb[1].place(x=width, y=height)
 #                        rb[1].place(x=rbRow, y=rbColumn)
-                        ttlSize = a[2] + 10
+                        ttlSize = int(a[2] * 1.8) #+ 10
                     else:
                         raise GooeyError("No formatted text with that name.")
                 else:
                     rb[1].place(x=width, y=height)
 #                    rb[1].place(x=rbRow, y=rbColumn)
-                    ttlSize += 20
+                    #ttlSize += 20
                     ttl.config(text=item.title.value, fg='black', font="system 10")
             elif hasattr(item, "options"):
                 for a in rb[2:]:

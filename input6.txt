@@ -1,3 +1,6 @@
-make Window w with size large, color purple.
-make Checkboxes c.
-set c options "hi" "bye", position 100 100.
+make Window w with size medium, color red.
+make RadioButtons c.
+make FormattedText t with size 32, font "Helvetica", text "Oh yeah", underline true.
+set c options "hi" "bye", position 100 100, title t.
+set w title "yoyo".
+make RadioButtons r with options "no" "nono" "nonono".
