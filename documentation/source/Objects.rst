@@ -19,8 +19,6 @@ Example syntax::
 +---------+-------------------------------+-----------------------------------+-------------------+
 |Attribute| Description                   | Possible Values                   | Default Value     |
 +=========+===============================+===================================+===================+
-|title    | Text above the button         | - A plaintext string              | none              |
-+---------+-------------------------------+-----------------------------------+-------------------+
 |text     | Words on button               | - A plaintext string              | "Untitled Button" |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |position | location of button on window  | - position keyword                | center            |
@@ -67,10 +65,6 @@ Attributes:
 |action   | The effect from interacting   | - name of Python of Gooey function| none              |
 |         | with a window.                |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if window is       | - true                            | false             |
-|         | visible (false) or invisible  | - false                           |                   |
-|         | (true)                        |                                   |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
 |font     | The font for all text used in | - String name of available font   | Times New Roman   |
 |         | the window                    |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
@@ -102,7 +96,7 @@ Example syntax::
 |         |                               | - string preceded by \* to        | "Option 3"        |
 |         |                               |   mark default selections         |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|position | location of checkbox set in   | - position keyword                | center            |
+|position | location of checkbox set in   |                                   | center            |
 |         | window                        | - integer pixels, separated by    |                   |
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
@@ -110,10 +104,7 @@ Example syntax::
 |         |                               | - width and height pixel integers,|                   |
 |         |                               |   separated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if checkboxes      | - true                            | false             |
-|         | visible (false) or invisible  | - false                           |                   |
-|         | (true)                        |                                   |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
+
 
 
 RadioButtons
@@ -141,14 +132,11 @@ Example syntax::
 |         | in window                     | - integer pixels, separated by    |                   |
 |         |                               |   by space                        |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|size     | size of RadioButtons set      | - size keyword                    | medium            |
+|size     | size of RadioButtons set      |                                   | medium            |
 |         |                               | - width and height pixel integers,|                   |
 |         |                               |   separated by space              |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if RadioButtons    | - true                            | false             |
-|         | visible (false) or invisible  | - false                           |                   |
-|         | (true)                        |                                   |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
+
 
 Text
 ====
@@ -198,8 +186,6 @@ Example syntax::
 +---------+-------------------------------+-----------------------------------+-------------------+
 |Attribute| Description                   | Possible Values                   | Default Value     |
 +=========+===============================+===================================+===================+
-|title    | text above TextBox            | - A plaintext string              | "Untitled TextBox"|
-+---------+-------------------------------+-----------------------------------+-------------------+
 |text     | mutable words within the      | - A plaintext string              | "Type Here"       |
 |         | TextBox                       |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
@@ -234,11 +220,6 @@ Example syntax::
 |         |                               |                                   | menuItem3         |
 |         |                               |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if menu is         | - true                            | false             |
-|         | visible (false) or invisible  | - false                           |                   |
-|         | (true)                        |                                   |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
-
 
 MenuItem
 ========
@@ -259,10 +240,6 @@ Example syntax::
 |         |                               |   "name":action                   | "Option3"         |
 |         |                               |                                   |                   |
 +---------+-------------------------------+-----------------------------------+-------------------+
-|hidden   | Determines if MenuItem is     | - true                            | false             |
-|         | visible (false) or invisible  | - false                           |                   |
-|         | (true)                        |                                   |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
 
 
 Image
@@ -277,18 +254,6 @@ Example syntax::
 +---------+-------------------------------+-----------------------------------+-------------------+
 |Attribute| Description                   | Possible Values                   | Default Value     |
 +=========+===============================+===================================+===================+
-|title    | text above Image              | - A plaintext string              | none              |
-+---------+-------------------------------+-----------------------------------+-------------------+
-|text     | Caption below the Image       | - A plaintext string              | "Image Caption"   |
-+---------+-------------------------------+-----------------------------------+-------------------+
-|position | location of Image in window   | - position keyword                | center            |
-|         |                               | - integer pixels, separated by    |                   |
-|         |                               |   by space                        |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
-|size     | size of Image                 | - size keyword                    | medium            |
-|         |                               | - width and height pixel integers,|                   |
-|         |                               |   separated by space              |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
 |hidden   | Determines if Image           | - true                            | false             |
 |         | visible (false) or invisible  | - false                           |                   |
 |         | (true)                        |                                   |                   |

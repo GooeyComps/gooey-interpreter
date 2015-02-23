@@ -156,7 +156,7 @@ Values:
 
 - An integer for font pt size
 
-bold
+Bold
 ====
 
 Changes text to bold font when set to True. Default is **False**.
@@ -166,7 +166,7 @@ Values:
 - true
 - false
 
-italic
+Italic
 ======
 
 Changes text to italicized font when set to True. Default is **False**.
@@ -176,7 +176,7 @@ Values:
 - true
 - false
 
-underline
+Underline
 =========
 
 Changes text to be underlined when set to True. Default is **False**.
@@ -186,7 +186,7 @@ Values:
 - true
 - false
 
-source
+Source
 ======
 
 The path or filename for the Image object. Source files **must be in .gif format**

@@ -24,7 +24,6 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Gooey 1.0 documentation" href="index.html" />
-    <link rel="next" title="Test Objects" href="testDocs.html" />
     <link rel="prev" title="Attributes" href="Attributes.html" /> 
   </head>
   <body role="document">
@@ -34,9 +33,6 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="testDocs.html" title="Test Objects"
-             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="Attributes.html" title="Attributes"
              accesskey="P">previous</a> |</li>
@@ -77,15 +73,7 @@ set b action close.
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>title</td>
-<td>Text above the button</td>
-<td><ul class="first last simple">
-<li>A plaintext string</li>
-</ul>
-</td>
-<td>none</td>
-</tr>
-<tr class="row-odd"><td>text</td>
+<tr class="row-even"><td>text</td>
 <td>Words on button</td>
 <td><ul class="first last simple">
 <li>A plaintext string</li>
@@ -93,7 +81,7 @@ set b action close.
 </td>
 <td>&#8220;Untitled Button&#8221;</td>
 </tr>
-<tr class="row-even"><td>position</td>
+<tr class="row-odd"><td>position</td>
 <td>location of button on window</td>
 <td><ul class="first last simple">
 <li>position keyword</li>
@@ -103,7 +91,7 @@ space</li>
 </td>
 <td>center</td>
 </tr>
-<tr class="row-odd"><td>size</td>
+<tr class="row-even"><td>size</td>
 <td>size of button</td>
 <td><ul class="first last simple">
 <li>size keyword</li>
@@ -113,7 +101,7 @@ separated by a space</li>
 </td>
 <td>medium</td>
 </tr>
-<tr class="row-even"><td>action</td>
+<tr class="row-odd"><td>action</td>
 <td>Effect when button clicked</td>
 <td><ul class="first last simple">
 <li>name of Python or Gooey function</li>
@@ -121,7 +109,7 @@ separated by a space</li>
 </td>
 <td>none</td>
 </tr>
-<tr class="row-odd"><td>hidden</td>
+<tr class="row-even"><td>hidden</td>
 <td>Determines if button visible
 (false) or invisible (true)</td>
 <td><ul class="first last simple">
@@ -199,18 +187,7 @@ with a window.</td>
 </td>
 <td>none</td>
 </tr>
-<tr class="row-even"><td>hidden</td>
-<td>Determines if window is
-visible (false) or invisible
-(true)</td>
-<td><ul class="first last simple">
-<li>true</li>
-<li>false</li>
-</ul>
-</td>
-<td>false</td>
-</tr>
-<tr class="row-odd"><td>font</td>
+<tr class="row-even"><td>font</td>
 <td>The font for all text used in
 the window</td>
 <td><ul class="first last simple">
@@ -219,7 +196,7 @@ the window</td>
 </td>
 <td>Times New Roman</td>
 </tr>
-<tr class="row-even"><td>fontSize</td>
+<tr class="row-odd"><td>fontSize</td>
 <td>Size of text</td>
 <td><ul class="first last simple">
 <li>Integer</li>
@@ -227,7 +204,7 @@ the window</td>
 </td>
 <td>12</td>
 </tr>
-<tr class="row-odd"><td>textColor</td>
+<tr class="row-even"><td>textColor</td>
 <td>Color of text</td>
 <td><ul class="first last simple">
 <li>color keyword</li>
@@ -288,7 +265,6 @@ mark default selections</li>
 <td>location of checkbox set in
 window</td>
 <td><ul class="first last simple">
-<li>position keyword</li>
 <li>integer pixels, separated by
 by space</li>
 </ul>
@@ -304,17 +280,6 @@ separated by space</li>
 </ul>
 </td>
 <td>medium</td>
-</tr>
-<tr class="row-even"><td>hidden</td>
-<td>Determines if checkboxes
-visible (false) or invisible
-(true)</td>
-<td><ul class="first last simple">
-<li>true</li>
-<li>false</li>
-</ul>
-</td>
-<td>false</td>
 </tr>
 </tbody>
 </table>
@@ -378,23 +343,11 @@ by space</li>
 <tr class="row-odd"><td>size</td>
 <td>size of RadioButtons set</td>
 <td><ul class="first last simple">
-<li>size keyword</li>
 <li>width and height pixel integers,
 separated by space</li>
 </ul>
 </td>
 <td>medium</td>
-</tr>
-<tr class="row-even"><td>hidden</td>
-<td>Determines if RadioButtons
-visible (false) or invisible
-(true)</td>
-<td><ul class="first last simple">
-<li>true</li>
-<li>false</li>
-</ul>
-</td>
-<td>false</td>
 </tr>
 </tbody>
 </table>
@@ -499,15 +452,7 @@ set tb size large.
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>title</td>
-<td>text above TextBox</td>
-<td><ul class="first last simple">
-<li>A plaintext string</li>
-</ul>
-</td>
-<td>&#8220;Untitled TextBox&#8221;</td>
-</tr>
-<tr class="row-odd"><td>text</td>
+<tr class="row-even"><td>text</td>
 <td>mutable words within the
 TextBox</td>
 <td><ul class="first last simple">
@@ -516,7 +461,7 @@ TextBox</td>
 </td>
 <td>&#8220;Type Here&#8221;</td>
 </tr>
-<tr class="row-even"><td>position</td>
+<tr class="row-odd"><td>position</td>
 <td>location of TextBox in window</td>
 <td><ul class="first last simple">
 <li>position keyword</li>
@@ -526,7 +471,7 @@ by space</li>
 </td>
 <td>center</td>
 </tr>
-<tr class="row-odd"><td>size</td>
+<tr class="row-even"><td>size</td>
 <td>size of TextBox</td>
 <td><ul class="first last simple">
 <li>size keyword</li>
@@ -536,7 +481,7 @@ separated by space</li>
 </td>
 <td>medium</td>
 </tr>
-<tr class="row-even"><td>hidden</td>
+<tr class="row-odd"><td>hidden</td>
 <td>Determines if TextBox
 visible (false) or invisible
 (true)</td>
@@ -583,17 +528,6 @@ separated by spaces</li>
 menuItem2
 menuItem3</td>
 </tr>
-<tr class="row-odd"><td>hidden</td>
-<td>Determines if menu is
-visible (false) or invisible
-(true)</td>
-<td><ul class="first last simple">
-<li>true</li>
-<li>false</li>
-</ul>
-</td>
-<td>false</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -639,17 +573,6 @@ visible (false) or invisible
 &#8220;Option2&#8221;
 &#8220;Option3&#8221;</td>
 </tr>
-<tr class="row-even"><td>hidden</td>
-<td>Determines if MenuItem is
-visible (false) or invisible
-(true)</td>
-<td><ul class="first last simple">
-<li>true</li>
-<li>false</li>
-</ul>
-</td>
-<td>false</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -675,42 +598,6 @@ visible (false) or invisible
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>title</td>
-<td>text above Image</td>
-<td><ul class="first last simple">
-<li>A plaintext string</li>
-</ul>
-</td>
-<td>none</td>
-</tr>
-<tr class="row-odd"><td>text</td>
-<td>Caption below the Image</td>
-<td><ul class="first last simple">
-<li>A plaintext string</li>
-</ul>
-</td>
-<td>&#8220;Image Caption&#8221;</td>
-</tr>
-<tr class="row-even"><td>position</td>
-<td>location of Image in window</td>
-<td><ul class="first last simple">
-<li>position keyword</li>
-<li>integer pixels, separated by
-by space</li>
-</ul>
-</td>
-<td>center</td>
-</tr>
-<tr class="row-odd"><td>size</td>
-<td>size of Image</td>
-<td><ul class="first last simple">
-<li>size keyword</li>
-<li>width and height pixel integers,
-separated by space</li>
-</ul>
-</td>
-<td>medium</td>
-</tr>
 <tr class="row-even"><td>hidden</td>
 <td>Determines if Image
 visible (false) or invisible
@@ -861,9 +748,6 @@ underlined (true) or not
   <h4>Previous topic</h4>
   <p class="topless"><a href="Attributes.html"
                         title="previous chapter">Attributes</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="testDocs.html"
-                        title="next chapter">Test Objects</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -894,9 +778,6 @@ underlined (true) or not
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="testDocs.html" title="Test Objects"
-             >next</a> |</li>
         <li class="right" >
           <a href="Attributes.html" title="Attributes"
              >previous</a> |</li>

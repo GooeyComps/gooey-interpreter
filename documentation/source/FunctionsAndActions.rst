@@ -42,16 +42,6 @@ Example::
  make Button error with title "Error", action windowColorChange red.
 
 
-windowSizeChange
-----------------
-
-The *windowSizeChange* action changes the size of the window. After declaring the *windowSizeChange* action, add a size value.
-
-Example::
-
- make Button size with title "Full Screen", action windowSizeChange large.
-
-
 Functions
 =========
 
@@ -68,13 +58,11 @@ This line of code means that the function named myFunction, which takes in an ob
 There are two ways to run your function. You can use the *run* command to run the function yourself::
 
  make Window w.
- function myFunction(win) does set win color green; return win.
+ function myFunction(win) does set win color green.
  run myFunction(w).
 
-Alternatively, you can set the function as a Button or MenuItem action.::
+Alternatively, you can set the function as a Button.::
 
  make Window w.
  function myFunction(win) does set win color green; return win.
- make Button b with action myFunction(win).
- make Menu with options file
- make MenuItem file with title "File", options "Change":myFunction(win).
+ make Button b with action myFunction w.

@@ -93,8 +93,8 @@ make Button stop with text &quot;Stop&quot;, position right, action windowChange
 <img alt="_images/onedone.png" src="_images/onedone.png" />
 <p>Try clicking on the button, see what happens. Gooey has a number of built in actions which you can find in the Actions section of the Gooey Docs.</p>
 </div>
-<div class="section" id="formattedtext-textbox-checkboxes-and-menu-tutorial">
-<h2>FormattedText, TextBox, Checkboxes, and Menu Tutorial<a class="headerlink" href="#formattedtext-textbox-checkboxes-and-menu-tutorial" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="formattedtext-textbox-checkboxes-and-function-tutorial">
+<h2>FormattedText, TextBox, Checkboxes, and Function Tutorial<a class="headerlink" href="#formattedtext-textbox-checkboxes-and-function-tutorial" title="Permalink to this headline">¶</a></h2>
 <p>Now, let&#8217;s try making a slightly more complicated Gooey.</p>
 <p>Remember, always start by making a window:</p>
 <div class="highlight-python"><div class="highlight"><pre>make Window win with title &quot;Gooey Two&quot;, size 400 500, color #8fefdc.
@@ -117,10 +117,7 @@ make Button submit with text &quot;Submit&quot;, position 0 150.
 </div>
 <img alt="_images/ihatecomicsans.png" src="_images/ihatecomicsans.png" />
 <p>Gooey only has a few default actions - lucky, users can make their own! A simple function to simply change the window color looks like this:</p>
-<div class="highlight-python"><div class="highlight"><pre>function myFunction(win) does set win color green; return win.
-
-function change(but1, t1, t2) does set but1 text t1; maek Button but2 with text t2; returnbut2.
-run change(b1, &quot;hello there&quot;, &quot;what what&quot;) as b2.
+<div class="highlight-python"><div class="highlight"><pre>function myFunction(win) does set win color cyan.
 </pre></div>
 </div>
 <p>After making a function, there are two ways to use it. To run myFucntion on the Window w, either you can say:</p>
@@ -135,6 +132,13 @@ run change(b1, &quot;hello there&quot;, &quot;what what&quot;) as b2.
 <div class="highlight-python"><div class="highlight"><pre>python3 gooey.py input.txt
 </pre></div>
 </div>
+<p>For everything in this tutorial, put the following into a .txt file.</p>
+<blockquote>
+<div>make Window w with title &#8220;Gooey Two&#8221;, size 400 500, color #8fefdc.
+make TextBox comments with text &#8220;Tell me your thoughts&#8221;.
+function change(win) does set win color cyan.
+make Button sumbit with text &#8220;Submit&#8221;, position 0 150, action change w.
+make FormattedText cbtitle with text &#8220;Choose something:&#8221;, font &#8220;Comic Sans MS&#8221;, underline true.</div></blockquote>
 <p>Now you&#8217;ve gone through all the main components of Gooey. You&#8217;re ready to make your own now!</p>
 <p>Now onto one of the most complex components of Gooey: Menus.</p>
 <p>The basic <em>Menu</em> object will keep track of the different menus you plan on having. For example:</p>
@@ -170,7 +174,7 @@ make MenuItem edit with title &quot;Edit&quot;,
   <ul>
 <li><a class="reference internal" href="#">Tutorials</a><ul>
 <li><a class="reference internal" href="#window-text-and-button-tutorial">Window, Text, and Button Tutorial</a></li>
-<li><a class="reference internal" href="#formattedtext-textbox-checkboxes-and-menu-tutorial">FormattedText, TextBox, Checkboxes, and Menu Tutorial</a></li>
+<li><a class="reference internal" href="#formattedtext-textbox-checkboxes-and-function-tutorial">FormattedText, TextBox, Checkboxes, and Function Tutorial</a></li>
 </ul>
 </li>
 </ul>
