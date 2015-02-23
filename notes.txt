@@ -69,8 +69,16 @@ TESTING NOTES:
 - When making a window, if you have a space in the title you’re screwed
 
 
-Button padding isn't working when you make a button with a colorchange action because it doesn't know that button exists yet. 
+Button padding isn't working when you make a button with a colorchange action because it doesn't know that button exists yet.
 2/22
 Hide - check on hide
+<<<<<<< HEAD
 Actions - multiple clicks on gooey function
+images? (they suck) - positioning
+positioning inconsistencies
+=======
+Actions - multiple clicks on gooey function - seems to be good
 images? (they suck)
+CHECK OCCUPIED
+checkbox padding
+>>>>>>> fe7e69ea6807b808e972a893ba79544fcab1fcf9

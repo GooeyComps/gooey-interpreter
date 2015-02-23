@@ -1,3 +1,4 @@
-make Window w.
-function change(win) does set win color red; return win.
-run change(w).
+make Window w with size medium, color red.
+make FormattedText ft with text "Hello".
+make Button t with text ft.
+set ft color purple.
