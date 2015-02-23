@@ -1,3 +1,3 @@
-make Window w.
-function change(win) does set win color red; return win.
-run change(w).
+make Window w with size large, color purple.
+make Checkboxes c.
+set c options "hi" "bye", position 100 100.

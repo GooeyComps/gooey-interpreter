@@ -227,13 +227,13 @@ class Interpreter():
                         elif(obj.bType == "Checkboxes"):
                             cb = self.getObject(expr)
                             assert cb.bType == 'Checkboxes'
-                            cb = self.setCheckboxes(cb.bObject, self.winBindings, expr)
+                            cb = self.setCheckboxes(cb.bObject, self.winBinding, expr)
                             obj.bObject = cb
 
                         elif(obj.bType == "RadioButtons"):
                             rb = self.getObject(expr)
                             assert rb.bType == 'RadioButtons'
-                            rb = self.setRadioButtons(rb.bObject, self.winBindings, expr)
+                            rb = self.setRadioButtons(rb.bObject, self.winBinding, expr)
                             obj.bObject = rb
 
                         else:
@@ -547,7 +547,7 @@ class Interpreter():
 
     def makeCheckbox(self,w,i,num, width, height):
         var = StringVar()
-        op = Checkbutton(w, text=i, variable=var, anchor=W, bg = w.cget('bg'))
+        op = Checkbutton(w, text=i, variable=var, anchor=W, bg = w.cget('bg'), highlightbackground=w.cget('bg'))
         op.place(x=width, y=height, bordermode="outside")
         return op
 
@@ -577,12 +577,12 @@ class Interpreter():
 
                         font = (a[1], a[2], special)
                         ttl.configure(text=a[0], fg=a[3], font=font)
-                        cb[1].place(x=cbRow, y=cbColumn)
+                        cb[1].place(x=width, y=height)
                         ttlSize = a[2] + 10
                     else:
                         raise GooeyError("No formatted text with that name.")
                 else:
-                    cb[1].place(x=cbRow, y=cbColumn)
+                    cb[1].place(x=width, y=height)
                     ttlSize += 20
                     ttl.config(text=item.title.value, fg='black', font="system 10",bg = w.cget('bg'))
             elif hasattr(item, "options"):
@@ -596,7 +596,7 @@ class Interpreter():
                 while(i < len(item.options.options)):
                     if(item.options.options[i] != ""):
                         var = StringVar()
-                        c = Checkbutton(w, text=item.options.options[i], variable=var, anchor=W,bg = w.cget('bg'))
+                        c = Checkbutton(w, text=item.options.options[i], variable=var, anchor=W,bg = w.cget('bg'),highlightbackground=w.cget('bg'))
                         c.configure(height=cbSize)
                         if (isDefault):
                             c.select()
@@ -778,7 +778,7 @@ class Interpreter():
         return rbList
 
     def makeRadioButton(self,w,i,num, width, height, v):
-        gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W,bg = w.cget('bg'))
+        gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
         gg.place(x=width, y=height, bordermode="outside")
         return gg
 
@@ -830,7 +830,7 @@ class Interpreter():
                     if (item.options.options[i] == ""):
                         selected = True
                     else:
-                        r = Radiobutton(w, text=item.options.options[i], variable=var, value=i, anchor=W,bg = w.cget('bg'))
+                        r = Radiobutton(w, text=item.options.options[i], variable=var, value=i, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
                         r.configure(height=rbSize)
                         rb.append(r)
                         # if (selected):
