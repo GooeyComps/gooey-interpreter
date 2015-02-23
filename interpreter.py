@@ -113,7 +113,7 @@ class Interpreter():
                         b = self.makeButton(self.winBinding,expr)
                         binding = self.makeBinding("Button", expr.varname, b)
                         self.bindings = self.addBinding(binding)
-
+                    #NEEDS TO BE MODIFIED TO NOT TAKE IN SELF.WINDOW
                     elif(expr.type == "Menu"):
                         self.checkVarname(expr)
                         m = self.makeMenu(self.window,expr,self.bindings)
@@ -130,37 +130,37 @@ class Interpreter():
 
                     elif(expr.type == "TextBox"):
                         self.checkVarname(expr)
-                        t = self.makeTextBox(self.window, expr)
+                        t = self.makeTextBox(self.winBinding, expr)
                         binding = self.makeBinding("TextBox", expr.varname, t)
                         self.bindings = self.addBinding(binding)
 
                     elif(expr.type == "Image"):
                         self.checkVarname(expr)
-                        i = self.makeImage(self.window, expr)
+                        i = self.makeImage(self.winBinding, expr)
                         binding = self.makeBinding("Image", expr.varname, i)
                         self.bindings = self.addBinding(binding)
 
                     elif(expr.type == "Text"):
                         self.checkVarname(expr)
-                        t = self.makeText(self.window, expr)
+                        t = self.makeText(self.winBinding, expr)
                         binding = self.makeBinding("Text", expr.varname, t)
                         self.bindings = self.addBinding(binding)
 
                     elif(expr.type == "FormattedText"):
                         self.checkVarname(expr)
-                        ft = self.makeFormattedText(self.window, expr)
+                        ft = self.makeFormattedText(self.winBinding, expr)
                         binding = self.makeBinding("FormattedText", expr.varname, ft)
                         bindings = self.addBinding(binding)
 
                     elif(expr.type == "Checkboxes"):
                         self.checkVarname(expr)
-                        cb = self.makeCheckboxes(self.window, expr)
+                        cb = self.makeCheckboxes(self.winBinding, expr)
                         binding = self.makeBinding("Checkboxes", expr.varname, cb)
                         self.bindings = self.addBinding(binding)
 
                     elif(expr.type == "RadioButtons"):
                         self.checkVarname(expr)
-                        rb = self.makeRadioButtons(self.window, expr)
+                        rb = self.makeRadioButtons(self.winBinding, expr)
                         binding = self.makeBinding("RadioButtons", expr.varname, rb)
                         self.bindings = self.addBinding(binding)
 
@@ -211,29 +211,29 @@ class Interpreter():
                         elif(obj.bType == "Text"):
                             t = self.getObject(expr)
                             assert t.bType == 'Text'
-                            t = self.setText(t.bObject,self.window, expr) #Change to be self.winbinding
+                            t = self.setText(t.bObject,self.winBinding, expr) #Change to be self.winbinding
 
                         elif(obj.bType == "TextBox"):
                             t = self.getObject(expr)
                             assert t.bType == 'TextBox'
                             tbox = t.bObject
-                            tbox = self.setTextBox(tbox, self.window, expr) #change to be winbinding
+                            tbox = self.setTextBox(tbox, self.winBinding, expr) #change to be winbinding
 
                         elif(obj.bType == "FormattedText"):
                             ft = self.getObject(expr)
                             assert ft.bType == 'FormattedText'
-                            ft = self.setFormattedText(ft.bObject, self.window, expr)
+                            ft = self.setFormattedText(ft.bObject, self.winBinding, expr)
 
                         elif(obj.bType == "Checkboxes"):
                             cb = self.getObject(expr)
                             assert cb.bType == 'Checkboxes'
-                            cb = self.setCheckboxes(cb.bObject, self.window, expr)
+                            cb = self.setCheckboxes(cb.bObject, self.winBindings, expr)
                             obj.bObject = cb
 
                         elif(obj.bType == "RadioButtons"):
                             rb = self.getObject(expr)
                             assert rb.bType == 'RadioButtons'
-                            rb = self.setRadioButtons(rb.bObject, self.window, expr)
+                            rb = self.setRadioButtons(rb.bObject, self.winBindings, expr)
                             obj.bObject = rb
 
                         else:
@@ -342,7 +342,8 @@ class Interpreter():
 
 
 
-    def makeFormattedText(self,w,expr):
+    def makeFormattedText(self,win,expr):
+        w = win.frames
         settings = ["Untitled Text", "Times", 12, "black", False, False, False]
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
@@ -364,7 +365,8 @@ class Interpreter():
 
         return settings
 
-    def setFormattedText(self, ft, w, expr):
+    def setFormattedText(self, ft, win, expr):
+        w = win.frames
         for item in expr.attributes:
             if hasattr(item, 'text'):
                 ft[0] = item.text.value
@@ -386,7 +388,8 @@ class Interpreter():
 
     #               CHECKBOXES
 
-    def makeCheckboxes(self,w,expr):
+    def makeCheckboxes(self,win,expr):
+        w = win.frames
         cbList = []
         cbSize = 1
         #cbRow, cbColumn = 0, 0
@@ -419,7 +422,7 @@ class Interpreter():
                     cbTitle = ""
                     if (hasattr(item.title, 'value')):
                         cbTitle = item.title.value
-                    ttl = Label(self.window, text=cbTitle)
+                    ttl = Label(w, text=cbTitle, bg = w.cget('bg'))
                     ttl.place(x=width, y=height)
                     #ttl.place(x=cbColumn,y=cbRow)
                     if hasattr(item.title, 'var'):
@@ -450,7 +453,7 @@ class Interpreter():
                     cbList.append(ttl)
 
             if not hasTitle:
-                ttl = Label(self.window, text=cbTitle)
+                ttl = Label(w, text=cbTitle,bg = w.cget('bg'))
                 ttl.place(x=width,y=height)
                 height += 22
                 #ttl.place(x=cbColumn,y=cbRow)
@@ -466,7 +469,7 @@ class Interpreter():
                     isDefault = False
                     while(i < len(item.options.options)):
                         if(item.options.options[i] != ""):
-                            cb = self.makeCheckbox(self.window,item.options.options[i], j, width, height)
+                            cb = self.makeCheckbox(w,item.options.options[i], j, width, height)
                             height += 20 * cbSize
                             #cbColumn += 20 * cbSize
                             cb.configure(height=cbSize)
@@ -494,7 +497,7 @@ class Interpreter():
                 j = 0
                 while(i < 3):
                     optionText = "Option " + str(i + 1)
-                    cb = self.makeCheckbox(self.window,optionText, j, width, height)
+                    cb = self.makeCheckbox(w,optionText, j, width, height)
                     height += 20 * cbSize
                     #cbColumn += 20 * cbSize
                     cb.configure(height=cbSize)
@@ -508,7 +511,7 @@ class Interpreter():
             cbTitle = "Untitled Checkboxes"
             width, height = 0, 0
             cbSize = 1
-            ttl = Label(self.window, text=cbTitle)
+            ttl = Label(w, text=cbTitle,bg = w.cget('bg'))
             ttl.place(x=width,y=height)
             height += 22
             #cbColumn += 22
@@ -518,7 +521,7 @@ class Interpreter():
             j = 0
             while(i < 3):
                 optionText = "Option " + str(i + 1)
-                cb = self.makeCheckbox(self.window,optionText, j, width, height)
+                cb = self.makeCheckbox(w,optionText, j, width, height)
                 height += 20 * cbSize
                 #cbColumns
                 cb.configure(height=cbSize)
@@ -544,11 +547,12 @@ class Interpreter():
 
     def makeCheckbox(self,w,i,num, width, height):
         var = StringVar()
-        op = Checkbutton(w, text=i, variable=var, anchor=W)
+        op = Checkbutton(w, text=i, variable=var, anchor=W, bg = w.cget('bg'))
         op.place(x=width, y=height, bordermode="outside")
         return op
 
-    def setCheckboxes(self, cb, w, expr):
+    def setCheckboxes(self, cb, win, expr):
+        w = win.frames
         cbSize = cb[0][2]
         width = cb[0][0]
         height = cb[0][1]
@@ -580,7 +584,7 @@ class Interpreter():
                 else:
                     cb[1].place(x=cbRow, y=cbColumn)
                     ttlSize += 20
-                    ttl.config(text=item.title.value, fg='black', font="system 10")
+                    ttl.config(text=item.title.value, fg='black', font="system 10",bg = w.cget('bg'))
             elif hasattr(item, "options"):
                 for a in cb[2:]:
                     a.place_forget()
@@ -592,7 +596,7 @@ class Interpreter():
                 while(i < len(item.options.options)):
                     if(item.options.options[i] != ""):
                         var = StringVar()
-                        c = Checkbutton(w, text=item.options.options[i], variable=var, anchor=W)
+                        c = Checkbutton(w, text=item.options.options[i], variable=var, anchor=W,bg = w.cget('bg'))
                         c.configure(height=cbSize)
                         if (isDefault):
                             c.select()
@@ -627,7 +631,8 @@ class Interpreter():
 #    #               RADIOBUTTONS
 #
 #
-    def makeRadioButtons(self,w,expr):
+    def makeRadioButtons(self,win,expr):
+        w = win.frames
         rbList = []
         selected = False
         var = StringVar(master=w)
@@ -659,7 +664,7 @@ class Interpreter():
                     rbTitle = ""
                     if (hasattr(item.title, 'value')):
                         rbTitle = item.title.value
-                    ttl = Label(self.window, text=rbTitle)
+                    ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
                     ttl.place(x=width,y=height)
 #                    ttl.place(x=rbColumn,y=rbRow)
                     if hasattr(item.title, 'var'):
@@ -690,7 +695,7 @@ class Interpreter():
                     rbList.append(ttl)
 
             if not hasTitle:
-                ttl = Label(self.window, text=rbTitle)
+                ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
                 ttl.place(x=width,y=height)
                 height += 22
 #                ttl.place(x=rbColumn,y=rbRow)
@@ -713,7 +718,7 @@ class Interpreter():
                         if (item.options.options[i] == ""):
                             selected = True
                         else:
-                            rb = self.makeRadioButton(self.window,item.options.options[i], j, width, height, var)
+                            rb = self.makeRadioButton(w,item.options.options[i], j, width, height, var)
                             rb.configure(height=rbSize)
                             rb.deselect()
                             rbList.append(rb)
@@ -736,7 +741,7 @@ class Interpreter():
                 j = 0
                 while(i < 3):
                     optionText = "Option " + str(i + 1)
-                    rb = self.makeRadioButton(self.window,optionText, j, width, height, var)
+                    rb = self.makeRadioButton(w,optionText, j, width, height, var)
 #                    rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
                     height += 20 * rbSize
 #                    rbColumn += 20 * rbSize
@@ -750,7 +755,7 @@ class Interpreter():
             width, height = 0, 0
 #            rbRow, rbColumn = 0, 0
             rbSize = 1
-            ttl = Label(self.window, text=rbTitle)
+            ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
             ttl.place(x=width,y=height)
 #            ttl.place(x=rbColumn,y=rbRow)
             height += 22
@@ -761,7 +766,7 @@ class Interpreter():
             j = 0
             while(i < 3):
                 optionText = "Option " + str(i + 1)
-                rb = self.makeRadioButton(self.window,optionText, j, width, height, var)
+                rb = self.makeRadioButton(w,optionText, j, width, height, var)
 #                rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
                 height += 20 * rbSize
 #                rbColumn += 20 * rbSize
@@ -773,11 +778,12 @@ class Interpreter():
         return rbList
 
     def makeRadioButton(self,w,i,num, width, height, v):
-        gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W)
+        gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W,bg = w.cget('bg'))
         gg.place(x=width, y=height, bordermode="outside")
         return gg
 
-    def setRadioButtons(self, rb, w, expr):
+    def setRadioButtons(self, rb, win, expr):
+        w = win.frames
         rbSize = rb[0][2]
         width = rb[0][0]
 #        rbRow = rb[0][0]
@@ -824,7 +830,7 @@ class Interpreter():
                     if (item.options.options[i] == ""):
                         selected = True
                     else:
-                        r = Radiobutton(w, text=item.options.options[i], variable=var, value=i, anchor=W)
+                        r = Radiobutton(w, text=item.options.options[i], variable=var, value=i, anchor=W,bg = w.cget('bg'))
                         r.configure(height=rbSize)
                         rb.append(r)
                         # if (selected):
@@ -864,11 +870,12 @@ class Interpreter():
 -------------------- TEXT --------------------
     '''
     def makeDefaultText(self,w,defaults):
-        tl = Label(w, text = defaults['text'], bg = defaults['color'])
+        tl = Label(w, text = defaults['text'], bg = w.cget('bg'))
         #needs position and size
         return tl
 
-    def makeText(self,w,expr):
+    def makeText(self,win,expr):
+        w = win.frames
         defaults = self.getAllDefaults("Text")
         tl = self.makeDefaultText(w,defaults)
         #tl = Label(w, text="Text")
@@ -916,7 +923,8 @@ class Interpreter():
             tl.place_forget()
         return tl
 
-    def setText(self,tl,w,expr):
+    def setText(self,tl,win,expr):
+        w = win.frames
         #r, c = 0, 0
         hide = False
         if hasattr(expr, "attributes"):
@@ -1161,7 +1169,7 @@ class Interpreter():
 
 
 
-
+    #Takes in a master window binding and then uses frame and window object accordingly (should really just be doign stuff with frame)
     def setWindow(self,win,expr):
         print("insetwindow")
         print("")
@@ -1254,15 +1262,14 @@ class Interpreter():
         t.configure(width=TextBoxWidth, height = TextBoxHeight, borderwidth=4)
         return t
 
-    def makeTextBox(self,w,expr):
-        print("WHYYYYYYY")
+    def makeTextBox(self,win,expr):
+        w = win.frames
         '''Makes a text box with the user defined attributes.'''
         #t = Text(w, height=2, width=30)
         defaults = self.getAllDefaults("TextBox")
         t = self.makeDefaultTextBox(w,defaults)
         width, height = 0, 0
         hide = False
-        print("shit")
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'text'):
@@ -1305,7 +1312,8 @@ class Interpreter():
             t.place_forget(x=t.winfo_x(), y=t.winfo_y()) #Note: this will not work
         return t
 
-    def setTextBox(self,t,w,expr):
+    def setTextBox(self,t,win,expr):
+        w = win.frames
         hide = False
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
@@ -1351,28 +1359,37 @@ class Interpreter():
     '''
 -------------------- BUTTONS --------------------
     '''
-    def checkOccupied(self,obj, height, width):
-        print("THIS IS THE OBJECT", obj)
-        print("THESE ARE THE BINDINGS", self.winBinding.bObject)
+    def checkOccupied(self,obj, width, height):
+        print("\n\n\nCHECKOCCUPIED")
+        
+        #print("THIS IS THE OBJECT", obj)
+        #print("THESE ARE THE BINDINGS", self.winBinding.bObject)
         # Checks to make sure nothing is in the space the user is trying to place an object
         # If something is there, raise an error saying which object is there, try again, and do not place object
-        print("this is the window height",self.winBinding.bObject.winfo_height())
+        #print("this is the window height",self.winBinding.bObject.winfo_height())
         winHeight = self.winBinding.bObject.winfo_reqheight()
         winWidth = self.winBinding.bObject.winfo_reqwidth()
 #        winHeight = self.winBinding.bObject.winfo_height()
 #        winWidth = self.winBinding.bObject.winfo_width()
 
 
-        print("OBJECT SIZE", obj.winfo_reqwidth(), obj.winfo_reqheight())
+        #print("OBJECT SIZE", obj.winfo_reqwidth(), obj.winfo_reqheight())
         if obj.winfo_x()+obj.winfo_reqwidth() > winWidth:
             raise GooeyError("Object placed outside window. Choose a new width")
         if obj.winfo_y()+obj.winfo_reqheight() > winHeight:
             raise GooeyError("Object placed outside window. Choose a new height")
         #Go through the bindings and make sure we're not placing on top of other objects
         #See children of root window
-        for child in self.winBinding.frames.winfo_children():
-            if child != obj:
-                print(child.winfo_x(), child.winfo_y())
+        kids = self.winBinding.frames.winfo_children()
+        print("Here are the children",kids)
+        for child in kids:
+            print("kid x",child.winfo_x())
+#            print("HERE IS OUR CHILD:", child)
+#            if child != obj:
+#                print("here's our child's info")
+#                print(child.winfo_pointerx(), child.winfo_pointery())
+#            else:
+#                print("Here's obj",obj)
             # else:
         #    print("Everything is hunky dory")
         #Check and raise an error if the object will appear outside the edge of the window, so fuck you
@@ -1464,8 +1481,8 @@ class Interpreter():
                         hide = True
         #b.grid(row=r, column=c, sticky=N+S+E+W)
         self.checkOccupied(b, width, height)
-        print("\n\nMade it through check occupied!")
         b.place(x = width, y = height, bordermode="outside")
+        print("here is this button's x value", b.winfo_x(), "here's what we said", width)
         if hide:
             b.place_forget() #Note won't work yet
         return b
@@ -1646,7 +1663,8 @@ class Interpreter():
     '''
     def makeDefaultImage(self,w,defaults):
         pass
-    def makeImage(self, w, expr):
+    def makeImage(self, win, expr):
+        w = win.frames
         '''Makes a images with the user defined attributes.'''
         defaults = self.getAllDefaults("Image")
         #(i,l) = self.makeDefaultImage(w,defaults)
@@ -1669,7 +1687,7 @@ class Interpreter():
 
 
                     i = PhotoImage(file=item.source.value)
-                    l = Label(w, image=i)
+                    l = Label(w, image=i, bg = w.cget('bg'))
                     l.image = i
                 else:
                     i = PhotoImage(file="gooeylogosmallest.gif")
