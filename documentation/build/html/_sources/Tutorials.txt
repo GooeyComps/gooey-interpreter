@@ -102,6 +102,10 @@ or you can turn your function into an action for Buttons and MenuItems ::
 
  make Button change with action myFunction(w).
 
+You may want to write all the code in a .txt file instead of dynamically generating it in the Gooey editor. You can rum those files by typing in the terminal::
+
+ python3 gooey.py input.txt
+
 Now you've gone through all the main components of Gooey. You're ready to make your own now!
 
 

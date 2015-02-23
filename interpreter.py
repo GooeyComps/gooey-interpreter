@@ -321,7 +321,6 @@ class Interpreter():
                                 print("tried to fix button padding")
                         else:
                             raise GooeyError("The function "+str(function)+" requires "+str(len(functionBinding.params))+" arguments; you have passed it "+str(len(expr.params))+" arguments.")
->>>>>>> c1bcde2c47a70c2ed9c7551f6f88e5551d093c96
                     else:
                         raise GooeyError("Cannot call "+str(function)+" because it is not a function.")
                 else:
