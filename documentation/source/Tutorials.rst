@@ -113,7 +113,7 @@ You may want to write all the code in a .txt file instead of dynamically generat
 
  python3 gooey.py input.txt
 
-For everything in this tutorial, put the following into a .txt file.
+For everything in this tutorial, put the following into a .txt file::
 
  make Window w with title "Gooey Two", size 400 500, color #8fefdc.
  make TextBox comments with text "Tell me your thoughts".
