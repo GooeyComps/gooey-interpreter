@@ -1468,19 +1468,19 @@ class Interpreter():
                         if item.position.value.r in self.bindings:
                             posRowBinding = self.bindings[item.position.value.r]
                             if posRowBinding.bType == "Integer":
-                                r = posRowBinding.bObject
+                                width = posRowBinding.bObject
                             else:
                                 raise GooeyError("Cannot set Button position attribute to variable of type "+str(posRowBinding.bType))
                         else:
-                            r = int(item.position.value.r)
+                            width = int(item.position.value.r)
                         if item.position.value.c in self.bindings:
                             posColBinding = self.bindings[item.position.value.c]
                             if posColBinding.bType == "Integer":
-                                c = posColBinding.bObject
+                                height = posColBinding.bObject
                             else:
                                 raise GooeyError("Cannot set Button position attribute to variable of type "+str(posRowBinding.bType))
                         else:
-                            c = int(item.position.value.c)
+                            height = int(item.position.value.c)
                     else:
                         width, height = self.getPositionByKeyword(b, item.position.value)
 
@@ -1587,13 +1587,13 @@ class Interpreter():
             elif hasattr(item,'position'):
                 if hasattr(item.position.value, "r"):
                     if item.position.value.r in self.bindings:
-                        r = self.bindings[item.position.value.r].bObject
+                        width = self.bindings[item.position.value.r].bObject
                     else:
-                        r = int(item.position.value.r)
+                        width = int(item.position.value.r)
                     if item.position.value.c in self.bindings:
-                        c = self.bindings[item.position.value.c].bObject
+                        height = self.bindings[item.position.value.c].bObject
                     else:
-                        c = int(item.position.value.c)
+                        height = int(item.position.value.c)
                 else:
                     width, height = self.getPositionByKeyword(b, item.position.value)
                 #b.grid(row=r, column=c, sticky=N+S+E+W)
