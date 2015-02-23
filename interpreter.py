@@ -885,8 +885,9 @@ class Interpreter():
             for item in expr.attributes:
                 if hasattr(item, 'text'):
                     if hasattr(item.text, 'var'):
-                        if (item.text.var in bindings):
-                            a = bindings.get(item.text.var).bObjectspecial = ""
+                        if (item.text.var in self.bindings):
+                            a = self.bindings.get(item.text.var).bObject
+                            special = ""
 
                             if (a[4] == BooleanValue('true')):
                                 special += "bold "
@@ -1424,8 +1425,8 @@ class Interpreter():
                     b.configure(bg=item.color.value)
                 if hasattr(item, 'text'):
                     if hasattr(item.text, 'var'):
-                        if (item.text.var in bindings):
-                            a = bindings.get(item.text.var).bObject
+                        if (item.text.var in self.bindings):
+                            a = self.bindings.get(item.text.var).bObject
                             special = ""
 
                             if (a[4] == BooleanValue('true')):
