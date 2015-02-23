@@ -150,7 +150,7 @@ class Interpreter():
                         self.checkVarname(expr)
                         ft = self.makeFormattedText(self.winBinding, expr)
                         binding = self.makeBinding("FormattedText", expr.varname, ft)
-                        bindings = self.addBinding(binding)
+                        self.bindings = self.addBinding(binding)
 
                     elif(expr.type == "Checkboxes"):
                         self.checkVarname(expr)
@@ -265,53 +265,65 @@ class Interpreter():
                 #Find function with that name
                 function = expr.funcname
                 if function in self.bindings:
-                    wColorBefore = self.winBinding.frames.cget('bg') #NEEDED FOR BUTTON PADDING ADJUSTING
-
                     # Fetch function from bindings
                     functionBinding = self.bindings[function]
 
-                    # Check if parameter and argument lists are same length
-                    if len(expr.params) == len(functionBinding.params):
+                    if functionBinding.bType == 'Function':
+                        wColorBefore = self.winBinding.frames.cget('bg') #NEEDED FOR BUTTON PADDING ADJUSTING
 
-                        # Create new dictionary of local bindings for the function frame,
-                        # and add arguments passed in to it.
-                        localBindings = dict()
-                        localI = Interpreter(self.winBinding.bObject,self.winBinding, localBindings)
+                        # Check if parameter and argument lists are same length
+                        if len(expr.params) == len(functionBinding.params):
 
-                        # Add arguments passed to function to the local bindings with param names.
-                        for paramIndex in range(len(expr.params)):
-                            paramName = functionBinding.params[paramIndex]
-                            argumentName = expr.params[paramIndex]
-                            if argumentName in self.bindings:
-                                argument = self.bindings[argumentName]
-                                newLocalBinding = localI.makeBinding(argument.bType, paramName, argument.bObject, argument.params, argument.frames)
-                                localI.bindings = localI.addBinding(newLocalBinding)
-                                if argument.__class__.__name__ == 'Window':
-                                    localI.winBinding = newLocalBinding
-                            else:
-                                raise GooeyError(str(argumentName) + " is undefined.")
-                                return self.bindings
+                            # Create new dictionary of local bindings for the function frame,
+                            # and add arguments passed in to it.
+                            localBindings = dict()
+                            localI = Interpreter(self.winBinding.bObject,self.winBinding, localBindings)
 
+                            # Add arguments passed to function to the local bindings with param names.
+                            for paramIndex in range(len(expr.params)):
+                                paramName = functionBinding.params[paramIndex]
+                                argumentName = expr.params[paramIndex]
+                                # Check for different arg types
+                                try:
+                                    intArg = int(argumentName)
+                                    newLocalBinding = localI.makeBinding("Integer", paramName, intArg)
+                                    localI.bindings = localI.addBinding(newLocalBinding)
+                                except(ValueError):
+                                    if argumentName.__class__.__name__ == "QuotedText":
+                                        newLocalBinding = localI.makeBinding("String", paramName, argumentName)
+                                        localI.bindings = localI.addBinding(newLocalBinding)
+                                    elif argumentName in self.bindings:
+                                        argument = self.bindings[argumentName]
+                                        newLocalBinding = localI.makeBinding(argument.bType, paramName, argument.bObject, argument.params, argument.frames)
+                                        localI.bindings = localI.addBinding(newLocalBinding)
+                                        if argument.__class__.__name__ == 'Window':
+                                            localI.winBinding = newLocalBinding
+                                    else:
+                                        raise GooeyError(str(argumentName) + " is undefined.")
+                                        return self.bindings
 
-                        # Interpret each line of the function
-                        functionCode = functionBinding.bObject
-                        for line in functionCode:
-                            if line.__class__.__name__ == "Return":
-                                if hasattr(line, "param") and hasattr(expr, "returnTo"):
-                                    returnValue = localI.bindings[line.param]
-                                    returnedParam = self.makeBinding(returnValue.bType, expr.returnTo, \
-                                                                returnValue.bObject, returnValue.params)
-                                    self.bindings = self.addBinding(returnedParam)
-                            else:
-                                (localI.bindings, self.winBinding) = localI.interpret([line])
-                        #CHECK BUTTON PADDING HERE
+                            # Interpret each line of the function
+                            functionCode = functionBinding.bObject
+                            for line in functionCode:
+                                if line.__class__.__name__ == "Return":
+                                    if hasattr(line, "param") and hasattr(expr, "returnTo"):
+                                        returnValue = localI.bindings[line.param]
+                                        returnedParam = self.makeBinding(returnValue.bType, expr.returnTo, returnValue.bObject, returnValue.params)
+                                        self.bindings = self.addBinding(returnedParam)
+                                else:
+                                    (localI.bindings, self.winBinding) = localI.interpret([line])
+                            #CHECK BUTTON PADDING HERE
 
-                        wColorAfter = self.winBinding.frames.cget('bg')
-                        if wColorBefore != wColorAfter:
-                            self.bindings = self.fixObjectPadding(wColorAfter)
-
+                            wColorAfter = self.winBinding.frames.cget('bg')
+                            if wColorBefore != wColorAfter:
+                                print("Colors didn't match")
+                                self.bindings = self.fixButtonPadding(wColorAfter)
+                                print("tried to fix button padding")
+                        else:
+                            raise GooeyError("The function "+str(function)+" requires "+str(len(functionBinding.params))+" arguments; you have passed it "+str(len(expr.params))+" arguments.")
+>>>>>>> c1bcde2c47a70c2ed9c7551f6f88e5551d093c96
                     else:
-                        raise GooeyError("The function "+str(function)+" requires "+str(len(functionBinding.params))+" arguments; you have passed it "+str(len(expr.params))+" arguments.")
+                        raise GooeyError("Cannot call "+str(function)+" because it is not a function.")
                 else:
                     raise GooeyError("This function isn't defined.")
             else:
@@ -320,20 +332,41 @@ class Interpreter():
         return (self.bindings,self.winBinding)
 
 
-
-
-    def makeFormattedText(self,win,expr):
-        w = win.frames
+    '''
+-------------------- FORMATTED TEXT --------------------
+    '''
+    def makeFormattedText(self,w,expr):
         settings = ["Untitled Text", "Times", 12, "black", False, False, False]
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 print (item)
                 if hasattr(item, "text"):
-                    settings[0] = item.text.value
+                    if item.text.value in self.bindings:
+                        textBinding = self.bindings[item.text.value]
+                        if textBinding.bType == "String":
+                            settings[0] = textBinding.bObject
+                        else:
+                            raise GooeyError("Cannot set FormattedText text attribute to "+str(item.text.value)+".")
+                    else:
+                        settings[0] = item.text.value
                 elif hasattr(item, "font"):
-                    settings[1] = item.font.name
+                    if item.font.name in self.bindings:
+                        fontBinding = self.bindings[item.font.name]
+                        if fontBinding.bType == "String":
+                            settings[1] = fontBinding.bObject
+                        else:
+                            raise GooeyError("Cannot set FormattedText font attribute to "+str(item.font.value)+".")
+                    else:
+                        settings[1] = item.font.name
                 elif hasattr(item, "size"):
-                    settings[2] = int(item.size.value)
+                    if item.size.value in self.bindings:
+                        sizeBinding = self.bindings[item.size.value]
+                        if sizeBinding.bType == "Integer":
+                            settings[2] = sizeBinding.bObject
+                        else:
+                            raise GooeyError("Cannot set FormattedText size attribute to "+str(item.size.value)+".")
+                    else:
+                        settings[2] = int(item.size.value)
                 elif hasattr(item, "color"):
                     settings[3] = item.color.value
                 elif hasattr(item, "bold"):
@@ -342,18 +375,41 @@ class Interpreter():
                     settings[5] = item.italic.value
                 elif hasattr(item, "underline"):
                     settings[6] = item.underline.value
+                else:
+                    raise GooeyError("FormattedText does not have that attribute.")
 
         return settings
 
     def setFormattedText(self, ft, win, expr):
         w = win.frames
         for item in expr.attributes:
-            if hasattr(item, 'text'):
-                ft[0] = item.text.value
+            if hasattr(item, "text"):
+                if item.text.value in self.bindings:
+                    textBinding = self.bindings[item.text.value]
+                    if textBinding.bType == "String":
+                        ft[0] = textBinding.bObject
+                    else:
+                        raise GooeyError("Cannot set FormattedText text attribute to "+str(item.text.value)+".")
+                else:
+                    ft[0] = item.text.value
             elif hasattr(item, "font"):
-                ft[1] = item.font.name
+                if item.font.value in self.bindings:
+                    fontBinding = self.bindings[item.font.value]
+                    if fontBinding.bType == "String":
+                        ft[1] = fontBinding.bObject
+                    else:
+                        raise GooeyError("Cannot set FormattedText font attribute to "+str(item.font.value)+".")
+                else:
+                    ft[1] = item.font.name
             elif hasattr(item, "size"):
-                ft[2] = int(item.size.value)
+                if item.size.value in self.bindings:
+                    sizeBinding = self.bindings[item.size.value]
+                    if sizeBinding.bType == "Integer":
+                        ft[2] = sizeBinding.bObject
+                    else:
+                        raise GooeyError("Cannot set FormattedText size attribute to "+str(item.size.value)+".")
+                else:
+                    ft[2] = int(item.size.value)
             elif hasattr(item, "color"):
                 ft[3] = item.color.value
             elif hasattr(item, "bold"):
@@ -364,12 +420,10 @@ class Interpreter():
                 ft[6] = item.underline.value
 
 
-##########################################################################################
-
-    #               CHECKBOXES
-
-    def makeCheckboxes(self,win,expr):
-        w = win.frames
+    '''
+-------------------- CHECKBOXES --------------------
+    '''
+    def makeCheckboxes(self,w,expr):
         cbList = []
         cbSize = 1
         #cbRow, cbColumn = 0, 0
@@ -420,7 +474,7 @@ class Interpreter():
 
                             font = (a[1], a[2], special)
                             ttl.configure(text=a[0], fg=a[3], font=font)
-                            height += a[2] + 10
+                            height += a[2] * 1.8# + 10
                             #cbColumn += a[2] + 10
                             cbList[0].append(a[2] + 10)
                         else:
@@ -528,7 +582,7 @@ class Interpreter():
 
     def makeCheckbox(self,w,i,num, width, height):
         var = StringVar()
-        op = Checkbutton(w, text=i, variable=var, anchor=W, bg = w.cget('bg'))
+        op = Checkbutton(w, text=i, variable=var, anchor=W, bg = w.cget('bg'), highlightbackground=w.cget('bg'))
         op.place(x=width, y=height, bordermode="outside")
         return op
 
@@ -542,7 +596,7 @@ class Interpreter():
         ttlSize = cb[0][3]
         ttl = cb[1]
         for item in expr.attributes:
-            if hasattr(item, "title"):
+            if hasattr(item, "title"): # TEXT HERE
                 if hasattr(item.title, "var"):
 
                     if (item.title.var in self.bindings):
@@ -558,13 +612,13 @@ class Interpreter():
 
                         font = (a[1], a[2], special)
                         ttl.configure(text=a[0], fg=a[3], font=font)
-                        cb[1].place(x=cbRow, y=cbColumn)
-                        ttlSize = a[2] + 10
+                        cb[1].place(x=width, y=height)
+                        ttlSize = a[2] * 1.8# + 10
                     else:
                         raise GooeyError("No formatted text with that name.")
                 else:
-                    cb[1].place(x=cbRow, y=cbColumn)
-                    ttlSize += 20
+                    cb[1].place(x=width, y=height)
+                    #ttlSize += 20
                     ttl.config(text=item.title.value, fg='black', font="system 10",bg = w.cget('bg'))
             elif hasattr(item, "options"):
                 for a in cb[2:]:
@@ -577,7 +631,7 @@ class Interpreter():
                 while(i < len(item.options.options)):
                     if(item.options.options[i] != ""):
                         var = StringVar()
-                        c = Checkbutton(w, text=item.options.options[i], variable=var, anchor=W,bg = w.cget('bg'))
+                        c = Checkbutton(w, text=item.options.options[i], variable=var, anchor=W,bg = w.cget('bg'),highlightbackground=w.cget('bg'))
                         c.configure(height=cbSize)
                         if (isDefault):
                             c.select()
@@ -608,12 +662,10 @@ class Interpreter():
 
         return cb
 
-#
-#    #               RADIOBUTTONS
-#
-#
-    def makeRadioButtons(self,win,expr):
-        w = win.frames
+    '''
+-------------------- RADIOBUTTONS--------------------
+    '''
+    def makeRadioButtons(self,w,expr):
         rbList = []
         selected = False
         var = StringVar(master=w)
@@ -640,7 +692,7 @@ class Interpreter():
             rbList.append([width, height, rbSize])
 
             for item in expr.attributes:
-                if(hasattr(item, 'title')):
+                if(hasattr(item, 'title')): # TEXT HERE
                     hasTitle = True
                     rbTitle = ""
                     if (hasattr(item.title, 'value')):
@@ -663,7 +715,7 @@ class Interpreter():
 
                             font = (a[1], a[2], special)
                             ttl.configure(text=a[0], fg=a[3], font=font)
-                            height += a[2] + 10
+                            height += a[2] * 1.8# + 10
 #                            rbColumn += a[2] + 10
                             rbList[0].append(a[2] + 10)
                         else:
@@ -759,7 +811,7 @@ class Interpreter():
         return rbList
 
     def makeRadioButton(self,w,i,num, width, height, v):
-        gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W,bg = w.cget('bg'))
+        gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
         gg.place(x=width, y=height, bordermode="outside")
         return gg
 
@@ -791,13 +843,13 @@ class Interpreter():
                         ttl.configure(text=a[0], fg=a[3], font=font)
                         rb[1].place(x=width, y=height)
 #                        rb[1].place(x=rbRow, y=rbColumn)
-                        ttlSize = a[2] + 10
+                        ttlSize = int(a[2] * 1.8) #+ 10
                     else:
                         raise GooeyError("No formatted text with that name.")
                 else:
                     rb[1].place(x=width, y=height)
 #                    rb[1].place(x=rbRow, y=rbColumn)
-                    ttlSize += 20
+                    #ttlSize += 20
                     ttl.config(text=item.title.value, fg='black', font="system 10")
             elif hasattr(item, "options"):
                 for a in rb[2:]:
@@ -811,7 +863,7 @@ class Interpreter():
                     if (item.options.options[i] == ""):
                         selected = True
                     else:
-                        r = Radiobutton(w, text=item.options.options[i], variable=var, value=i, anchor=W,bg = w.cget('bg'))
+                        r = Radiobutton(w, text=item.options.options[i], variable=var, value=i, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
                         r.configure(height=rbSize)
                         rb.append(r)
                         # if (selected):
@@ -843,7 +895,6 @@ class Interpreter():
 #            i.place(x=rbRow, y=rbColumn)
             height += 20 * rbSize
 #            rbColumn += 20 * rbSize
-
         return rb
 
 
@@ -864,7 +915,7 @@ class Interpreter():
         hide = False
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
-                if hasattr(item, 'text'):
+                if hasattr(item, 'text'): # TEXT HERE
                     if hasattr(item.text, 'var'):
                         if (item.text.var in self.bindings):
                             a = self.bindings.get(item.text.var).bObject
@@ -891,7 +942,10 @@ class Interpreter():
                     else:
                         width, height = self.getPositionByKeyword(tl, item.position.value)
                 elif hasattr(item, 'color'):
-                    tl.configure(fg=item.color.value)
+                    print("THIS IS THE ITEM.COLOR.VALUE", item.color.value)
+                    color = self.checkRGBColor(item.color.value)
+                    print("AKJDFHLSKJDHFLKSDJFHSLDKFJHSLKDFHJ: ",color)
+                    tl.configure(fg=color)
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == "true":
                         hide = True
@@ -921,7 +975,8 @@ class Interpreter():
                     self.checkOccupied(tl, width, height)
                     tl.place(x = width, y = height, bordermode="outside")
                 elif hasattr(item, 'color'):
-                    tl.configure(fg=item.color.value)
+                    color = self.checkRGBColor(item.color.value)
+                    tl.configure(fg=color)
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == 'true':
                         hide = True
@@ -933,6 +988,18 @@ class Interpreter():
                     raise GooeyError("Can't set Text with an attribute that Text does not have.")
         #tl.grid(row=r, column=c, sticky=N+S+E+W)
         return tl
+
+    def checkRGBColor(self,color):
+        if color[0] == '(':
+            color = color.replace("(","")
+            color = color.replace(")","")
+            color = color.replace(","," ")
+            color = color.split(' ')
+            rgbColor = "#%02x%02x%02x" % (int(color[0]), int(color[1]), int(color[2]))
+            print("RGBBBBB", rgbColor)
+            return rgbColor
+        else:
+            return color
 
 
     '''
@@ -1017,11 +1084,11 @@ class Interpreter():
         ###Leah's shit###
         #NOTE w is now a frame, not the root window##SECOND NOTE NO IT'S NOT#JK it is
         #if color[0]='(':
-        if color[0] == '(':
-            w.configure(bg=color_rgb(int(color[1]),int(color[3]),int(color[5])))
-        else:
-            w.configure(bg = color)
+
+        color = self.checkRGBColor(color)
+        w.configure(bg = color)
         #w.grid(row = 0, column = 0)
+
         w.place(x = 0, y = 0, bordermode="outside")
         ###STop leah's shit###
 
@@ -1207,7 +1274,7 @@ class Interpreter():
         hide = False
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
-                if hasattr(item, 'text'):
+                if hasattr(item, 'text'): # TEXT HERE
                     t.delete("1.0",END)
                     t.insert(END, item.text.value)
                 elif hasattr(item, 'position'):
@@ -1216,6 +1283,9 @@ class Interpreter():
                         height = int(item.position.value.c)
                     else:
                         width, height = self.getPositionByKeyword(t, item.position.value)
+                elif hasattr(item, 'color'):
+                    color = self.checkRGBColor(item.color.value)
+                    t.configure(bg=color)
                 elif hasattr(item, 'size'):
                     if item.size.value == "small":
                         TextBoxWidth = SMALL_TEXTBOX_WIDTH
@@ -1248,7 +1318,7 @@ class Interpreter():
         hide = False
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
-                if hasattr(item, 'text'):
+                if hasattr(item, 'text'): #TEXT HERE
                     t.delete("1.0",END)
                     t.insert(END, item.text.value)
                 elif hasattr(item, 'position'):
@@ -1259,6 +1329,9 @@ class Interpreter():
                         width, height = self.getPositionByKeyword(t, item.position.value)
                     self.checkOccupied(t, width, height)
                     t.place(x = width, y = height, bordermode="outside")
+                elif hasattr(item, 'color'):
+                    color = self.checkRGBColor(item.color.value)
+                    t.configure(bg=color)
                 elif hasattr(item, 'size'):
                     if item.size.value == "small":
                         TextBoxWidth = SMALL_TEXTBOX_WIDTH
@@ -1299,6 +1372,7 @@ class Interpreter():
         #print("this is the window height",self.winBinding.bObject.winfo_height())
         winHeight = self.winBinding.bObject.winfo_reqheight()
         winWidth = self.winBinding.bObject.winfo_reqwidth()
+        print(winHeight, winWidth)
 #        winHeight = self.winBinding.bObject.winfo_height()
 #        winWidth = self.winBinding.bObject.winfo_width()
 
@@ -1310,6 +1384,7 @@ class Interpreter():
             raise GooeyError("Object placed outside window. Choose a new height")
         #Go through the bindings and make sure we're not placing on top of other objects
         #See children of root window
+
         kids = self.winBinding.frames.winfo_children()
         print("Here are the children",kids)
         for child in kids:
@@ -1349,34 +1424,64 @@ class Interpreter():
             buttonAttributeList = expr.attributes
             for item in buttonAttributeList:
                 if hasattr(item, 'color'):
-                    b.configure(bg=item.color.value)
+                    color = self.checkRGBColor(item.color.value)
+                    b.configure(bg=color)
                 if hasattr(item, 'text'):
                     if hasattr(item.text, 'var'):
-                        if (item.text.var in bindings):
-                            a = bindings.get(item.text.var).bObject
-                            special = ""
+                        if (item.text.var in self.bindings):
+                            if self.bindings[item.text.var].bType == "String":
+                                b.configure(text=self.bindings[item.text.var].bObject)
+                            else: #TODO: if Formatted text, check if not type you can change text to.
+                                a = self.bindings.get(item.text.var).bObject
+                                special = ""
 
-                            if (a[4] == BooleanValue('true')):
-                                special += "bold "
-                            if (a[5] == BooleanValue('true')):
-                                special += "italic "
-                            if (a[6] == BooleanValue('true')):
-                                special += "underline"
-                            special = special.strip()
+                                if (a[4] == BooleanValue('true')):
+                                    special += "bold "
+                                if (a[5] == BooleanValue('true')):
+                                    special += "italic "
+                                if (a[6] == BooleanValue('true')):
+                                    special += "underline"
+                                special = special.strip()
 
-                            font = (a[1], a[2], special)
-                            b.configure(text=a[0], fg=a[3], font=font)
+
+                                font = (a[1], a[2], special)
+                                b.configure(text=a[0], fg=a[3], font=font)
+                            #else:
+                                #raise GooeyError("Can't set text to variable of type "+str(self.bindings[item.text.var].bType)+".")
                         else:
-                            raise GooeyError("No formatted text with that name.")
+                            raise GooeyError("The variable "+str(item.text.var)+" is undefined.")
                     else:
                         b.configure(text=item.text.value)
                 elif hasattr(item,'size'):
-                    b.configure(width=int(item.size.value.columns))
-                    #b.configure(height=int(item.size.value.rows))
+                    if hasattr(item.size.value, 'columns'):
+                        if item.size.value.columns in self.bindings:
+                            sizeBinding = self.bindings[item.size.value.columns]
+                            if sizeBinding.bType == "Integer":
+                                b.configure(width=sizeBinding.bObject)
+                            else:
+                                raise GooeyError("Cannot set Button size attribute to variable of type "+str(sizeBinding.bType))
+                        else:
+                            b.configure(width=item.size.value.columns)
+                    else: #TODO: button size by keyword
+                        pass
                 elif hasattr(item,'position'):
                     if hasattr(item.position.value, "r"):
-                        width = int(item.position.value.r)
-                        height = int(item.position.value.c)
+                        if item.position.value.r in self.bindings:
+                            posRowBinding = self.bindings[item.position.value.r]
+                            if posRowBinding.bType == "Integer":
+                                r = posRowBinding.bObject
+                            else:
+                                raise GooeyError("Cannot set Button position attribute to variable of type "+str(posRowBinding.bType))
+                        else:
+                            r = int(item.position.value.r)
+                        if item.position.value.c in self.bindings:
+                            posColBinding = self.bindings[item.position.value.c]
+                            if posColBinding.bType == "Integer":
+                                c = posColBinding.bObject
+                            else:
+                                raise GooeyError("Cannot set Button position attribute to variable of type "+str(posRowBinding.bType))
+                        else:
+                            c = int(item.position.value.c)
                     else:
                         width, height = self.getPositionByKeyword(b, item.position.value)
 
@@ -1403,6 +1508,8 @@ class Interpreter():
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == "true":
                         hide = True
+                else:
+                    raise GooeyError("Can't set Button with attribute Button doesn't have.")
         #b.grid(row=r, column=c, sticky=N+S+E+W)
         self.checkOccupied(b, width, height)
         b.place(x = width, y = height, bordermode="outside")
@@ -1418,7 +1525,10 @@ class Interpreter():
 
         gooeyStr = "run "+str(action)+"("
         for param in range(len(params)):
-            gooeyStr += str(params[param])
+            if params[param].__class__.__name__ == "QuotedText":
+                gooeyStr += "\"" + str(params[param]) + "\""
+            else:
+                gooeyStr += str(params[param])
             if param < len(params)-1:
                 gooeyStr += ", "
         gooeyStr += ")."
@@ -1433,34 +1543,58 @@ class Interpreter():
         buttonAttributeList = expr.attributes
         for item in buttonAttributeList:
             if hasattr(item, 'color'):
-                b.configure(bg=item.color.value)
+                color = self.checkRGBColor(item.color.value)
+                b.configure(bg=color)
             if hasattr(item, 'text'):
                 if hasattr(item.text, 'var'):
-                    if (item.text.var in bindings):
-                        a = bindings.get(item.text.var).bObject
-                        special = ""
+                    if (item.text.var in self.bindings):
+                        if self.bindings[item.text.var].bType == "String":
+                            b.configure(text=self.bindings[item.text.var].bObject)
+                        else: #TODO: if Formatted text, check if not type you can change text to.
+                            a = self.bindings.get(item.text.var).bObject
+                            special = ""
 
-                        if (a[4] == BooleanValue('true')):
-                            special += "bold "
-                        if (a[5] == BooleanValue('true')):
-                            special += "italic "
-                        if (a[6] == BooleanValue('true')):
-                            special += "underline"
-                        special = special.strip()
+                            if (a[4] == BooleanValue('true')):
+                                special += "bold "
+                            if (a[5] == BooleanValue('true')):
+                                special += "italic "
+                            if (a[6] == BooleanValue('true')):
+                                special += "underline"
+                            special = special.strip()
 
-                        font = (a[1], a[2], special)
-                        b.configure(text=a[0], fg=a[3], font=font)
+                            font = (a[1], a[2], special)
+                            b.configure(text=a[0], fg=a[3], font=font)
+                        #else:
+                            #raise GooeyError("Can't set text to variable of type "+str(self.bindings[item.text.var].bType)+".")
                     else:
-                        raise GooeyError("No formatted text with that name.")
+                        raise GooeyError("The variable "+str(item.text.var)+" is undefined.")
                 else:
                     b.configure(text=item.text.value)
+
             elif hasattr(item,'size'):
-                b.configure(width=int(item.size.value.columns))
-                #b.configure(height=int(item.size.value.rows))
+                if hasattr(item.size.value, 'columns'):
+                    if item.size.value.columns in self.bindings:
+                        sizeBinding = self.bindings[item.size.value.columns]
+                        if sizeBinding.bType == "Integer":
+                            b.configure(width=sizeBinding.bObject)
+                        else:
+                            raise GooeyError("Cannot make Button size attribute with variable of type "+str(sizeBinding.bType))
+                    else:
+                        b.configure(width=item.size.value.columns)
+                else: # TODO: button size by keyword
+                    pass
+
+
             elif hasattr(item,'position'):
                 if hasattr(item.position.value, "r"):
-                    width = int(item.position.value.r)
-                    height = int(item.position.value.c)
+                    if item.position.value.r in self.bindings:
+                        r = self.bindings[item.position.value.r].bObject
+                    else:
+                        r = int(item.position.value.r)
+                    if item.position.value.c in self.bindings:
+                        c = self.bindings[item.position.value.c].bObject
+                    else:
+                        c = int(item.position.value.c)
                 else:
                     width, height = self.getPositionByKeyword(b, item.position.value)
                 #b.grid(row=r, column=c, sticky=N+S+E+W)
@@ -1468,29 +1602,27 @@ class Interpreter():
                 b.place(x=width, y=height)
 
             elif hasattr(item, 'action'):
-                    #Cast action to string, otherwise you cannot find right action
-                    #This is temporary until I can call the action as a direct line in the command
-
-                    act = str(item.action.funcname)
-
-                    a = actionbuttons.findAction(item)
-                    if actionbuttons.checkActions(a):
-                        b.configure(command=lambda: actionbuttons.callAction(w,item,act))
-                    else: #Gooey code function
-                        args = []
-                        if hasattr(item.action, "arguments"):
-                            args = item.action.arguments
-                        b.configure(command=lambda: self.gooeyCallAction(a, args)) #figure out params for this
-                        #run this like we're running a function definition
-
-
-                    # else:
-                    #     print("You have entered a command that is not defined")
+                #Cast action to string, otherwise you cannot find right action
+                #This is temporary until I can call the action as a direct line in the command
+                act = str(item.action.funcname)
+                a = actionbuttons.findAction(item)
+                if actionbuttons.checkActions(a):
+                    b.configure(command=lambda: actionbuttons.callAction(w,item,act))
+                else: #Gooey code function
+                    args = []
+                    if hasattr(item.action, "arguments"):
+                        args = item.action.arguments
+                    b.configure(command=lambda: self.gooeyCallAction(a, args)) #figure out params for this
+                    #run this like we're running a function definition
+                # else:
+                #     print("You have entered a command that is not defined")
             elif hasattr(item, 'hidden'):
                 if item.hidden.value == 'false':
                     b.place(x=b.winfo_x(), y=b.winfo_y()) #Note: won't work yet
                 elif item.hidden.value == 'true':
                     b.place_forget() #Note: won't work yet
+            else:
+                raise GooeyError("Can't make Button with attribute Button doesn't have.")
         return b
 
     def fixObjectPadding(self,color):
