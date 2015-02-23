@@ -909,7 +909,10 @@ class Interpreter():
                     else:
                         width, height = self.getPositionByKeyword(tl, item.position.value)
                 elif hasattr(item, 'color'):
-                    tl.configure(fg=item.color.value)
+                    print("THIS IS THE ITEM.COLOR.VALUE", item.color.value)
+                    color = self.checkRGBColor(item.color.value)
+                    print("AKJDFHLSKJDHFLKSDJFHSLDKFJHSLKDFHJ: ",color)
+                    tl.configure(fg=color)
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == "true":
                         hide = True
@@ -941,7 +944,8 @@ class Interpreter():
                     self.checkOccupied(tl, width, height)
                     tl.place(x = width, y = height, bordermode="outside")
                 elif hasattr(item, 'color'):
-                    tl.configure(fg=item.color.value)
+                    color = self.checkRGBColor(item.color.value)
+                    tl.configure(fg=color)
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == 'true':
                         hide = True
@@ -956,11 +960,11 @@ class Interpreter():
 
     def checkRGBColor(self,color):
         if color[0] == '(':
-            newColor = color.replace("(","")
-            newColor = color.replace(")","")
-            newColor = color.replace(","," ")
-            newColor = color.split(' ')
-            rgbColor = "#%02x%02x%02x" % (int(newColor[0]), int(newColor[1]), int(newColor[2]))
+            color = color.replace("(","")
+            color = color.replace(")","")
+            color = color.replace(","," ")
+            color = color.split(' ')
+            rgbColor = "#%02x%02x%02x" % (int(color[0]), int(color[1]), int(color[2]))
             print("RGBBBBB", rgbColor)
             return rgbColor
         else:
@@ -1074,9 +1078,9 @@ class Interpreter():
         #NOTE w is now a frame, not the root window##SECOND NOTE NO IT'S NOT#JK it is
         #if color[0]='(':
         color = self.checkRGBColor(color)
-        print("PPOOOOOOOOPPPPPPP")
         w.configure(bg = color)
         #w.grid(row = 0, column = 0)
+        
         w.place(x = 0, y = 0, bordermode="outside")
         ###STop leah's shit###
 
@@ -1281,6 +1285,9 @@ class Interpreter():
                         height = int(item.position.value.c)
                     else:
                         width, height = self.getPositionByKeyword(t, item.position.value)
+                elif hasattr(item, 'color'):
+                    color = self.checkRGBColor(item.color.value)
+                    t.configure(bg=color)
                 elif hasattr(item, 'size'):
                     print("HAS SIZE")
                     if item.size.value == "small":
@@ -1328,6 +1335,9 @@ class Interpreter():
                         width, height = self.getPositionByKeyword(t, item.position.value)
                     self.checkOccupied(t, width, height)
                     t.place(x = width, y = height, bordermode="outside")
+                elif hasattr(item, 'color'):
+                    color = self.checkRGBColor(item.color.value)
+                    t.configure(bg=color)
                 elif hasattr(item, 'size'):
                     print("GOT TO SIZE: ", item.size.value)
                     if item.size.value == "small":
@@ -1361,7 +1371,7 @@ class Interpreter():
     '''
     def checkOccupied(self,obj, width, height):
         print("\n\n\nCHECKOCCUPIED")
-        
+
         #print("THIS IS THE OBJECT", obj)
         #print("THESE ARE THE BINDINGS", self.winBinding.bObject)
         # Checks to make sure nothing is in the space the user is trying to place an object
@@ -1369,6 +1379,7 @@ class Interpreter():
         #print("this is the window height",self.winBinding.bObject.winfo_height())
         winHeight = self.winBinding.bObject.winfo_reqheight()
         winWidth = self.winBinding.bObject.winfo_reqwidth()
+        print(winHeight, winWidth)
 #        winHeight = self.winBinding.bObject.winfo_height()
 #        winWidth = self.winBinding.bObject.winfo_width()
 
@@ -1380,6 +1391,7 @@ class Interpreter():
             raise GooeyError("Object placed outside window. Choose a new height")
         #Go through the bindings and make sure we're not placing on top of other objects
         #See children of root window
+        
         kids = self.winBinding.frames.winfo_children()
         print("Here are the children",kids)
         for child in kids:
@@ -1421,7 +1433,8 @@ class Interpreter():
             buttonAttributeList = expr.attributes
             for item in buttonAttributeList:
                 if hasattr(item, 'color'):
-                    b.configure(bg=item.color.value)
+                    color = self.checkRGBColor(item.color.value)
+                    b.configure(bg=color)
                 if hasattr(item, 'text'):
                     if hasattr(item.text, 'var'):
                         if (item.text.var in bindings):
@@ -1512,7 +1525,8 @@ class Interpreter():
         buttonAttributeList = expr.attributes
         for item in buttonAttributeList:
             if hasattr(item, 'color'):
-                b.configure(bg=item.color.value)
+                color = self.checkRGBColor(item.color.value)
+                b.configure(bg=color)
             if hasattr(item, 'text'):
                 if hasattr(item.text, 'var'):
                     if (item.text.var in bindings):
