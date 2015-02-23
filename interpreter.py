@@ -1542,7 +1542,9 @@ class Interpreter():
 
     def makeDefaultMenu(self,w,defaults):
         pass
-    def makeMenu(self,w,expr):
+
+    def makeMenu(self,win,expr):
+        w = win.bObject
 
         rootMenu = None
         children = w.winfo_children()
