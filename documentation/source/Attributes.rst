@@ -4,7 +4,7 @@ Attributes
 
 Attributes control the details of each Object you create. Not all Objects can have the same attributes, and some attributes are specific to one or two Objects.
 
-Each attribute needs a *value*. Some attributes accept values in multiple different formats. 
+Each attribute needs a *value*. Some attributes accept values in multiple different formats.
 
 Title
 =====
@@ -20,7 +20,7 @@ Values:
 Text
 ====
 
-Text will generally create words on top of or inside the object. 
+Text will generally create words on top of or inside the object.
 
 Values:
 
@@ -33,19 +33,24 @@ Options will generally be a list describing the different Checkboxes, RadioButti
 
 Values:
 
-- A space separated list of plaintext strings surrounded by double quotation marks. 
+- A space separated list of plaintext strings surrounded by double quotation marks.
     + Example: "Option1" "Option2" "Option3"
- 
+
 - For *Checkboxes*, an \* before **one or more** of the strings will create those values automatically checked
     + Example: \*"Option1" "Option2" \*"Option3"
- 
+
 - For *RadioButtons* an \* before **one** of the strings will create that value automatically selected
     + Example "Option1" \*"Option2" "Option3"
 
 Position
 ========
 
-Position allows you to move your objects around the window. If you want to set the position  of an Object, you must first set the size of the of the Window. 
+Position allows you to move your objects around the window. If you want to set the position of an Object, you must first set the size of the of the Window. Position can be set as an x y coordinate by **pixels**, with x an y as plain integers seperated by a space.
+
+For an idea of pixel positions, refer to the following *size 500 500* window.
+
+ .. image:: images/positionguide.png
+
 
 Values:
 
@@ -59,7 +64,7 @@ Values:
     + topright
     + bottomleft
     + bottomright
-    
+
 - Height and width integer coordinates, separated by a space.
     + Example: position 3 5
 
@@ -75,14 +80,14 @@ Values:
     + small
     + medium
     + large
-    
+
 - Height and Width integers, separated by a space.
     + Example: size 2 5
 
 Color
 =====
 
-Color changes the color of the object. 
+Color changes the color of the object.
 
 Values:
 
@@ -101,7 +106,7 @@ Values:
 
 - A RGB value, separated by spaces.
     + Example: color 000 000 255.
-    
+
 - A hex value
     + Example: color #33aa00
 
@@ -117,7 +122,7 @@ Values:
     + write
     + changeWindowColor
     + changeWindowSize
-    
+
 - A custom function:
     + See: Functions and Actions
 
@@ -143,7 +148,7 @@ Values:
 
 
 Size (for FormattedText)
-========
+========================
 
 Changes font size for FormattedText object
 
@@ -151,7 +156,7 @@ Values:
 
 - An integer for font pt size
 
-bold
+Bold
 ====
 
 Changes text to bold font when set to True. Default is **False**.
@@ -161,8 +166,8 @@ Values:
 - true
 - false
 
-italic
-=======
+Italic
+======
 
 Changes text to italicized font when set to True. Default is **False**.
 
@@ -171,8 +176,8 @@ Values:
 - true
 - false
 
-underline
-=======
+Underline
+=========
 
 Changes text to be underlined when set to True. Default is **False**.
 
@@ -181,7 +186,7 @@ Values:
 - true
 - false
 
-source
+Source
 ======
 
 The path or filename for the Image object. Source files **must be in .gif format**

@@ -15,13 +15,13 @@ class ColorKeywordValue(Keyword):
                     K("purple"),K("pink"),K("cyan"),K("magenta"),K("white"),K("black"))
 
 class SizeGridValue(str):
-    grammar = attr("columns", intRegex), blank, attr("rows", intRegex)
+    grammar = attr("columns", [intRegex, varnameRegex]), blank, attr("rows", [intRegex, varnameRegex])
 
 class SizeKeywordValue(Keyword):
     grammar = Enum(K("small"), K("medium"),K("large"))
 
 class PositionGridValue(str):
-    grammar = attr("r", intRegex), blank, attr("c", intRegex)
+    grammar = attr("r", [intRegex, varnameRegex]), blank, attr("c", [intRegex, varnameRegex])
 
 class PositionKeywordValue(Keyword):
     grammar = Enum(K("center"), K("top"), K("bottom"), K("left"), K("right"), K("topcenter"), K("bottomcenter"), K("topleft"), K("topright"), K("bottomleft"), K("bottomright"))
@@ -49,8 +49,6 @@ class ColorAttribute(List):
 class TextColorAttribute:
     grammar = 'textColor', blank, attr('value', [rgbRegex, hexRegex, ColorKeywordValue])
 
-
-
 class PositionAttribute(List):
     grammar = 'position', blank, attr('value', [PositionKeywordValue, PositionGridValue])
 
@@ -60,16 +58,18 @@ class TextAttribute(List):
 class ActionAttribute(List):
     #grammar = 'action', blank, attr("value", word)
 #    grammar = "action", blank, attr("value", word), optional(attr("text", actionPrint)), optional(attr("color", [rgbRegex, hexRegex, ColorKeywordValue])), optional(attr("size", [intRegex, SizeGridValue, SizeKeywordValue]))
-    grammar = "action", blank, attr("funcname", word), optional(attr("arguments", some(word)))
+    grammar = "action", blank, attr("funcname", word), optional(attr("arguments", some([QuotedText, varnameRegex, intRegex])))
 
 class TitleAttribute(List):
     #grammar = 'title', blank, attr('value', QuotedText)
     #grammar = "title", blank, "\"", attr("value", textRegex), "\""
     grammar = 'title', blank, [attr('value', QuotedText), attr('var', varnameRegex)]
 
+
 #Font
 class FontAttribute:
-    grammar = "font", blank, "\"", attr("value", textRegex), "\""
+    grammar = "font", blank, attr("value", [QuotedText, varnameRegex])
+
 
 #   MENUITEM DOES THIS GO IN ATTRIBUTE CLASS????
 class MenuItemTerminal(List):
@@ -82,19 +82,20 @@ class MenuItemOptionsAttribute(List):
     # grammar = 'menuoption', blank, attr('value', maybe_some([word, MenuItemTerminal]))
     grammar = 'menuoption', blank, attr('value', maybe_some(MenuItemTerminal))
 
+
 #   IMAGE
 class ImageSourceAttribute(List):
     grammar = 'source', blank, attr('value', SourceFileText)
+
 
 #   CHECKBOXES and RADIOBUTTONS
 class GroupOptionsAttribute(List):
     grammar = 'options', blank, attr('options', some(optional(Star), QuotedText))
 
+
 #   FORMATTED TEXT
 class FTFontAttribute:
-    grammar = 'font', blank, attr('name', QuotedText)
-
-
+    grammar = 'font', blank, attr('name', [QuotedText, varnameRegex])
 
 class FTBoldAttribute:
     grammar = 'bold', blank, attr('value', BooleanValue)
@@ -109,7 +110,7 @@ class HiddenAttribute(List):
     grammar = 'hidden', blank, attr('value', HiddenKeywordValue)
 
 class FTSizeAttribute:
-    grammar = attr('value', intRegex)
+    grammar = attr('value', [intRegex, varnameRegex])
 
 class SizeAttribute(List):
 #    grammar = 'size', blank, attr('value', [intRegex, SizeGridValue, SizeKeywordValue])

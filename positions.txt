@@ -1,0 +1,26 @@
+make Window win with size 500 500, color #cfc8f7, title "Position Guide".
+make Text a with text "0, 0".
+make Text b with text "0, 100", position 0 100.
+make Text c with text "0, 200", position 0 200.
+make Text d with text "0, 300", position 0 300.
+make Text e with text "0, 400", position 0 400.
+make Text f with text "100, 0", position 100 0.
+make Text g with text "200, 0", position 200 0.
+make Text h with text "300, 0", position 300 0.
+make Text i with text "400, 0", position 400 0.
+make Text j with text "100, 100", position 100 100.
+make Text k with text "200, 100", position 200 100.
+make Text l with text "300, 100", position 300 100.
+make Text m with text "400, 100", position 400 100.
+make Text n with text "100, 200", position 100 200.
+make Text o with text "200, 200", position 200 200.
+make Text p with text "300, 200", position 300 200.
+make Text q with text "400, 200", position 400 200.
+make Text r with text "100, 300", position 100 300.
+make Text s with text "200, 300", position 200 300.
+make Text t with text "300, 300", position 300 300.
+make Text u with text "400, 300", position 400 300.
+make Text v with text "100, 400", position 100 400.
+make Text w with text "200, 400", position 200 400.
+make Text x with text "300, 400", position 300 400.
+make Text y with text "400, 400", position 400 400.

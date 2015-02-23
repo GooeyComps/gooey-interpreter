@@ -6,7 +6,7 @@ from tkinter import *
 # Print something actions
 #def write(printTest):
 def write(window, item):
-    printTest = item.action.text
+    printTest = item.action.arguments
     print(printTest)
     #return (window, item)
 
@@ -19,19 +19,19 @@ def quit(window, item):
 # Change color of window actions
 #def windowColorChange(window, c):
 def windowColorChange(window,item):
-    c = item.action.color
+    c = item.action.arguments
     window.configure(bg= c)
     #return (window,item)
 
-# Changes size of window
-def windowSizeChange(window, item):
-    c = item.action.size
-    if c.lower() == "large":
-        window.geometry('600x600')
-    elif c.lower() == "medium":
-        window.geometry('400x400')
-    elif c.lower() == "small":
-        window.geometry('200x200')
+## Changes size of window
+#def windowSizeChange(window, item):
+#    c = item.action.size
+#    if c.lower() == "large":
+#        window.geometry('600x600')
+#    elif c.lower() == "medium":
+#        window.geometry('400x400')
+#    elif c.lower() == "small":
+#        window.geometry('200x200')
 
 def findAction(item):
     action = str(item.action.funcname)
@@ -52,7 +52,7 @@ def callAction(window,item,action):
     # print(locals())
     # print(globals())
     exec(action+"(window,item)")
-    
+
 def checkActions(action):
     actionList = ['write','quit','windowColorChange','windowSizeChange']
     if action not in actionList:

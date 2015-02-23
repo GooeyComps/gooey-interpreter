@@ -24,6 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Gooey 1.0 documentation" href="index.html" />
+    <link rel="next" title="Attributes" href="Attributes.html" />
     <link rel="prev" title="Tutorials" href="Tutorials.html" /> 
   </head>
   <body role="document">
@@ -33,6 +34,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Attributes.html" title="Attributes"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="Tutorials.html" title="Tutorials"
              accesskey="P">previous</a> |</li>
@@ -50,12 +54,12 @@
 <p>Actions and functions are extremely important elements of GUIs. Actions and functions make things happen.</p>
 <div class="section" id="actions">
 <h2>Actions<a class="headerlink" href="#actions" title="Permalink to this headline">¶</a></h2>
-<p><em>Actions</em> are the attributes for ojbects like <em>Buttons</em> and <em>MenuItems</em> that make them do things. For example:</p>
+<p><em>Actions</em> are the attributes for objects like <em>Buttons</em> and <em>MenuItems</em> that make them do things. For example:</p>
 <div class="highlight-python"><div class="highlight"><pre>make Button quit with title &quot;Stop&quot;, action quit.
 </pre></div>
 </div>
 <p>will make a button that shuts down the program when clicked.</p>
-<p><em>quit</em> is one of a handful of defualt actions Gooey has created for you.</p>
+<p><em>quit</em> is one of a handful of default actions Gooey has created for you.</p>
 <div class="section" id="write">
 <h3>Write<a class="headerlink" href="#write" title="Permalink to this headline">¶</a></h3>
 <p>The <em>write</em> action will print a string to the terminal. After declaring the write action, add a string in double quotation marks, as follows:</p>
@@ -79,14 +83,6 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="windowsizechange">
-<h3>windowSizeChange<a class="headerlink" href="#windowsizechange" title="Permalink to this headline">¶</a></h3>
-<p>The <em>windowSizeChange</em> action changes the size of the window. After declaring the <em>windowSizeChange</em> action, add a size value.</p>
-<p>Example:</p>
-<div class="highlight-python"><div class="highlight"><pre>make Button size with title &quot;Full Screen&quot;, action windowSizeChange large.
-</pre></div>
-</div>
-</div>
 </div>
 <div class="section" id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
@@ -100,16 +96,14 @@
 <p>This line of code means that the function named myFunction, which takes in an object <em>win</em>, will reset the window color to green. You need to return the object at the end for your changes to occur.</p>
 <p>There are two ways to run your function. You can use the <em>run</em> command to run the function yourself:</p>
 <div class="highlight-python"><div class="highlight"><pre>make Window w.
-function myFunction(win) does set win color green; return win.
+function myFunction(win) does set win color green.
 run myFunction(w).
 </pre></div>
 </div>
-<p>Alternatively, you can set the function as a Button or MenuItem action.:</p>
+<p>Alternatively, you can set the function as a Button.:</p>
 <div class="highlight-python"><div class="highlight"><pre>make Window w.
 function myFunction(win) does set win color green; return win.
-make Button b with action myFunction(win).
-make Menu with options file
-make MenuItem file with title &quot;File&quot;, options &quot;Change&quot;:myFunction(win).
+make Button b with action myFunction w.
 </pre></div>
 </div>
 </div>
@@ -121,6 +115,9 @@ make MenuItem file with title &quot;File&quot;, options &quot;Change&quot;:myFun
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/gooey.png" alt="Logo"/>
+            </a></p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Actions and Functions</a><ul>
@@ -128,7 +125,6 @@ make MenuItem file with title &quot;File&quot;, options &quot;Change&quot;:myFun
 <li><a class="reference internal" href="#write">Write</a></li>
 <li><a class="reference internal" href="#quit">Quit</a></li>
 <li><a class="reference internal" href="#windowcolorchange">windowColorChange</a></li>
-<li><a class="reference internal" href="#windowsizechange">windowSizeChange</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#functions">Functions</a></li>
@@ -139,6 +135,9 @@ make MenuItem file with title &quot;File&quot;, options &quot;Change&quot;:myFun
   <h4>Previous topic</h4>
   <p class="topless"><a href="Tutorials.html"
                         title="previous chapter">Tutorials</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Attributes.html"
+                        title="next chapter">Attributes</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -169,6 +168,9 @@ make MenuItem file with title &quot;File&quot;, options &quot;Change&quot;:myFun
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="Attributes.html" title="Attributes"
+             >next</a> |</li>
         <li class="right" >
           <a href="Tutorials.html" title="Tutorials"
              >previous</a> |</li>

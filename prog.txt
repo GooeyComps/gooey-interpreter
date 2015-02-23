@@ -1,3 +1,18 @@
 make Window w.
 function e(win) does set win color red.
 run e(w).
+make Button b1 with position 100 100.
+function change(but1, t1, t2) does set but1 text t1; make Button but2 with text t2; return but2.
+run change(b1, "hellooo thereeee", "whattupyo!") as b2.
+function changeText(bbb, ttt) does set bbb text ttt.
+set b1 action changeText b2 "hi there".
+set b2 position 200 200.
+function changePos(butt, posx, posy) does set butt position posx posy.
+run changePos(b2, 250, 250).
+function makeAButton(txt, posx, posy, sizeX, sizeY) does
+    make Button newThing;
+    set newThing text txt,
+    size sizeX sizeY,
+    position posx posy;
+    return newThing.
+run makeAButton("A Whole new woooooorld", 300, 0, 300, 200) as emily.
