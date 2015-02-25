@@ -322,9 +322,12 @@ class Interpreter():
 
                             wColorAfter = self.winBinding.frames.cget('bg')
                             if wColorBefore != wColorAfter:
+
                                 # print("Colors didn't match")
                                 self.bindings = self.fixObjectPadding(wColorAfter)
                                 # print("tried to fix button padding")
+
+
                         else:
                             raise GooeyError("The function "+str(function)+" requires "+str(len(functionBinding.params))+" arguments; you have passed it "+str(len(expr.params))+" arguments.")
                     else:
@@ -344,7 +347,9 @@ class Interpreter():
         settings = ["Untitled Text", "Times", 12, "black", False, False, False]
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
+
                 # print (item)
+
                 if hasattr(item, "text"):
                     if item.text.value in self.bindings:
                         textBinding = self.bindings[item.text.value]
@@ -503,6 +508,7 @@ class Interpreter():
 
             for item in expr.attributes:
                 if(hasattr(item, 'options')):
+
                     hasOptions = True
                     i = 0
                     j = 0
@@ -582,8 +588,7 @@ class Interpreter():
         return cbList
 
     def moveCheckboxbyKeyword(self, cbList):
-#        for item in cbList:
-#            print("item in cblist", item)
+
             pass
 
     def makeCheckbox(self,w,i,num, width, height):
@@ -668,241 +673,245 @@ class Interpreter():
 
         return cb
 
-    '''
--------------------- RADIOBUTTONS--------------------
-    '''
-    def makeRadioButtons(self,w,expr):
-        w=w.frames
-        rbList = []
-        selected = False
-        var = StringVar(master=w)
-        rbSize = 1
-#        rbRow, rbColumn = 0, 0
-        width, height = 0, 0
-        rbTitle = "Untitled RadioButtons"
-        hasTitle = False
-        hasOptions = False
-        if hasattr(expr, "attributes"):
-            for item in expr.attributes:
-                if hasattr(item, 'position'):
-                    if hasattr(item.position.value, "r"):
-                        width = int(item.position.value.r)
-                        height = int(item.position.value.c)
-#                        rbRow = int(item.position.value.r)
-#                        rbColumn = int(item.position.value.c)
-                    else:
-                        width, height = self.getPositionByKeyword(item.position.value)
-#                        rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
-                if hasattr(item, 'size'):
-                    rbSize = item.size.value
-
-            rbList.append([width, height, rbSize])
-
-            for item in expr.attributes:
-                if(hasattr(item, 'title')): # TEXT HERE
-                    hasTitle = True
-                    rbTitle = ""
-                    if (hasattr(item.title, 'value')):
-                        rbTitle = item.title.value
-                    ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
-                    ttl.place(x=width,y=height)
-#                    ttl.place(x=rbColumn,y=rbRow)
-                    if hasattr(item.title, 'var'):
-                        if (item.title.var in self.bindings):
-                            a = self.bindings.get(item.title.var).bObject
-                            special = ""
-
-                            if (a[4] == BooleanValue('true')):
-                                special += "bold "
-                            if (a[5] == BooleanValue('true')):
-                                special += "italic "
-                            if (a[6] == BooleanValue('true')):
-                                special += "underline"
-                            special = special.strip()
-
-                            font = (a[1], a[2], special)
-                            ttl.configure(text=a[0], fg=a[3], font=font)
-                            height += a[2] * 1.8# + 10
-#                            rbColumn += a[2] + 10
-                            rbList[0].append(a[2] + 10)
-                        else:
-                            raise GooeyError("No formatted text with that name.")
-                    else:
-                        ttl.configure(text=item.title.value)
-                        height += 22
-#                        rbColumn += 22
-                        rbList[0].append(22)
-                    rbList.append(ttl)
-
-            if not hasTitle:
-                ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
-                ttl.place(x=width,y=height)
-                height += 22
-#                ttl.place(x=rbColumn,y=rbRow)
-#                rbColumn += 22
-                rbList[0].append(22)
-                rbList.append(ttl)
-
-            for item in expr.attributes:
-                if(hasattr(item, 'options')):
-                    count = 0
-                    for x in item.options.options:
-                        if (x == ""):
-                            count += 1
-                        if (count == 2):
-                            raise GooeyError("RadioButtons cannot have multiple default selected options.")
-
-                    i = 0
-                    j = 0
-                    while(i < len(item.options.options)):
-                        if (item.options.options[i] == ""):
-                            selected = True
-                        else:
-                            rb = self.makeRadioButton(w,item.options.options[i], j, width, height, var)
-                            rb.configure(height=rbSize)
-                            rb.deselect()
-                            rbList.append(rb)
-                            # if (selected):
-                            #     var.set(j)
-                            #     selected = False
-                            j += 1
-                        i += 1
-                elif(hasattr(item, 'title')):
-                    pass
-                elif(hasattr(item, 'position')):
-                    pass
-                elif(hasattr(item, 'size')):
-                    pass
-                else:
-                    raise GooeyError("Cannot make RadioButtons with an attribute that RadioButtons does not have.")
-
-            if not hasOptions:
-                i = 0
-                j = 0
-                while(i < 3):
-                    optionText = "Option " + str(i + 1)
-                    rb = self.makeRadioButton(w,optionText, j, width, height, var)
-#                    rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
-                    height += 20 * rbSize
-#                    rbColumn += 20 * rbSize
-                    rb.configure(height=rbSize)
-                    rbList.append(rb)
-                    j += 1
-                    i += 1
-
-        else:
-            rbTitle = "Untitled RadioButtons"
-            width, height = 0, 0
-#            rbRow, rbColumn = 0, 0
-            rbSize = 1
-            ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
-            ttl.place(x=width,y=height)
-#            ttl.place(x=rbColumn,y=rbRow)
-            height += 22
-#            rbColumn += 22
-            rbList.append([0, 0, 1, 22])
-            rbList.append(ttl)
-            i = 0
-            j = 0
-            while(i < 3):
-                optionText = "Option " + str(i + 1)
-                rb = self.makeRadioButton(w,optionText, j, width, height, var)
-#                rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
-                height += 20 * rbSize
-#                rbColumn += 20 * rbSize
-                rb.configure(height=rbSize)
-                rbList.append(rb)
-                j += 1
-                i += 1
-
-        return rbList
-
-    def makeRadioButton(self,w,i,num, width, height, v):
-        gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
-        gg.place(x=width, y=height, bordermode="outside")
-        return gg
-
-    def setRadioButtons(self, rb, win, expr):
-        w = win.frames
-        rbSize = rb[0][2]
-        width = rb[0][0]
-#        rbRow = rb[0][0]
-        height = rb[0][1]
-#        rbColumn = rb[0][1]
-        ttlSize = rb[0][3]
-        ttl = rb[1]
-        for item in expr.attributes:
-            if hasattr(item, "title"):
-                if hasattr(item.title, "var"):
-
-                    if (item.title.var in self.bindings):
-                        a = self.bindings.get(item.title.var).bObject
-                        special = ""
-                        if (a[4] == BooleanValue('true')):
-                            special += "bold "
-                        if (a[5] == BooleanValue('true')):
-                            special += "italic "
-                        if (a[6] == BooleanValue('true')):
-                            special += "underline"
-                        special = special.strip()
-
-                        font = (a[1], a[2], special)
-                        ttl.configure(text=a[0], fg=a[3], font=font)
-                        rb[1].place(x=width, y=height)
-#                        rb[1].place(x=rbRow, y=rbColumn)
-                        ttlSize = int(a[2] * 1.8) #+ 10
-                    else:
-                        raise GooeyError("No formatted text with that name.")
-                else:
-                    rb[1].place(x=width, y=height)
-#                    rb[1].place(x=rbRow, y=rbColumn)
-                    #ttlSize += 20
-                    ttl.config(text=item.title.value, fg='black', font="system 10")
-            elif hasattr(item, "options"):
-                for a in rb[2:]:
-                    a.place_forget()
-
-                rb = rb[:2]
-                i = 0
-                j = 0
-                var = StringVar(master=w)
-                while(i < len(item.options.options)):
-                    if (item.options.options[i] == ""):
-                        selected = True
-                    else:
-                        r = Radiobutton(w, text=item.options.options[i], variable=var, value=i, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
-                        r.configure(height=rbSize)
-                        rb.append(r)
-                        # if (selected):
-                        #     var.set(j)
-                        #     selected = False
-                        j += 1
-                    i += 1
-            elif hasattr(item, "position"):
-                if hasattr(item.position.value, "r"):
-                    width = int(item.position.value.r)
-#                    rbRow = int(item.position.value.r)
-                    height = int(item.position.value.c)
-#                    rbColumn = int(item.position.value.c)
-                else:
-                    width, height = self.getPositionByKeyword(item.position.value)
-#                    rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
-            elif hasattr(item, "size"):
-                rbSize = item.size.value
-
-        rb[1].place(x=width, y=height)
-#        rb[1].place(x=rbRow, y=rbColumn)
-        rb[1] = ttl
-        rb[0] = [width, height, rbSize, ttlSize]
-#        rb[0] = [rbRow, rbColumn, rbSize, ttlSize]
-        height += ttlSize
-#        rbColumn += ttlSize
-        for i in rb[2:]:
-            i.place(x=width, y=height)
-#            i.place(x=rbRow, y=rbColumn)
-            height += 20 * rbSize
-#            rbColumn += 20 * rbSize
-        return rb
+#    '''
+#-------------------- RADIOBUTTONS--------------------
+#    '''
+#
+#    #RADIOBUTTONS ARE A WORK IN PROGRESS
+#    def makeRadioButtons(self,w,expr):
+#        w=w.frames
+#        rbList = []
+#        selected = False
+#        var = StringVar(master=w)
+#        rbSize = 1
+##        rbRow, rbColumn = 0, 0
+#        width, height = 0, 0
+#        rbTitle = "Untitled RadioButtons"
+#        hasTitle = False
+#        hasOptions = False
+#        if hasattr(expr, "attributes"):
+#            for item in expr.attributes:
+#                if hasattr(item, 'position'):
+#                    if hasattr(item.position.value, "r"):
+#                        width = int(item.position.value.r)
+#                        height = int(item.position.value.c)
+##                        rbRow = int(item.position.value.r)
+##                        rbColumn = int(item.position.value.c)
+#                    else:
+#                        width, height = self.getPositionByKeyword(item.position.value)
+##                        rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
+#                if hasattr(item, 'size'):
+#                    rbSize = item.size.value
+#
+#            rbList.append([width, height, rbSize])
+#
+#            for item in expr.attributes:
+#                if(hasattr(item, 'title')): # TEXT HERE
+#                    hasTitle = True
+#                    rbTitle = ""
+#                    if (hasattr(item.title, 'value')):
+#                        rbTitle = item.title.value
+#                    ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
+#                    ttl.place(x=width,y=height)
+##                    ttl.place(x=rbColumn,y=rbRow)
+#                    if hasattr(item.title, 'var'):
+#                        if (item.title.var in self.bindings):
+#                            a = self.bindings.get(item.title.var).bObject
+#                            special = ""
+#
+#                            if (a[4] == BooleanValue('true')):
+#                                special += "bold "
+#                            if (a[5] == BooleanValue('true')):
+#                                special += "italic "
+#                            if (a[6] == BooleanValue('true')):
+#                                special += "underline"
+#                            special = special.strip()
+#
+#                            font = (a[1], a[2], special)
+#                            ttl.configure(text=a[0], fg=a[3], font=font)
+#                            height += a[2] * 1.8# + 10
+##                            rbColumn += a[2] + 10
+#                            rbList[0].append(a[2] + 10)
+#                        else:
+#                            raise GooeyError("No formatted text with that name.")
+#                    else:
+#                        ttl.configure(text=item.title.value)
+#                        height += 22
+##                        rbColumn += 22
+#                        rbList[0].append(22)
+#                    rbList.append(ttl)
+#
+#            if not hasTitle:
+#                ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
+#                ttl.place(x=width,y=height)
+#                height += 22
+##                ttl.place(x=rbColumn,y=rbRow)
+##                rbColumn += 22
+#                rbList[0].append(22)
+#                rbList.append(ttl)
+#
+#            for item in expr.attributes:
+#                if(hasattr(item, 'options')):
+#                    hasOptions = True
+#                    count = 0
+#                    for x in item.options.options:
+#                        if (x == ""):
+#                            count += 1
+#                        if (count == 2):
+#                            raise GooeyError("RadioButtons cannot have multiple default selected options.")
+#
+#                    i = 0
+#                    j = 0
+#                    while(i < len(item.options.options)):
+#                        if (item.options.options[i] == ""):
+#                            selected = True
+#                        else:
+#                            rb = self.makeRadioButton(w,item.options.options[i], j, width, height, var)
+#                            rb.configure(height=rbSize)
+#                            rb.deselect()
+#                            rbList.append(rb)
+#                            # if (selected):
+#                            #     var.set(j)
+#                            #     selected = False
+#                            j += 1
+#                        i += 1
+#                elif(hasattr(item, 'title')):
+#                    pass
+#                elif(hasattr(item, 'position')):
+#                    pass
+#                elif(hasattr(item, 'size')):
+#                    pass
+#                else:
+#                    raise GooeyError("Cannot make RadioButtons with an attribute that RadioButtons does not have.")
+#
+#            if not hasOptions:
+#                i = 0
+#                j = 0
+#                while(i < 3):
+#                    optionText = "Option " + str(i + 1)
+#                    rb = self.makeRadioButton(w,optionText, j, width, height, var)
+##                    rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
+#                    height += 20 * rbSize
+##                    rbColumn += 20 * rbSize
+#                    rb.configure(height=rbSize)
+#                    rbList.append(rb)
+#                    j += 1
+#                    i += 1
+#
+#        else:
+#            rbTitle = "Untitled RadioButtons"
+#            width, height = 0, 0
+##            rbRow, rbColumn = 0, 0
+#            rbSize = 1
+#            ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
+#            ttl.place(x=width,y=height)
+##            ttl.place(x=rbColumn,y=rbRow)
+#            height += 22
+##            rbColumn += 22
+#            rbList.append([0, 0, 1, 22])
+#            rbList.append(ttl)
+#            i = 0
+#            j = 0
+#            while(i < 3):
+#                optionText = "Option " + str(i + 1)
+#                rb = self.makeRadioButton(w,optionText, j, width, height, var)
+##                rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
+#                height += 20 * rbSize
+##                rbColumn += 20 * rbSize
+#                rb.configure(height=rbSize)
+#                rbList.append(rb)
+#                j += 1
+#                i += 1
+#
+#        return rbList
+#
+#    def makeRadioButton(self,w,i,num, width, height, v):
+#        gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
+#        gg.place(x=width, y=height, bordermode="outside")
+#        return gg
+#
+#    def setRadioButtons(self, rb, win, expr):
+#        w = win.frames
+#        rbSize = rb[0][2]
+#        width = rb[0][0]
+##        rbRow = rb[0][0]
+#        height = rb[0][1]
+##        rbColumn = rb[0][1]
+#        ttlSize = rb[0][3]
+#        ttl = rb[1]
+#        for item in expr.attributes:
+#            if hasattr(item, "title"):
+#                if hasattr(item.title, "var"):
+#
+#                    if (item.title.var in self.bindings):
+#                        a = self.bindings.get(item.title.var).bObject
+#                        special = ""
+#                        if (a[4] == BooleanValue('true')):
+#                            special += "bold "
+#                        if (a[5] == BooleanValue('true')):
+#                            special += "italic "
+#                        if (a[6] == BooleanValue('true')):
+#                            special += "underline"
+#                        special = special.strip()
+#
+#                        font = (a[1], a[2], special)
+#                        ttl.configure(text=a[0], fg=a[3], font=font)
+#                        rb[1].place(x=width, y=height)
+#                        print("Just placed rb")
+##                        rb[1].place(x=rbRow, y=rbColumn)
+#                        ttlSize = int(a[2] * 1.8) #+ 10
+#                    else:
+#                        raise GooeyError("No formatted text with that name.")
+#                else:
+#                    rb[1].place(x=width, y=height)
+##                    rb[1].place(x=rbRow, y=rbColumn)
+#                    #ttlSize += 20
+#                    ttl.config(text=item.title.value, fg='black', font="system 10")
+#            elif hasattr(item, "options"):
+#                for a in rb[2:]:
+#                    a.place_forget()
+#
+#                rb = rb[:2]
+#                i = 0
+#                j = 0
+#                var = StringVar(master=w)
+#                while(i < len(item.options.options)):
+#                    if (item.options.options[i] == ""):
+#                        selected = True
+#                    else:
+#                        r = Radiobutton(w, text=item.options.options[i], variable=var, value=i, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
+#                        r.configure(height=rbSize)
+#                        rb.append(r)
+#                        # if (selected):
+#                        #     var.set(j)
+#                        #     selected = False
+#                        j += 1
+#                    i += 1
+#            elif hasattr(item, "position"):
+#                if hasattr(item.position.value, "r"):
+#                    width = int(item.position.value.r)
+##                    rbRow = int(item.position.value.r)
+#                    height = int(item.position.value.c)
+##                    rbColumn = int(item.position.value.c)
+#                else:
+#                    width, height = self.getPositionByKeyword(item.position.value)
+##                    rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
+#            elif hasattr(item, "size"):
+#                rbSize = item.size.value
+#
+#        rb[1].place(x=width, y=height)
+##        rb[1].place(x=rbRow, y=rbColumn)
+#        rb[1] = ttl
+#        rb[0] = [width, height, rbSize, ttlSize]
+##        rb[0] = [rbRow, rbColumn, rbSize, ttlSize]
+#        height += ttlSize
+##        rbColumn += ttlSize
+#        for i in rb[2:]:
+#            i.place(x=width, y=height)
+##            i.place(x=rbRow, y=rbColumn)
+#            height += 20 * rbSize
+##            rbColumn += 20 * rbSize
+#        return rb
 
 
     '''
@@ -949,9 +958,7 @@ class Interpreter():
                     else:
                         width, height = self.getPositionByKeyword(tl, item.position.value)
                 elif hasattr(item, 'color'):
-                    print("THIS IS THE ITEM.COLOR.VALUE", item.color.value)
                     color = self.checkRGBColor(item.color.value)
-                    print("AKJDFHLSKJDHFLKSDJFHSLDKFJHSLKDFHJ: ",color)
                     tl.configure(fg=color)
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == "true":
@@ -1003,7 +1010,6 @@ class Interpreter():
             color = color.replace(","," ")
             color = color.split(' ')
             rgbColor = "#%02x%02x%02x" % (int(color[0]), int(color[1]), int(color[2]))
-            print("RGBBBBB", rgbColor)
             return rgbColor
         else:
             return color
@@ -1016,21 +1022,17 @@ class Interpreter():
         '''Makes a window with default attributes'''
         #Configure the window with defaults
         w.deiconify()
-        ####NEED TO ADD FONT AND FONTSIZE####
-        ####NEED TO DO textcolor as fg = defaults[textcolor]####
-        ####NEED TO ADD WINDOW SIZE -- Right now it is just medium size
-        #w.geometry('400x400')
+
         w.title(defaults['title'])
-        #w.configure(bg=defaults['color'])
-        #self.setWindowColor(w,defaults['color'])
+
         #Set window size to default size
         w.configure(height=MED_WIN_SIZE, width=MED_WIN_SIZE)
         frames = self.setDefaultWindowSize(w, MED_WIN_SIZE, MED_WIN_SIZE)
         self.setWindowColor(frames,defaults['color'])
-        #w = self.setDefaultWindowSize(w, MED_WIN_SIZE, MED_WIN_SIZE)
+
 
         return (w,frames)
-        #return w
+
 
     def setDefaultWindowSize(self, w, rows, columns):
         self.gRows = rows
@@ -1040,64 +1042,24 @@ class Interpreter():
         l.place(x = 0, y = 0, bordermode="outside")
         l.configure(bg = backgroundColor)
         return l
-        # w.configure(height = rows*100, width = columns*100)
-        # w.grid(row=0,column=0)
-        # return w
-        ###leah's messing up stops here###
+
 
     def setWindowSize(self,w, frames,rows,columns):
-    #def setWindowSize(self,w,rows,columns):
-        # print("Rows is", rows, "and is of type", type(rows))
-        # winsize = rows*columns-1
-        #
-        # #If we're shrinking the window size, we need to remove the rows and columns of frames
-        # #if we're removing rows, then we need to remove indicies of f modded with the removed values
-        # #to do this we do modular arithmatic and if the result is bigger than "rows" or "columns", we
-        # #remove the frame
-        #
-        # #if we're growing it, we need to add appropriate rows and columns
-        # #We add them
-        #
-        # for f in range(0,len(frames)):
-        #     print(f)
-        #     fr = frames[f]
-        #     print("This is the current height and width", fr.cget('height'), fr.cget('width'))
-        #     fr.grid(row = f//rows, column = f%columns)
-        #     frames.append(fr)
-        # return frames
-        #
-        ##Leah is boogering stuff starting here ####
+
         w.configure(height=rows,width=columns)
         frames.configure(height=rows,width=columns)
 
-        #frames.grid(row = 0, column = 0)
-        #frames.place(x = rows, y = columns, bordermode="outside")
-        #w.grid(row=0,column=0)
+
         return frames
-        #return w
-        ##Leah's boogering done####
+
 
 
 
     def setWindowColor(self,w,color):
-#        self.gRows = rows
-#        self.gColumns = columns
-        # for i in range(0,self.gColumns):
-        #     for j in range(0,self.gRows):
-        #         l = Frame(w, height=100, width=100)
-        #         l.grid(row = j, column = i)
-        #         l.configure(bg = color)
-
-        ###Leah's shit###
-        #NOTE w is now a frame, not the root window##SECOND NOTE NO IT'S NOT#JK it is
-        #if color[0]='(':
-
         color = self.checkRGBColor(color)
         w.configure(bg = color)
-        #w.grid(row = 0, column = 0)
-
         w.place(x = 0, y = 0, bordermode="outside")
-        ###STop leah's shit###
+
 
     def makeWindow(self,w,expr):
         '''Makes a window given user attributes.
@@ -1105,41 +1067,15 @@ class Interpreter():
         #Construct the default window
         defaults = self.getAllDefaults("Window")
         (w,frames) = self.makeDefaultWindow(w,defaults)
-        #w = self.makeDefaultWindow(w,defaults)
         #If the user input any attributes, change the default window to reflect that
         if hasattr(expr, "attributes"):
             windowAttributeList = expr.attributes
             for item in windowAttributeList:
 
                 if hasattr(item, 'color'):
-                    #w.configure(bg=item.color.value)
-                    #self.setWindowColor(w,item.color.value)
+
                     self.setWindowColor(frames,item.color.value)
                 elif hasattr(item,'size'):
-#                    if hasattr(item.size.value, "columns"):
-#                        rows = int(item.size.value.rows)
-#                        columns = int(item.size.value.columns)
-#                        Interpreter.gRows = rows
-#                        Interpreter.gColumns = columns
-#                        #fill cells with empty space somehow, so the user gets a sense of it actually being a grid
-#                        for i in range(0,columns):
-#                            for j in range(0,rows):
-#                                l = Frame(w, height=100, width=100)
-#                                l.grid(row = j, column = i)
-#
-#                    elif item.size.value[0].isdigit():
-#                        size = item.size.value+"x"+item.size.value
-#                        w.geometry(size)
-#                    else:
-#                        print("ITEM.SIZE.LOWER = ", item.size.value.lower())
-#                        if item.size.value.lower() == "large":
-#                            w.geometry('600x600')
-#                        elif item.size.value.lower() == "medium":
-#                            print("got to medium")
-#                            w.geometry('400x400')
-#                        elif item.size.value.lower() == "small":
-#                            w.geometry('200x200')
-
 
 
                     if hasattr(item.size.value, "columns"):
@@ -1155,15 +1091,9 @@ class Interpreter():
                         elif item.size.value.lower() == "large":
                             rows = LARGE_WIN_SIZE
                             columns = MED_WIN_SIZE
-#                    Interpreter.gRows = rows
-#                    Interpreter.gColumns = columns
-#                    #fill cells with empty space somehow, so the user gets a sense of it actually being a grid
-#                    for i in range(0,columns):
-#                        for j in range(0,rows):
-#                            l = Frame(w, height=100, width=100)
-#                            l.grid(row = j, column = i)
+
                     frames = self.setWindowSize(w,frames, rows, columns)
-                    #w = self.setWindowSize(w,rows,columns)
+
 
 
 
@@ -1175,32 +1105,24 @@ class Interpreter():
                     pass
                 elif hasattr(item, 'textColor'):
                     pass
-        #somewhere in here we need to look and error check that there are only
-        #attributes that are supposed to be here
-        #return w
-        ###Leah change###
+
         return (w,frames)
-        ###Stop leah###
+
 
 
 
     #Takes in a master window binding and then uses frame and window object accordingly (should really just be doign stuff with frame)
     def setWindow(self,win,expr):
-        #print("WIN TYPE: ", type(w))
+
         w = win.bObject
         frames = win.frames
         '''Sets window attributes to those specified by the user.'''
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'color'):
-                    #self.window.configure(bg=item.color.value)
-                    # w.configure(bg=item.color.value)
-                    # self.setWindowColor(w,item.color.value)
-                    #
-                    ###LEAH WAS HERE###
+
                     self.setWindowColor(frames,item.color.value)
 
-                    ###BYE LEAH###
                 elif hasattr(item,'size'):
 
                     if hasattr(item.size.value, "columns"):
@@ -1216,16 +1138,9 @@ class Interpreter():
                         elif item.size.value.lower() == "large":
                             rows = LARGE_WIN_SIZE
                             columns = LARGE_WIN_SIZE
-#                    self.gRows = rows
-#                    self.gColumns = columns
-#                    #fill cells with empty space somehow, so the user gets a sense of it actually being a grid
-#                    for i in range(0,columns):
-#                        for j in range(0,rows):
-#                            l = Frame(w, height=100, width=100)
-#                            l.grid(row = j, column = i)
+
                     self.setWindowSize(w,frames, rows, columns)
 
-                    #TODO: Loop through all existing bindings, redraw them so they aren't covered by the frames
 
                 elif hasattr(item, 'title'):
                     w.title(item.title.value)
@@ -1250,7 +1165,6 @@ class Interpreter():
 -------------------- TEXT BOX --------------------
     '''
     def makeDefaultTextBox(self,w,defaults):
-        ###STILL NEEDS MORE ###
         '''Makes a TextBox with default attributes'''
         t = Text(w)
         t.insert(END,defaults['text'])
@@ -1274,7 +1188,6 @@ class Interpreter():
     def makeTextBox(self,win,expr):
         w = win.frames
         '''Makes a text box with the user defined attributes.'''
-        #t = Text(w, height=2, width=30)
         defaults = self.getAllDefaults("TextBox")
         t = self.makeDefaultTextBox(w,defaults)
         width, height = 0, 0
@@ -1313,7 +1226,7 @@ class Interpreter():
                 else:
                     raise GooeyError("Can't make Textbox with an attribute that Textbox does not have.")
                     # Note: should be gooey error
-        #t.grid(row=r, column=c, sticky=N+S+E+W)
+
         self.checkOccupied(t, width, height)
         t.place(x = width, y = height, bordermode="outside")
         if hide:
@@ -1362,7 +1275,7 @@ class Interpreter():
                 else:
                     raise GooeyError("Can't set Textbox with an attribute that Textbox does not have.")
                     #Note: raise gooey error
-        #t.grid(row=r, column=c, sticky=N+S+E+W)
+
         return t
 
 
@@ -1370,21 +1283,22 @@ class Interpreter():
 -------------------- BUTTONS --------------------
     '''
     def checkOccupied(self,obj, width, height):
+
         # print("\n\n\nCHECKOCCUPIED")
 
-        #print("THIS IS THE OBJECT", obj)
-        #print("THESE ARE THE BINDINGS", self.winBinding.bObject)
+
         # Checks to make sure nothing is in the space the user is trying to place an object
         # If something is there, raise an error saying which object is there, try again, and do not place object
         #print("this is the window height",self.winBinding.bObject.winfo_height())
         winHeight = self.winBinding.bObject.winfo_reqheight()
         winWidth = self.winBinding.bObject.winfo_reqwidth()
+
         # print(winHeight, winWidth)
 #        winHeight = self.winBinding.bObject.winfo_height()
 #        winWidth = self.winBinding.bObject.winfo_width()
 
 
-        #print("OBJECT SIZE", obj.winfo_reqwidth(), obj.winfo_reqheight())
+
         if obj.winfo_x()+obj.winfo_reqwidth() > winWidth:
             raise GooeyError("Object placed outside window. Choose a new width")
         if obj.winfo_y()+obj.winfo_reqheight() > winHeight:
@@ -1393,6 +1307,7 @@ class Interpreter():
         #See children of root window
 
         kids = self.winBinding.frames.winfo_children()
+
         # print("Here are the children",kids)
         for child in kids:
             pass
@@ -1406,6 +1321,7 @@ class Interpreter():
             # else:
         #    print("Everything is hunky dory")
         #Check and raise an error if the object will appear outside the edge of the window, so fuck you
+
 
 
     def makeDefaultButton(self, w, defaults):
@@ -1454,8 +1370,7 @@ class Interpreter():
 
                                 font = (a[1], a[2], special)
                                 b.configure(text=a[0], fg=a[3], font=font)
-                            #else:
-                                #raise GooeyError("Can't set text to variable of type "+str(self.bindings[item.text.var].bType)+".")
+
                         else:
                             raise GooeyError("The variable "+str(item.text.var)+" is undefined.")
                     else:
@@ -1638,11 +1553,7 @@ class Interpreter():
         for i in self.bindings.keys():
             if self.bindings[i].bType == "Button":
                 self.bindings[i].bObject.configure(highlightbackground = color)
-            #We may only need this if we aren't setting background color correctly
-            # elif self.bindings[i].bType == "Checkboxes":
-            #     for j in range(1,len(self.bindings[i].bObject)):
-            #         print(self.bindings[i].bObject[j])
-            #         self.bindings[i].bObject[j].configure(bg = color, highlightbackground=color)
+
         return self.bindings
 
 
@@ -1655,11 +1566,16 @@ class Interpreter():
     '''
 -------------------- MENUS --------------------
     '''
-#    def makeDefaultMenu(self,w,defaults):
-#        pass
+
+    def makeDefaultMenu(self,w,defaults):
+        pass
+
     def makeMenu(self,win,expr):
+
         #Not CAN ONLY HAPPEN IN ROOT WINDOW
+
         w = win.bObject
+
         rootMenu = None
         children = w.winfo_children()
         for c in children:
@@ -1682,8 +1598,8 @@ class Interpreter():
         w.config(menu=rootMenu)
         return rootMenu
 
-#    def makeDefaultMenuItem(self,w,defaults):
-#        pass
+    def makeDefaultMenuItem(self,w,defaults):
+        pass
 
     def setMenu():
         pass
@@ -1801,44 +1717,6 @@ class Interpreter():
     #        else:
         return expr.lineAction
 
-    '''#Make the binding associated with this function
-    #The object will be the parameters passed in and the function action (in a tuple)
-    def makeFunction(self,w, expr):
-        pass'''
-
-    #this should maybe take in parameters
-    #expects "run" then a user defined function name
-    #replaces , separating gooey instructions and adds period at end
-    #Makes a temporary binding relating to parameters and then gets rid of that parameter
-#    def runFunction(self,function,localBindings):
-#        #Run function should create local bindings maybe?????????????????
-#        #print("\n\n I'm running runFunction!")
-#        print("got to runFunction")
-#        functionCode = self.bindings[function].bObject #We need to make this proper gooey code
-#        print("This is the functionCode: ", functionCode)
-#        newBindings = localBindings
-#        #self.binding = localBindings
-#        #print("New Bindings: ", newBindings)
-#        for i in range(len(functionCode)-1):
-#        #for action in functionCode:
-#            print("Here's the action", functionCode[i])
-#
-#            ##########################OH SHIT, JAMAICA IS TRYING SOMETHING#############################
-#            #newBindings = self.interpret([functionCode[i]], newBindings)
-#            newBindings = self.interpret([functionCode[i]])
-#            ###############################END TRIAL, PROBS BAD #####################################
-#            # newBindings = self.interpret(action, newBindings)
-#
-#            #print("New Bindings: ", newBindings)
-#        return newBindings
-#        # funStr = ''
-#        # for i in functionCode:
-#        #     funStr = funStr + " " + i
-#        # funStr = funStr[1:] + "."
-#        # #parse the function code and pass the parsed code as the ast
-#        # localAst = parse(funStr,Program)
-#        # newBindings = self.interpret(localAst,localBindings)
-#        # return newBindings
 
 
     def getOptions(self,expr):
@@ -1919,7 +1797,3 @@ class Interpreter():
             h = math.floor(winheight - objheight) - 1
 
         return w, h
-
-#    def extractTextValue(self, value):
-#        words = re.findall(r'[\w\d\.]+', value)
-#        return ' '.join(words)
