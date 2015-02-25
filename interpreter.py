@@ -118,15 +118,15 @@ class Interpreter():
                         self.checkVarname(expr)
                         m = self.makeMenu(self.winBinding,expr)
                         options = self.getOptions(expr)
-                        print("OPTIONS IN MAKEMENU",options)
+                        # print("OPTIONS IN MAKEMENU",options)
                         binding = self.makeBinding("Menu", expr.varname, m, options)
                         self.bindings = self.addBinding(binding)
-                        print("made the menu")
+                        # print("made the menu")
 
                     elif(expr.type == "MenuItem"):
-                        print("making the menuitem")
+                        # print("making the menuitem")
                         #self.checkVarname(expr) #Can't do this right now cuz of how we're making the menuitems in menu
-                        print("Checked the varname")
+                        # print("Checked the varname")
                         mi = self.makeMenuItem(self.winBinding,expr)
                         # print("made the menuitem")
                         # options = self.getOptions(expr)
@@ -322,9 +322,9 @@ class Interpreter():
 
                             wColorAfter = self.winBinding.frames.cget('bg')
                             if wColorBefore != wColorAfter:
-                                print("Colors didn't match")
+                                # print("Colors didn't match")
                                 self.bindings = self.fixObjectPadding(wColorAfter)
-                                print("tried to fix button padding")
+                                # print("tried to fix button padding")
                         else:
                             raise GooeyError("The function "+str(function)+" requires "+str(len(functionBinding.params))+" arguments; you have passed it "+str(len(expr.params))+" arguments.")
                     else:
@@ -344,7 +344,7 @@ class Interpreter():
         settings = ["Untitled Text", "Times", 12, "black", False, False, False]
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
-                print (item)
+                # print (item)
                 if hasattr(item, "text"):
                     if item.text.value in self.bindings:
                         textBinding = self.bindings[item.text.value]
@@ -1370,7 +1370,7 @@ class Interpreter():
 -------------------- BUTTONS --------------------
     '''
     def checkOccupied(self,obj, width, height):
-        print("\n\n\nCHECKOCCUPIED")
+        # print("\n\n\nCHECKOCCUPIED")
 
         #print("THIS IS THE OBJECT", obj)
         #print("THESE ARE THE BINDINGS", self.winBinding.bObject)
@@ -1379,7 +1379,7 @@ class Interpreter():
         #print("this is the window height",self.winBinding.bObject.winfo_height())
         winHeight = self.winBinding.bObject.winfo_reqheight()
         winWidth = self.winBinding.bObject.winfo_reqwidth()
-        print(winHeight, winWidth)
+        # print(winHeight, winWidth)
 #        winHeight = self.winBinding.bObject.winfo_height()
 #        winWidth = self.winBinding.bObject.winfo_width()
 
@@ -1393,9 +1393,10 @@ class Interpreter():
         #See children of root window
 
         kids = self.winBinding.frames.winfo_children()
-        print("Here are the children",kids)
+        # print("Here are the children",kids)
         for child in kids:
-            print("kid x",child.winfo_x())
+            pass
+            # print("kid x",child.winfo_x())
 #            print("HERE IS OUR CHILD:", child)
 #            if child != obj:
 #                print("here's our child's info")
@@ -1657,20 +1658,18 @@ class Interpreter():
 #    def makeDefaultMenu(self,w,defaults):
 #        pass
     def makeMenu(self,win,expr):
-        print("\n\nMaking menu")
         #Not CAN ONLY HAPPEN IN ROOT WINDOW
         w = win.bObject
         rootMenu = None
         children = w.winfo_children()
         for c in children:
             if type(c).__name__ == "Menu":
-                print("menu")
                 rootMenu = c
         if hasattr(expr,'attributes'):
             for item in expr.attributes:
 
                 if hasattr(item,'menuoption'):
-                    print("menuoption")
+
                     mop = item.menuoption.value
                     for mopItem in mop:
                         if hasattr(mopItem, 'text'):
@@ -1690,14 +1689,11 @@ class Interpreter():
         pass
 
     def makeMenuItem(self,win,expr):
-        print("MAKING A MENU ITEM")
         w = win.bObject
         menuItem = None
         rootMenu = None
         children = w.winfo_children()
-        print("CHILDREN", children)
         for c in children:
-            print("C",c)
             if type(c).__name__ == "Menu":
                 rootMenu = c
 
@@ -1705,12 +1701,9 @@ class Interpreter():
         #check if menu item has already been defined as a child of some other menu or menuitem
         for key in self.bindings:
 
-            print("KEY",key)
-            print("HERE",self.bindings[key])
             if self.bindings[key].bType == "Menu":
-                print(expr.varname)
+                # print(expr.varname)
                 if expr.varname in self.bindings.keys():
-                    print("GOTEM", expr.varname)
                     #print(self.bindings[key])
                     #binding found, add to submenu to rootMenu
 
@@ -1850,17 +1843,17 @@ class Interpreter():
 
     def getOptions(self,expr):
         '''Get list of options, ie: make MenuItem with options [red green blue]. '''
-        print("Getting options")
+        # print("Getting options")
         options = []
         for item in expr.attributes:
             if hasattr(item, 'menuoption'):
-                print("has a menuoption")
+                # print("has a menuoption")
                 mop = item.menuoption.value
-                print("mop",mop)
+                # print("mop",mop)
                 for mopItem in mop:
-                    print('MOPITEM',mopItem)
+                    # print('MOPITEM',mopItem)
                     if hasattr(mopItem,'action'):
-                        print('mopitemaction',mopItem.action)
+                        # print('mopitemaction',mopItem.action)
                         options.append(mopItem.action)
             else:
                 return None
