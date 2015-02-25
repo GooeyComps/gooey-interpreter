@@ -1553,6 +1553,9 @@ class Interpreter():
         for i in self.bindings.keys():
             if self.bindings[i].bType == "Button":
                 self.bindings[i].bObject.configure(highlightbackground = color)
+            elif self.bindings[i].bType == "Checkboxes":
+                for j in range(1,len(self.bindings[i].bObject)):
+                    self.bindings[i].bObject[j].configure(bg = color)
 
         return self.bindings
 
