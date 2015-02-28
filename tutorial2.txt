@@ -1,8 +1,16 @@
-make Window w with title "Gooey Two", size 400 500, color #8fefdc.
+make Window w with title "Gooey Two",
+    size 400 300,
+    color #8fefdc.
 make TextBox comments with text "Tell me your thoughts".
-function change(win) does set win color cyan.
-make Button submit with text "Submit", position 0 150, action change w.
-make FormattedText cbtitle with text "Choose something:", font "Comic Sans MS", underline true.
-make Checkboxes yummy with title cbtitle, options "Apple" "Peach" "Pumpkin Pie", position 270 0.
+function change(win) does set win color green.
+make Button submit with text "Make a Change",
+    position center,
+    action change w.
+make FormattedText cbtitle with text "Choose something:",
+    font "Comic Sans MS",
+    underline true.
+make Checkboxes yummy with title cbtitle,
+    options "Apple" "Peach" "Pumpkin Pie",
+    position 270 0.
 make Menu m with menuoption "File":file "Edit":edit.
 make MenuItem file with menuoption "Save":close.
