@@ -5,6 +5,7 @@ from statements import *
 from tkinter.scrolledtext import *
 from pypeg2 import *
 import argparse
+from tkinter import font
 
 class GUIWindow():
     '''
@@ -76,7 +77,8 @@ class TextPad():
         self.definitionLabel = Label(text="Definitions")
         self.definitionLabel.pack()
 
-        self.definitions = ScrolledText(self.root, width=60, height=10, state=DISABLED)
+        f = font.Font(size=24)
+        self.definitions = ScrolledText(self.root, width=60, height=10, state=DISABLED,font=f)
         self.definitions.configure(highlightbackground="black", fg="gray30",bg="gray95")
         self.definitions.pack(padx=(12,0))
 
@@ -85,7 +87,7 @@ class TextPad():
         self.editLabel.pack()
 
         # Add text pad to root and open window
-        self.textPad = ScrolledText(self.root, width=59, height=10)
+        self.textPad = ScrolledText(self.root, width=59, height=10, font = f)
         # Add a border to the text pad
         self.textPad.configure(borderwidth=4, highlightbackground="black")
         self.textPad.pack(padx=(12,0))
