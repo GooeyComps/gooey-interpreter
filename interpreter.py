@@ -673,245 +673,245 @@ class Interpreter():
 
         return cb
 
-#    '''
-#-------------------- RADIOBUTTONS--------------------
-#    '''
-#
-#    #RADIOBUTTONS ARE A WORK IN PROGRESS
-#    def makeRadioButtons(self,w,expr):
-#        w=w.frames
-#        rbList = []
-#        selected = False
-#        var = StringVar(master=w)
-#        rbSize = 1
-##        rbRow, rbColumn = 0, 0
-#        width, height = 0, 0
-#        rbTitle = "Untitled RadioButtons"
-#        hasTitle = False
-#        hasOptions = False
-#        if hasattr(expr, "attributes"):
-#            for item in expr.attributes:
-#                if hasattr(item, 'position'):
-#                    if hasattr(item.position.value, "r"):
-#                        width = int(item.position.value.r)
-#                        height = int(item.position.value.c)
-##                        rbRow = int(item.position.value.r)
-##                        rbColumn = int(item.position.value.c)
-#                    else:
-#                        width, height = self.getPositionByKeyword(item.position.value)
-##                        rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
-#                if hasattr(item, 'size'):
-#                    rbSize = item.size.value
-#
-#            rbList.append([width, height, rbSize])
-#
-#            for item in expr.attributes:
-#                if(hasattr(item, 'title')): # TEXT HERE
-#                    hasTitle = True
-#                    rbTitle = ""
-#                    if (hasattr(item.title, 'value')):
-#                        rbTitle = item.title.value
-#                    ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
-#                    ttl.place(x=width,y=height)
-##                    ttl.place(x=rbColumn,y=rbRow)
-#                    if hasattr(item.title, 'var'):
-#                        if (item.title.var in self.bindings):
-#                            a = self.bindings.get(item.title.var).bObject
-#                            special = ""
-#
-#                            if (a[4] == BooleanValue('true')):
-#                                special += "bold "
-#                            if (a[5] == BooleanValue('true')):
-#                                special += "italic "
-#                            if (a[6] == BooleanValue('true')):
-#                                special += "underline"
-#                            special = special.strip()
-#
-#                            font = (a[1], a[2], special)
-#                            ttl.configure(text=a[0], fg=a[3], font=font)
-#                            height += a[2] * 1.8# + 10
-##                            rbColumn += a[2] + 10
-#                            rbList[0].append(a[2] + 10)
-#                        else:
-#                            raise GooeyError("No formatted text with that name.")
-#                    else:
-#                        ttl.configure(text=item.title.value)
-#                        height += 22
-##                        rbColumn += 22
-#                        rbList[0].append(22)
-#                    rbList.append(ttl)
-#
-#            if not hasTitle:
-#                ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
-#                ttl.place(x=width,y=height)
-#                height += 22
-##                ttl.place(x=rbColumn,y=rbRow)
-##                rbColumn += 22
-#                rbList[0].append(22)
-#                rbList.append(ttl)
-#
-#            for item in expr.attributes:
-#                if(hasattr(item, 'options')):
-#                    hasOptions = True
-#                    count = 0
-#                    for x in item.options.options:
-#                        if (x == ""):
-#                            count += 1
-#                        if (count == 2):
-#                            raise GooeyError("RadioButtons cannot have multiple default selected options.")
-#
-#                    i = 0
-#                    j = 0
-#                    while(i < len(item.options.options)):
-#                        if (item.options.options[i] == ""):
-#                            selected = True
-#                        else:
-#                            rb = self.makeRadioButton(w,item.options.options[i], j, width, height, var)
-#                            rb.configure(height=rbSize)
-#                            rb.deselect()
-#                            rbList.append(rb)
-#                            # if (selected):
-#                            #     var.set(j)
-#                            #     selected = False
-#                            j += 1
-#                        i += 1
-#                elif(hasattr(item, 'title')):
-#                    pass
-#                elif(hasattr(item, 'position')):
-#                    pass
-#                elif(hasattr(item, 'size')):
-#                    pass
-#                else:
-#                    raise GooeyError("Cannot make RadioButtons with an attribute that RadioButtons does not have.")
-#
-#            if not hasOptions:
-#                i = 0
-#                j = 0
-#                while(i < 3):
-#                    optionText = "Option " + str(i + 1)
-#                    rb = self.makeRadioButton(w,optionText, j, width, height, var)
-##                    rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
-#                    height += 20 * rbSize
-##                    rbColumn += 20 * rbSize
-#                    rb.configure(height=rbSize)
-#                    rbList.append(rb)
-#                    j += 1
-#                    i += 1
-#
-#        else:
-#            rbTitle = "Untitled RadioButtons"
-#            width, height = 0, 0
-##            rbRow, rbColumn = 0, 0
-#            rbSize = 1
-#            ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
-#            ttl.place(x=width,y=height)
-##            ttl.place(x=rbColumn,y=rbRow)
-#            height += 22
-##            rbColumn += 22
-#            rbList.append([0, 0, 1, 22])
-#            rbList.append(ttl)
-#            i = 0
-#            j = 0
-#            while(i < 3):
-#                optionText = "Option " + str(i + 1)
-#                rb = self.makeRadioButton(w,optionText, j, width, height, var)
-##                rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
-#                height += 20 * rbSize
-##                rbColumn += 20 * rbSize
-#                rb.configure(height=rbSize)
-#                rbList.append(rb)
-#                j += 1
-#                i += 1
-#
-#        return rbList
-#
-#    def makeRadioButton(self,w,i,num, width, height, v):
-#        gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
-#        gg.place(x=width, y=height, bordermode="outside")
-#        return gg
-#
-#    def setRadioButtons(self, rb, win, expr):
-#        w = win.frames
-#        rbSize = rb[0][2]
-#        width = rb[0][0]
-##        rbRow = rb[0][0]
-#        height = rb[0][1]
-##        rbColumn = rb[0][1]
-#        ttlSize = rb[0][3]
-#        ttl = rb[1]
-#        for item in expr.attributes:
-#            if hasattr(item, "title"):
-#                if hasattr(item.title, "var"):
-#
-#                    if (item.title.var in self.bindings):
-#                        a = self.bindings.get(item.title.var).bObject
-#                        special = ""
-#                        if (a[4] == BooleanValue('true')):
-#                            special += "bold "
-#                        if (a[5] == BooleanValue('true')):
-#                            special += "italic "
-#                        if (a[6] == BooleanValue('true')):
-#                            special += "underline"
-#                        special = special.strip()
-#
-#                        font = (a[1], a[2], special)
-#                        ttl.configure(text=a[0], fg=a[3], font=font)
-#                        rb[1].place(x=width, y=height)
-#                        print("Just placed rb")
-##                        rb[1].place(x=rbRow, y=rbColumn)
-#                        ttlSize = int(a[2] * 1.8) #+ 10
-#                    else:
-#                        raise GooeyError("No formatted text with that name.")
-#                else:
-#                    rb[1].place(x=width, y=height)
-##                    rb[1].place(x=rbRow, y=rbColumn)
-#                    #ttlSize += 20
-#                    ttl.config(text=item.title.value, fg='black', font="system 10")
-#            elif hasattr(item, "options"):
-#                for a in rb[2:]:
-#                    a.place_forget()
-#
-#                rb = rb[:2]
-#                i = 0
-#                j = 0
-#                var = StringVar(master=w)
-#                while(i < len(item.options.options)):
-#                    if (item.options.options[i] == ""):
-#                        selected = True
-#                    else:
-#                        r = Radiobutton(w, text=item.options.options[i], variable=var, value=i, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
-#                        r.configure(height=rbSize)
-#                        rb.append(r)
-#                        # if (selected):
-#                        #     var.set(j)
-#                        #     selected = False
-#                        j += 1
-#                    i += 1
-#            elif hasattr(item, "position"):
-#                if hasattr(item.position.value, "r"):
-#                    width = int(item.position.value.r)
-##                    rbRow = int(item.position.value.r)
-#                    height = int(item.position.value.c)
-##                    rbColumn = int(item.position.value.c)
-#                else:
-#                    width, height = self.getPositionByKeyword(item.position.value)
-##                    rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
-#            elif hasattr(item, "size"):
-#                rbSize = item.size.value
-#
-#        rb[1].place(x=width, y=height)
-##        rb[1].place(x=rbRow, y=rbColumn)
-#        rb[1] = ttl
-#        rb[0] = [width, height, rbSize, ttlSize]
-##        rb[0] = [rbRow, rbColumn, rbSize, ttlSize]
-#        height += ttlSize
-##        rbColumn += ttlSize
-#        for i in rb[2:]:
-#            i.place(x=width, y=height)
-##            i.place(x=rbRow, y=rbColumn)
-#            height += 20 * rbSize
-##            rbColumn += 20 * rbSize
-#        return rb
+    '''
+-------------------- RADIOBUTTONS--------------------
+    '''
+
+    #RADIOBUTTONS ARE A WORK IN PROGRESS
+    def makeRadioButtons(self,w,expr):
+        w=w.frames
+        rbList = []
+        selected = False
+        var = StringVar(master=w)
+        rbSize = 1
+#        rbRow, rbColumn = 0, 0
+        width, height = 0, 0
+        rbTitle = "Untitled RadioButtons"
+        hasTitle = False
+        hasOptions = False
+        if hasattr(expr, "attributes"):
+            for item in expr.attributes:
+                if hasattr(item, 'position'):
+                    if hasattr(item.position.value, "r"):
+                        width = int(item.position.value.r)
+                        height = int(item.position.value.c)
+#                        rbRow = int(item.position.value.r)
+#                        rbColumn = int(item.position.value.c)
+                    else:
+                        width, height = self.getPositionByKeyword(item.position.value)
+#                        rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
+                if hasattr(item, 'size'):
+                    rbSize = item.size.value
+
+            rbList.append([width, height, rbSize])
+
+            for item in expr.attributes:
+                if(hasattr(item, 'title')): # TEXT HERE
+                    hasTitle = True
+                    rbTitle = ""
+                    if (hasattr(item.title, 'value')):
+                        rbTitle = item.title.value
+                    ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
+                    ttl.place(x=width,y=height)
+#                    ttl.place(x=rbColumn,y=rbRow)
+                    if hasattr(item.title, 'var'):
+                        if (item.title.var in self.bindings):
+                            a = self.bindings.get(item.title.var).bObject
+                            special = ""
+
+                            if (a[4] == BooleanValue('true')):
+                                special += "bold "
+                            if (a[5] == BooleanValue('true')):
+                                special += "italic "
+                            if (a[6] == BooleanValue('true')):
+                                special += "underline"
+                            special = special.strip()
+
+                            font = (a[1], a[2], special)
+                            ttl.configure(text=a[0], fg=a[3], font=font)
+                            height += a[2] * 1.8# + 10
+#                            rbColumn += a[2] + 10
+                            rbList[0].append(a[2] + 10)
+                        else:
+                            raise GooeyError("No formatted text with that name.")
+                    else:
+                        ttl.configure(text=item.title.value)
+                        height += 22
+#                        rbColumn += 22
+                        rbList[0].append(22)
+                    rbList.append(ttl)
+
+            if not hasTitle:
+                ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
+                ttl.place(x=width,y=height)
+                height += 22
+#                ttl.place(x=rbColumn,y=rbRow)
+#                rbColumn += 22
+                rbList[0].append(22)
+                rbList.append(ttl)
+
+            for item in expr.attributes:
+                if(hasattr(item, 'options')):
+                    hasOptions = True
+                    count = 0
+                    for x in item.options.options:
+                        if (x == ""):
+                            count += 1
+                        if (count == 2):
+                            raise GooeyError("RadioButtons cannot have multiple default selected options.")
+
+                    i = 0
+                    j = 0
+                    while(i < len(item.options.options)):
+                        if (item.options.options[i] == ""):
+                            selected = True
+                        else:
+                            rb = self.makeRadioButton(w,item.options.options[i], j, width, height, var)
+                            rb.configure(height=rbSize)
+                            rb.deselect()
+                            rbList.append(rb)
+                            # if (selected):
+                            #     var.set(j)
+                            #     selected = False
+                            j += 1
+                        i += 1
+                elif(hasattr(item, 'title')):
+                    pass
+                elif(hasattr(item, 'position')):
+                    pass
+                elif(hasattr(item, 'size')):
+                    pass
+                else:
+                    raise GooeyError("Cannot make RadioButtons with an attribute that RadioButtons does not have.")
+
+            if not hasOptions:
+                i = 0
+                j = 0
+                while(i < 3):
+                    optionText = "Option " + str(i + 1)
+                    rb = self.makeRadioButton(w,optionText, j, width, height, var)
+#                    rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
+                    height += 20 * rbSize
+#                    rbColumn += 20 * rbSize
+                    rb.configure(height=rbSize)
+                    rbList.append(rb)
+                    j += 1
+                    i += 1
+
+        else:
+            rbTitle = "Untitled RadioButtons"
+            width, height = 0, 0
+#            rbRow, rbColumn = 0, 0
+            rbSize = 1
+            ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
+            ttl.place(x=width,y=height)
+#            ttl.place(x=rbColumn,y=rbRow)
+            height += 22
+#            rbColumn += 22
+            rbList.append([0, 0, 1, 22])
+            rbList.append(ttl)
+            i = 0
+            j = 0
+            while(i < 3):
+                optionText = "Option " + str(i + 1)
+                rb = self.makeRadioButton(w,optionText, j, width, height, var)
+#                rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
+                height += 20 * rbSize
+#                rbColumn += 20 * rbSize
+                rb.configure(height=rbSize)
+                rbList.append(rb)
+                j += 1
+                i += 1
+
+        return rbList
+
+    def makeRadioButton(self,w,i,num, width, height, v):
+        gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
+        gg.place(x=width, y=height, bordermode="outside")
+        return gg
+
+    def setRadioButtons(self, rb, win, expr):
+        w = win.frames
+        rbSize = rb[0][2]
+        width = rb[0][0]
+#        rbRow = rb[0][0]
+        height = rb[0][1]
+#        rbColumn = rb[0][1]
+        ttlSize = rb[0][3]
+        ttl = rb[1]
+        for item in expr.attributes:
+            if hasattr(item, "title"):
+                if hasattr(item.title, "var"):
+
+                    if (item.title.var in self.bindings):
+                        a = self.bindings.get(item.title.var).bObject
+                        special = ""
+                        if (a[4] == BooleanValue('true')):
+                            special += "bold "
+                        if (a[5] == BooleanValue('true')):
+                            special += "italic "
+                        if (a[6] == BooleanValue('true')):
+                            special += "underline"
+                        special = special.strip()
+
+                        font = (a[1], a[2], special)
+                        ttl.configure(text=a[0], fg=a[3], font=font)
+                        rb[1].place(x=width, y=height)
+                        print("Just placed rb")
+#                        rb[1].place(x=rbRow, y=rbColumn)
+                        ttlSize = int(a[2] * 1.8) #+ 10
+                    else:
+                        raise GooeyError("No formatted text with that name.")
+                else:
+                    rb[1].place(x=width, y=height)
+#                    rb[1].place(x=rbRow, y=rbColumn)
+                    #ttlSize += 20
+                    ttl.config(text=item.title.value, fg='black', font="system 10")
+            elif hasattr(item, "options"):
+                for a in rb[2:]:
+                    a.place_forget()
+
+                rb = rb[:2]
+                i = 0
+                j = 0
+                var = StringVar(master=w)
+                while(i < len(item.options.options)):
+                    if (item.options.options[i] == ""):
+                        selected = True
+                    else:
+                        r = Radiobutton(w, text=item.options.options[i], variable=var, value=i, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
+                        r.configure(height=rbSize)
+                        rb.append(r)
+                        # if (selected):
+                        #     var.set(j)
+                        #     selected = False
+                        j += 1
+                    i += 1
+            elif hasattr(item, "position"):
+                if hasattr(item.position.value, "r"):
+                    width = int(item.position.value.r)
+#                    rbRow = int(item.position.value.r)
+                    height = int(item.position.value.c)
+#                    rbColumn = int(item.position.value.c)
+                else:
+                    width, height = self.getPositionByKeyword(item.position.value)
+#                    rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
+            elif hasattr(item, "size"):
+                rbSize = item.size.value
+
+        rb[1].place(x=width, y=height)
+#        rb[1].place(x=rbRow, y=rbColumn)
+        rb[1] = ttl
+        rb[0] = [width, height, rbSize, ttlSize]
+#        rb[0] = [rbRow, rbColumn, rbSize, ttlSize]
+        height += ttlSize
+#        rbColumn += ttlSize
+        for i in rb[2:]:
+            i.place(x=width, y=height)
+#            i.place(x=rbRow, y=rbColumn)
+            height += 20 * rbSize
+#            rbColumn += 20 * rbSize
+        return rb
 
 
     '''
@@ -1690,8 +1690,6 @@ class Interpreter():
         #l.grid(row=r, column=c, sticky=N+S+E+W)
         self.checkOccupied(l, width, height)
         l.place(x = width, y = height, bordermode="outside")
-        if hide:
-            l.grid_remove
         return l
 
     def setImage():

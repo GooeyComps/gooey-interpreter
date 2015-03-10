@@ -267,7 +267,7 @@ Example syntax::
 +---------+-------------------------------+-----------------------------------+-------------------+
 |Attribute| Description                   | Possible Values                   | Default Value     |
 +=========+===============================+===================================+===================+
-|text     | text to be store in object    | - A plaintext string              | "Untitled Text"   |
+|text     | text to be stored in object   | - A plaintext string              | "Untitled Text"   |
 +---------+-------------------------------+-----------------------------------+-------------------+
 |font     | font of text                  | - A plaintext string: "Times",    | "Times"           |
 |         |                               |   "Arial"/"Helvetica", "Courier"  |                   |
