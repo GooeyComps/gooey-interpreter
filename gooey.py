@@ -73,12 +73,13 @@ class TextPad():
         fm.add_command(label="Run",command=self.update_preview)
         fm.add_command(label="Stop",command=self.stop_preview)
 
+        self.textSize = 12
+
         # Add a "definitions" text area so users can see what has already been input, but cannot edit it.
         self.definitionLabel = Label(text="Definitions")
         self.definitionLabel.pack()
 
-        f = font.Font(size=24)
-        self.definitions = ScrolledText(self.root, width=60, height=10, state=DISABLED,font=f)
+        self.definitions = ScrolledText(self.root, width=60, height=10, state=DISABLED)
         self.definitions.configure(highlightbackground="black", fg="gray30",bg="gray95")
         self.definitions.pack(padx=(12,0))
 
@@ -87,14 +88,28 @@ class TextPad():
         self.editLabel.pack()
 
         # Add text pad to root and open window
-        self.textPad = ScrolledText(self.root, width=59, height=10, font = f)
+        self.textPad = ScrolledText(self.root, width=59, height=10)
         # Add a border to the text pad
         self.textPad.configure(borderwidth=4, highlightbackground="black")
         self.textPad.pack(padx=(12,0))
 
+        self.configText()
+
         # Add run and stop buttons
+        # Run and Stop Icons made by Freepik <http://www.freepik.com> from Flaticon <http://www.flaticon.com> is licensed under Creative Commons BY 3.0 <http://creativecommons.org/licenses/by/3.0/>
         self.runIcon = PhotoImage(file="runIcon.gif")
         self.stopIcon = PhotoImage(file="stopIcon.gif")
+        # Plus and Minus Icons made by Icomoon <http://www.icomoon.io> from Flaticon <http://www.flaticon.com> is licensed under Creative Commons BY 3.0 <http://creativecommons.org/licenses/by/3.0/>
+        self.plusIcon = PhotoImage(file="plusIcon.gif")
+        self.minusIcon = PhotoImage(file="minusIcon.gif")
+
+        self.decrementButton = Button(self.root)
+        self.decrementButton.configure(image=self.minusIcon, command=self.decrementEditorSize)
+        self.decrementButton.pack(side=LEFT)
+
+        self.incrementButton = Button(self.root)
+        self.incrementButton.configure(image=self.plusIcon, command=self.incrementEditorSize)
+        self.incrementButton.pack(side=LEFT)
 
         self.stopButton = Button(self.root)
         self.stopButton.configure(image=self.stopIcon, command=self.stop_preview)
@@ -108,6 +123,22 @@ class TextPad():
         #makes a live preview window when it is initialized, we hide it until we need it
         self.preview = GUIWindow()
         self.preview.window.withdraw()
+
+    def incrementEditorSize(self):
+        self.textSize += 1
+        self.configText()
+
+    def decrementEditorSize(self):
+        self.textSize -= 1
+        self.configText()
+
+    def configText(self):
+        f = font.Font(size=self.textSize, font="TKHeadingFont")
+        fmono = font.Font(size=self.textSize, family="Courier")
+        self.definitionLabel.configure(font=f)
+        self.editLabel.configure(font=f)
+        self.definitions.configure(font=fmono)
+        self.textPad.configure(font=fmono)
 
     def run(self):
         self.root.mainloop()
