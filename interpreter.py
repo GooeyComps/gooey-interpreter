@@ -36,7 +36,8 @@ class ErrorPopup:
         # Add "OK" button to popup, that will close popup when clicked
         button = Button(self.window, text="Ok", command=self.window.destroy)
         button.pack()
-
+        self.window.lift()
+        self.window.attributes("-topmost", True)
 
 class GooeyError(Exception):
     def __init__(self, message):
@@ -44,6 +45,7 @@ class GooeyError(Exception):
         ErrorPopup(self.message)
     def __repr__(self):
         return self.message
+
 class Binding:
     '''
     Binding object has four instance variables
@@ -676,15 +678,15 @@ class Interpreter():
     '''
 -------------------- RADIOBUTTONS--------------------
     '''
-    
+
     def makeRadioButton(self,w,i,num, width, height, v):
         gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
         gg.place(x=width, y=height, bordermode="outside")
         return gg
-    
-    
+
+
     def makeDefaultRadioButton(self,w,expr):
-        
+
         pass
 
     #RADIOBUTTONS ARE A WORK IN PROGRESS
@@ -776,7 +778,7 @@ class Interpreter():
                         if (item.options.options[i] == ""):
                             selected = True
                         else:
-                            
+
                             rb = self.makeRadioButton(w,item.options.options[i], j, width, height, var)
                             rb.configure(height=rbSize)
                             rb.deselect()
@@ -1129,8 +1131,8 @@ class Interpreter():
         '''Sets window attributes to those specified by the user.'''
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
-                if hasattr(item, 'color'):
 
+                if hasattr(item, 'color'):
                     self.setWindowColor(frames,item.color.value)
 
                 elif hasattr(item,'size'):
@@ -1151,21 +1153,23 @@ class Interpreter():
 
                     self.setWindowSize(w,frames, rows, columns)
 
-
                 elif hasattr(item, 'title'):
                     w.title(item.title.value)
-                elif hasattr(item, 'font'):
-                    pass
-                elif hasattr(item, 'fontSize'):
-                    pass
-                elif hasattr(item, 'textColor'):
-                    pass
-                else: # raiseGooeyError
-                    err = "Cannot set an attribute that Window does not have. Window only has the following attributes: "
-                    for key in self.getAllDefaults('Window').keys():
-                        err += str(key) + ', '
-                    err = err[:-2]
-                    raise GooeyError(err)
+
+                elif hasattr(item, 'action'):
+                    pass # Not implemented
+                elif hasattr(item, 'hidden'):
+                    pass # Not implemented
+
+#                elif hasattr(item, 'font'):
+#                    pass
+#                elif hasattr(item, 'fontSize'):
+#                    pass
+#                elif hasattr(item, 'textColor'):
+#                    pass
+
+                else:
+                    self.doesntHaveAttrError('Window')
         return win
 
 
@@ -1306,10 +1310,10 @@ class Interpreter():
             raise GooeyError("Object placed outside window. Choose a new height")
         #Go through the bindings and make sure we're not placing on top of other objects
         f = self.winBinding.frames
-        
+
         #Children of the frame
         kids = f.winfo_children()
-        
+
         #Go through all of the children in the frame
         for child in kids:
             #Dictionary to get info about where this object was placed
@@ -1328,11 +1332,11 @@ class Interpreter():
                 #If the y coordinate for our new object is within the range of this child's y + the height of the old object
                 if int(child_inf['y'])<=height<=int(child_inf['y'])+child.winfo_reqheight():
                     raise GooeyError("This object is placed too closely to another. Try a new y coordinate.")
-                    
+
                 #If the y coordinate+ height of new object is within the range of this child's y + the height of the old object
                 if int(child_inf['y'])<=height+obj.winfo_reqheight()<=int(child_inf['y'])+child.winfo_reqheight():
                     raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
-                    
+
             else:
                 print("Here's obj",obj)
 
@@ -1737,7 +1741,14 @@ class Interpreter():
     #        else:
         return expr.lineAction
 
-
+    def doesntHaveAttrError(self, typeName):
+        err = "Cannot set an attribute that Window does not have. Window only has the following attributes: "
+        defaults = self.getAllDefaults(typeName)
+        for key in defaults.keys():
+            if defaults[key] != None:
+                err += str(key) + ', '
+        err = err[:-2]
+        raise GooeyError(err)
 
     def getOptions(self,expr):
         '''Get list of options, ie: make MenuItem with options [red green blue]. '''

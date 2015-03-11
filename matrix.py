@@ -32,42 +32,47 @@ class TypeName(Enum):
     Button = 1
     Checkboxes = 2
     RadioButtons = 3
-    DropDown = 4
-    Text = 5
-    FormattedText = 6
-    TextBox = 7
-    Menu = 8
-    MenuItem = 9
-    Search = 10
-    Image = 11
-
+    Text = 4
+    FormattedText = 5
+    TextBox = 6
+    Menu = 7
+    MenuItem = 8
+    Image = 9
 
 class AttrName(Enum):
     title = 0
     text = 1
     options = 2
-    position = 3
-    size = 4
-    color = 5
-    action = 6
-    hidden = 7
-    font = 8
-    fontSize = 9
-    textColor = 10
-    source = 11
+    menuoption = 3
+    position = 4
+    size = 5
+    color = 6
+    action = 7
+    hidden = 8
+    font = 9
+    fontSize = 10
+    textColor = 11
+    bold = 12
+    italics = 13
+    underline = 14
+    source = 15
 
-matrix = [["""Untitled Window""", """""", """Untitled Checkboxes""", """Untitled Radio Buttons""", """Untitled Drop Down""", None, None, """Untitled Text Box""", None, """Untitled Menu Item""", None, """"""],
-[None, """Untitled Button""", None, None, None, """Text""", """Formatted Text""", """Type here""", None, None, """Search""", """Image Caption"""],
-[None, None, "*""Option 1"" ""Option 2"" ""Option 3""", "*""Option 1"" ""Option 2"" ""Option 3""", "*""Option 1"" ""Option 2"" ""Option 3""", None, None, None, "menuItem1 menuItem2 menuItem3", """Option 1"" ""Option 2"" ""Option 3""", None, None],
-[None, 'center', 'center', 'center', 'center', 'center', None, 'center', 'menuBar', None, 'center', 'center'],
-['medium', 'medium', 'medium', 'medium', 'medium', 'medium', None, 'medium', None, None, 'medium', 'medium'],
-['white', None, None, None, None, 'white', None, None, None, None, None, None],
-["""""", """""", None, None, None, None, None, None, None, None, None, None],
-[False, False, False, False, False, False, None, False, False, False, False, False],
-["""Times New Roman""", None, None, None, None, None, """Times New Roman""", None, None, None, None, None],
-[12, None, None, None, None, None, 12, None, None, None, None, None],
-['black', None, None, None, None, None, 'black', None, None, None, None, None],
-[None, None, None, None, None, None, None, None, None, None, None, 'defaultIcon']]
+matrix = [["""Untitled Window""", None, """Untitled Checkboxes""", """Untitled Radio Buttons""", None, None, """Untitled Text Box""", None, """Untitled Menu Item""", """"""],
+[None, """Untitled Button""", None, None, """Text""", """Formatted Text""", """Type here""", None, None, """Image Caption"""],
+[None, None, "*""Option 1"" ""Option 2"" ""Option 3""", "*""Option 1"" ""Option 2"" ""Option 3""", None, None, None, None, None, None],
+[None, None, None, None, None, None, None, 'menuItem1 menuItem2 menuItem3', """Option 1"" ""Option 2"" ""Option 3""", None],
+[None, 'center', 'center', 'center', 'center', None, 'center', None, None, 'center'],
+['medium', 'medium', 'medium', 'medium', 'medium', None, 'medium', None, None, 'medium'],
+['white', None, None, None, 'white', None, None, None, None, None],
+["""""", """""", None, None, None, None, None, None, None, None],
+[False, False, False, False, False, None, False, False, False, False],
+[None, None, None, None, None, """Times New Roman""", None, None, None, None],
+[None, None, None, None, None, 12, None, None, None, None],
+[None, None, None, None, None, 'black', None, None, None, None],
+[None, None, None, None, None, False, None, None, None, None],
+[None, None, None, None, None, False, None, None, None, None],
+[None, None, None, None, None, False, None, None, None, None],
+[None, None, None, None, None, None, None, None, None, 'defaultIcon']]
 
 NUM_ATTRIBUTES = len(matrix)
 NUM_TYPES = len(matrix[0])
