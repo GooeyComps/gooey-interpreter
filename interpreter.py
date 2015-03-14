@@ -36,7 +36,9 @@ class ErrorPopup:
         # Add "OK" button to popup, that will close popup when clicked
         button = Button(self.window, text="Ok", command=self.window.destroy)
         button.pack()
-
+        # Move error window to front so it is not hidden by UI window.
+        self.window.lift() # not sure if this line necessary
+        self.window.attributes("-topmost", True)
 
 class GooeyError(Exception):
     def __init__(self, message):
@@ -44,6 +46,7 @@ class GooeyError(Exception):
         ErrorPopup(self.message)
     def __repr__(self):
         return self.message
+
 class Binding:
     '''
     Binding object has four instance variables
@@ -203,6 +206,7 @@ class Interpreter():
 
                         elif(obj.bType == "MenuItem"):
                             pass
+
                         elif(obj.bType == "Text"):
                             t = self.getObject(expr)
                             assert t.bType == 'Text'
@@ -348,8 +352,6 @@ class Interpreter():
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
 
-                # print (item)
-
                 if hasattr(item, "text"):
                     if item.text.value in self.bindings:
                         textBinding = self.bindings[item.text.value]
@@ -359,6 +361,7 @@ class Interpreter():
                             raise GooeyError("Cannot set FormattedText text attribute to "+str(item.text.value)+".")
                     else:
                         settings[0] = item.text.value
+
                 elif hasattr(item, "font"):
                     if item.font.name in self.bindings:
                         fontBinding = self.bindings[item.font.name]
@@ -368,6 +371,7 @@ class Interpreter():
                             raise GooeyError("Cannot set FormattedText font attribute to "+str(item.font.value)+".")
                     else:
                         settings[1] = item.font.name
+
                 elif hasattr(item, "size"):
                     if item.size.value in self.bindings:
                         sizeBinding = self.bindings[item.size.value]
@@ -377,6 +381,7 @@ class Interpreter():
                             raise GooeyError("Cannot set FormattedText size attribute to "+str(item.size.value)+".")
                     else:
                         settings[2] = int(item.size.value)
+
                 elif hasattr(item, "color"):
                     settings[3] = item.color.value
                 elif hasattr(item, "bold"):
@@ -385,14 +390,16 @@ class Interpreter():
                     settings[5] = item.italic.value
                 elif hasattr(item, "underline"):
                     settings[6] = item.underline.value
+
                 else:
-                    raise GooeyError("FormattedText does not have that attribute.")
+                    self.doesntHaveAttrError('FormattedText')
 
         return settings
 
     def setFormattedText(self, ft, win, expr):
         w = win.frames
         for item in expr.attributes:
+
             if hasattr(item, "text"):
                 if item.text.value in self.bindings:
                     textBinding = self.bindings[item.text.value]
@@ -402,6 +409,7 @@ class Interpreter():
                         raise GooeyError("Cannot set FormattedText text attribute to "+str(item.text.value)+".")
                 else:
                     ft[0] = item.text.value
+
             elif hasattr(item, "font"):
                 if item.font.value in self.bindings:
                     fontBinding = self.bindings[item.font.value]
@@ -411,6 +419,7 @@ class Interpreter():
                         raise GooeyError("Cannot set FormattedText font attribute to "+str(item.font.value)+".")
                 else:
                     ft[1] = item.font.name
+
             elif hasattr(item, "size"):
                 if item.size.value in self.bindings:
                     sizeBinding = self.bindings[item.size.value]
@@ -420,6 +429,7 @@ class Interpreter():
                         raise GooeyError("Cannot set FormattedText size attribute to "+str(item.size.value)+".")
                 else:
                     ft[2] = int(item.size.value)
+
             elif hasattr(item, "color"):
                 ft[3] = item.color.value
             elif hasattr(item, "bold"):
@@ -429,6 +439,8 @@ class Interpreter():
             elif hasattr(item, "underline"):
                 ft[6] = item.underline.value
 
+            else:
+                self.doesntHaveAttrError('FormattedText')
 
     '''
 -------------------- CHECKBOXES --------------------
@@ -444,8 +456,18 @@ class Interpreter():
         hasTitle = False
         hasOptions = False
 
+
         if hasattr(expr, "attributes"):
+
+            # Check to see if all attrs are valid before setting any attrs
             for item in expr.attributes:
+                if not (hasattr(item, 'title') or hasattr(item, 'options') or \
+                        hasattr(item, 'position') or hasattr(item, 'size') or \
+                        hasattr(item, 'hidden')):
+                    self.doesntHaveAttrError('Checkboxes')
+
+            for item in expr.attributes:
+
                 if hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         width = int(item.position.value.r)
@@ -456,6 +478,7 @@ class Interpreter():
                         width, height = 0, 0
                         #cbRow, cbColumn = 0, 0
                         #cbRow, cbColumn = self.getPositionByKeyword(item.position.value)
+
                 if hasattr(item, 'size'):
                     cbSize = int(item.size.value)
 
@@ -529,14 +552,7 @@ class Interpreter():
                         else:
                             isDefault = True
                         i += 1
-                elif(hasattr(item, 'title')):
-                    pass
-                elif(hasattr(item, 'position')):
-                    pass
-                elif(hasattr(item, 'size')):
-                    pass
-                else:
-                    raise GooeyError("Cannot make Checkboxes with an attribute that Checkboxes does not have.")
+
 
             if not hasOptions:
                 i = 0
@@ -606,6 +622,14 @@ class Interpreter():
         #cbColumn = cb[0][1]
         ttlSize = cb[0][3]
         ttl = cb[1]
+
+        # Check to see if all attrs are valid before setting any attrs
+        for item in expr.attributes:
+            if not (hasattr(item, 'title') or hasattr(item, 'options') or \
+                    hasattr(item, 'position') or hasattr(item, 'size') or \
+                    hasattr(item, 'hidden')):
+                self.doesntHaveAttrError('Checkboxes')
+
         for item in expr.attributes:
             if hasattr(item, "title"): # TEXT HERE
                 if hasattr(item.title, "var"):
@@ -939,7 +963,8 @@ class Interpreter():
         hide = False
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
-                if hasattr(item, 'text'): # TEXT HERE
+
+                if hasattr(item, 'text'):
                     if hasattr(item.text, 'var'):
                         if (item.text.var in self.bindings):
                             a = self.bindings.get(item.text.var).bObject
@@ -959,20 +984,25 @@ class Interpreter():
                             raise GooeyError("No formatted text with that name.")
                     else:
                         tl.configure(text=item.text.value)
+
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         width = int(item.position.value.r)
                         height = int(item.position.value.c)
                     else:
                         width, height = self.getPositionByKeyword(tl, item.position.value)
-                elif hasattr(item, 'color'):
+
+                elif hasattr(item, 'color'): # NOTE: Wasn't this supposed to be background color?
                     color = self.checkRGBColor(item.color.value)
                     tl.configure(fg=color)
+
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == "true":
                         hide = True
+                elif hasattr(item, 'size'):
+                    pass # Not implemented
                 else:
-                    raise GooeyError("Can't set Text with an attribute that Text does not have.")
+                    self.doesntHaveAttrError('Text')
         #tl.grid(row=r, column=c, sticky=N+S+E+W)
         self.checkOccupied(tl, width, height)
         tl.place(x = width, y = height, bordermode="outside")
@@ -986,8 +1016,10 @@ class Interpreter():
         hide = False
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
+
                 if hasattr(item, 'text'):
                     tl.configure(text=item.text.value)
+
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         width = int(item.position.value.r)
@@ -996,9 +1028,11 @@ class Interpreter():
                         width, height = self.getPositionByKeyword(tl, item.position.value)
                     self.checkOccupied(tl, width, height)
                     tl.place(x = width, y = height, bordermode="outside")
+
                 elif hasattr(item, 'color'):
                     color = self.checkRGBColor(item.color.value)
                     tl.configure(fg=color)
+
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == 'true':
                         hide = True
@@ -1007,7 +1041,7 @@ class Interpreter():
                         #####NOTE: THIS ISN'T GOING TO WORK COME BACK
                         tl.place(x=tl.winfo_x(), y=tl.winfo_y())
                 else:
-                    raise GooeyError("Can't set Text with an attribute that Text does not have.")
+                    self.doesntHaveAttrError('Text')
         #tl.grid(row=r, column=c, sticky=N+S+E+W)
         return tl
 
@@ -1081,10 +1115,9 @@ class Interpreter():
             for item in windowAttributeList:
 
                 if hasattr(item, 'color'):
-
                     self.setWindowColor(frames,item.color.value)
-                elif hasattr(item,'size'):
 
+                elif hasattr(item,'size'):
 
                     if hasattr(item.size.value, "columns"):
                         rows = int(item.size.value.rows)
@@ -1102,17 +1135,22 @@ class Interpreter():
 
                     frames = self.setWindowSize(w,frames, rows, columns)
 
-
-
-
                 elif hasattr(item, 'title'):
                     w.title(item.title.value)
-                elif hasattr(item, 'font'):
-                    pass
-                elif hasattr(item, 'fontSize'):
-                    pass
-                elif hasattr(item, 'textColor'):
-                    pass
+
+                elif hasattr(item, 'action'):
+                    pass # Not implemented
+                elif hasattr(item, 'hidden'):
+                    pass # Not implemented
+
+#                elif hasattr(item, 'font'):
+#                    pass
+#                elif hasattr(item, 'fontSize'):
+#                    pass
+#                elif hasattr(item, 'textColor'):
+#                    pass
+                else:
+                    self.doesntHaveAttrError('Window')
 
         return (w,frames)
 
@@ -1127,8 +1165,8 @@ class Interpreter():
         '''Sets window attributes to those specified by the user.'''
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
-                if hasattr(item, 'color'):
 
+                if hasattr(item, 'color'):
                     self.setWindowColor(frames,item.color.value)
 
                 elif hasattr(item,'size'):
@@ -1149,21 +1187,23 @@ class Interpreter():
 
                     self.setWindowSize(w,frames, rows, columns)
 
-
                 elif hasattr(item, 'title'):
                     w.title(item.title.value)
-                elif hasattr(item, 'font'):
-                    pass
-                elif hasattr(item, 'fontSize'):
-                    pass
-                elif hasattr(item, 'textColor'):
-                    pass
-                else: # raiseGooeyError
-                    err = "Cannot set an attribute that Window does not have. Window only has the following attributes: "
-                    for key in self.getAllDefaults('Window').keys():
-                        err += str(key) + ', '
-                    err = err[:-2]
-                    raise GooeyError(err)
+
+                elif hasattr(item, 'action'):
+                    pass # Not implemented
+                elif hasattr(item, 'hidden'):
+                    pass # Not implemented
+
+#                elif hasattr(item, 'font'):
+#                    pass
+#                elif hasattr(item, 'fontSize'):
+#                    pass
+#                elif hasattr(item, 'textColor'):
+#                    pass
+
+                else:
+                    self.doesntHaveAttrError('Window')
         return win
 
 
@@ -1202,18 +1242,22 @@ class Interpreter():
         hide = False
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
-                if hasattr(item, 'text'): # TEXT HERE
+
+                if hasattr(item, 'text'):
                     t.delete("1.0",END)
                     t.insert(END, item.text.value)
+
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         width = int(item.position.value.r)
                         height = int(item.position.value.c)
                     else:
                         width, height = self.getPositionByKeyword(t, item.position.value)
+
                 elif hasattr(item, 'color'):
                     color = self.checkRGBColor(item.color.value)
                     t.configure(bg=color)
+
                 elif hasattr(item, 'size'):
                     if item.size.value == "small":
                         TextBoxWidth = SMALL_TEXTBOX_WIDTH
@@ -1228,12 +1272,16 @@ class Interpreter():
                         TextBoxWidth = item.size.value.columns
                         TextBoxHeight = item.size.value.rows
                     t.configure(width=TextBoxWidth, height = TextBoxHeight)
+
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == "true":
                         hide = True
+
+                elif hasattr(item, 'title'):
+                    pass # Not implemented
+
                 else:
-                    raise GooeyError("Can't make Textbox with an attribute that Textbox does not have.")
-                    # Note: should be gooey error
+                    self.doesntHaveAttrError('TextBox')
 
         self.checkOccupied(t, width, height)
         t.place(x = width, y = height, bordermode="outside")
@@ -1246,9 +1294,11 @@ class Interpreter():
         hide = False
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
-                if hasattr(item, 'text'): #TEXT HERE
+
+                if hasattr(item, 'text'):
                     t.delete("1.0",END)
                     t.insert(END, item.text.value)
+
                 elif hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         width = int(item.position.value.r)
@@ -1257,9 +1307,11 @@ class Interpreter():
                         width, height = self.getPositionByKeyword(t, item.position.value)
                     self.checkOccupied(t, width, height)
                     t.place(x = width, y = height, bordermode="outside")
+
                 elif hasattr(item, 'color'):
                     color = self.checkRGBColor(item.color.value)
                     t.configure(bg=color)
+
                 elif hasattr(item, 'size'):
                     if item.size.value == "small":
                         TextBoxWidth = SMALL_TEXTBOX_WIDTH
@@ -1274,14 +1326,19 @@ class Interpreter():
                         TextBoxWidth = item.size.value.columns
                         TextBoxHeight = item.size.value.rows
                     t.configure(width=TextBoxWidth, height = TextBoxHeight, borderwidth=4)
+
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == "true":
                         hide = True
                         t.place_forget() #Note: won't work yet
                     elif item.hidden.value == "false":
                         t.place(x=t.winfo_x(), y=t.winfo_y())
+
+                elif hasattr(item, 'title'):
+                    pass # Not implemented
+
                 else:
-                    raise GooeyError("Can't set Textbox with an attribute that Textbox does not have.")
+                    self.doesntHaveAttrError('TextBox')
                     #Note: raise gooey error
 
         return t
@@ -1360,9 +1417,11 @@ class Interpreter():
         if hasattr(expr, "attributes"):
             buttonAttributeList = expr.attributes
             for item in buttonAttributeList:
-                if hasattr(item, 'color'):
+
+                if hasattr(item, 'color'): # NOTE: What are we gonna do about button color??
                     color = self.checkRGBColor(item.color.value)
                     b.configure(bg=color)
+
                 if hasattr(item, 'text'):
                     if hasattr(item.text, 'var'):
                         if (item.text.var in self.bindings):
@@ -1383,11 +1442,11 @@ class Interpreter():
 
                                 font = (a[1], a[2], special)
                                 b.configure(text=a[0], fg=a[3], font=font)
-
                         else:
                             raise GooeyError("The variable "+str(item.text.var)+" is undefined.")
                     else:
                         b.configure(text=item.text.value)
+
                 elif hasattr(item,'size'):
                     if hasattr(item.size.value, 'columns'):
                         if item.size.value.columns in self.bindings:
@@ -1400,6 +1459,7 @@ class Interpreter():
                             b.configure(width=item.size.value.columns)
                     else: #TODO: button size by keyword
                         pass
+
                 elif hasattr(item,'position'):
                     if hasattr(item.position.value, "r"):
                         if item.position.value.r in self.bindings:
@@ -1438,14 +1498,13 @@ class Interpreter():
                         b.configure(command=lambda: self.gooeyCallAction(a, args)) #figure out params for this
                         #run this like we're running a function definition
 
-
-                    # else:
-                    #     print("You have entered a command that is not defined")
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == "true":
                         hide = True
+
                 else:
-                    raise GooeyError("Can't set Button with attribute Button doesn't have.")
+                    self.doesntHaveAttrError('Button')
+
         #b.grid(row=r, column=c, sticky=N+S+E+W)
         print("Calling checkoccupied on button with width and height", width, height)
         self.checkOccupied(b, width, height)
@@ -1560,7 +1619,7 @@ class Interpreter():
                 elif item.hidden.value == 'true':
                     b.place_forget() #Note: won't work yet
             else:
-                raise GooeyError("Can't make Button with attribute Button doesn't have.")
+                self.doesntHaveAttrError('Button')
         return b
 
     def fixObjectPadding(self,color):
@@ -1613,6 +1672,8 @@ class Interpreter():
                                 binding = self.makeBinding("MenuItem",str(mopItem.action),subm)
                                 self.bindings = self.addBinding(binding)
                                 rootMenu.add_cascade(label=mopItem.text,menu=subm)
+                else:
+                    self.doesntHaveAttrError('Menu')
         w.config(menu=rootMenu)
         return rootMenu
 
@@ -1651,6 +1712,8 @@ class Interpreter():
                                     if hasattr(mopItem, 'text'):
                                         if hasattr(mopItem, 'action'):
                                             subMenu.add_command(label=mopItem.text,command=None)#change this
+                            else:
+                                self.doesntHaveAttrError('MenuItem')
 
                     # menuItem = subMenu
                     # w.config(menu=self.bindings[key].bObject)
@@ -1674,6 +1737,9 @@ class Interpreter():
         #(i,l) = self.makeDefaultImage(w,defaults)
         width, height = 0, 0
         hide = False
+
+        i = PhotoImage(file="gooeylogosmallest.gif")
+
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'source'):
@@ -1691,19 +1757,19 @@ class Interpreter():
 
 
                     i = PhotoImage(file=item.source.value)
-                    l = Label(w, image=i, bg = w.cget('bg'))
-                    l.image = i
-                else:
-                    i = PhotoImage(file="gooeylogosmallest.gif")
-                    raise GooeyError("Cannot make Image with attribute Image does not have.") # Note: change gooey error
-                if hasattr(item, 'position'):
+                elif hasattr(item, 'position'):
                         if hasattr(item.position.value, "r"):
                             width = int(item.position.value.r)
                             height = int(item.position.value.c)
                         else:
                             width, height = self.getPositionByKeyword(i, item.position.value)
+
+                else:
+                    self.doesntHaveAttrError('Image')
         #l.grid(row=r, column=c, sticky=N+S+E+W)
         self.checkOccupied(l, width, height)
+        l = Label(w, image=i, bg = w.cget('bg'))
+        l.image = i
         l.place(x = width, y = height, bordermode="outside")
         return l
 
@@ -1733,7 +1799,14 @@ class Interpreter():
     #        else:
         return expr.lineAction
 
-
+    def doesntHaveAttrError(self, typeName):
+        err = "Cannot set an attribute that "+str(typeName)+" does not have. "+str(typeName)+" only has the following attributes: "
+        defaults = self.getAllDefaults(typeName)
+        for key in defaults.keys():
+            if defaults[key] != None:
+                err += str(key) + ', '
+        err = err[:-2]
+        raise GooeyError(err)
 
     def getOptions(self,expr):
         '''Get list of options, ie: make MenuItem with options [red green blue]. '''

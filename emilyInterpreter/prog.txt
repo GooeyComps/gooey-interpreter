@@ -1,5 +1,0 @@
-function hi() does make Window www; return www.
-make win run hi().
-
-function bye(win) does set win color red, size 500; set win color blue.
-run bye(www).
