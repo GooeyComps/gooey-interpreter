@@ -864,8 +864,6 @@ class Interpreter():
 
         return rbList
 
-
-
     def setRadioButtons(self, rb, win, expr):
         w = win.frames
         rbSize = rb[0][2]
@@ -1775,8 +1773,6 @@ class Interpreter():
         l = Label(w, image=i, bg = w.cget('bg'))
         l.image = i
         l.place(x = width, y = height, bordermode="outside")
-        if hide:
-            l.grid_remove
         return l
 
     def setImage():
