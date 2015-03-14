@@ -677,6 +677,16 @@ class Interpreter():
 -------------------- RADIOBUTTONS--------------------
     '''
 
+    def makeRadioButton(self,w,i,num, width, height, v):
+        gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
+        gg.place(x=width, y=height, bordermode="outside")
+        return gg
+
+
+    def makeDefaultRadioButton(self,w,expr):
+
+        pass
+
     #RADIOBUTTONS ARE A WORK IN PROGRESS
     def makeRadioButtons(self,w,expr):
         w=w.frames
@@ -766,10 +776,12 @@ class Interpreter():
                         if (item.options.options[i] == ""):
                             selected = True
                         else:
+
                             rb = self.makeRadioButton(w,item.options.options[i], j, width, height, var)
                             rb.configure(height=rbSize)
                             rb.deselect()
                             rbList.append(rb)
+                            height += 20 * rbSize
                             # if (selected):
                             #     var.set(j)
                             #     selected = False
@@ -784,19 +796,20 @@ class Interpreter():
                 else:
                     raise GooeyError("Cannot make RadioButtons with an attribute that RadioButtons does not have.")
 
-            if not hasOptions:
-                i = 0
-                j = 0
-                while(i < 3):
-                    optionText = "Option " + str(i + 1)
-                    rb = self.makeRadioButton(w,optionText, j, width, height, var)
-#                    rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
-                    height += 20 * rbSize
-#                    rbColumn += 20 * rbSize
-                    rb.configure(height=rbSize)
-                    rbList.append(rb)
-                    j += 1
-                    i += 1
+                    #I think this is unnecessary
+#            if not hasOptions:
+#                i = 0
+#                j = 0
+#                while(i < 3):
+#                    optionText = "Option " + str(i + 1)
+#                    rb = self.makeRadioButton(w,optionText, j, width, height, var)
+##                    rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
+#                    height += 20 * rbSize
+##                    rbColumn += 20 * rbSize
+#                    rb.configure(height=rbSize)
+#                    rbList.append(rb)
+#                    j += 1
+#                    i += 1
 
         else:
             rbTitle = "Untitled RadioButtons"
@@ -824,11 +837,6 @@ class Interpreter():
                 i += 1
 
         return rbList
-
-    def makeRadioButton(self,w,i,num, width, height, v):
-        gg = Radiobutton(w, text=i, variable=v, value=num, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
-        gg.place(x=width, y=height, bordermode="outside")
-        return gg
 
     def setRadioButtons(self, rb, win, expr):
         w = win.frames
@@ -1284,43 +1292,48 @@ class Interpreter():
     '''
     def checkOccupied(self,obj, width, height):
 
-        # print("\n\n\nCHECKOCCUPIED")
-
-
-        # Checks to make sure nothing is in the space the user is trying to place an object
-        # If something is there, raise an error saying which object is there, try again, and do not place object
-        #print("this is the window height",self.winBinding.bObject.winfo_height())
         winHeight = self.winBinding.bObject.winfo_reqheight()
         winWidth = self.winBinding.bObject.winfo_reqwidth()
 
-        # print(winHeight, winWidth)
-#        winHeight = self.winBinding.bObject.winfo_height()
-#        winWidth = self.winBinding.bObject.winfo_width()
 
 
-
-        if obj.winfo_x()+obj.winfo_reqwidth() > winWidth:
+        #Check to see if object is being placed outside of the window
+        if width+obj.winfo_reqwidth() > winWidth:
             raise GooeyError("Object placed outside window. Choose a new width")
-        if obj.winfo_y()+obj.winfo_reqheight() > winHeight:
+        if height+obj.winfo_reqheight() > winHeight:
             raise GooeyError("Object placed outside window. Choose a new height")
         #Go through the bindings and make sure we're not placing on top of other objects
-        #See children of root window
+        f = self.winBinding.frames
 
-        kids = self.winBinding.frames.winfo_children()
+        #Children of the frame
+        kids = f.winfo_children()
 
-        # print("Here are the children",kids)
+        #Go through all of the children in the frame
         for child in kids:
-            pass
-            # print("kid x",child.winfo_x())
-#            print("HERE IS OUR CHILD:", child)
-#            if child != obj:
-#                print("here's our child's info")
-#                print(child.winfo_pointerx(), child.winfo_pointery())
-#            else:
-#                print("Here's obj",obj)
-            # else:
-        #    print("Everything is hunky dory")
-        #Check and raise an error if the object will appear outside the edge of the window, so fuck you
+            #Dictionary to get info about where this object was placed
+            child_inf = child.place_info()
+            #We only care about the children that are not our object
+            if child != obj:
+                #This isn't perfect, especially if our new object is bigger than the last
+                #If the x coordinate for our new object is within the range of this child's x + the width of the old object
+                if int(child_inf['x'])<=width<=int(child_inf['x'])+child.winfo_reqwidth():
+                    raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
+                #If the x coordinate+ width of new object is within the range of this child's x + the width of the old object
+                if int(child_inf['x'])<=width+obj.winfo_reqwidth()<=int(child_inf['x'])+child.winfo_reqwidth():
+                    raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
+
+
+                #If the y coordinate for our new object is within the range of this child's y + the height of the old object
+                if int(child_inf['y'])<=height<=int(child_inf['y'])+child.winfo_reqheight():
+                    raise GooeyError("This object is placed too closely to another. Try a new y coordinate.")
+
+                #If the y coordinate+ height of new object is within the range of this child's y + the height of the old object
+                if int(child_inf['y'])<=height+obj.winfo_reqheight()<=int(child_inf['y'])+child.winfo_reqheight():
+                    raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
+
+            else:
+                print("Here's obj",obj)
+
 
 
 
@@ -1434,8 +1447,10 @@ class Interpreter():
                 else:
                     raise GooeyError("Can't set Button with attribute Button doesn't have.")
         #b.grid(row=r, column=c, sticky=N+S+E+W)
+        print("Calling checkoccupied on button with width and height", width, height)
         self.checkOccupied(b, width, height)
         b.place(x = width, y = height, bordermode="outside")
+        print("This where b is", b.winfo_x(), b.winfo_y())
         if hide:
             b.place_forget() #Note won't work yet
         return b
