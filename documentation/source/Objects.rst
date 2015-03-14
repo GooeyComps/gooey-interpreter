@@ -198,40 +198,41 @@ Example syntax::
 Menu
 ====
 
-Menus are a list of actions. Menu's are created with Menu Items. When creating a Menu, the *options* attribute points to the MenuItems to be included in the Menu. A Menu *must* include MenuItems.
+Menus are a list of actions. Menu's are created with Menu Items. When creating a Menu, the *menuoption* attribute points to the MenuItems to be included in the Menu. First, in double quotation marks list the name of the menu as you want it to appear across the top, a colon, and then the name of the MenuItem that will handle the drop down menu from that top level. A Menu *must* include MenuItems.
 
 Example syntax::
 
- make Menu m with options file edit.
+ make Menu m with menuoption "File":file "Edit":edit.
 
-+---------+-------------------------------+-----------------------------------+-------------------+
-|Attribute| Description                   | Possible Values                   | Default Value     |
-+=========+===============================+===================================+===================+
-|options  | The top level menu labels     | - list of MenuItem objects        | menuItem1         |
-|         |                               |   separated by spaces             | menuItem2         |
-|         |                               |                                   | menuItem3         |
-|         |                               |                                   |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
+
++-----------+-------------------------------+-----------------------------------+-------------------+
+|Attribute  | Description                   | Possible Values                   | Default Value     |
++===========+===============================+===================================+===================+
+|menuoptions| The top level menu labels     | - list of MenuItem objects        | menuItem1         |
+|           |                               |   separated by spaces             | menuItem2         |
+|           |                               |                                   | menuItem3         |
+|           |                               |                                   |                   |
++-----------+-------------------------------+-----------------------------------+-------------------+
 
 MenuItem
 ========
 
-MenuItems are the terminal actions in a Menu. The variable name of the MenuItem must match the name of the correlating option listed in the Menu object. With the *options* attribute, MenuItems have two parts. First the text the user will select, then a colon, followed by the action.
+MenuItems are the terminal actions in a Menu. The variable name of the MenuItem must match the name of the correlating option listed in the Menu object. With the *options* attribute, MenuItems have two parts. First the text the user will select, then a colon, followed by the action or function.
 
 Example syntax::
 
- make MenuItem file with options "quit":close.
+ make MenuItem file with menuoption "Save":save "Quit":close.
 
-+---------+-------------------------------+-----------------------------------+-------------------+
-|Attribute| Description                   | Possible Values                   | Default Value     |
-+=========+===============================+===================================+===================+
-|title    | name visible in menu          | - A plaintext string              |"Untitled MenuItem"|
-+---------+-------------------------------+-----------------------------------+-------------------+
-|options  | The selections within the menu| - a MenuItem object               | "Option1"         |
-|         |                               | - a terminal in the format        | "Option2"         |
-|         |                               |   "name":action                   | "Option3"         |
-|         |                               |                                   |                   |
-+---------+-------------------------------+-----------------------------------+-------------------+
++-----------+-------------------------------+-----------------------------------+-------------------+
+|Attribute  | Description                   | Possible Values                   | Default Value     |
++===========+===============================+===================================+===================+
+|title      | name visible in menu          | - A plaintext string              |"Untitled MenuItem"|
++-----------+-------------------------------+-----------------------------------+-------------------+
+|menuoptions| The selections within the menu| - a MenuItem object               | "Option1"         |
+|           |                               | - a terminal in the format        | "Option2"         |
+|           |                               |   "name":action                   | "Option3"         |
+|           |                               |                                   |                   |
++-----------+-------------------------------+-----------------------------------+-------------------+
 
 
 Image

@@ -51,8 +51,8 @@ Your button is currently useless. You can click it, but since we haven't given i
 
 Try::
 
- set go text "Go", action windowChangeColor green.
- make Button stop with text "Stop", position right, action windowChangeColor red.
+ set go text "Go", action windowColorChange green.
+ make Button stop with text "Stop", position right, action windowColorChange red.
 
 .. image:: images/onedone.png
 
@@ -97,15 +97,15 @@ After making a function, there are two ways to use it. To run myFucntion on the 
 
 or you can turn your function into an action for Buttons and MenuItems ::
 
- make Button change with action myFunction(w).
+ set submit action myFunction win.
 
-Now for one of the most complicated parts of Gooey - menus. Menus actually use the *Menu* object and the *MenuItem* object. First, make the Menu object with the names the nested MenuItems.
+Now for one of the most complicated parts of Gooey - menus. Menus actually use the *Menu* object and the *MenuItem* object. First, in double quotation marks list the name of the menu as you want it to appear across the top, a colon, and then the name of the MenuItem that will handle the drop down menu from that top level. For example::
 
  make Menu m with menuoption "File":file "Edit":edit.
 
-Then, make the MenuItem with the lower level option.
+Alone, this will make a bar across the top that says File and Edit, but won't do anything. Make the MenuItem with the lower level options in the same format::
 
- make MenuItem file with menuoption "Save":close.
+ make MenuItem file with menuoption "Save":quit.
 
 .. image:: images/menus.png
 
