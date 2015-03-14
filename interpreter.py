@@ -41,6 +41,7 @@ class ErrorPopup:
         self.window.attributes("-topmost", True)
 
 class GooeyError(Exception):
+    ''' A Gooey Interpreter Error class. Creates a popup window with the error message. '''
     def __init__(self, message):
         self.message = message
         ErrorPopup(self.message)
@@ -49,11 +50,12 @@ class GooeyError(Exception):
 
 class Binding:
     '''
-    Binding object has four instance variables
+    Binding object has five instance variables
     bType - the type of object with regards to "Gooey" ex) Window, Button
     varname - how we identify the object (a string)
     bObject - the actual tkinter object
     params - an optional argument use to take in the parameters of a user defined function
+    frames - base frame for UI Window
     '''
     bType = None
     varname = None
@@ -107,7 +109,7 @@ class Interpreter():
                     if (expr.type == "Window"):
                         self.checkVarname(expr)
                         (w,frames) = self.makeWindow(self.window,expr)
-                        binding = self.makeBinding("Window", expr.varname, w,[],frames)
+                        binding = self.makeBinding("Window", expr.varname, w,list(),frames)
                         self.setWinBinding(binding)
                         self.bindings = self.addBinding(binding)
 
@@ -174,7 +176,7 @@ class Interpreter():
                         self.bindings = self.addBinding(binding)
 
                     else:
-                        raise GooeyError("Object in Make statement not recognized. Make sure to capitalize the object name.")
+                        raise GooeyError("Object type name in Make statement not recognized. Make sure to capitalize the object name.")
                 else:
                     raise GooeyError("No type name provided to Make statement.")
 
@@ -266,7 +268,7 @@ class Interpreter():
                         self.bindings = self.addBinding(binding)
 
                     else:
-                        raise GooeyError("Sorry, this function name is already used.")
+                        raise GooeyError("Sorry, the function name "+str(expr.funcname)+" is already used.")
                 else:
                     raise GooeyError("Sorry, you need to give your function a name.")
 
@@ -1804,7 +1806,7 @@ class Interpreter():
         return expr.lineAction
 
     def doesntHaveAttrError(self, typeName):
-        err = "Cannot set an attribute that "+str(typeName)+" does not have. "+str(typeName)+" only has the following attributes: "
+        err = "Cannot set an attribute that "+str(typeName)+" does not have. "+str(typeName)+" only has the following attributes: \n"
         defaults = self.getAllDefaults(typeName)
         for key in defaults.keys():
             if defaults[key] != None:
