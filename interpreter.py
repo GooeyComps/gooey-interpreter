@@ -124,6 +124,8 @@ class Interpreter():
                         # print("OPTIONS IN MAKEMENU",options)
                         binding = self.makeBinding("Menu", expr.varname, m, options)
                         self.bindings = self.addBinding(binding)
+                        print("Here are the bindings", self.bindings)
+                        print("Here's the menu binding",binding, options)
                         # print("made the menu")
 
                     elif(expr.type == "MenuItem"):
@@ -202,7 +204,9 @@ class Interpreter():
                             b = self.setButton(button.bObject,self.winBinding, expr)
 
                         elif(obj.bType == "Menu"):
-                            pass
+                            menu = self.getObject(expr)
+                            assert menu.bType == 'Menu'
+                            m = self.setMenu(menu.bObject,self.winBinding,expr)
 
                         elif(obj.bType == "MenuItem"):
                             pass
@@ -1348,48 +1352,48 @@ class Interpreter():
 -------------------- BUTTONS --------------------
     '''
     def checkOccupied(self,obj, width, height):
-
-        winHeight = self.winBinding.bObject.winfo_reqheight()
-        winWidth = self.winBinding.bObject.winfo_reqwidth()
-
-
-
-        #Check to see if object is being placed outside of the window
-        if width+obj.winfo_reqwidth() > winWidth:
-            raise GooeyError("Object placed outside window. Choose a new width")
-        if height+obj.winfo_reqheight() > winHeight:
-            raise GooeyError("Object placed outside window. Choose a new height")
-        #Go through the bindings and make sure we're not placing on top of other objects
-        f = self.winBinding.frames
-
-        #Children of the frame
-        kids = f.winfo_children()
-
-        #Go through all of the children in the frame
-        for child in kids:
-            #Dictionary to get info about where this object was placed
-            child_inf = child.place_info()
-            #We only care about the children that are not our object
-            if child != obj:
-                #This isn't perfect, especially if our new object is bigger than the last
-                #If the x coordinate for our new object is within the range of this child's x + the width of the old object
-                if int(child_inf['x'])<=width<=int(child_inf['x'])+child.winfo_reqwidth():
-                    raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
-                #If the x coordinate+ width of new object is within the range of this child's x + the width of the old object
-                if int(child_inf['x'])<=width+obj.winfo_reqwidth()<=int(child_inf['x'])+child.winfo_reqwidth():
-                    raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
-
-
-                #If the y coordinate for our new object is within the range of this child's y + the height of the old object
-                if int(child_inf['y'])<=height<=int(child_inf['y'])+child.winfo_reqheight():
-                    raise GooeyError("This object is placed too closely to another. Try a new y coordinate.")
-
-                #If the y coordinate+ height of new object is within the range of this child's y + the height of the old object
-                if int(child_inf['y'])<=height+obj.winfo_reqheight()<=int(child_inf['y'])+child.winfo_reqheight():
-                    raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
-
-            else:
-                print("Here's obj",obj)
+        pass
+        # winHeight = self.winBinding.bObject.winfo_reqheight()
+        # winWidth = self.winBinding.bObject.winfo_reqwidth()
+        #
+        #
+        #
+        # #Check to see if object is being placed outside of the window
+        # if width+obj.winfo_reqwidth() > winWidth:
+        #     raise GooeyError("Object placed outside window. Choose a new width")
+        # if height+obj.winfo_reqheight() > winHeight:
+        #     raise GooeyError("Object placed outside window. Choose a new height")
+        # #Go through the bindings and make sure we're not placing on top of other objects
+        # f = self.winBinding.frames
+        #
+        # #Children of the frame
+        # kids = f.winfo_children()
+        #
+        # #Go through all of the children in the frame
+        # for child in kids:
+        #     #Dictionary to get info about where this object was placed
+        #     child_inf = child.place_info()
+        #     #We only care about the children that are not our object
+        #     if child != obj:
+        #         #This isn't perfect, especially if our new object is bigger than the last
+        #         #If the x coordinate for our new object is within the range of this child's x + the width of the old object
+        #         if int(child_inf['x'])<=width<=int(child_inf['x'])+child.winfo_reqwidth():
+        #             raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
+        #         #If the x coordinate+ width of new object is within the range of this child's x + the width of the old object
+        #         if int(child_inf['x'])<=width+obj.winfo_reqwidth()<=int(child_inf['x'])+child.winfo_reqwidth():
+        #             raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
+        #
+        #
+        #         #If the y coordinate for our new object is within the range of this child's y + the height of the old object
+        #         if int(child_inf['y'])<=height<=int(child_inf['y'])+child.winfo_reqheight():
+        #             raise GooeyError("This object is placed too closely to another. Try a new y coordinate.")
+        #
+        #         #If the y coordinate+ height of new object is within the range of this child's y + the height of the old object
+        #         if int(child_inf['y'])<=height+obj.winfo_reqheight()<=int(child_inf['y'])+child.winfo_reqheight():
+        #             raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
+        #
+        #     else:
+        #         print("Here's obj",obj)
 
 
 
@@ -1649,7 +1653,7 @@ class Interpreter():
 
     def makeMenu(self,win,expr):
 
-        #Not CAN ONLY HAPPEN IN ROOT WINDOW
+        #Note CAN ONLY HAPPEN IN ROOT WINDOW
 
         w = win.bObject
 
@@ -1680,8 +1684,63 @@ class Interpreter():
     def makeDefaultMenuItem(self,w,defaults):
         pass
 
-    def setMenu():
-        pass
+    def setMenu(self,m,win,expr):
+        #Note CAN ONLY HAPPEN IN ROOT WINDOW
+        print(type(m))
+        w = win.bObject
+        menuAttributeList = expr.attributes
+        print(menuAttributeList)
+
+        #Let's try syntax set Menu m
+        for item in menuAttributeList:
+            if hasattr(item, 'menuoption'):
+                mop = item.menuoption.value
+                print('mop',mop)
+                for mopItem in mop:
+                    if hasattr(mopItem,'menuop'):
+                        print("GOTEM", mopItem.menuop)
+                        #we are going to need to change the tkinter object which is here but also
+                        #in the binding of that menuItem
+                        print(m.entrycget(50,'menu'))
+                        mI = self.bindings[mopItem.menuop].bObject
+                        print(mI)
+                        # mI.entryconfigure(label=mopItem.text)
+
+
+
+                        #m.entryconfigure(mopItem.menuop, "POO")
+
+        #Syntax is set m menuoption file text "Poop".
+        #Need to go through the params of the menu binding, see if there is one
+        #called file - also check to find that menuItem binding (maybe?)
+        #Look through the rootMenu - it's going to have a submenu that has the same variable name
+        #file - (hopefully) if we've done it right. Change that cascade's text to be the text we want
+        #this might suck - may need to adjust the menuitem binding
+
+        #
+        # rootMenu = None
+        # children = w.winfo_children()
+        # for c in children:
+        #     if type(c).__name__ == "Menu":
+        #         rootMenu = c
+        # if hasattr(expr,'attributes'):
+        #     for item in expr.attributes:
+        #
+        #         if hasattr(item,'menuoption'):
+        #
+        #             mop = item.menuoption.value
+        #             for mopItem in mop:
+        #                 if hasattr(mopItem, 'text'):
+        #                     if hasattr(mopItem, 'action'):
+        #                         #mopItem.action = Menu(rootMenu,tearoff=0)
+        #                         subm = Menu(rootMenu,tearoff=0)
+        #                         binding = self.makeBinding("MenuItem",str(mopItem.action),subm)
+        #                         self.bindings = self.addBinding(binding)
+        #                         rootMenu.add_cascade(label=mopItem.text,menu=subm)
+        #         else:
+        #             self.doesntHaveAttrError('Menu')
+        # w.config(menu=rootMenu)
+        # return rootMenu
 
     def makeMenuItem(self,win,expr):
         w = win.bObject
