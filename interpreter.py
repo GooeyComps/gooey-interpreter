@@ -124,6 +124,8 @@ class Interpreter():
                         # print("OPTIONS IN MAKEMENU",options)
                         binding = self.makeBinding("Menu", expr.varname, m, options)
                         self.bindings = self.addBinding(binding)
+                        print("Here are the bindings", self.bindings)
+                        print("Here's the menu binding",binding, options)
                         # print("made the menu")
 
                     elif(expr.type == "MenuItem"):
@@ -202,7 +204,9 @@ class Interpreter():
                             b = self.setButton(button.bObject,self.winBinding, expr)
 
                         elif(obj.bType == "Menu"):
-                            pass
+                            menu = self.getObject(expr)
+                            assert menu.bType == 'Menu'
+                            m = self.setMenu(menu.bObject,self.winBinding,expr)
 
                         elif(obj.bType == "MenuItem"):
                             pass
@@ -1377,6 +1381,7 @@ class Interpreter():
                     if height+obj.winfo_reqheight() <= int(child_inf['y'])+child.winfo_reqheight() and height+obj.winfo_reqheight() >= int(child_inf['y']):
                         raise GooeyError("This object is placed too closely to another. Try a new coordinate.")
 
+
     '''
 -------------------- BUTTONS --------------------
     '''
@@ -1636,7 +1641,7 @@ class Interpreter():
 
     def makeMenu(self,win,expr):
 
-        #Not CAN ONLY HAPPEN IN ROOT WINDOW
+        #Note CAN ONLY HAPPEN IN ROOT WINDOW
 
         w = win.bObject
 
@@ -1667,8 +1672,63 @@ class Interpreter():
     def makeDefaultMenuItem(self,w,defaults):
         pass
 
-    def setMenu():
-        pass
+    def setMenu(self,m,win,expr):
+        #Note CAN ONLY HAPPEN IN ROOT WINDOW
+        print(type(m))
+        w = win.bObject
+        menuAttributeList = expr.attributes
+        print(menuAttributeList)
+
+        #Let's try syntax set Menu m
+        for item in menuAttributeList:
+            if hasattr(item, 'menuoption'):
+                mop = item.menuoption.value
+                print('mop',mop)
+                for mopItem in mop:
+                    if hasattr(mopItem,'menuop'):
+                        print("GOTEM", mopItem.menuop)
+                        #we are going to need to change the tkinter object which is here but also
+                        #in the binding of that menuItem
+                        print(m.entrycget(50,'menu'))
+                        mI = self.bindings[mopItem.menuop].bObject
+                        print(mI)
+                        # mI.entryconfigure(label=mopItem.text)
+
+
+
+                        #m.entryconfigure(mopItem.menuop, "POO")
+
+        #Syntax is set m menuoption file text "Poop".
+        #Need to go through the params of the menu binding, see if there is one
+        #called file - also check to find that menuItem binding (maybe?)
+        #Look through the rootMenu - it's going to have a submenu that has the same variable name
+        #file - (hopefully) if we've done it right. Change that cascade's text to be the text we want
+        #this might suck - may need to adjust the menuitem binding
+
+        #
+        # rootMenu = None
+        # children = w.winfo_children()
+        # for c in children:
+        #     if type(c).__name__ == "Menu":
+        #         rootMenu = c
+        # if hasattr(expr,'attributes'):
+        #     for item in expr.attributes:
+        #
+        #         if hasattr(item,'menuoption'):
+        #
+        #             mop = item.menuoption.value
+        #             for mopItem in mop:
+        #                 if hasattr(mopItem, 'text'):
+        #                     if hasattr(mopItem, 'action'):
+        #                         #mopItem.action = Menu(rootMenu,tearoff=0)
+        #                         subm = Menu(rootMenu,tearoff=0)
+        #                         binding = self.makeBinding("MenuItem",str(mopItem.action),subm)
+        #                         self.bindings = self.addBinding(binding)
+        #                         rootMenu.add_cascade(label=mopItem.text,menu=subm)
+        #         else:
+        #             self.doesntHaveAttrError('Menu')
+        # w.config(menu=rootMenu)
+        # return rootMenu
 
     def makeMenuItem(self,win,expr):
         w = win.bObject
