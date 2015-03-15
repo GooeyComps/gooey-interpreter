@@ -19,7 +19,9 @@ def quit(window, item):
 # Change color of window actions
 #def windowColorChange(window, c):
 def windowColorChange(window,item):
+    print("changingwindow")
     c = item.action.arguments
+    print(c)
     window.configure(bg= c)
     #return (window,item)
 
@@ -42,7 +44,7 @@ def findAction(item):
     return a
 
 def findMenuAction(item):
-    action = str(item.action)
+    action = item
     a = "%s" % action
     return a
 

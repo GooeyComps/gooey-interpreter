@@ -1659,6 +1659,7 @@ class Interpreter():
                     for mopItem in mop:
                         if hasattr(mopItem, 'text'):
                             if hasattr(mopItem, 'action'):
+                                print("HI")
                                 #mopItem.action = Menu(rootMenu,tearoff=0)
                                 subm = Menu(rootMenu,tearoff=0)
                                 binding = self.makeBinding("MenuItem",str(mopItem.action),subm)
@@ -1758,7 +1759,27 @@ class Interpreter():
                                 for mopItem in mop:
                                     if hasattr(mopItem, 'text'):
                                         if hasattr(mopItem, 'action'):
-                                            subMenu.add_command(label=mopItem.text,command=None)#change this
+                                            if mopItem.action.__class__.__name__ == "MenuFunc":
+                                                act = mopItem.action.funcname
+                                                args = mopItem.action.arguments
+                                                
+                                                a = actionbuttons.findMenuAction(act)
+                                                if actionbuttons.checkActions(a):
+                                                    subMenu.add_command(label=mopItem.text,command= lambda: \
+                                                                        actionbuttons.callAction(win.frames,mopItem,a))
+                                            else:
+                                                act = mopItem.action
+                                                a = actionbuttons.findMenuAction(act)
+                                                print(a)
+    #                                            if actionbuttons.checkActions(a):
+    #                                                b.configure(command=lambda: actionbuttons.callAction(win,item,act))
+    #                                            else: #Gooey code function
+    #                                                args = []
+    #                                                if hasattr(item.action, "arguments"):
+    #                                                    args = item.action.arguments
+    #                                                b.configure(command=lambda: self.gooeyCallAction(a, args)) #figure out params for this
+    #                                                #run this like we're running a function definition
+                                                subMenu.add_command(label=mopItem.text,command= lambda: actionbuttons.callAction(w,mopItem,a))#change this
                             else:
                                 self.doesntHaveAttrError('MenuItem')
 
