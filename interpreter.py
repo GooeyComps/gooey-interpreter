@@ -1344,9 +1344,7 @@ class Interpreter():
         return t
 
 
-    '''
--------------------- BUTTONS --------------------
-    '''
+
     def checkOccupied(self,obj, width, height):
 
         winHeight = self.winBinding.bObject.winfo_reqheight()
@@ -1369,30 +1367,19 @@ class Interpreter():
         for child in kids:
             #Dictionary to get info about where this object was placed
             child_inf = child.place_info()
+
             #We only care about the children that are not our object
             if child != obj:
-                #This isn't perfect, especially if our new object is bigger than the last
-                #If the x coordinate for our new object is within the range of this child's x + the width of the old object
-                if int(child_inf['x'])<=width<=int(child_inf['x'])+child.winfo_reqwidth():
-                    raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
-                #If the x coordinate+ width of new object is within the range of this child's x + the width of the old object
-                if int(child_inf['x'])<=width+obj.winfo_reqwidth()<=int(child_inf['x'])+child.winfo_reqwidth():
-                    raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
+                if width <= int(child_inf['x'])+child.winfo_reqwidth() and width >= int(child_inf['x']):
+                    if height <= int(child_inf['y'])+child.winfo_reqheight() and height >= int(child_inf['y']):
+                        raise GooeyError("This object is placed too closely to another. Try a new coordinate.")
+                if width+obj.winfo_reqwidth() <= int(child_inf['x'])+child.winfo_reqwidth() and width+obj.winfo_reqwidth() >= int(child_inf['x']):
+                    if height+obj.winfo_reqheight() <= int(child_inf['y'])+child.winfo_reqheight() and height+obj.winfo_reqheight() >= int(child_inf['y']):
+                        raise GooeyError("This object is placed too closely to another. Try a new coordinate.")
 
-
-                #If the y coordinate for our new object is within the range of this child's y + the height of the old object
-                if int(child_inf['y'])<=height<=int(child_inf['y'])+child.winfo_reqheight():
-                    raise GooeyError("This object is placed too closely to another. Try a new y coordinate.")
-
-                #If the y coordinate+ height of new object is within the range of this child's y + the height of the old object
-                if int(child_inf['y'])<=height+obj.winfo_reqheight()<=int(child_inf['y'])+child.winfo_reqheight():
-                    raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
-
-            else:
-                print("Here's obj",obj)
-
-
-
+    '''
+-------------------- BUTTONS --------------------
+    '''
 
     def makeDefaultButton(self, w, defaults):
         '''Makes a button with default attributes'''
