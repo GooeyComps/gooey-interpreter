@@ -1761,12 +1761,21 @@ class Interpreter():
                                         if hasattr(mopItem, 'action'):
                                             if mopItem.action.__class__.__name__ == "MenuFunc":
                                                 act = mopItem.action.funcname
-                                                args = mopItem.action.arguments
-                                                
+                                                if hasattr(mopItem.action, 'arguments'):
+                                                    args = mopItem.action.arguments
+
                                                 a = actionbuttons.findMenuAction(act)
+                                                #This is what happens if the action mapped to it is a python function
                                                 if actionbuttons.checkActions(a):
                                                     subMenu.add_command(label=mopItem.text,command= lambda: \
                                                                         actionbuttons.callAction(win.frames,mopItem,a))
+                                                #This means it's a gooey function
+                                                else:
+                                                    args = []
+                                                    if hasattr(mopItem.action, 'arguments'):
+                                                        args = mopItem.action.arguments
+                                                    subMenu.add_command(label=mopItem.text,command= lambda: \
+                                                                        self.gooeyCallAction(a,args))
                                             else:
                                                 act = mopItem.action
                                                 a = actionbuttons.findMenuAction(act)

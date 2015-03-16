@@ -72,7 +72,7 @@ class FontAttribute:
 
 
 class MenuFunc(List):
-    grammar = attr("funcname", varnameRegex), "(", attr("arguments", varnameRegex), ")"
+    grammar = attr("funcname", varnameRegex), "(", optional(attr("arguments", varnameRegex)), ")"
 #   MENUITEM DOES THIS GO IN ATTRIBUTE CLASS????
 class MenuItemTerminal(List):
     grammar = "\"", attr("text", word), "\"", ":", attr("action", [MenuFunc,word])
