@@ -124,8 +124,6 @@ class Interpreter():
                         # print("OPTIONS IN MAKEMENU",options)
                         binding = self.makeBinding("Menu", expr.varname, m, options)
                         self.bindings = self.addBinding(binding)
-                        print("Here are the bindings", self.bindings)
-                        print("Here's the menu binding",binding, options)
                         # print("made the menu")
 
                     elif(expr.type == "MenuItem"):
@@ -1659,7 +1657,6 @@ class Interpreter():
                     for mopItem in mop:
                         if hasattr(mopItem, 'text'):
                             if hasattr(mopItem, 'action'):
-                                print("HI")
                                 #mopItem.action = Menu(rootMenu,tearoff=0)
                                 subm = Menu(rootMenu,tearoff=0)
                                 binding = self.makeBinding("MenuItem",str(mopItem.action),subm)
@@ -1674,25 +1671,26 @@ class Interpreter():
         pass
 
     def setMenu(self,m,win,expr):
-        #Note CAN ONLY HAPPEN IN ROOT WINDOW
-        print(type(m))
-        w = win.bObject
-        menuAttributeList = expr.attributes
-        print(menuAttributeList)
-
-        #Let's try syntax set Menu m
-        for item in menuAttributeList:
-            if hasattr(item, 'menuoption'):
-                mop = item.menuoption.value
-                print('mop',mop)
-                for mopItem in mop:
-                    if hasattr(mopItem,'menuop'):
-                        print("GOTEM", mopItem.menuop)
-                        #we are going to need to change the tkinter object which is here but also
-                        #in the binding of that menuItem
-                        print(m.entrycget(50,'menu'))
-                        mI = self.bindings[mopItem.menuop].bObject
-                        print(mI)
+        pass
+        # #Note CAN ONLY HAPPEN IN ROOT WINDOW
+        # # print(type(m))
+        # w = win.bObject
+        # menuAttributeList = expr.attributes
+        # # print(menuAttributeList)
+        #
+        # #Let's try syntax set Menu m
+        # for item in menuAttributeList:
+        #     if hasattr(item, 'menuoption'):
+        #         mop = item.menuoption.value
+        #         # print('mop',mop)
+        #         for mopItem in mop:
+        #             if hasattr(mopItem,'menuop'):
+        #                 # print("GOTEM", mopItem.menuop)
+        #                 #we are going to need to change the tkinter object which is here but also
+        #                 #in the binding of that menuItem
+        #                 # print(m.entrycget(50,'menu'))
+        #                 mI = self.bindings[mopItem.menuop].bObject
+        #                 # print(mI)
                         # mI.entryconfigure(label=mopItem.text)
 
 
@@ -1759,6 +1757,7 @@ class Interpreter():
                                 for mopItem in mop:
                                     if hasattr(mopItem, 'text'):
                                         if hasattr(mopItem, 'action'):
+                                            #This is a function that has parens when we call it
                                             if mopItem.action.__class__.__name__ == "MenuFunc":
                                                 act = mopItem.action.funcname
                                                 if hasattr(mopItem.action, 'arguments'):
@@ -1779,17 +1778,11 @@ class Interpreter():
                                             else:
                                                 act = mopItem.action
                                                 a = actionbuttons.findMenuAction(act)
-                                                print(a)
-    #                                            if actionbuttons.checkActions(a):
-    #                                                b.configure(command=lambda: actionbuttons.callAction(win,item,act))
-    #                                            else: #Gooey code function
-    #                                                args = []
-    #                                                if hasattr(item.action, "arguments"):
-    #                                                    args = item.action.arguments
-    #                                                b.configure(command=lambda: self.gooeyCallAction(a, args)) #figure out params for this
-    #                                                #run this like we're running a function definition
-                                                subMenu.add_command(label=mopItem.text,command= lambda: actionbuttons.callAction(w,mopItem,a))#change this
-                            else:
+                                                if actionbuttons.checkActions(a):
+                                                    subMenu.add_command(label=mopItem.text,command= lambda: actionbuttons.callAction(w,mopItem,a))#change this
+                                                else:
+                                                    raise GooeyError(str(mopItem.action) + " is not a valid action, please try something else")
+
                                 self.doesntHaveAttrError('MenuItem')
 
                     # menuItem = subMenu
