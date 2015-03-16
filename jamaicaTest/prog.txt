@@ -1,3 +1,0 @@
-function hi() does make Window w.
-function bye(win) does set win color blue.
-run bye(w).

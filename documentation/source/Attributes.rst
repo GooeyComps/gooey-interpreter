@@ -194,4 +194,4 @@ The path or filename for the Image object. Source files **must be in .gif format
 Values:
 
 - filename surrounded by double quotation marks
-    + Example: source "apple.gif"
+    + Example: source "images/apple.gif"

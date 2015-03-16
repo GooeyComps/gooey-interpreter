@@ -242,7 +242,7 @@ Images are pictures you can add your your Gooey. The image must be in **.gif for
 
 Example syntax::
 
- make Image i with title "Apple", text "This is my most favorite apple", source "apple.gif".
+ make Image i with title "Apple", text "This is my most favorite apple", source "images/apple.gif".
 
 +---------+-------------------------------+-----------------------------------+-------------------+
 |Attribute| Description                   | Possible Values                   | Default Value     |

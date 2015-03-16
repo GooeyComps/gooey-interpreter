@@ -1,3 +1,0 @@
-make Window w.
-function bye(win) does set win color red.
-run bye(w).

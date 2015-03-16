@@ -1,3 +1,0 @@
-make Window w.
-make Menu m with options file edit.
-make MenuItem file with options "save":close, text "save".

@@ -1877,7 +1877,7 @@ class Interpreter():
         width, height = 0, 0
         hide = False
 
-        i = PhotoImage(file="gooeylogosmallest.gif")
+        i = PhotoImage(file="images/gooeylogosmallest.gif")
 
         if hasattr(expr, "attributes"):
             for item in expr.attributes:

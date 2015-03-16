@@ -1,4 +1,0 @@
-make Window w with size 500.
-make Checkboxes cb with title "Checkboxes", options "hello" "mello" "yello", position (2, 2).
-make RadioButtons rb with title "Radiobuttons", options "yoyo" "froyo" "ice cream", position (3, 3).
-make Text t with text "Whoa man", color red.

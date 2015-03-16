@@ -45,7 +45,7 @@ class GUIWindow():
         '''
         #create new instance of interpeter class, passing a reference the live preview window
         i = Interpreter(self.window,self.winBinding,self.bindings)
-        
+
         ast = parse(gooeyCode, Program)
 
         (self.bindings,self.winBinding) = i.interpret(ast)
@@ -97,11 +97,11 @@ class TextPad():
 
         # Add run and stop buttons
         # Run and Stop Icons made by Freepik <http://www.freepik.com> from Flaticon <http://www.flaticon.com> is licensed under Creative Commons BY 3.0 <http://creativecommons.org/licenses/by/3.0/>
-        self.runIcon = PhotoImage(file="runIcon.gif")
-        self.stopIcon = PhotoImage(file="stopIcon.gif")
+        self.runIcon = PhotoImage(file="images/runIcon.gif")
+        self.stopIcon = PhotoImage(file="images/stopIcon.gif")
         # Plus and Minus Icons made by Icomoon <http://www.icomoon.io> from Flaticon <http://www.flaticon.com> is licensed under Creative Commons BY 3.0 <http://creativecommons.org/licenses/by/3.0/>
-        self.plusIcon = PhotoImage(file="plusIcon.gif")
-        self.minusIcon = PhotoImage(file="minusIcon.gif")
+        self.plusIcon = PhotoImage(file="images/plusIcon.gif")
+        self.minusIcon = PhotoImage(file="images/minusIcon.gif")
 
         self.decrementButton = Button(self.root)
         self.decrementButton.configure(image=self.minusIcon, command=self.decrementEditorSize)
