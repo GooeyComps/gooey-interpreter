@@ -56,13 +56,9 @@ class TextAttribute(List):
     grammar = 'text', blank, [attr('value', QuotedText), attr('var', varnameRegex)]
 
 class ActionAttribute(List):
-    #grammar = 'action', blank, attr("value", word)
-#    grammar = "action", blank, attr("value", word), optional(attr("text", actionPrint)), optional(attr("color", [rgbRegex, hexRegex, ColorKeywordValue])), optional(attr("size", [intRegex, SizeGridValue, SizeKeywordValue]))
     grammar = "action", blank, attr("funcname", word), optional(attr("arguments", some([QuotedText, varnameRegex, intRegex])))
 
 class TitleAttribute(List):
-    #grammar = 'title', blank, attr('value', QuotedText)
-    #grammar = "title", blank, "\"", attr("value", textRegex), "\""
     grammar = 'title', blank, [attr('value', QuotedText), attr('var', varnameRegex)]
 
 
@@ -73,7 +69,7 @@ class FontAttribute:
 
 class MenuFunc(List):
     grammar = attr("funcname", varnameRegex), "(", optional(attr("arguments", varnameRegex)), ")"
-#   MENUITEM DOES THIS GO IN ATTRIBUTE CLASS????
+
 class MenuItemTerminal(List):
     grammar = "\"", attr("text", word), "\"", ":", attr("action", [MenuFunc,word])
 
@@ -84,8 +80,6 @@ class MenuItemSetText(List):
 
 #Accept anything after options
 class MenuItemOptionsAttribute(List):
-    # grammar = 'menuoption', blank, attr('value', maybe_some([word, MenuItemTerminal]))
-    # grammar = 'menuoption', blank, attr('value', maybe_some(MenuItemTerminal))
     grammar = 'menuoption', blank, attr('value', maybe_some([MenuItemTerminal,MenuItemSetText]))
 
 
@@ -119,7 +113,6 @@ class FTSizeAttribute:
     grammar = attr('value', [intRegex, varnameRegex])
 
 class SizeAttribute(List):
-#    grammar = 'size', blank, attr('value', [intRegex, SizeGridValue, SizeKeywordValue])
     grammar = 'size', blank, attr('value', [SizeGridValue, SizeKeywordValue, intRegex])
 
 
