@@ -45,7 +45,7 @@ class GUIWindow():
         '''
         #create new instance of interpeter class, passing a reference the live preview window
         i = Interpreter(self.window,self.winBinding,self.bindings)
-
+        
         ast = parse(gooeyCode, Program)
 
         (self.bindings,self.winBinding) = i.interpret(ast)

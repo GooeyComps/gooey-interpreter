@@ -124,8 +124,6 @@ class Interpreter():
                         # print("OPTIONS IN MAKEMENU",options)
                         binding = self.makeBinding("Menu", expr.varname, m, options)
                         self.bindings = self.addBinding(binding)
-                        print("Here are the bindings", self.bindings)
-                        print("Here's the menu binding",binding, options)
                         # print("made the menu")
 
                     elif(expr.type == "MenuItem"):
@@ -1182,6 +1180,11 @@ class Interpreter():
                     self.setWindowColor(frames,item.color.value)
 
                 elif hasattr(item,'size'):
+                    print("I'm going to go through the bindings")
+                    for i in self.bindings.keys():
+                        print(self.bindings[i].bObject)
+
+                        self.getObjectPosition(self.bindings[i])
 
                     if hasattr(item.size.value, "columns"):
                         rows = int(item.size.value.rows)
@@ -1271,6 +1274,8 @@ class Interpreter():
                     t.configure(bg=color)
 
                 elif hasattr(item, 'size'):
+
+
                     if item.size.value == "small":
                         TextBoxWidth = SMALL_TEXTBOX_WIDTH
                         TextBoxHeight = SMALL_TEXTBOX_HEIGHT
@@ -1681,25 +1686,26 @@ class Interpreter():
         pass
 
     def setMenu(self,m,win,expr):
-        #Note CAN ONLY HAPPEN IN ROOT WINDOW
-        print(type(m))
-        w = win.bObject
-        menuAttributeList = expr.attributes
-        print(menuAttributeList)
-
-        #Let's try syntax set Menu m
-        for item in menuAttributeList:
-            if hasattr(item, 'menuoption'):
-                mop = item.menuoption.value
-                print('mop',mop)
-                for mopItem in mop:
-                    if hasattr(mopItem,'menuop'):
-                        print("GOTEM", mopItem.menuop)
-                        #we are going to need to change the tkinter object which is here but also
-                        #in the binding of that menuItem
-                        print(m.entrycget(50,'menu'))
-                        mI = self.bindings[mopItem.menuop].bObject
-                        print(mI)
+        pass
+        # #Note CAN ONLY HAPPEN IN ROOT WINDOW
+        # # print(type(m))
+        # w = win.bObject
+        # menuAttributeList = expr.attributes
+        # # print(menuAttributeList)
+        #
+        # #Let's try syntax set Menu m
+        # for item in menuAttributeList:
+        #     if hasattr(item, 'menuoption'):
+        #         mop = item.menuoption.value
+        #         # print('mop',mop)
+        #         for mopItem in mop:
+        #             if hasattr(mopItem,'menuop'):
+        #                 # print("GOTEM", mopItem.menuop)
+        #                 #we are going to need to change the tkinter object which is here but also
+        #                 #in the binding of that menuItem
+        #                 # print(m.entrycget(50,'menu'))
+        #                 mI = self.bindings[mopItem.menuop].bObject
+        #                 # print(mI)
                         # mI.entryconfigure(label=mopItem.text)
 
 
@@ -1766,8 +1772,32 @@ class Interpreter():
                                 for mopItem in mop:
                                     if hasattr(mopItem, 'text'):
                                         if hasattr(mopItem, 'action'):
-                                            subMenu.add_command(label=mopItem.text,command=None)#change this
-                            else:
+                                            #This is a function that has parens when we call it
+                                            if mopItem.action.__class__.__name__ == "MenuFunc":
+                                                act = mopItem.action.funcname
+                                                if hasattr(mopItem.action, 'arguments'):
+                                                    args = mopItem.action.arguments
+
+                                                a = actionbuttons.findMenuAction(act)
+                                                #This is what happens if the action mapped to it is a python function
+                                                if actionbuttons.checkActions(a):
+                                                    subMenu.add_command(label=mopItem.text,command= lambda: \
+                                                                        actionbuttons.callAction(win.frames,mopItem,a))
+                                                #This means it's a gooey function
+                                                else:
+                                                    args = []
+                                                    if hasattr(mopItem.action, 'arguments'):
+                                                        args = mopItem.action.arguments
+                                                    subMenu.add_command(label=mopItem.text,command= lambda: \
+                                                                        self.gooeyCallAction(a,args))
+                                            else:
+                                                act = mopItem.action
+                                                a = actionbuttons.findMenuAction(act)
+                                                if actionbuttons.checkActions(a):
+                                                    subMenu.add_command(label=mopItem.text,command= lambda: actionbuttons.callAction(w,mopItem,a))#change this
+                                                else:
+                                                    raise GooeyError(str(mopItem.action) + " is not a valid action, please try something else")
+
                                 self.doesntHaveAttrError('MenuItem')
 
                     # menuItem = subMenu
@@ -1904,6 +1934,15 @@ class Interpreter():
             return self.bindings[exp.varname]
         else:
             raise GooeyError(str(exp.varname)+" undefined.")
+
+    def getObjectPosition(self,obj):
+        '''pass in a binding, returns position as a tuple (x,y)'''
+        if obj.bType != "Window":
+            obj_inf = obj.bObject.place_info()
+            return (obj_inf['x'],obj_inf['y'])
+
+
+
 
 
     def getPositionByKeyword(self, obj, keyword):
