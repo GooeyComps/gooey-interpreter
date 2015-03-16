@@ -204,7 +204,9 @@ class Interpreter():
                             b = self.setButton(button.bObject,self.winBinding, expr)
 
                         elif(obj.bType == "Menu"):
-                            pass
+                            menu = self.getObject(expr)
+                            assert menu.bType == 'Menu'
+                            m = self.setMenu(menu.bObject,self.winBinding,expr)
 
                         elif(obj.bType == "MenuItem"):
                             pass
@@ -1096,11 +1098,19 @@ class Interpreter():
         return l
 
 
-    def setWindowSize(self,w, frames,rows,columns):
+    def setWindowSize(self,w, frames,rows,columns,expr):
 
         w.configure(height=rows,width=columns)
         frames.configure(height=rows,width=columns)
+        print("THIS IS W: ",w)
+        for item in expr.attributes:
+            print("THIS IS THE ITEM: ",item)
+            print("expr.attributes: ",expr.attributes)
+            print("EXPR: ", expr)
+            if hasattr(item, "position"):
 
+                print(item.position.value)
+                print("\n")
 
         return frames
 
@@ -1143,7 +1153,7 @@ class Interpreter():
                             rows = LARGE_WIN_SIZE
                             columns = MED_WIN_SIZE
 
-                    frames = self.setWindowSize(w,frames, rows, columns)
+                    frames = self.setWindowSize(w,frames, rows, columns,expr)
 
                 elif hasattr(item, 'title'):
                     w.title(item.title.value)
@@ -1180,6 +1190,11 @@ class Interpreter():
                     self.setWindowColor(frames,item.color.value)
 
                 elif hasattr(item,'size'):
+                    print("I'm going to go through the bindings")
+                    for i in self.bindings.keys():
+                        print(self.bindings[i].bObject)
+
+                        self.getObjectPosition(self.bindings[i])
 
                     if hasattr(item.size.value, "columns"):
                         rows = int(item.size.value.rows)
@@ -1195,7 +1210,7 @@ class Interpreter():
                             rows = LARGE_WIN_SIZE
                             columns = LARGE_WIN_SIZE
 
-                    self.setWindowSize(w,frames, rows, columns)
+                    self.setWindowSize(w,frames, rows, columns,expr)
 
                 elif hasattr(item, 'title'):
                     w.title(item.title.value)
@@ -1269,6 +1284,8 @@ class Interpreter():
                     t.configure(bg=color)
 
                 elif hasattr(item, 'size'):
+
+
                     if item.size.value == "small":
                         TextBoxWidth = SMALL_TEXTBOX_WIDTH
                         TextBoxHeight = SMALL_TEXTBOX_HEIGHT
@@ -1296,7 +1313,7 @@ class Interpreter():
         self.checkOccupied(t, width, height)
         t.place(x = width, y = height, bordermode="outside")
         if hide:
-            t.place_forget(x=t.winfo_x(), y=t.winfo_y()) #Note: this will not work
+            t.place_forget(x=t.winfo_x(), y=t.winfo_y())
         return t
 
     def setTextBox(self,t,win,expr):
@@ -1340,7 +1357,7 @@ class Interpreter():
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == "true":
                         hide = True
-                        t.place_forget() #Note: won't work yet
+                        t.place_forget()
                     elif item.hidden.value == "false":
                         t.place(x=t.winfo_x(), y=t.winfo_y())
 
@@ -1354,9 +1371,7 @@ class Interpreter():
         return t
 
 
-    '''
--------------------- BUTTONS --------------------
-    '''
+
     def checkOccupied(self,obj, width, height):
 
         winHeight = self.winBinding.bObject.winfo_reqheight()
@@ -1379,30 +1394,20 @@ class Interpreter():
         for child in kids:
             #Dictionary to get info about where this object was placed
             child_inf = child.place_info()
+
             #We only care about the children that are not our object
             if child != obj:
-                #This isn't perfect, especially if our new object is bigger than the last
-                #If the x coordinate for our new object is within the range of this child's x + the width of the old object
-                if int(child_inf['x'])<=width<=int(child_inf['x'])+child.winfo_reqwidth():
-                    raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
-                #If the x coordinate+ width of new object is within the range of this child's x + the width of the old object
-                if int(child_inf['x'])<=width+obj.winfo_reqwidth()<=int(child_inf['x'])+child.winfo_reqwidth():
-                    raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
+                if width <= int(child_inf['x'])+child.winfo_reqwidth() and width >= int(child_inf['x']):
+                    if height <= int(child_inf['y'])+child.winfo_reqheight() and height >= int(child_inf['y']):
+                        raise GooeyError("This object is placed too closely to another. Try a new coordinate.")
+                if width+obj.winfo_reqwidth() <= int(child_inf['x'])+child.winfo_reqwidth() and width+obj.winfo_reqwidth() >= int(child_inf['x']):
+                    if height+obj.winfo_reqheight() <= int(child_inf['y'])+child.winfo_reqheight() and height+obj.winfo_reqheight() >= int(child_inf['y']):
+                        raise GooeyError("This object is placed too closely to another. Try a new coordinate.")
 
 
-                #If the y coordinate for our new object is within the range of this child's y + the height of the old object
-                if int(child_inf['y'])<=height<=int(child_inf['y'])+child.winfo_reqheight():
-                    raise GooeyError("This object is placed too closely to another. Try a new y coordinate.")
-
-                #If the y coordinate+ height of new object is within the range of this child's y + the height of the old object
-                if int(child_inf['y'])<=height+obj.winfo_reqheight()<=int(child_inf['y'])+child.winfo_reqheight():
-                    raise GooeyError("This object is placed too closely to another. Try a new x coordinate.")
-
-            else:
-                print("Here's obj",obj)
-
-
-
+    '''
+-------------------- BUTTONS --------------------
+    '''
 
     def makeDefaultButton(self, w, defaults):
         '''Makes a button with default attributes'''
@@ -1659,7 +1664,7 @@ class Interpreter():
 
     def makeMenu(self,win,expr):
 
-        #Not CAN ONLY HAPPEN IN ROOT WINDOW
+        #Note CAN ONLY HAPPEN IN ROOT WINDOW
 
         w = win.bObject
 
@@ -1690,8 +1695,64 @@ class Interpreter():
     def makeDefaultMenuItem(self,w,defaults):
         pass
 
-    def setMenu():
+    def setMenu(self,m,win,expr):
         pass
+        # #Note CAN ONLY HAPPEN IN ROOT WINDOW
+        # # print(type(m))
+        # w = win.bObject
+        # menuAttributeList = expr.attributes
+        # # print(menuAttributeList)
+        #
+        # #Let's try syntax set Menu m
+        # for item in menuAttributeList:
+        #     if hasattr(item, 'menuoption'):
+        #         mop = item.menuoption.value
+        #         # print('mop',mop)
+        #         for mopItem in mop:
+        #             if hasattr(mopItem,'menuop'):
+        #                 # print("GOTEM", mopItem.menuop)
+        #                 #we are going to need to change the tkinter object which is here but also
+        #                 #in the binding of that menuItem
+        #                 # print(m.entrycget(50,'menu'))
+        #                 mI = self.bindings[mopItem.menuop].bObject
+        #                 # print(mI)
+                        # mI.entryconfigure(label=mopItem.text)
+
+
+
+                        #m.entryconfigure(mopItem.menuop, "POO")
+
+        #Syntax is set m menuoption file text "Poop".
+        #Need to go through the params of the menu binding, see if there is one
+        #called file - also check to find that menuItem binding (maybe?)
+        #Look through the rootMenu - it's going to have a submenu that has the same variable name
+        #file - (hopefully) if we've done it right. Change that cascade's text to be the text we want
+        #this might suck - may need to adjust the menuitem binding
+
+        #
+        # rootMenu = None
+        # children = w.winfo_children()
+        # for c in children:
+        #     if type(c).__name__ == "Menu":
+        #         rootMenu = c
+        # if hasattr(expr,'attributes'):
+        #     for item in expr.attributes:
+        #
+        #         if hasattr(item,'menuoption'):
+        #
+        #             mop = item.menuoption.value
+        #             for mopItem in mop:
+        #                 if hasattr(mopItem, 'text'):
+        #                     if hasattr(mopItem, 'action'):
+        #                         #mopItem.action = Menu(rootMenu,tearoff=0)
+        #                         subm = Menu(rootMenu,tearoff=0)
+        #                         binding = self.makeBinding("MenuItem",str(mopItem.action),subm)
+        #                         self.bindings = self.addBinding(binding)
+        #                         rootMenu.add_cascade(label=mopItem.text,menu=subm)
+        #         else:
+        #             self.doesntHaveAttrError('Menu')
+        # w.config(menu=rootMenu)
+        # return rootMenu
 
     def makeMenuItem(self,win,expr):
         w = win.bObject
@@ -1721,8 +1782,32 @@ class Interpreter():
                                 for mopItem in mop:
                                     if hasattr(mopItem, 'text'):
                                         if hasattr(mopItem, 'action'):
-                                            subMenu.add_command(label=mopItem.text,command=None)#change this
-                            else:
+                                            #This is a function that has parens when we call it
+                                            if mopItem.action.__class__.__name__ == "MenuFunc":
+                                                act = mopItem.action.funcname
+                                                if hasattr(mopItem.action, 'arguments'):
+                                                    args = mopItem.action.arguments
+
+                                                a = actionbuttons.findMenuAction(act)
+                                                #This is what happens if the action mapped to it is a python function
+                                                if actionbuttons.checkActions(a):
+                                                    subMenu.add_command(label=mopItem.text,command= lambda: \
+                                                                        actionbuttons.callAction(win.frames,mopItem,a))
+                                                #This means it's a gooey function
+                                                else:
+                                                    args = []
+                                                    if hasattr(mopItem.action, 'arguments'):
+                                                        args = mopItem.action.arguments
+                                                    subMenu.add_command(label=mopItem.text,command= lambda: \
+                                                                        self.gooeyCallAction(a,args))
+                                            else:
+                                                act = mopItem.action
+                                                a = actionbuttons.findMenuAction(act)
+                                                if actionbuttons.checkActions(a):
+                                                    subMenu.add_command(label=mopItem.text,command= lambda: actionbuttons.callAction(w,mopItem,a))#change this
+                                                else:
+                                                    raise GooeyError(str(mopItem.action) + " is not a valid action, please try something else")
+
                                 self.doesntHaveAttrError('MenuItem')
 
                     # menuItem = subMenu
@@ -1859,6 +1944,15 @@ class Interpreter():
             return self.bindings[exp.varname]
         else:
             raise GooeyError(str(exp.varname)+" undefined.")
+
+    def getObjectPosition(self,obj):
+        '''pass in a binding, returns position as a tuple (x,y)'''
+        if obj.bType != "Window":
+            obj_inf = obj.bObject.place_info()
+            return (obj_inf['x'],obj_inf['y'])
+
+
+
 
 
     def getPositionByKeyword(self, obj, keyword):

@@ -86,8 +86,8 @@
 <img alt="_images/button.png" src="_images/button.png" />
 <p>Your button is currently useless. You can click it, but since we haven&#8217;t given it an <em>action</em> attribute, it won&#8217;t do anything. You can modify existing objects further by using the <em>set</em> function. You can also write as many lines of Gooey code you want in the editor before you hit run.</p>
 <p>Try:</p>
-<div class="highlight-python"><div class="highlight"><pre>set go text &quot;Go&quot;, action windowChangeColor green.
-make Button stop with text &quot;Stop&quot;, position right, action windowChangeColor red.
+<div class="highlight-python"><div class="highlight"><pre>set go text &quot;Go&quot;, action windowColorChange green.
+make Button stop with text &quot;Stop&quot;, position right, action windowColorChange red.
 </pre></div>
 </div>
 <img alt="_images/onedone.png" src="_images/onedone.png" />
@@ -125,29 +125,32 @@ make Button submit with text &quot;Submit&quot;, position 0 150.
 </pre></div>
 </div>
 <p>or you can turn your function into an action for Buttons and MenuItems</p>
-<div class="highlight-python"><div class="highlight"><pre>make Button change with action myFunction(w).
+<div class="highlight-python"><div class="highlight"><pre>set submit action myFunction win.
 </pre></div>
 </div>
-<p>Now for one of the most complicated parts of Gooey - menus. Menus actually use the <em>Menu</em> object and the <em>MenuItem</em> object. First, make the Menu object with the names the nested MenuItems.</p>
-<blockquote>
-<div>make Menu m with menuoption &#8220;File&#8221;:file &#8220;Edit&#8221;:edit.</div></blockquote>
-<p>Then, make the MenuItem with the lower level option.</p>
-<blockquote>
-<div>make MenuItem file with menuoption &#8220;Save&#8221;:close.</div></blockquote>
+<p>Now for one of the most complicated parts of Gooey - menus. Menus actually use the <em>Menu</em> object and the <em>MenuItem</em> object. First, in double quotation marks list the name of the menu as you want it to appear across the top, a colon, and then the name of the MenuItem that will handle the drop down menu from that top level. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Menu m with menuoption &quot;File&quot;:file &quot;Edit&quot;:edit.
+</pre></div>
+</div>
+<p>Alone, this will make a bar across the top that says File and Edit, but won&#8217;t do anything. Make the MenuItem with the lower level options in the same format:</p>
+<div class="highlight-python"><div class="highlight"><pre>make MenuItem file with menuoption &quot;Save&quot;:quit.
+</pre></div>
+</div>
 <img alt="_images/menus.png" src="_images/menus.png" />
 <p>You may want to write all the code in a .txt file instead of dynamically generating it in the Gooey editor. You can rum those files by typing in the terminal:</p>
 <div class="highlight-python"><div class="highlight"><pre>python3 gooey.py input.txt
 </pre></div>
 </div>
-<p>For everything in this tutorial, put the following into a .txt file.</p>
-<blockquote>
-<div>make Window w with title &#8220;Gooey Two&#8221;, size 400 500, color #8fefdc.
-make TextBox comments with text &#8220;Tell me your thoughts&#8221;.
+<p>For everything in this tutorial, put the following into a .txt file:</p>
+<div class="highlight-python"><div class="highlight"><pre>make Window w with title &quot;Gooey Two&quot;, size 400 500, color #8fefdc.
+make TextBox comments with text &quot;Tell me your thoughts&quot;.
 function change(win) does set win color cyan.
-make Button sumbit with text &#8220;Submit&#8221;, position 0 150, action change w.
-make FormattedText cbtitle with text &#8220;Choose something:&#8221;, font &#8220;Comic Sans MS&#8221;, underline true.
-make Menu m with menuoption &#8220;File&#8221;:file &#8220;Edit&#8221;:edit.
-make MenuItem file with menuoption &#8220;Save&#8221;:close.</div></blockquote>
+make Button sumbit with text &quot;Submit&quot;, position 0 150, action change w.
+make FormattedText cbtitle with text &quot;Choose something:&quot;, font &quot;Comic Sans MS&quot;, underline true.
+make Menu m with menuoption &quot;File&quot;:file &quot;Edit&quot;:edit.
+make MenuItem file with menuoption &quot;Save&quot;:close.
+</pre></div>
+</div>
 <p>Now you&#8217;ve gone through all the main components of Gooey. You&#8217;re ready to make your own now!</p>
 </div>
 </div>
