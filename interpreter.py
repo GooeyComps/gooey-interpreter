@@ -685,7 +685,7 @@ class Interpreter():
                     width = int(item.position.value.r)
                     height = int(item.position.value.c)
                 else:
-                    width, height = self.getPositionByKeyword(item.position.value)
+                    width, height = self.getPositionByKeyword(None, item.position.value)
             elif hasattr(item, "size"):
                 cbSize = item.size.value
 
@@ -726,6 +726,14 @@ class Interpreter():
         hasTitle = False
         hasOptions = False
         if hasattr(expr, "attributes"):
+
+            # Check to see if all attrs are valid before setting any attrs
+            for item in expr.attributes:
+                if not (hasattr(item, 'title') or hasattr(item, 'options') or \
+                        hasattr(item, 'position') or hasattr(item, 'size') or \
+                        hasattr(item, 'hidden')):
+                    self.doesntHaveAttrError('RadioButtons')
+
             for item in expr.attributes:
                 if hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
@@ -734,7 +742,7 @@ class Interpreter():
 #                        rbRow = int(item.position.value.r)
 #                        rbColumn = int(item.position.value.c)
                     else:
-                        width, height = self.getPositionByKeyword(item.position.value)
+                        width, height = self.getPositionByKeyword(None, item.position.value)
 #                        rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
                 if hasattr(item, 'size'):
                     rbSize = item.size.value
@@ -928,7 +936,7 @@ class Interpreter():
                     height = int(item.position.value.c)
 #                    rbColumn = int(item.position.value.c)
                 else:
-                    width, height = self.getPositionByKeyword(item.position.value)
+                    width, height = self.getPositionByKeyword(None, item.position.value)
 #                    rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
             elif hasattr(item, "size"):
                 rbSize = item.size.value
@@ -1856,8 +1864,11 @@ class Interpreter():
     def getPositionByKeyword(self, obj, keyword):
         winwidth = self.winBinding.bObject.winfo_reqwidth()
         winheight = self.winBinding.bObject.winfo_reqheight()
-        objwidth = obj.winfo_reqwidth()
-        objheight = obj.winfo_reqheight()
+        if obj:
+            objwidth = obj.winfo_reqwidth()
+            objheight = obj.winfo_reqheight()
+        else:
+            objheight, objwidth = 0, 0
 
         if keyword == "center":
             w = math.floor(winwidth/2 - objwidth/2)
