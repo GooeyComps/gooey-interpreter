@@ -113,6 +113,9 @@ class Interpreter():
                         self.setWinBinding(binding)
                         self.bindings = self.addBinding(binding)
 
+                    elif not self.winBinding:
+                        raise GooeyError("You must create a window object before creating other objects.")
+
                     elif(expr.type == "Button"):
                         self.checkVarname(expr)
                         b = self.makeButton(self.winBinding,expr)
@@ -472,6 +475,9 @@ class Interpreter():
 
             for item in expr.attributes:
 
+                if hasattr(item, 'size'):
+                    cbSize = int(item.size.value)
+
                 if hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         width = int(item.position.value.r)
@@ -481,10 +487,14 @@ class Interpreter():
                     else:
 #                        width, height = 0, 0
                         #cbRow, cbColumn = 0, 0
-                        width, height = self.getPositionByKeyword(item.position.value, 0, 0) #TODO: FIND W/H
 
-                if hasattr(item, 'size'):
-                    cbSize = int(item.size.value)
+                        numOptions = 3
+                        for checkItem in expr.attributes:
+                            if hasattr(checkItem, 'options'):
+                                numOptions = len(checkItem.options.options)
+                        obj_w = 100 # Okay this is still cheating but it looks okay.
+                        obj_h = (numOptions*20*cbSize) + 22
+                        width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h) #TODO: FIND W/H
 
             cbList.append([width, height, cbSize])
 
@@ -682,15 +692,24 @@ class Interpreter():
                     else:
                         isDefault = True
                     i += 1
+
+            elif hasattr(item, "size"):
+                cbSize = int(item.size.value)
+
             elif hasattr(item, "position"):
                 if hasattr(item.position.value, "r"):
                     width = int(item.position.value.r)
                     height = int(item.position.value.c)
                 else:
-                    obj_w, obj_h = 0, 0
+
+                    numOptions = 3
+                    for checkItem in expr.attributes:
+                        if hasattr(checkItem, 'options'):
+                            numOptions = len(checkItem.options.options)
+                    obj_w = 100 # Okay this is still cheating but it looks okay.
+                    obj_h = (numOptions*20*cbSize) + 22
+
                     width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h) #TODO: GET W/H
-            elif hasattr(item, "size"):
-                cbSize = item.size.value
 
         cb[1].place(x=width, y=height)
         cb[1] = ttl
@@ -738,6 +757,10 @@ class Interpreter():
                     self.doesntHaveAttrError('RadioButtons')
 
             for item in expr.attributes:
+
+                if hasattr(item, 'size'):
+                    rbSize = int(item.size.value)
+
                 if hasattr(item, 'position'):
                     if hasattr(item.position.value, "r"):
                         width = int(item.position.value.r)
@@ -745,11 +768,16 @@ class Interpreter():
 #                        rbRow = int(item.position.value.r)
 #                        rbColumn = int(item.position.value.c)
                     else:
-                        obj_w, obj_h = 0, 0
-                        width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h) #TODO: GET W/H
+
+                        numOptions = 3
+                        for checkItem in expr.attributes:
+                            if hasattr(checkItem, 'options'):
+                                numOptions = len(checkItem.options.options)
+                        obj_w = 100 # Okay this is still cheating but it looks okay.
+                        obj_h = (numOptions*20*rbSize) + 22
+#                        obj_w, obj_h = 0, 0
+                        width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h)
 #                        rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
-                if hasattr(item, 'size'):
-                    rbSize = item.size.value
 
             rbList.append([width, height, rbSize])
 
@@ -825,14 +853,14 @@ class Interpreter():
                             #     selected = False
                             j += 1
                         i += 1
-                elif(hasattr(item, 'title')):
-                    pass
-                elif(hasattr(item, 'position')):
-                    pass
-                elif(hasattr(item, 'size')):
-                    pass
-                else:
-                    raise GooeyError("Cannot make RadioButtons with an attribute that RadioButtons does not have.")
+#                elif(hasattr(item, 'title')):
+#                    pass
+#                elif(hasattr(item, 'position')):
+#                    pass
+#                elif(hasattr(item, 'size')):
+#                    pass
+#                else:
+#                    raise GooeyError("Cannot make RadioButtons with an attribute that RadioButtons does not have.")
 
             if not hasOptions:
                 i = 0
@@ -932,6 +960,10 @@ class Interpreter():
                         #     selected = False
                         j += 1
                     i += 1
+
+            elif hasattr(item, "size"):
+                rbSize = int(item.size.value)
+
             elif hasattr(item, "position"):
                 if hasattr(item.position.value, "r"):
                     width = int(item.position.value.r)
@@ -939,11 +971,15 @@ class Interpreter():
                     height = int(item.position.value.c)
 #                    rbColumn = int(item.position.value.c)
                 else:
-                    obj_w, obj_h = 0, 0
+                    numOptions = 3
+                    for checkItem in expr.attributes:
+                        if hasattr(checkItem, 'options'):
+                            numOptions = len(checkItem.options.options)
+                    obj_w = 100 # Okay this is still cheating but it looks okay.
+                    obj_h = (numOptions*20*rbSize) + 22
+
                     width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h) #TODO: GET W/H
 #                    rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
-            elif hasattr(item, "size"):
-                rbSize = item.size.value
 
         rb[1].place(x=width, y=height)
 #        rb[1].place(x=rbRow, y=rbColumn)
@@ -1155,7 +1191,7 @@ class Interpreter():
                             columns = MED_WIN_SIZE
                         elif item.size.value.lower() == "large":
                             rows = LARGE_WIN_SIZE
-                            columns = MED_WIN_SIZE
+                            columns = LARGE_WIN_SIZE
 
                     frames = self.setWindowSize(w,frames, rows, columns,expr)
 
