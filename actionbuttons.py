@@ -11,9 +11,7 @@ def quit(window, item):
 
 # Change color of window actions
 def windowColorChange(window,item):
-    print("changingwindow")
     c = item.action.arguments
-    print(c)
     window.configure(bg= c)
 
 def findAction(item):
