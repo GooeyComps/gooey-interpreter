@@ -1172,6 +1172,11 @@ class Interpreter():
                     self.setWindowColor(frames,item.color.value)
 
                 elif hasattr(item,'size'):
+                    print("I'm going to go through the bindings")
+                    for i in self.bindings.keys():
+                        print(self.bindings[i].bObject)
+
+                        self.getObjectPosition(self.bindings[i])
 
                     if hasattr(item.size.value, "columns"):
                         rows = int(item.size.value.rows)
@@ -1261,6 +1266,8 @@ class Interpreter():
                     t.configure(bg=color)
 
                 elif hasattr(item, 'size'):
+
+
                     if item.size.value == "small":
                         TextBoxWidth = SMALL_TEXTBOX_WIDTH
                         TextBoxHeight = SMALL_TEXTBOX_HEIGHT
@@ -1919,6 +1926,15 @@ class Interpreter():
             return self.bindings[exp.varname]
         else:
             raise GooeyError(str(exp.varname)+" undefined.")
+
+    def getObjectPosition(self,obj):
+        '''pass in a binding, returns position as a tuple (x,y)'''
+        if obj.bType != "Window":
+            obj_inf = obj.bObject.place_info()
+            return (obj_inf['x'],obj_inf['y'])
+
+
+
 
 
     def getPositionByKeyword(self, obj, keyword):
