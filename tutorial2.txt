@@ -1,5 +1,5 @@
 make Window w with title "Gooey Two",
-    size 400 300,
+    size 410 310,
     color #8fefdc.
 make TextBox comments with text "Tell me your thoughts".
 function change(win) does set win color green.

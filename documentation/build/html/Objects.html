@@ -478,16 +478,16 @@ visible (false) or invisible
 </div>
 <div class="section" id="menu">
 <h2>Menu<a class="headerlink" href="#menu" title="Permalink to this headline">¶</a></h2>
-<p>Menus are a list of actions. Menu&#8217;s are created with Menu Items. When creating a Menu, the <em>options</em> attribute points to the MenuItems to be included in the Menu. A Menu <em>must</em> include MenuItems.</p>
+<p>Menus are a list of actions. Menu&#8217;s are created with Menu Items. When creating a Menu, the <em>menuoption</em> attribute points to the MenuItems to be included in the Menu. First, in double quotation marks list the name of the menu as you want it to appear across the top, a colon, and then the name of the MenuItem that will handle the drop down menu from that top level. A Menu <em>must</em> include MenuItems.</p>
 <p>Example syntax:</p>
-<div class="highlight-python"><div class="highlight"><pre>make Menu m with options file edit.
+<div class="highlight-python"><div class="highlight"><pre>make Menu m with menuoption &quot;File&quot;:file &quot;Edit&quot;:edit.
 </pre></div>
 </div>
 <table border="1" class="docutils">
 <colgroup>
-<col width="10%" />
-<col width="33%" />
-<col width="37%" />
+<col width="11%" />
+<col width="32%" />
+<col width="36%" />
 <col width="20%" />
 </colgroup>
 <thead valign="bottom">
@@ -498,7 +498,7 @@ visible (false) or invisible
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>options</td>
+<tr class="row-even"><td>menuoptions</td>
 <td>The top level menu labels</td>
 <td><ul class="first last simple">
 <li>list of MenuItem objects
@@ -514,16 +514,16 @@ menuItem3</td>
 </div>
 <div class="section" id="menuitem">
 <h2>MenuItem<a class="headerlink" href="#menuitem" title="Permalink to this headline">¶</a></h2>
-<p>MenuItems are the terminal actions in a Menu. The variable name of the MenuItem must match the name of the correlating option listed in the Menu object. With the <em>options</em> attribute, MenuItems have two parts. First the text the user will select, then a colon, followed by the action.</p>
+<p>MenuItems are the terminal actions in a Menu. The variable name of the MenuItem must match the name of the correlating option listed in the Menu object. With the <em>options</em> attribute, MenuItems have two parts. First the text the user will select, then a colon, followed by the action or function.</p>
 <p>Example syntax:</p>
-<div class="highlight-python"><div class="highlight"><pre>make MenuItem file with options &quot;quit&quot;:close.
+<div class="highlight-python"><div class="highlight"><pre>make MenuItem file with menuoption &quot;Save&quot;:save &quot;Quit&quot;:close.
 </pre></div>
 </div>
 <table border="1" class="docutils">
 <colgroup>
-<col width="10%" />
-<col width="33%" />
-<col width="37%" />
+<col width="11%" />
+<col width="32%" />
+<col width="36%" />
 <col width="20%" />
 </colgroup>
 <thead valign="bottom">
@@ -542,7 +542,7 @@ menuItem3</td>
 </td>
 <td>&#8220;Untitled MenuItem&#8221;</td>
 </tr>
-<tr class="row-odd"><td>options</td>
+<tr class="row-odd"><td>menuoptions</td>
 <td>The selections within the menu</td>
 <td><ul class="first last simple">
 <li>a MenuItem object</li>
@@ -626,7 +626,7 @@ make Checkboxes c with title t, options &quot;Yay&quot; &quot;Nay&quot;, positio
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>text</td>
-<td>text to be store in object</td>
+<td>text to be stored in object</td>
 <td><ul class="first last simple">
 <li>A plaintext string</li>
 </ul>

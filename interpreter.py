@@ -1090,11 +1090,19 @@ class Interpreter():
         return l
 
 
-    def setWindowSize(self,w, frames,rows,columns):
+    def setWindowSize(self,w, frames,rows,columns,expr):
 
         w.configure(height=rows,width=columns)
         frames.configure(height=rows,width=columns)
+        print("THIS IS W: ",w)
+        for item in expr.attributes:
+            print("THIS IS THE ITEM: ",item)
+            print("expr.attributes: ",expr.attributes)
+            print("EXPR: ", expr)
+            if hasattr(item, "position"):
 
+                print(item.position.value)
+                print("\n")
 
         return frames
 
@@ -1137,7 +1145,7 @@ class Interpreter():
                             rows = LARGE_WIN_SIZE
                             columns = MED_WIN_SIZE
 
-                    frames = self.setWindowSize(w,frames, rows, columns)
+                    frames = self.setWindowSize(w,frames, rows, columns,expr)
 
                 elif hasattr(item, 'title'):
                     w.title(item.title.value)
@@ -1189,7 +1197,7 @@ class Interpreter():
                             rows = LARGE_WIN_SIZE
                             columns = LARGE_WIN_SIZE
 
-                    self.setWindowSize(w,frames, rows, columns)
+                    self.setWindowSize(w,frames, rows, columns,expr)
 
                 elif hasattr(item, 'title'):
                     w.title(item.title.value)
@@ -1290,7 +1298,7 @@ class Interpreter():
         self.checkOccupied(t, width, height)
         t.place(x = width, y = height, bordermode="outside")
         if hide:
-            t.place_forget(x=t.winfo_x(), y=t.winfo_y()) #Note: this will not work
+            t.place_forget(x=t.winfo_x(), y=t.winfo_y())
         return t
 
     def setTextBox(self,t,win,expr):
@@ -1334,7 +1342,7 @@ class Interpreter():
                 elif hasattr(item, 'hidden'):
                     if item.hidden.value == "true":
                         hide = True
-                        t.place_forget() #Note: won't work yet
+                        t.place_forget()
                     elif item.hidden.value == "false":
                         t.place(x=t.winfo_x(), y=t.winfo_y())
 
