@@ -479,9 +479,9 @@ class Interpreter():
 #                        cbRow = int(item.position.value.r)
 #                        cbColumn = int(item.position.value.c)
                     else:
-                        width, height = 0, 0
+#                        width, height = 0, 0
                         #cbRow, cbColumn = 0, 0
-                        #cbRow, cbColumn = self.getPositionByKeyword(item.position.value)
+                        width, height = self.getPositionByKeyword(item.position.value, 0, 0) #TODO: FIND W/H
 
                 if hasattr(item, 'size'):
                     cbSize = int(item.size.value)
@@ -687,7 +687,8 @@ class Interpreter():
                     width = int(item.position.value.r)
                     height = int(item.position.value.c)
                 else:
-                    width, height = self.getPositionByKeyword(None, item.position.value)
+                    obj_w, obj_h = 0, 0
+                    width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h) #TODO: GET W/H
             elif hasattr(item, "size"):
                 cbSize = item.size.value
 
@@ -744,7 +745,8 @@ class Interpreter():
 #                        rbRow = int(item.position.value.r)
 #                        rbColumn = int(item.position.value.c)
                     else:
-                        width, height = self.getPositionByKeyword(None, item.position.value)
+                        obj_w, obj_h = 0, 0
+                        width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h) #TODO: GET W/H
 #                        rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
                 if hasattr(item, 'size'):
                     rbSize = item.size.value
@@ -832,20 +834,19 @@ class Interpreter():
                 else:
                     raise GooeyError("Cannot make RadioButtons with an attribute that RadioButtons does not have.")
 
-                    #I think this is unnecessary
-#            if not hasOptions:
-#                i = 0
-#                j = 0
-#                while(i < 3):
-#                    optionText = "Option " + str(i + 1)
-#                    rb = self.makeRadioButton(w,optionText, j, width, height, var)
-##                    rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
-#                    height += 20 * rbSize
-##                    rbColumn += 20 * rbSize
-#                    rb.configure(height=rbSize)
-#                    rbList.append(rb)
-#                    j += 1
-#                    i += 1
+            if not hasOptions:
+                i = 0
+                j = 0
+                while(i < 3):
+                    optionText = "Option " + str(i + 1)
+                    rb = self.makeRadioButton(w,optionText, j, width, height, var)
+#                    rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
+                    height += 20 * rbSize
+#                    rbColumn += 20 * rbSize
+                    rb.configure(height=rbSize)
+                    rbList.append(rb)
+                    j += 1
+                    i += 1
 
         else:
             rbTitle = "Untitled RadioButtons"
@@ -938,7 +939,8 @@ class Interpreter():
                     height = int(item.position.value.c)
 #                    rbColumn = int(item.position.value.c)
                 else:
-                    width, height = self.getPositionByKeyword(None, item.position.value)
+                    obj_w, obj_h = 0, 0
+                    width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h) #TODO: GET W/H
 #                    rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
             elif hasattr(item, "size"):
                 rbSize = item.size.value
@@ -1002,7 +1004,8 @@ class Interpreter():
                         width = int(item.position.value.r)
                         height = int(item.position.value.c)
                     else:
-                        width, height = self.getPositionByKeyword(tl, item.position.value)
+                        obj_w, obj_h = self.getObjectSize(tl)
+                        width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h)
 
                 elif hasattr(item, 'color'): # NOTE: Wasn't this supposed to be background color?
                     color = self.checkRGBColor(item.color.value)
@@ -1037,7 +1040,8 @@ class Interpreter():
                         width = int(item.position.value.r)
                         height = int(item.position.value.c)
                     else:
-                        width, height = self.getPositionByKeyword(tl, item.position.value)
+                        obj_w, obj_h = self.getObjectSize(tl)
+                        width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h)
                     self.checkOccupied(tl, width, height)
                     tl.place(x = width, y = height, bordermode="outside")
 
@@ -1277,7 +1281,8 @@ class Interpreter():
                         width = int(item.position.value.r)
                         height = int(item.position.value.c)
                     else:
-                        width, height = self.getPositionByKeyword(t, item.position.value)
+                        obj_w, obj_h = self.getObjectSize(t)
+                        width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h)
 
                 elif hasattr(item, 'color'):
                     color = self.checkRGBColor(item.color.value)
@@ -1331,7 +1336,8 @@ class Interpreter():
                         width = int(item.position.value.r)
                         height = int(item.position.value.c)
                     else:
-                        width, height = self.getPositionByKeyword(t, item.position.value)
+                        obj_w, obj_h = self.getObjectSize(t)
+                        width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h)
                     self.checkOccupied(t, width, height)
                     t.place(x = width, y = height, bordermode="outside")
 
@@ -1494,7 +1500,8 @@ class Interpreter():
                         else:
                             height = int(item.position.value.c)
                     else:
-                        width, height = self.getPositionByKeyword(b, item.position.value)
+                        obj_w, obj_h = self.getObjectSize(b)
+                        width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h)
 
                 # These are the action statements
                 elif hasattr(item, 'action'):
@@ -1608,7 +1615,8 @@ class Interpreter():
                     else:
                         height = int(item.position.value.c)
                 else:
-                    width, height = self.getPositionByKeyword(b, item.position.value)
+                    obj_w, obj_h = self.getObjectSize(b)
+                    width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h)
                 #b.grid(row=r, column=c, sticky=N+S+E+W)
                 self.checkOccupied(b, width, height)
                 b.place(x=width, y=height)
@@ -1857,7 +1865,8 @@ class Interpreter():
                             width = int(item.position.value.r)
                             height = int(item.position.value.c)
                         else:
-                            width, height = self.getPositionByKeyword(i, item.position.value)
+                            obj_w, obj_h = self.getObjectSize(i)
+                            width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h)
 
                 else:
                     self.doesntHaveAttrError('Image')
@@ -1948,21 +1957,27 @@ class Interpreter():
     def getObjectPosition(self,obj):
         '''pass in a binding, returns position as a tuple (x,y)'''
         if obj.bType != "Window":
-            obj_inf = obj.bObject.place_info()
+            if obj.bType == "Checkboxes" or obj.bType == "RadioButtons":
+                obj_inf = obj.bObject[1].place_info()
+            else:
+                obj_inf = obj.bObject.place_info()
             return (obj_inf['x'],obj_inf['y'])
 
 
+    def getObjectSize(self, obj):
+        '''pass in a tkinter object, returns size as a tuple (width, height)'''
+        objwidth = obj.winfo_reqwidth()
+        objheight = obj.winfo_reqheight()
+        return objwidth, objheight
 
-
-
-    def getPositionByKeyword(self, obj, keyword):
+    def getPositionByKeyword(self, keyword, objwidth, objheight):
         winwidth = self.winBinding.bObject.winfo_reqwidth()
         winheight = self.winBinding.bObject.winfo_reqheight()
-        if obj:
-            objwidth = obj.winfo_reqwidth()
-            objheight = obj.winfo_reqheight()
-        else:
-            objheight, objwidth = 0, 0
+#        if obj:
+#            objwidth = obj.winfo_reqwidth()
+#            objheight = obj.winfo_reqheight()
+#        else:
+#            objheight, objwidth = 0, 0
 
         if keyword == "center":
             w = math.floor(winwidth/2 - objwidth/2)
