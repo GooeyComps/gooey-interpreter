@@ -123,26 +123,15 @@ class Interpreter():
                         b = self.makeButton(self.winBinding,expr)
                         binding = self.makeBinding("Button", expr.varname, b)
                         self.bindings = self.addBinding(binding)
-                    #NEEDS TO BE MODIFIED TO NOT TAKE IN SELF.WINDOW
                     elif(expr.type == "Menu"):
                         self.checkVarname(expr)
                         m = self.makeMenu(self.winBinding,expr)
                         options = self.getOptions(expr)
-                        # print("OPTIONS IN MAKEMENU",options)
                         binding = self.makeBinding("Menu", expr.varname, m, options)
                         self.bindings = self.addBinding(binding)
-                        # print("made the menu")
 
                     elif(expr.type == "MenuItem"):
-                        # print("making the menuitem")
-                        #self.checkVarname(expr) #Can't do this right now cuz of how we're making the menuitems in menu
-                        # print("Checked the varname")
                         mi = self.makeMenuItem(self.winBinding,expr)
-                        # print("made the menuitem")
-                        # options = self.getOptions(expr)
-                        # print("options",options)
-                        # binding = self.makeBinding("MenuItem", expr.varname, mi, options)
-                        # self.bindings = self.addBinding(binding)
 
                     elif(expr.type == "TextBox"):
                         self.checkVarname(expr)
@@ -219,13 +208,13 @@ class Interpreter():
                         elif(obj.bType == "Text"):
                             t = self.getObject(expr)
                             assert t.bType == 'Text'
-                            t = self.setText(t.bObject,self.winBinding, expr) #Change to be self.winbinding
+                            t = self.setText(t.bObject,self.winBinding, expr)
 
                         elif(obj.bType == "TextBox"):
                             t = self.getObject(expr)
                             assert t.bType == 'TextBox'
                             tbox = t.bObject
-                            tbox = self.setTextBox(tbox, self.winBinding, expr) #change to be winbinding
+                            tbox = self.setTextBox(tbox, self.winBinding, expr)
 
                         elif(obj.bType == "FormattedText"):
                             ft = self.getObject(expr)
@@ -331,16 +320,10 @@ class Interpreter():
                                         self.bindings = self.addBinding(returnedParam)
                                 else:
                                     (localI.bindings, self.winBinding) = localI.interpret([line])
-                            #CHECK BUTTON PADDING HERE
 
                             wColorAfter = self.winBinding.frames.cget('bg')
                             if wColorBefore != wColorAfter:
-
-                                # print("Colors didn't match")
                                 self.bindings = self.fixObjectPadding(wColorAfter)
-                                # print("tried to fix button padding")
-
-
                         else:
                             raise GooeyError("The function "+str(function)+" requires "+str(len(functionBinding.params))+" arguments; you have passed it "+str(len(expr.params))+" arguments.")
                     else:
@@ -458,7 +441,6 @@ class Interpreter():
         w = w.frames
         cbList = []
         cbSize = 1
-        #cbRow, cbColumn = 0, 0
         width, height = 0, 0
         var = StringVar(master=w)
         cbTitle = "Untitled Checkboxes:"
@@ -484,17 +466,12 @@ class Interpreter():
                     if hasattr(item.position.value, "r"):
                         width = int(item.position.value.r)
                         height = int(item.position.value.c)
-#                        cbRow = int(item.position.value.r)
-#                        cbColumn = int(item.position.value.c)
                     else:
-#                        width, height = 0, 0
-                        #cbRow, cbColumn = 0, 0
-
                         numOptions = 3
                         for checkItem in expr.attributes:
                             if hasattr(checkItem, 'options'):
                                 numOptions = len(checkItem.options.options)
-                        obj_w = 100 # Okay this is still cheating but it looks okay.
+                        obj_w = 100
                         obj_h = (numOptions*20*cbSize) + 22
                         width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h) #TODO: FIND W/H
 
@@ -520,7 +497,7 @@ class Interpreter():
                                 special += "italic "
                             if (a[6] == BooleanValue('true')):
                                 special += "underline"
-                            special = special.strip() #ow owwwwww
+                            special = special.strip()
 
                             font = (a[1], a[2], special)
                             ttl.configure(text=a[0], fg=a[3], font=font)
@@ -532,7 +509,6 @@ class Interpreter():
                     else:
                         ttl.configure(text=item.title.value)
                         height += 22
-                        #cbColumn += 22
                         cbList[0].append(22)
                     cbList.append(ttl)
 
@@ -540,8 +516,6 @@ class Interpreter():
                 ttl = Label(w, text=cbTitle,bg = w.cget('bg'))
                 ttl.place(x=width,y=height)
                 height += 22
-                #ttl.place(x=cbColumn,y=cbRow)
-                #cbColumn += 22
                 cbList[0].append(22)
                 cbList.append(ttl)
 
@@ -556,20 +530,15 @@ class Interpreter():
                         if(item.options.options[i] != ""):
                             cb = self.makeCheckbox(w,item.options.options[i], j, width, height)
                             height += 20 * cbSize
-                            #cbColumn += 20 * cbSize
                             cb.configure(height=cbSize)
                             if (isDefault):
                                 cb.select()
-                            # binding = self.makeBinding("Checkboxes", expr.varname, cb)
-                            # self.bindings = self.addBinding(binding)
                             cbList.append(cb)
                             isDefault = False
                             j += 1
                         else:
                             isDefault = True
                         i += 1
-
-
             if not hasOptions:
                 i = 0
                 j = 0
@@ -577,14 +546,10 @@ class Interpreter():
                     optionText = "Option " + str(i + 1)
                     cb = self.makeCheckbox(w,optionText, j, width, height)
                     height += 20 * cbSize
-                    #cbColumn += 20 * cbSize
                     cb.configure(height=cbSize)
-                    # binding = self.makeBinding("Checkboxes", expr.varname, cb)
-                    # self.bindings = self.addBinding(binding)
                     cbList.append(cb)
                     j += 1
                     i += 1
-
         else:
             cbTitle = "Untitled Checkboxes"
             width, height = 0, 0
@@ -601,26 +566,13 @@ class Interpreter():
                 optionText = "Option " + str(i + 1)
                 cb = self.makeCheckbox(w,optionText, j, width, height)
                 height += 20 * cbSize
-                #cbColumns
                 cb.configure(height=cbSize)
-                # binding = self.makeBinding("Checkboxes", expr.varname, cb)
-                # self.bindings = self.addBinding(binding)
                 cbList.append(cb)
                 j += 1
                 i += 1
-
-#        if hasattr(expr, "attributes"):
-#            for item in expr.attributes:
-#                if hasattr(item, 'position'):
-#                    if hasattr(item.position.value, "r"):
-#                        pass
-#                    else:
-#                        moveCheckboxbyKeyword(cbList)
-
         return cbList
 
     def moveCheckboxbyKeyword(self, cbList):
-
             pass
 
     def makeCheckbox(self,w,i,num, width, height):
@@ -634,8 +586,6 @@ class Interpreter():
         cbSize = cb[0][2]
         width = cb[0][0]
         height = cb[0][1]
-        #cbRow = cb[0][0]
-        #cbColumn = cb[0][1]
         ttlSize = cb[0][3]
         ttl = cb[1]
 
@@ -686,8 +636,6 @@ class Interpreter():
                         c.configure(height=cbSize)
                         if (isDefault):
                             c.select()
-                        # binding = self.makeBinding("Checkboxes", expr.varname, cb)
-                        # self.bindings = self.addBinding(binding)
                         cb.append(c)
                         isDefault = False
                         j += 1
@@ -708,7 +656,7 @@ class Interpreter():
                     for checkItem in expr.attributes:
                         if hasattr(checkItem, 'options'):
                             numOptions = len(checkItem.options.options)
-                    obj_w = 100 # Okay this is still cheating but it looks okay.
+                    obj_w = 100
                     obj_h = (numOptions*20*cbSize) + 22
 
                     width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h) #TODO: GET W/H
@@ -734,7 +682,6 @@ class Interpreter():
 
 
     def makeDefaultRadioButton(self,w,expr):
-
         pass
 
     #RADIOBUTTONS ARE A WORK IN PROGRESS
@@ -767,8 +714,6 @@ class Interpreter():
                     if hasattr(item.position.value, "r"):
                         width = int(item.position.value.r)
                         height = int(item.position.value.c)
-#                        rbRow = int(item.position.value.r)
-#                        rbColumn = int(item.position.value.c)
                     else:
 
                         numOptions = 3
@@ -777,9 +722,7 @@ class Interpreter():
                                 numOptions = len(checkItem.options.options)
                         obj_w = 100 # Okay this is still cheating but it looks okay.
                         obj_h = (numOptions*20*rbSize) + 22
-#                        obj_w, obj_h = 0, 0
                         width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h)
-#                        rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
 
             rbList.append([width, height, rbSize])
 
@@ -791,7 +734,6 @@ class Interpreter():
                         rbTitle = item.title.value
                     ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
                     ttl.place(x=width,y=height)
-#                    ttl.place(x=rbColumn,y=rbRow)
                     if hasattr(item.title, 'var'):
                         if (item.title.var in self.bindings):
                             a = self.bindings.get(item.title.var).bObject
@@ -808,14 +750,12 @@ class Interpreter():
                             font = (a[1], a[2], special)
                             ttl.configure(text=a[0], fg=a[3], font=font)
                             height += a[2] * 1.8# + 10
-#                            rbColumn += a[2] + 10
                             rbList[0].append(a[2] + 10)
                         else:
                             raise GooeyError("No formatted text with that name.")
                     else:
                         ttl.configure(text=item.title.value)
                         height += 22
-#                        rbColumn += 22
                         rbList[0].append(22)
                     rbList.append(ttl)
 
@@ -823,8 +763,6 @@ class Interpreter():
                 ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
                 ttl.place(x=width,y=height)
                 height += 22
-#                ttl.place(x=rbColumn,y=rbRow)
-#                rbColumn += 22
                 rbList[0].append(22)
                 rbList.append(ttl)
 
@@ -850,29 +788,15 @@ class Interpreter():
                             rb.deselect()
                             rbList.append(rb)
                             height += 20 * rbSize
-                            # if (selected):
-                            #     var.set(j)
-                            #     selected = False
                             j += 1
                         i += 1
-#                elif(hasattr(item, 'title')):
-#                    pass
-#                elif(hasattr(item, 'position')):
-#                    pass
-#                elif(hasattr(item, 'size')):
-#                    pass
-#                else:
-#                    raise GooeyError("Cannot make RadioButtons with an attribute that RadioButtons does not have.")
-
             if not hasOptions:
                 i = 0
                 j = 0
                 while(i < 3):
                     optionText = "Option " + str(i + 1)
                     rb = self.makeRadioButton(w,optionText, j, width, height, var)
-#                    rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
                     height += 20 * rbSize
-#                    rbColumn += 20 * rbSize
                     rb.configure(height=rbSize)
                     rbList.append(rb)
                     j += 1
@@ -881,13 +805,10 @@ class Interpreter():
         else:
             rbTitle = "Untitled RadioButtons"
             width, height = 0, 0
-#            rbRow, rbColumn = 0, 0
             rbSize = 1
             ttl = Label(w, text=rbTitle,bg = w.cget('bg'))
             ttl.place(x=width,y=height)
-#            ttl.place(x=rbColumn,y=rbRow)
             height += 22
-#            rbColumn += 22
             rbList.append([0, 0, 1, 22])
             rbList.append(ttl)
             i = 0
@@ -895,9 +816,7 @@ class Interpreter():
             while(i < 3):
                 optionText = "Option " + str(i + 1)
                 rb = self.makeRadioButton(w,optionText, j, width, height, var)
-#                rb = self.makeRadioButton(self.window,optionText, j, rbRow, rbColumn, var)
                 height += 20 * rbSize
-#                rbColumn += 20 * rbSize
                 rb.configure(height=rbSize)
                 rbList.append(rb)
                 j += 1
@@ -909,9 +828,7 @@ class Interpreter():
         w = win.frames
         rbSize = rb[0][2]
         width = rb[0][0]
-#        rbRow = rb[0][0]
         height = rb[0][1]
-#        rbColumn = rb[0][1]
         ttlSize = rb[0][3]
         ttl = rb[1]
         for item in expr.attributes:
@@ -932,15 +849,11 @@ class Interpreter():
                         font = (a[1], a[2], special)
                         ttl.configure(text=a[0], fg=a[3], font=font)
                         rb[1].place(x=width, y=height)
-                        print("Just placed rb")
-#                        rb[1].place(x=rbRow, y=rbColumn)
                         ttlSize = int(a[2] * 1.8) #+ 10
                     else:
                         raise GooeyError("No formatted text with that name.")
                 else:
                     rb[1].place(x=width, y=height)
-#                    rb[1].place(x=rbRow, y=rbColumn)
-                    #ttlSize += 20
                     ttl.config(text=item.title.value, fg='black', font="system 10")
             elif hasattr(item, "options"):
                 for a in rb[2:]:
@@ -957,9 +870,6 @@ class Interpreter():
                         r = Radiobutton(w, text=item.options.options[i], variable=var, value=i, anchor=W,bg = w.cget('bg'), highlightbackground=w.cget('bg'))
                         r.configure(height=rbSize)
                         rb.append(r)
-                        # if (selected):
-                        #     var.set(j)
-                        #     selected = False
                         j += 1
                     i += 1
 
@@ -969,32 +879,24 @@ class Interpreter():
             elif hasattr(item, "position"):
                 if hasattr(item.position.value, "r"):
                     width = int(item.position.value.r)
-#                    rbRow = int(item.position.value.r)
                     height = int(item.position.value.c)
-#                    rbColumn = int(item.position.value.c)
                 else:
                     numOptions = 3
                     for checkItem in expr.attributes:
                         if hasattr(checkItem, 'options'):
                             numOptions = len(checkItem.options.options)
-                    obj_w = 100 # Okay this is still cheating but it looks okay.
+                    obj_w = 100
                     obj_h = (numOptions*20*rbSize) + 22
 
-                    width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h) #TODO: GET W/H
-#                    rbRow, rbColumn = self.getPositionByKeyword(item.position.value)
+                    width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h)
 
         rb[1].place(x=width, y=height)
-#        rb[1].place(x=rbRow, y=rbColumn)
         rb[1] = ttl
         rb[0] = [width, height, rbSize, ttlSize]
-#        rb[0] = [rbRow, rbColumn, rbSize, ttlSize]
         height += ttlSize
-#        rbColumn += ttlSize
         for i in rb[2:]:
             i.place(x=width, y=height)
-#            i.place(x=rbRow, y=rbColumn)
             height += 20 * rbSize
-#            rbColumn += 20 * rbSize
         return rb
 
 
@@ -1010,7 +912,6 @@ class Interpreter():
         w = win.frames
         defaults = self.getAllDefaults("Text")
         tl = self.makeDefaultText(w,defaults)
-        #tl = Label(w, text="Text")
         width, height = 0, 0
         hide = False
         if hasattr(expr, "attributes"):
@@ -1045,7 +946,7 @@ class Interpreter():
                         obj_w, obj_h = self.getObjectSize(tl)
                         width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h)
 
-                elif hasattr(item, 'color'): # NOTE: Wasn't this supposed to be background color?
+                elif hasattr(item, 'color'):
                     color = self.checkRGBColor(item.color.value)
                     tl.configure(fg=color)
 
@@ -1056,7 +957,6 @@ class Interpreter():
                     pass # Not implemented
                 else:
                     self.doesntHaveAttrError('Text')
-        #tl.grid(row=r, column=c, sticky=N+S+E+W)
         self.checkOccupied(tl, width, height)
         tl.place(x = width, y = height, bordermode="outside")
         if hide:
@@ -1065,7 +965,6 @@ class Interpreter():
 
     def setText(self,tl,win,expr):
         w = win.frames
-        #r, c = 0, 0
         hide = False
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
@@ -1092,11 +991,9 @@ class Interpreter():
                         hide = True
                         tl.place_forget()
                     elif item.hidden.value == 'false':
-                        #####NOTE: THIS ISN'T GOING TO WORK COME BACK
                         tl.place(x=tl.winfo_x(), y=tl.winfo_y())
                 else:
                     self.doesntHaveAttrError('Text')
-        #tl.grid(row=r, column=c, sticky=N+S+E+W)
         return tl
 
     def checkRGBColor(self,color):
@@ -1141,27 +1038,9 @@ class Interpreter():
 
 
     def setWindowSize(self,w, frames,rows,columns,expr):
-
         w.configure(height=rows,width=columns)
         frames.configure(height=rows,width=columns)
-        #JAMAICA IS TESTING< DO NOT ERASE
-        #print("THIS IS W: ",w)
-        #for i in self.bindings.keys():
-        #    print("BINDINGS MAN: ",self.bindings[i].keyword)
-
-                #print("THIS IS THE KEYWORD: ",self.bindings[i].keyword)
-                #print("THIS IS THE POSITION",self.getObjectPosition(self.bindings[i]))
-            # print("THIS IS THE ITEM: ",item)
-            # print("expr.attributes: ",expr.attributes)
-            # print("EXPR: ", expr)
-            # if hasattr(item, "position"):
-            #
-            #     print(item.position.value)
-            #     print("\n")
-
         return frames
-
-
 
 
     def setWindowColor(self,w,color):
@@ -1209,13 +1088,6 @@ class Interpreter():
                     pass # Not implemented
                 elif hasattr(item, 'hidden'):
                     pass # Not implemented
-
-#                elif hasattr(item, 'font'):
-#                    pass
-#                elif hasattr(item, 'fontSize'):
-#                    pass
-#                elif hasattr(item, 'textColor'):
-#                    pass
                 else:
                     self.doesntHaveAttrError('Window')
 
@@ -1237,9 +1109,7 @@ class Interpreter():
                     self.setWindowColor(frames,item.color.value)
 
                 elif hasattr(item,'size'):
-                    print("I'm going to go through the bindings")
                     for i in self.bindings.keys():
-                        print(self.bindings[i].bObject)
 
                         self.getObjectPosition(self.bindings[i])
 
@@ -1266,13 +1136,6 @@ class Interpreter():
                     pass # Not implemented
                 elif hasattr(item, 'hidden'):
                     pass # Not implemented
-
-#                elif hasattr(item, 'font'):
-#                    pass
-#                elif hasattr(item, 'fontSize'):
-#                    pass
-#                elif hasattr(item, 'textColor'):
-#                    pass
 
                 else:
                     self.doesntHaveAttrError('Window')
@@ -1464,7 +1327,6 @@ class Interpreter():
         #We need this to correct for padding issues on the mac
         hB = w.cget('bg')
         b = Button(w, highlightbackground = hB)
-        #Need to add in position, size, color?
         b.configure(text=defaults['text'])
         return b
 
@@ -1482,7 +1344,7 @@ class Interpreter():
             buttonAttributeList = expr.attributes
             for item in buttonAttributeList:
 
-                if hasattr(item, 'color'): # NOTE: What are we gonna do about button color??
+                if hasattr(item, 'color'):
                     color = self.checkRGBColor(item.color.value)
                     b.configure(bg=color)
 
@@ -1491,7 +1353,7 @@ class Interpreter():
                         if (item.text.var in self.bindings):
                             if self.bindings[item.text.var].bType == "String":
                                 b.configure(text=self.bindings[item.text.var].bObject)
-                            else: #TODO: if Formatted text, check if not type you can change text to.
+                            else:
                                 a = self.bindings.get(item.text.var).bObject
                                 special = ""
 
@@ -1521,7 +1383,7 @@ class Interpreter():
                                 raise GooeyError("Cannot set Button size attribute to variable of type "+str(sizeBinding.bType))
                         else:
                             b.configure(width=item.size.value.columns)
-                    else: #TODO: button size by keyword
+                    else:
                         pass
 
                 elif hasattr(item,'position'):
@@ -1543,12 +1405,6 @@ class Interpreter():
                         else:
                             height = int(item.position.value.c)
                     else:
-                        #self.bindings[item].keyword = item.position.value
-                        #print("THINGS AND STUFF: ",self.bindings.keys())
-                        #for i in self.bindings.keys():
-                        #    print("THIS IS THE KEYWORD: ", self.bindings[i].keyword)
-                        #    print("")
-                        #    print("")
                         obj_w, obj_h = self.getObjectSize(b)
                         width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h)
 
@@ -1556,7 +1412,6 @@ class Interpreter():
                 elif hasattr(item, 'action'):
 
                     #Cast action to string, otherwise you cannot find right action
-                    #This is temporary until I can call the action as a direct line in the command
                     act = str(item.action.funcname)
 
                     a = actionbuttons.findAction(item)
@@ -1566,7 +1421,7 @@ class Interpreter():
                         args = []
                         if hasattr(item.action, "arguments"):
                             args = item.action.arguments
-                        b.configure(command=lambda: self.gooeyCallAction(a, args)) #figure out params for this
+                        b.configure(command=lambda: self.gooeyCallAction(a, args))
                         #run this like we're running a function definition
 
                 elif hasattr(item, 'hidden'):
@@ -1578,9 +1433,8 @@ class Interpreter():
 
         self.checkOccupied(b, width, height)
         b.place(x = width, y = height, bordermode="outside")
-        print("This where b is", b.winfo_x(), b.winfo_y())
         if hide:
-            b.place_forget() #Note won't work yet
+            b.place_forget()
         return b
 
 
@@ -1616,7 +1470,7 @@ class Interpreter():
                     if (item.text.var in self.bindings):
                         if self.bindings[item.text.var].bType == "String":
                             b.configure(text=self.bindings[item.text.var].bObject)
-                        else: #TODO: if Formatted text, check if not type you can change text to.
+                        else:
                             a = self.bindings.get(item.text.var).bObject
                             special = ""
 
@@ -1630,8 +1484,6 @@ class Interpreter():
 
                             font = (a[1], a[2], special)
                             b.configure(text=a[0], fg=a[3], font=font)
-                        #else:
-                            #raise GooeyError("Can't set text to variable of type "+str(self.bindings[item.text.var].bType)+".")
                     else:
                         raise GooeyError("The variable "+str(item.text.var)+" is undefined.")
                 else:
@@ -1647,7 +1499,7 @@ class Interpreter():
                             raise GooeyError("Cannot make Button size attribute with variable of type "+str(sizeBinding.bType))
                     else:
                         b.configure(width=item.size.value.columns)
-                else: # TODO: button size by keyword
+                else:
                     pass
 
 
@@ -1664,7 +1516,6 @@ class Interpreter():
                 else:
                     obj_w, obj_h = self.getObjectSize(b)
                     width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h)
-                #b.grid(row=r, column=c, sticky=N+S+E+W)
                 self.checkOccupied(b, width, height)
                 b.place(x=width, y=height)
 
@@ -1681,13 +1532,11 @@ class Interpreter():
                         args = item.action.arguments
                     b.configure(command=lambda: self.gooeyCallAction(a, args)) #figure out params for this
                     #run this like we're running a function definition
-                # else:
-                #     print("You have entered a command that is not defined")
             elif hasattr(item, 'hidden'):
                 if item.hidden.value == 'false':
-                    b.place(x=b.winfo_x(), y=b.winfo_y()) #Note: won't work yet
+                    b.place(x=b.winfo_x(), y=b.winfo_y())
                 elif item.hidden.value == 'true':
-                    b.place_forget() #Note: won't work yet
+                    b.place_forget()
             else:
                 self.doesntHaveAttrError('Button')
         return b
@@ -1737,7 +1586,6 @@ class Interpreter():
                     for mopItem in mop:
                         if hasattr(mopItem, 'text'):
                             if hasattr(mopItem, 'action'):
-                                #mopItem.action = Menu(rootMenu,tearoff=0)
                                 subm = Menu(rootMenu,tearoff=0)
                                 binding = self.makeBinding("MenuItem",str(mopItem.action),subm)
                                 self.bindings = self.addBinding(binding)
@@ -1752,62 +1600,6 @@ class Interpreter():
 
     def setMenu(self,m,win,expr):
         pass
-        # #Note CAN ONLY HAPPEN IN ROOT WINDOW
-        # # print(type(m))
-        # w = win.bObject
-        # menuAttributeList = expr.attributes
-        # # print(menuAttributeList)
-        #
-        # #Let's try syntax set Menu m
-        # for item in menuAttributeList:
-        #     if hasattr(item, 'menuoption'):
-        #         mop = item.menuoption.value
-        #         # print('mop',mop)
-        #         for mopItem in mop:
-        #             if hasattr(mopItem,'menuop'):
-        #                 # print("GOTEM", mopItem.menuop)
-        #                 #we are going to need to change the tkinter object which is here but also
-        #                 #in the binding of that menuItem
-        #                 # print(m.entrycget(50,'menu'))
-        #                 mI = self.bindings[mopItem.menuop].bObject
-        #                 # print(mI)
-                        # mI.entryconfigure(label=mopItem.text)
-
-
-
-                        #m.entryconfigure(mopItem.menuop, "POO")
-
-        #Syntax is set m menuoption file text "Poop".
-        #Need to go through the params of the menu binding, see if there is one
-        #called file - also check to find that menuItem binding (maybe?)
-        #Look through the rootMenu - it's going to have a submenu that has the same variable name
-        #file - (hopefully) if we've done it right. Change that cascade's text to be the text we want
-        #this might suck - may need to adjust the menuitem binding
-
-        #
-        # rootMenu = None
-        # children = w.winfo_children()
-        # for c in children:
-        #     if type(c).__name__ == "Menu":
-        #         rootMenu = c
-        # if hasattr(expr,'attributes'):
-        #     for item in expr.attributes:
-        #
-        #         if hasattr(item,'menuoption'):
-        #
-        #             mop = item.menuoption.value
-        #             for mopItem in mop:
-        #                 if hasattr(mopItem, 'text'):
-        #                     if hasattr(mopItem, 'action'):
-        #                         #mopItem.action = Menu(rootMenu,tearoff=0)
-        #                         subm = Menu(rootMenu,tearoff=0)
-        #                         binding = self.makeBinding("MenuItem",str(mopItem.action),subm)
-        #                         self.bindings = self.addBinding(binding)
-        #                         rootMenu.add_cascade(label=mopItem.text,menu=subm)
-        #         else:
-        #             self.doesntHaveAttrError('Menu')
-        # w.config(menu=rootMenu)
-        # return rootMenu
 
     def makeMenuItem(self,win,expr):
         w = win.bObject
@@ -1823,12 +1615,8 @@ class Interpreter():
         for key in self.bindings:
 
             if self.bindings[key].bType == "Menu":
-                # print(expr.varname)
                 if expr.varname in self.bindings.keys():
-                    #print(self.bindings[key])
                     #binding found, add to submenu to rootMenu
-
-                    #subMenu = Menu(self.bindings[key].bObject, tearoff=0)
                     subMenu = self.bindings[expr.varname].bObject
                     if hasattr(expr, 'attributes'):
                         for item in expr.attributes:
@@ -1865,11 +1653,6 @@ class Interpreter():
 
                                 self.doesntHaveAttrError('MenuItem')
 
-                    # menuItem = subMenu
-                    # w.config(menu=self.bindings[key].bObject)
-
-        # return menuItem
-
 
         def setMenuItem():
             pass
@@ -1893,19 +1676,6 @@ class Interpreter():
         if hasattr(expr, "attributes"):
             for item in expr.attributes:
                 if hasattr(item, 'source'):
-
-
-                    ######## Images only work when you read in from text file, otherwise source path is different
-
-                    #directory = os.getcwd()
-                    #print("OS : ", os.getcwd())
-                    #directory = str(sys.path[0])
-                    #directory = directory.append('/apple.gif')
-                    #print("CURRENT WORKING DIR IS: ", directory+'/apple.gif')
-                    #print("DIRECTORY IS: ", sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-                    #i = PhotoImage(file=open(directory+'/apple.gif'))
-
-
                     i = PhotoImage(file=item.source.value)
                 elif hasattr(item, 'position'):
                         if hasattr(item.position.value, "r"):
@@ -1917,10 +1687,10 @@ class Interpreter():
 
                 else:
                     self.doesntHaveAttrError('Image')
-        #l.grid(row=r, column=c, sticky=N+S+E+W)
-        self.checkOccupied(l, width, height)
+
         l = Label(w, image=i, bg = w.cget('bg'))
         l.image = i
+        self.checkOccupied(l, width, height)
         l.place(x = width, y = height, bordermode="outside")
         return l
 
@@ -1945,9 +1715,6 @@ class Interpreter():
 
     def getFunctionLineAction(self, expr):
         '''Interprets one line of a function, returns the action that line does.'''
-    #        if(expr.__class__.__name__ == "Return"):
-    #            return expr
-    #        else:
         return expr.lineAction
 
     def doesntHaveAttrError(self, typeName):
@@ -1961,17 +1728,12 @@ class Interpreter():
 
     def getOptions(self,expr):
         '''Get list of options, ie: make MenuItem with options [red green blue]. '''
-        # print("Getting options")
         options = []
         for item in expr.attributes:
             if hasattr(item, 'menuoption'):
-                # print("has a menuoption")
                 mop = item.menuoption.value
-                # print("mop",mop)
                 for mopItem in mop:
-                    # print('MOPITEM',mopItem)
                     if hasattr(mopItem,'action'):
-                        # print('mopitemaction',mopItem.action)
                         options.append(mopItem.action)
             else:
                 return None
@@ -1985,12 +1747,10 @@ class Interpreter():
         for i in range(0,matrix.NUM_ATTRIBUTES):
             defaultAttr = matrix.getDefault(typeName, i)
             defaults[matrix.AttrName(i).name] = defaultAttr
-            #Need to figure out how to return these
         return defaults
 
     def checkVarname(self,exp):
         if hasattr(exp, "varname"):
-            #if expr.varname in bindings:
             if exp.varname in self.bindings:
                 raise GooeyError(str(exp.varname)+" already defined.")
 
@@ -2020,11 +1780,6 @@ class Interpreter():
     def getPositionByKeyword(self, keyword, objwidth, objheight):
         winwidth = self.winBinding.bObject.winfo_reqwidth()
         winheight = self.winBinding.bObject.winfo_reqheight()
-#        if obj:
-#            objwidth = obj.winfo_reqwidth()
-#            objheight = obj.winfo_reqheight()
-#        else:
-#            objheight, objwidth = 0, 0
 
         if keyword == "center":
             w = math.floor(winwidth/2 - objwidth/2)
