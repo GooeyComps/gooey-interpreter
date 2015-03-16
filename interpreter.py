@@ -62,14 +62,16 @@ class Binding:
     bObject = None
     params = None
     frames = None
+    keyword = None
 
-    def __init__(self,bType,varname,bObject,params,frames):
+    def __init__(self,bType,varname,bObject,params,frames,keyword):
         '''Sets instance variables: type, name, Tkinter object, and optional parameters'''
         self.bType = bType
         self.varname = varname
         self.bObject = bObject
         self.params = params
         self.frames = frames
+        self.keyword = keyword
 
     def __repr__(self):
         '''Prints a pretty version of the bindings'''
@@ -1142,15 +1144,20 @@ class Interpreter():
 
         w.configure(height=rows,width=columns)
         frames.configure(height=rows,width=columns)
-        print("THIS IS W: ",w)
-        for item in expr.attributes:
-            print("THIS IS THE ITEM: ",item)
-            print("expr.attributes: ",expr.attributes)
-            print("EXPR: ", expr)
-            if hasattr(item, "position"):
+        #JAMAICA IS TESTING< DO NOT ERASE
+        #print("THIS IS W: ",w)
+        #for i in self.bindings.keys():
+        #    print("BINDINGS MAN: ",self.bindings[i].keyword)
 
-                print(item.position.value)
-                print("\n")
+                #print("THIS IS THE KEYWORD: ",self.bindings[i].keyword)
+                #print("THIS IS THE POSITION",self.getObjectPosition(self.bindings[i]))
+            # print("THIS IS THE ITEM: ",item)
+            # print("expr.attributes: ",expr.attributes)
+            # print("EXPR: ", expr)
+            # if hasattr(item, "position"):
+            #
+            #     print(item.position.value)
+            #     print("\n")
 
         return frames
 
@@ -1536,6 +1543,12 @@ class Interpreter():
                         else:
                             height = int(item.position.value.c)
                     else:
+                        #self.bindings[item].keyword = item.position.value
+                        #print("THINGS AND STUFF: ",self.bindings.keys())
+                        #for i in self.bindings.keys():
+                        #    print("THIS IS THE KEYWORD: ", self.bindings[i].keyword)
+                        #    print("")
+                        #    print("")
                         obj_w, obj_h = self.getObjectSize(b)
                         width, height = self.getPositionByKeyword(item.position.value, obj_w, obj_h)
 
@@ -1563,8 +1576,6 @@ class Interpreter():
                 else:
                     self.doesntHaveAttrError('Button')
 
-        #b.grid(row=r, column=c, sticky=N+S+E+W)
-        print("Calling checkoccupied on button with width and height", width, height)
         self.checkOccupied(b, width, height)
         b.place(x = width, y = height, bordermode="outside")
         print("This where b is", b.winfo_x(), b.winfo_y())
@@ -1922,9 +1933,9 @@ class Interpreter():
     '''
 -------------------- HELPER METHODS --------------------
     '''
-    def makeBinding(self,t,v,o,p=[],f=[]):
+    def makeBinding(self,t,v,o,p=[],f=[],k=[]):
         '''Makes a binding for the object.'''
-        binding = Binding(t,v,o,p,f)
+        binding = Binding(t,v,o,p,f,k)
         return binding
 
     def addBinding(self,b):
